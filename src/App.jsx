@@ -1,7 +1,7 @@
 import React from 'react';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
-import Highlights from './components/Highlights';
+import Countdown from './components/Countdown';
 import About from './components/About';
 import Tracks from './components/Tracks';
 import Rewards from './components/Rewards';
@@ -13,11 +13,11 @@ import Footer from './components/Footer';
 
 export default function App() {
   return (
-    <div className="min-h-screen bg-[#080911] text-slate-100 flex flex-col font-sans selection:bg-[#ff007a] selection:text-white">
+    <div className="min-h-screen bg-[#f2f2eb] text-[#10201d] flex flex-col font-sans selection:bg-[#e97b77] selection:text-[#10201d]">
       <Navbar />
       <main className="flex-grow">
         <Hero />
-        <Highlights />
+        <Countdown />
         <About />
         <Tracks />
         <Rewards />

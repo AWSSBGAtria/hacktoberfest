@@ -1,20 +1,7 @@
 import React from 'react';
 import { EVENT_DETAILS } from '../data/eventData';
 import { triggerFestiveConfetti } from '../utils/confetti';
-import Countdown from './Countdown';
-import TerminalSnippet from './TerminalSnippet';
-import {
-  Calendar,
-  Clock,
-  MapPin,
-  Sparkles,
-  ExternalLink,
-  MessageCircle,
-  ChevronDown,
-  ArrowRight,
-  ShieldCheck,
-  Zap,
-} from 'lucide-react';
+import { ArrowRight, MapPin, Calendar, Clock, ExternalLink } from 'lucide-react';
 
 export default function Hero() {
   const handleRegisterClick = () => {
@@ -22,113 +9,137 @@ export default function Hero() {
   };
 
   return (
-    <section className="relative pt-28 sm:pt-36 pb-20 md:pb-28 overflow-hidden cyber-grid">
-      {/* Background glow effects */}
-      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[600px] h-[350px] bg-gradient-to-tr from-[#ff007a]/20 via-[#8b5cf6]/20 to-[#00f0ff]/20 blur-[130px] -z-10 pointer-events-none rounded-full" />
-      <div className="absolute top-10 left-10 w-72 h-72 bg-[#ff007a]/15 blur-[100px] -z-10 pointer-events-none" />
-      <div className="absolute bottom-10 right-10 w-80 h-80 bg-[#00f0ff]/15 blur-[120px] -z-10 pointer-events-none" />
+    <section className="relative overflow-hidden bg-[#3d5f58] text-[#f7f7f2] border-b-2 border-[#10201d] pt-12 pb-20 sm:pt-20 sm:pb-28">
+      {/* Corner Pixel Staircase Decorations (Hacktoberfest Motif) */}
+      <div aria-hidden="true" className="absolute top-0 left-0 w-36 sm:w-56 pointer-events-none opacity-40 lg:opacity-75">
+        <svg viewBox="0 0 317 293" fill="none" className="w-full h-auto">
+          <path d="M122 195H73V244H122V195Z" fill="#F7F7F2" />
+          <path d="M73 244H24V293H73V244Z" fill="#F7F7F2" />
+          <path d="M171 146H122V195H171V146Z" fill="#F7F7F2" />
+          <path d="M219 97H171V146H219V97Z" fill="#F7F7F2" />
+          <path d="M268 48H219V97H268V48Z" fill="#F7F7F2" />
+          <path d="M317 0H268V48H317V0Z" fill="#F7F7F2" />
+          <path d="M146 48H171V0H146V48Z" fill="#E53927" />
+          <path d="M97 48H122V0H97V48Z" fill="#E53927" />
+          <path d="M48 48H73V0H48V48Z" fill="#E53927" />
+          <path d="M0 48H24V0H0V48Z" fill="#E53927" />
+          <path d="M73 146H97V97H73V146Z" fill="#E53927" />
+        </svg>
+      </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Top Badges */}
-        <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3 mb-6">
-          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-xs font-mono text-slate-300 backdrop-blur-md">
-            <span className="w-2 h-2 rounded-full bg-[#ff007a] animate-pulse" />
-            <span>Official Hacktoberfest 2026 Event</span>
-          </div>
+      <div aria-hidden="true" className="absolute top-0 right-0 w-36 sm:w-56 pointer-events-none opacity-40 lg:opacity-75">
+        <svg viewBox="0 0 317 293" fill="none" className="w-full h-auto">
+          <path d="M49 244H0V293H49V244Z" fill="#F7F7F2" />
+          <path d="M98 195H49V244H98V195Z" fill="#F7F7F2" />
+          <path d="M147 146H98V195H147V146Z" fill="#F7F7F2" />
+          <path d="M195 97H147V146H195V97Z" fill="#F7F7F2" />
+          <path d="M244 48H195V97H244V48Z" fill="#F7F7F2" />
+          <path d="M292 0H244V48H292V0Z" fill="#F7F7F2" />
+          <path d="M171 244H147V293H171V244Z" fill="#E53927" />
+          <path d="M220 244H195V293H220V244Z" fill="#E53927" />
+          <path d="M269 244H244V293H269V244Z" fill="#E53927" />
+        </svg>
+      </div>
 
-          <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-xs font-mono text-[#00f0ff] backdrop-blur-md">
-            <Zap className="w-3.5 h-3.5 text-[#00f0ff]" />
-            <span>Hosted by AWS Student Builder Group @ Atria IT</span>
-          </div>
-
-          <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-amber-500/10 border border-amber-500/30 text-xs font-mono text-amber-300 backdrop-blur-md">
-            <ShieldCheck className="w-3.5 h-3.5 text-amber-400" />
-            <span>MLH Partnered</span>
-          </div>
+      <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        {/* 4 Colored Squares */}
+        <div className="flex items-center justify-center gap-2 mb-6">
+          <span className="w-3.5 h-3.5 bg-[#e53927]" />
+          <span className="w-3.5 h-3.5 bg-[#8bb2de]" />
+          <span className="w-3.5 h-3.5 bg-[#f5b726]" />
+          <span className="w-3.5 h-3.5 bg-[#e97b77]" />
         </div>
 
-        {/* Hero Title */}
-        <div className="text-center max-w-4xl mx-auto mb-8">
-          <h1 className="font-display font-extrabold text-4xl sm:text-6xl lg:text-7xl tracking-tight text-white leading-[1.08] mb-6">
-            HACKTOBERFEST <br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#00f0ff] via-[#ff007a] to-[#ffe600] drop-shadow-md">
-              HACK DAY BENGALURU
-            </span>
-          </h1>
+        {/* Eyebrow */}
+        <p className="font-mono text-xs sm:text-sm text-[#f6c4c1] uppercase tracking-[0.1em] mb-4">
+          Friday, October 30, 2026 · In-Person Hack Day · Bengaluru, India
+        </p>
 
-          <p className="text-base sm:text-xl text-slate-300 max-w-2xl mx-auto leading-relaxed font-sans mb-8">
-            Celebrate open source, build hands-on cloud & AI tools, earn exclusive digital & physical swags, and level up your GitHub PR game with the{' '}
-            <span className="text-white font-semibold">AWS Student Builder Group</span> at{' '}
-            <span className="text-[#00f0ff] font-semibold">Atria Institute of Technology</span>.
-          </p>
+        {/* Hero Heading */}
+        <h1 className="font-display font-extrabold text-4xl sm:text-6xl lg:text-7xl tracking-tight leading-[0.94] text-[#f7f7f2] mb-6 uppercase">
+          Hacktoberfest Hack Day: <br />
+          <em className="text-[#8bb2de] not-italic block mt-2 lowercase text-3xl sm:text-5xl lg:text-6xl font-normal font-sans italic">
+            ai & open source belong to everyone.
+          </em>
+        </h1>
 
-          {/* Event Quick Facts Bar */}
-          <div className="inline-flex flex-wrap items-center justify-center gap-4 sm:gap-8 p-3 sm:p-4 rounded-2xl bg-[#121424]/80 border border-white/10 backdrop-blur-md mb-8 text-xs sm:text-sm font-mono text-slate-300">
-            <div className="flex items-center gap-2">
-              <Calendar className="w-4 h-4 text-[#ff007a]" />
-              <span className="font-semibold text-white">Friday, October 30, 2026</span>
-            </div>
-            <div className="hidden sm:block text-slate-600">|</div>
-            <div className="flex items-center gap-2">
-              <Clock className="w-4 h-4 text-[#ffe600]" />
-              <span>8:30 AM – 8:00 PM IST</span>
-            </div>
-            <div className="hidden sm:block text-slate-600">|</div>
-            <div className="flex items-center gap-2">
-              <MapPin className="w-4 h-4 text-[#00f0ff]" />
-              <span>Atria IT, Hebbal, Bengaluru</span>
-            </div>
-          </div>
+        {/* Subtitle / Deck */}
+        <p className="max-w-2xl mx-auto text-base sm:text-xl text-[#f7f7f2] leading-relaxed mb-8 font-sans">
+          Join the <strong className="font-bold underline decoration-[#f5b726] decoration-2 underline-offset-4">AWS Student Builder Group</strong> at <strong className="font-bold">Atria Institute of Technology</strong> for a full day of open-source building, Google Gemma 4 AI exploration, and hands-on cloud development.
+        </p>
 
-          {/* Primary Action Buttons */}
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 max-w-xl mx-auto mb-10">
-            <a
-              href={EVENT_DETAILS.registrationUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              onClick={handleRegisterClick}
-              className="w-full sm:w-auto px-8 py-4 rounded-xl font-display font-bold text-base text-white bg-gradient-to-r from-[#ff007a] via-[#a855f7] to-[#00f0ff] hover:opacity-95 shadow-xl shadow-[#ff007a]/30 transition-all transform hover:-translate-y-1 active:translate-y-0 flex items-center justify-center gap-2 group"
-            >
-              <Sparkles className="w-5 h-5 text-yellow-300 fill-yellow-300 animate-spin" />
-              <span>Register Now on MLH</span>
-              <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-            </a>
-
-            <a
-              href={EVENT_DETAILS.whatsappUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="w-full sm:w-auto px-6 py-4 rounded-xl font-mono text-sm font-semibold text-emerald-400 border border-emerald-500/40 bg-emerald-500/10 hover:bg-emerald-500/20 hover:border-emerald-400 transition-all flex items-center justify-center gap-2"
-            >
-              <MessageCircle className="w-5 h-5 text-emerald-400" />
-              <span>Join WhatsApp Group</span>
-            </a>
-          </div>
-
-          <p className="text-xs font-mono text-slate-400">
-            ⚡ Free entry for all university students • Swag, lunch & mentorship included • Zero prior open-source experience needed
-          </p>
+        {/* Event Quick Facts Badges */}
+        <div className="inline-flex flex-wrap items-center justify-center gap-3 sm:gap-6 px-4 py-2.5 bg-[#2e4742] border-2 border-[#10201d] shadow-[4px_4px_0_#10201d] text-xs font-mono text-[#f7f7f2] mb-10">
+          <span className="flex items-center gap-1.5">
+            <Calendar className="w-4 h-4 text-[#f5b726]" />
+            October 30, 2026
+          </span>
+          <span className="text-white/40">·</span>
+          <span className="flex items-center gap-1.5">
+            <Clock className="w-4 h-4 text-[#8bb2de]" />
+            8:30 AM – 8:00 PM IST
+          </span>
+          <span className="text-white/40">·</span>
+          <span className="flex items-center gap-1.5">
+            <MapPin className="w-4 h-4 text-[#e97b77]" />
+            Atria IT, Hebbal, Bengaluru
+          </span>
         </div>
 
-        {/* Live Countdown Grid */}
-        <div className="mb-14">
-          <Countdown />
-        </div>
-
-        {/* Interactive Terminal / Code Snippet */}
-        <div className="max-w-3xl mx-auto">
-          <TerminalSnippet />
-        </div>
-
-        {/* Down Indicator */}
-        <div className="mt-12 text-center">
+        {/* Hero Actions */}
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 max-w-lg mx-auto mb-14">
           <a
-            href="#about"
-            className="inline-flex flex-col items-center text-xs font-mono text-slate-500 hover:text-[#00f0ff] transition-colors"
+            href={EVENT_DETAILS.registrationUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={handleRegisterClick}
+            className="ht-btn-primary w-full sm:w-auto text-sm"
           >
-            <span>DISCOVER THE HACK DAY</span>
-            <ChevronDown className="w-4 h-4 animate-bounce mt-1 text-[#00f0ff]" />
+            <span>Register on MLH</span>
+            <ArrowRight className="w-4 h-4 ml-2" />
           </a>
+
+          <a
+            href={EVENT_DETAILS.whatsappUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="ht-btn-secondary w-full sm:w-auto text-sm"
+          >
+            Join WhatsApp Group
+          </a>
+        </div>
+
+        {/* Partner Chips (Matching exact hacktoberfest.com style) */}
+        <div className="pt-8 border-t border-white/15">
+          <span className="font-mono text-[11px] text-[#f6c4c1] tracking-widest uppercase block mb-4">
+            Hosted & Powered By
+          </span>
+
+          <div className="flex flex-wrap items-center justify-center gap-3">
+            <div className="flex items-center gap-2 px-3.5 py-2 border-2 border-[#10201d] bg-[#f7f7f2] text-[#10201d] shadow-[4px_4px_0_#2e4742]">
+              <span className="font-display font-bold text-sm tracking-tight">AWS Student Builder Group</span>
+              <span className="font-mono text-[10px] bg-[#f5b726] px-1 py-0.2 text-[#10201d] font-bold">Atria IT</span>
+            </div>
+
+            <span className="font-display font-bold text-lg text-white">×</span>
+
+            <div className="flex items-center gap-2 px-3.5 py-2 border-2 border-[#10201d] bg-[#f7f7f2] text-[#10201d] shadow-[4px_4px_0_#2e4742]">
+              <span className="font-display font-black text-sm tracking-tight text-[#e53927]">MLH</span>
+              <span className="font-mono text-[10px] text-slate-600">Major League Hacking</span>
+            </div>
+
+            <span className="font-display font-bold text-lg text-white">×</span>
+
+            <div className="flex items-center gap-2 px-3.5 py-2 border-2 border-[#10201d] bg-[#f7f7f2] text-[#10201d] shadow-[4px_4px_0_#2e4742]">
+              <span className="font-display font-bold text-sm tracking-tight">Hacktoberfest 2026</span>
+            </div>
+
+            <span className="font-display font-bold text-lg text-white">×</span>
+
+            <div className="flex items-center gap-2 px-3.5 py-2 border-2 border-[#10201d] bg-[#f7f7f2] text-[#10201d] shadow-[4px_4px_0_#2e4742]">
+              <span className="font-display font-bold text-sm tracking-tight">Atria IT Campus</span>
+            </div>
+          </div>
         </div>
       </div>
     </section>

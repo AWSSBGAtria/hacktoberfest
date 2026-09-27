@@ -1,19 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { EVENT_DETAILS } from '../data/eventData';
 import { triggerFestiveConfetti } from '../utils/confetti';
-import { Menu, X, Terminal, ExternalLink, MessageCircle, Sparkles } from 'lucide-react';
+import { Menu, X, ArrowRight } from 'lucide-react';
 
 export default function Navbar() {
-  const [scrolled, setScrolled] = useState(false);
+  const [bannerDismissed, setBannerDismissed] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 20);
-    };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
 
   const handleRegisterClick = () => {
     triggerFestiveConfetti();
@@ -25,148 +17,146 @@ export default function Navbar() {
     { name: 'Rewards', href: '#rewards' },
     { name: 'Schedule', href: '#schedule' },
     { name: 'Venue', href: '#venue' },
-    { name: 'FAQ', href: '#faq' },
+    { name: 'FAQs', href: '#faq' },
   ];
 
   return (
-    <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled
-          ? 'bg-[#080911]/90 backdrop-blur-md border-b border-white/10 shadow-lg shadow-black/40'
-          : 'bg-transparent border-b border-transparent'
-      }`}
-    >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-20">
-          {/* Logo / Brand */}
-          <a href="#" className="flex items-center space-x-3 group">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#ff007a] via-[#8b5cf6] to-[#00f0ff] p-[2px] transition-transform group-hover:scale-105 duration-200">
-              <div className="w-full h-full bg-[#0b0c14] rounded-[10px] flex items-center justify-center">
-                <span className="text-xl">🎃</span>
-              </div>
-            </div>
-            <div className="flex flex-col">
-              <div className="flex items-center space-x-1.5">
-                <span className="font-display font-extrabold text-base tracking-wide text-white group-hover:text-[#00f0ff] transition-colors">
-                  HACKTOBERFEST
-                </span>
-                <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-[#ff007a]/20 text-[#ff007a] border border-[#ff007a]/40 font-bold uppercase">
-                  Hack Day
-                </span>
-              </div>
-              <span className="text-[11px] font-mono text-slate-400 group-hover:text-slate-300 transition-colors">
-                AWS Student Builder Group • Atria IT
-              </span>
-            </div>
-          </a>
-
-          {/* Desktop Nav Links */}
-          <nav className="hidden md:flex items-center space-x-1 lg:space-x-2">
-            {navLinks.map((link) => (
-              <a
-                key={link.name}
-                href={link.href}
-                className="px-3 py-1.5 rounded-lg text-sm font-medium text-slate-300 hover:text-white hover:bg-white/5 transition-all font-mono"
-              >
-                {link.name}
-              </a>
-            ))}
-          </nav>
-
-          {/* Action CTAs */}
-          <div className="hidden sm:flex items-center space-x-3">
-            <a
-              href={EVENT_DETAILS.whatsappUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="p-2.5 rounded-xl border border-emerald-500/30 text-emerald-400 bg-emerald-500/10 hover:bg-emerald-500/20 hover:border-emerald-400 transition-all flex items-center gap-1.5 text-xs font-mono font-medium"
-              title="Join WhatsApp Community"
-            >
-              <MessageCircle className="w-4 h-4 text-emerald-400" />
-              <span className="hidden xl:inline">WhatsApp Group</span>
-            </a>
-
+    <>
+      {/* Top Banner (Hacktoberfest Preptember Bar) */}
+      {!bannerDismissed && (
+        <div className="relative z-50 bg-[#8bb2de] text-[#10201d] border-b-2 border-[#10201d] font-mono text-xs py-2.5 px-4 transition-all">
+          <div className="max-w-7xl mx-auto flex items-center justify-center relative">
             <a
               href={EVENT_DETAILS.registrationUrl}
               target="_blank"
               rel="noopener noreferrer"
               onClick={handleRegisterClick}
-              className="relative group inline-flex items-center gap-2 px-5 py-2.5 rounded-xl font-display font-bold text-xs uppercase tracking-wider text-black bg-gradient-to-r from-[#00f0ff] via-[#ff007a] to-[#ffe600] hover:opacity-95 shadow-md shadow-[#ff007a]/20 transition-all transform hover:-translate-y-0.5 active:translate-y-0"
+              className="text-center font-semibold tracking-wide hover:underline flex items-center gap-1.5"
             >
-              <span className="relative z-10 flex items-center gap-1.5 text-white drop-shadow-sm">
-                <Sparkles className="w-4 h-4 text-yellow-300 fill-yellow-300 animate-pulse" />
-                Register on MLH
-                <ExternalLink className="w-3.5 h-3.5" />
-              </span>
-            </a>
-          </div>
-
-          {/* Mobile menu button */}
-          <div className="flex md:hidden items-center space-x-2">
-            <a
-              href={EVENT_DETAILS.registrationUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              onClick={handleRegisterClick}
-              className="px-3 py-1.5 text-xs font-bold rounded-lg bg-[#ff007a] text-white flex items-center gap-1"
-            >
-              Register
+              <span>Hacktoberfest Hack Day Bengaluru is happening Oct 30! Registration is live on MLH</span>
+              <span className="inline-block transform group-hover:translate-x-1 transition-transform">→</span>
             </a>
             <button
+              onClick={() => setBannerDismissed(true)}
+              className="absolute right-0 top-1/2 -translate-y-1/2 p-1 hover:opacity-60 text-[#10201d]"
+              aria-label="Dismiss banner"
+            >
+              <X className="w-4 h-4" />
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Main Sticky Header */}
+      <header className="sticky top-0 z-40 bg-[#3d5f58] text-[#f7f7f2] border-b-2 border-[#10201d]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between h-20">
+            {/* Wordmark Logo */}
+            <a href="#" className="flex items-center gap-3 group text-decoration-none">
+              <div className="flex flex-col">
+                <div className="flex items-center gap-2">
+                  <span className="font-display font-extrabold text-2xl sm:text-3xl tracking-tight text-white uppercase leading-none">
+                    HACKTOBERFEST
+                  </span>
+                  <span className="text-[11px] font-mono font-bold px-1.5 py-0.5 rounded bg-[#e97b77] text-[#10201d] border border-[#10201d] shadow-[2px_2px_0_#671912] uppercase leading-none">
+                    2026
+                  </span>
+                </div>
+                <span className="text-[11px] font-mono text-[#f6c4c1] tracking-wider uppercase mt-1">
+                  AWS STUDENT BUILDER GROUP · ATRIA IT
+                </span>
+              </div>
+            </a>
+
+            {/* Desktop Nav Links */}
+            <nav className="hidden md:flex items-center gap-6 font-mono text-xs font-medium">
+              {navLinks.map((link) => (
+                <a
+                  key={link.name}
+                  href={link.href}
+                  className="text-[#f7f7f2] hover:text-[#f6c4c1] hover:underline transition-colors"
+                >
+                  {link.name}
+                </a>
+              ))}
+            </nav>
+
+            {/* Desktop CTAs */}
+            <div className="hidden md:flex items-center gap-3">
+              <a
+                href={EVENT_DETAILS.whatsappUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-3.5 py-2 font-mono text-xs font-semibold text-[#f7f7f2] border-2 border-white/60 hover:bg-white hover:text-[#10201d] transition-all rounded-none shadow-[3px_3px_0_#2e4742]"
+              >
+                WhatsApp Group
+              </a>
+
+              <a
+                href={EVENT_DETAILS.registrationUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={handleRegisterClick}
+                className="px-4 py-2 font-mono text-xs font-bold text-[#10201d] bg-[#e97b77] border-2 border-[#10201d] shadow-[4px_4px_0_#671912] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0_#671912] transition-all flex items-center gap-1.5"
+              >
+                <span>Register on MLH</span>
+                <ArrowRight className="w-3.5 h-3.5" />
+              </a>
+            </div>
+
+            {/* Mobile Menu Button */}
+            <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="p-2 rounded-lg text-slate-400 hover:text-white hover:bg-white/10"
+              className="md:hidden p-2 text-white hover:opacity-80"
               aria-label="Toggle Navigation"
             >
               {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
             </button>
           </div>
         </div>
-      </div>
 
-      {/* Mobile Menu Dropdown */}
-      {mobileMenuOpen && (
-        <div className="md:hidden bg-[#0d0f1b] border-b border-white/10 px-4 pt-2 pb-6 space-y-3">
-          <div className="flex flex-col space-y-1">
-            {navLinks.map((link) => (
+        {/* Mobile Dropdown */}
+        {mobileMenuOpen && (
+          <div className="md:hidden bg-[#3d5f58] border-b-2 border-[#10201d] px-6 py-6 space-y-4 font-mono text-sm">
+            <div className="flex flex-col space-y-3">
+              {navLinks.map((link) => (
+                <a
+                  key={link.name}
+                  href={link.href}
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="text-[#f7f7f2] hover:underline"
+                >
+                  {link.name}
+                </a>
+              ))}
+            </div>
+
+            <div className="pt-4 border-t border-white/20 flex flex-col gap-3">
               <a
-                key={link.name}
-                href={link.href}
-                onClick={() => setMobileMenuOpen(false)}
-                className="px-3 py-2.5 rounded-lg text-sm font-mono font-medium text-slate-200 hover:bg-white/5 hover:text-[#00f0ff]"
+                href={EVENT_DETAILS.whatsappUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full py-2.5 text-center border-2 border-white text-white font-mono font-semibold text-xs"
               >
-                {link.name}
+                Join WhatsApp Group
               </a>
-            ))}
-          </div>
 
-          <div className="pt-3 border-t border-white/10 flex flex-col gap-2">
-            <a
-              href={EVENT_DETAILS.whatsappUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="w-full py-2.5 px-4 rounded-xl border border-emerald-500/40 text-emerald-400 bg-emerald-500/10 flex items-center justify-center gap-2 text-sm font-mono font-semibold"
-            >
-              <MessageCircle className="w-4 h-4" />
-              Join WhatsApp Community
-            </a>
-
-            <a
-              href={EVENT_DETAILS.registrationUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              onClick={() => {
-                handleRegisterClick();
-                setMobileMenuOpen(false);
-              }}
-              className="w-full py-3 px-4 rounded-xl font-display font-bold text-center text-sm text-white bg-gradient-to-r from-[#ff007a] to-[#8b5cf6] flex items-center justify-center gap-2 shadow-lg"
-            >
-              <Sparkles className="w-4 h-4 text-yellow-300" />
-              Register Now on MLH
-              <ExternalLink className="w-4 h-4" />
-            </a>
+              <a
+                href={EVENT_DETAILS.registrationUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => {
+                  handleRegisterClick();
+                  setMobileMenuOpen(false);
+                }}
+                className="w-full py-3 text-center bg-[#e97b77] border-2 border-[#10201d] text-[#10201d] font-mono font-bold text-xs shadow-[4px_4px_0_#671912]"
+              >
+                Register on MLH →
+              </a>
+            </div>
           </div>
-        </div>
-      )}
-    </header>
+        )}
+      </header>
+    </>
   );
 }

@@ -35,37 +35,42 @@ export default function Countdown() {
   }, []);
 
   const timeBlocks = [
-    { label: 'DAYS', value: timeLeft.days, color: 'text-[#00f0ff]', border: 'border-[#00f0ff]/30' },
-    { label: 'HOURS', value: timeLeft.hours, color: 'text-[#ff007a]', border: 'border-[#ff007a]/30' },
-    { label: 'MINUTES', value: timeLeft.minutes, color: 'text-[#ffe600]', border: 'border-[#ffe600]/30' },
-    { label: 'SECONDS', value: timeLeft.seconds, color: 'text-[#10b981]', border: 'border-[#10b981]/30' },
+    { label: 'Days', value: timeLeft.days, color: 'text-[#e53927]' },
+    { label: 'Hours', value: timeLeft.hours, color: 'text-[#10201d]' },
+    { label: 'Minutes', value: timeLeft.minutes, color: 'text-[#10201d]' },
+    { label: 'Seconds', value: timeLeft.seconds, color: 'text-[#e53927]' },
   ];
 
   return (
-    <div className="w-full max-w-2xl mx-auto py-2">
-      <div className="flex items-center justify-between mb-3 px-1">
-        <span className="text-xs font-mono tracking-wider text-slate-400 uppercase flex items-center gap-2">
-          <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping inline-block" />
-          Countdown to Hack Day Kickoff
-        </span>
-        <span className="text-xs font-mono text-slate-400">Oct 30, 2026 • 08:30 IST</span>
-      </div>
-
-      <div className="grid grid-cols-4 gap-2 sm:gap-4">
-        {timeBlocks.map((block) => (
-          <div
-            key={block.label}
-            className={`relative group bg-[#0e111e]/90 border ${block.border} rounded-2xl p-3 sm:p-4 text-center backdrop-blur-md overflow-hidden transition-all duration-300 hover:scale-105 shadow-lg`}
-          >
-            <div className="absolute inset-0 bg-gradient-to-b from-white/5 to-transparent pointer-events-none" />
-            <div className={`text-2xl sm:text-4xl md:text-5xl font-mono font-bold ${block.color} tracking-tight`}>
-              {String(block.value).padStart(2, '0')}
+    <div className="bg-[#e4e5da] border-b-2 border-[#10201d] py-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex flex-col md:flex-row items-center justify-between gap-6">
+          <div className="text-center md:text-left">
+            <div className="font-mono text-xs text-[#34433f] uppercase font-bold tracking-wider mb-1 flex items-center justify-center md:justify-start gap-2">
+              <span className="w-2.5 h-2.5 bg-[#e53927] inline-block animate-pulse" />
+              Event Starts In
             </div>
-            <div className="text-[10px] sm:text-xs font-mono font-semibold tracking-widest text-slate-400 mt-1 uppercase">
-              {block.label}
+            <div className="font-display font-bold text-2xl text-[#10201d]">
+              October 30, 2026 · 8:30 AM IST
             </div>
           </div>
-        ))}
+
+          <div className="grid grid-cols-4 gap-2 sm:gap-4 w-full md:w-auto">
+            {timeBlocks.map((block) => (
+              <div
+                key={block.label}
+                className="bg-[#f7f7f2] border-2 border-[#10201d] shadow-[4px_4px_0_#671912] p-2.5 sm:p-4 text-center min-w-[70px] sm:min-w-[95px]"
+              >
+                <div className={`font-display font-extrabold text-2xl sm:text-4xl ${block.color} leading-none tracking-tight`}>
+                  {String(block.value).padStart(2, '0')}
+                </div>
+                <div className="font-mono text-[10px] sm:text-xs text-[#34433f] uppercase font-bold mt-1">
+                  {block.label}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
     </div>
   );

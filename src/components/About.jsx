@@ -1,180 +1,96 @@
 import React from 'react';
 import { EVENT_DETAILS } from '../data/eventData';
-import { triggerFestiveConfetti } from '../utils/confetti';
-import {
-  Code,
-  Heart,
-  Users2,
-  ExternalLink,
-  CheckCircle2,
-  Sparkles,
-  Layers,
-  Terminal,
-} from 'lucide-react';
+import { ExternalLink, Check } from 'lucide-react';
 
 export default function About() {
-  const points = [
+  const cards = [
     {
-      title: 'Open Source for Everyone',
-      desc: 'Whether you are opening your first GitHub pull request or maintaining major libraries, Hacktoberfest is for all skill levels.',
-      icon: Code,
-      accent: 'text-[#ff007a]',
-      border: 'border-[#ff007a]/30',
+      tag: 'OPEN SOURCE',
+      title: 'Built by Community',
+      desc: 'Hacktoberfest is all about celebrating the open source ecosystem. Whether you are submitting your first bug fix or building an entire package, every contribution matters.',
+      accent: 'border-[#10201d]',
     },
     {
-      title: 'AWS Cloud & Agentic AI Focus',
-      desc: 'Get hands-on with AWS Cloud computing services alongside modern open-weight LLMs like Google Gemma 4 on Ollama.',
-      icon: Layers,
-      accent: 'text-[#00f0ff]',
-      border: 'border-[#00f0ff]/30',
+      tag: 'AWS CLOUD',
+      title: 'AWS Student Builder Group',
+      desc: 'Our student-led user group at Atria Institute of Technology trains students in cloud architecture, serverless systems, and generative AI through hands-on builder hack days.',
+      accent: 'border-[#10201d]',
     },
     {
-      title: 'Real-Time Mentorship',
-      desc: 'Stuck on a Git merge conflict or looking for good first issues? On-site mentors from AWS Student Builder Group will guide you step by step.',
-      icon: Users2,
-      accent: 'text-[#ffe600]',
-      border: 'border-[#ffe600]/30',
+      tag: 'AGENTIC AI',
+      title: 'Open-Weight Models',
+      desc: 'Explore Google Gemma 4 on Ollama, the open SKILL.md agent standard, and Hermes Agent harnesses. Learn to deploy models locally and on AWS cloud services.',
+      accent: 'border-[#10201d]',
     },
     {
-      title: 'Swags, Badges & Global Impact',
-      desc: 'Earn official Holopin badges, exclusive MLH x Hacktoberfest sticker packs, AWS goodies, and support global tree planting initiatives.',
-      icon: Heart,
-      accent: 'text-emerald-400',
-      border: 'border-emerald-500/30',
+      tag: '100% FREE',
+      title: 'Free Food, Swag & Kits',
+      desc: 'Thanks to our organizers and partners, the entire day is free for university students. Enjoy morning breakfast, lunch, high tea, stickers, and exclusive swag packs.',
+      accent: 'border-[#10201d]',
     },
   ];
 
   return (
-    <section id="about" className="py-20 sm:py-28 relative">
+    <section id="about" className="py-20 sm:py-28 bg-[#2e4742] text-[#f7f7f2] border-b-2 border-[#10201d]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Section Header */}
-        <div className="text-center max-w-3xl mx-auto mb-16">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#ff007a]/10 border border-[#ff007a]/30 text-xs font-mono text-[#ff007a] mb-4">
-            <Sparkles className="w-3.5 h-3.5" />
-            <span>THE OPEN SOURCE REVOLUTION</span>
+        {/* Intro Row */}
+        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-8 mb-16">
+          <div className="max-w-2xl">
+            <p className="font-mono text-xs font-bold text-[#8bb2de] uppercase tracking-[0.08em] mb-3">
+              ABOUT THE HACK DAY · BENGALURU
+            </p>
+            <h2 className="font-display font-extrabold text-3xl sm:text-5xl lg:text-6xl tracking-tight leading-[0.94] text-[#f7f7f2] uppercase">
+              Building the next generation of open builders <br />
+              <em className="text-[#f5b726] not-italic font-normal font-sans italic text-3xl sm:text-5xl lowercase">
+                at atria institute of technology.
+              </em>
+            </h2>
           </div>
-          <h2 className="font-display font-extrabold text-3xl sm:text-5xl text-white tracking-tight mb-4">
-            Built by Developers, <br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#00f0ff] via-[#8b5cf6] to-[#ff007a]">
-              Driven by Community.
-            </span>
-          </h2>
-          <p className="text-slate-300 font-sans text-base sm:text-lg leading-relaxed">
-            Hacktoberfest is the month-long celebration of open source software. Join us at Atria Institute of Technology in Bengaluru for a day of collaboration, learning, and code contributions.
-          </p>
+
+          <div className="max-w-md text-sm sm:text-base text-slate-200 leading-relaxed font-sans">
+            <p className="mb-4">
+              Open source is built by people who share ideas, solve problems, and improve tools together. This in-person Hack Day brings developers and students together for hands-on collaboration.
+            </p>
+            <a
+              href={EVENT_DETAILS.websiteUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 font-mono text-xs font-bold text-[#8bb2de] hover:underline"
+            >
+              Learn about AWS Student Builder Group Atria <ExternalLink className="w-3.5 h-3.5" />
+            </a>
+          </div>
         </div>
 
-        {/* 2-Column Story Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch mb-16">
-          {/* Box 1: About the Hack Day */}
-          <div className="p-8 rounded-3xl bg-[#0f1122] border border-white/10 hover:border-[#ff007a]/40 transition-all flex flex-col justify-between relative overflow-hidden">
-            <div className="absolute top-0 right-0 p-8 text-8xl font-black text-white/[0.02] pointer-events-none select-none font-mono">
-              OCT30
-            </div>
-
-            <div>
-              <div className="flex items-center gap-2 text-xs font-mono text-[#ff007a] uppercase tracking-wider mb-3">
-                <Terminal className="w-4 h-4" />
-                <span>The Hack Day Spirit</span>
-              </div>
-              <h3 className="font-display font-bold text-2xl text-white mb-4">
-                Celebrate Open Source in Bengaluru
-              </h3>
-              <p className="text-slate-300 text-sm sm:text-base leading-relaxed mb-4">
-                Open source is built by people who share ideas, solve problems, and improve tools together. This in-person event offers a welcoming space to connect with fellow student builders, discover impactful projects, and submit pull requests that count towards Hacktoberfest.
-              </p>
-              <p className="text-slate-400 text-sm leading-relaxed">
-                You do not need to be an expert. Bring your curiosity, questions, and willingness to learn. We have curated tracks for beginner pull requests, cloud architecture with AWS, and edge AI workflows.
-              </p>
-            </div>
-
-            <div className="mt-8 pt-6 border-t border-white/10 flex flex-wrap items-center gap-4 text-xs font-mono text-slate-300">
-              <span className="flex items-center gap-1.5">
-                <CheckCircle2 className="w-4 h-4 text-emerald-400" /> Free Attendee Kit
-              </span>
-              <span className="flex items-center gap-1.5">
-                <CheckCircle2 className="w-4 h-4 text-emerald-400" /> Lunch & Refreshments
-              </span>
-              <span className="flex items-center gap-1.5">
-                <CheckCircle2 className="w-4 h-4 text-emerald-400" /> Certificate Included
-              </span>
-            </div>
-          </div>
-
-          {/* Box 2: About AWS Student Builder Group @ Atria */}
-          <div className="p-8 rounded-3xl bg-gradient-to-br from-[#121427] to-[#0a0c16] border border-cyan-500/30 hover:border-cyan-400/50 transition-all flex flex-col justify-between relative overflow-hidden">
-            <div>
-              <div className="flex items-center justify-between mb-4">
-                <span className="text-xs font-mono px-2.5 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-[#00f0ff]">
-                  STUDENT USER GROUP
+        {/* 4 Neo-brutalist Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
+          {cards.map((c, i) => (
+            <div
+              key={i}
+              className="p-6 sm:p-8 bg-[#f7f7f2] text-[#10201d] border-2 border-[#10201d] shadow-[7px_7px_0_#671912] flex flex-col justify-between"
+            >
+              <div>
+                <span className="ht-tag mb-4 inline-block">
+                  {c.tag}
                 </span>
-                <a
-                  href={EVENT_DETAILS.websiteUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-xs font-mono text-cyan-400 hover:text-cyan-300 flex items-center gap-1 transition-colors"
-                >
-                  awsatria.tech <ExternalLink className="w-3.5 h-3.5" />
-                </a>
+
+                <h3 className="font-display font-bold text-2xl sm:text-3xl text-[#10201d] mb-3">
+                  {c.title}
+                </h3>
+
+                <p className="text-sm text-[#34433f] font-sans leading-relaxed">
+                  {c.desc}
+                </p>
               </div>
 
-              <h3 className="font-display font-bold text-2xl text-white mb-3">
-                AWS Student Builder Group at Atria IT
-              </h3>
-
-              <p className="text-slate-300 text-sm sm:text-base leading-relaxed mb-4">
-                A student-led, student-driven user group at Atria Institute of Technology focused on mastering cloud technologies via AWS. We empower students to build real applications across Generative AI, cloud security, modern serverless architectures, and open-source ecosystems.
-              </p>
-
-              {/* Host Lead Box */}
-              <div className="p-4 rounded-2xl bg-white/5 border border-white/10 flex items-center gap-4 mt-6">
-                <div className="w-12 h-12 rounded-xl bg-gradient-to-tr from-[#ff007a] to-[#00f0ff] p-[2px] shrink-0">
-                  <div className="w-full h-full rounded-[10px] bg-[#0b0c14] flex items-center justify-center font-display font-bold text-lg text-white">
-                    DB
-                  </div>
-                </div>
-                <div>
-                  <div className="font-display font-bold text-sm text-white">Darshan B</div>
-                  <div className="text-xs font-mono text-slate-400">
-                    Lead Organizer • AWS Student Builder Group Atria IT
-                  </div>
-                </div>
+              <div className="pt-6 mt-6 border-t border-[#10201d]/15 flex items-center justify-between text-xs font-mono text-[#34433f]">
+                <span className="font-bold flex items-center gap-1 text-[#e53927]">
+                  <Check className="w-4 h-4" /> Ready for builders
+                </span>
+                <span>In-person @ Hebbal</span>
               </div>
             </div>
-
-            <div className="mt-8 pt-6 border-t border-white/10 flex items-center justify-between">
-              <span className="text-xs font-mono text-slate-400">
-                Atria Institute of Technology, Hebbal
-              </span>
-              <a
-                href={EVENT_DETAILS.websiteUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-xs font-mono font-semibold text-[#00f0ff] hover:underline flex items-center gap-1"
-              >
-                Visit Club Website →
-              </a>
-            </div>
-          </div>
-        </div>
-
-        {/* Feature Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {points.map((pt, i) => {
-            const Icon = pt.icon;
-            return (
-              <div
-                key={i}
-                className={`p-6 rounded-2xl bg-[#0f1120] border ${pt.border} hover:bg-[#13162b] transition-all`}
-              >
-                <div className={`w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center ${pt.accent} mb-4`}>
-                  <Icon className="w-5 h-5" />
-                </div>
-                <h4 className="font-display font-bold text-lg text-white mb-2">{pt.title}</h4>
-                <p className="text-slate-400 text-xs sm:text-sm leading-relaxed">{pt.desc}</p>
-              </div>
-            );
-          })}
+          ))}
         </div>
       </div>
     </section>

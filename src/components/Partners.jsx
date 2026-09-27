@@ -1,66 +1,72 @@
 import React from 'react';
 import { PARTNERS } from '../data/eventData';
-import { ExternalLink, Handshake, ShieldCheck } from 'lucide-react';
+import { ExternalLink } from 'lucide-react';
 
 export default function Partners() {
   return (
-    <section id="partners" className="py-20 sm:py-24 bg-[#090b16] relative border-t border-white/10">
+    <section id="partners" className="py-20 sm:py-28 bg-[#f2f2eb] text-[#10201d] border-b-2 border-[#10201d]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Header */}
-        <div className="text-center max-w-3xl mx-auto mb-16">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/10 border border-blue-500/30 text-xs font-mono text-[#00f0ff] mb-4">
-            <Handshake className="w-3.5 h-3.5" />
-            <span>ORGANIZERS & PARTNERS</span>
+        {/* Intro */}
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-16">
+          <div className="max-w-xl">
+            <p className="font-mono text-xs font-bold text-[#e53927] uppercase tracking-[0.08em] mb-3">
+              ORGANIZERS & PARTNERS
+            </p>
+            <h2 className="font-display font-extrabold text-3xl sm:text-5xl lg:text-6xl tracking-tight leading-[0.94] text-[#10201d] uppercase">
+              Powered by leading <br />
+              <em className="text-[#e53927] not-italic font-normal font-sans italic lowercase">
+                developer communities.
+              </em>
+            </h2>
           </div>
-          <h2 className="font-display font-extrabold text-3xl sm:text-5xl text-white tracking-tight mb-4">
-            Powered by Leading <br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#00f0ff] via-[#a855f7] to-[#ff007a]">
-              Developer Communities.
-            </span>
-          </h2>
-          <p className="text-slate-300 font-sans text-base sm:text-lg">
-            This hack day is brought to you through collaborative efforts uniting university student builders and the global open source community.
+
+          <p className="max-w-md text-sm text-[#34433f] font-sans leading-relaxed">
+            Hacktoberfest Hack Day Bengaluru unites student builders, open source advocates, and industry developer programs.
           </p>
         </div>
 
-        {/* Partners Grid */}
+        {/* Partner Wall Grid (Exact Hacktoberfest Partner Tile Style) */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {PARTNERS.map((partner, index) => (
-            <a
-              key={index}
-              href={partner.link}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="p-6 rounded-2xl bg-[#0f1222] border border-white/10 hover:border-[#00f0ff]/40 transition-all duration-300 hover:-translate-y-1 flex flex-col justify-between group"
-            >
-              <div>
-                <div className="flex items-center justify-between mb-4">
-                  <span className="text-[11px] font-mono px-2 py-0.5 rounded-full bg-white/5 border border-white/10 text-[#00f0ff]">
-                    {partner.badge}
-                  </span>
-                  <ExternalLink className="w-4 h-4 text-slate-500 group-hover:text-white transition-colors" />
+          {PARTNERS.map((partner, index) => {
+            const squareColor = index % 2 === 0 ? 'bg-[#8bb2de]' : 'bg-[#f5b726]';
+            return (
+              <a
+                key={index}
+                href={partner.link}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex flex-col group text-decoration-none shadow-[5px_5px_0_#671912] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[3px_3px_0_#671912] transition-all"
+              >
+                {/* Partner Tile Top Label */}
+                <div className="flex items-center justify-center gap-2 py-2 px-3 border-2 border-[#10201d] border-b-0 bg-[#3d5f58] text-[#f7f7f2] font-mono text-[11px] font-bold tracking-wider uppercase">
+                  <span className={`w-2.5 h-2.5 ${squareColor} inline-block shadow-[2px_2px_0_#2e4742]`} />
+                  <span>{partner.badge}</span>
                 </div>
 
-                <div className="h-12 flex items-center mb-3">
-                  <span className="font-display font-black text-xl text-white group-hover:text-[#00f0ff] transition-colors">
-                    {partner.logoText}
-                  </span>
+                {/* Partner Tile Body */}
+                <div className="p-6 border-2 border-[#10201d] bg-[#f7f7f2] flex-grow flex flex-col justify-between">
+                  <div>
+                    <div className="font-display font-black text-2xl text-[#10201d] mb-1">
+                      {partner.logoText}
+                    </div>
+
+                    <div className="font-mono text-xs text-[#e53927] font-bold uppercase mb-3">
+                      {partner.role}
+                    </div>
+
+                    <p className="text-xs text-[#34433f] font-sans leading-relaxed">
+                      {partner.description}
+                    </p>
+                  </div>
+
+                  <div className="pt-4 mt-6 border-t border-[#10201d]/15 flex items-center justify-between text-xs font-mono text-[#10201d] font-bold group-hover:underline">
+                    <span>Learn more</span>
+                    <ExternalLink className="w-3.5 h-3.5" />
+                  </div>
                 </div>
-
-                <div className="text-xs font-mono text-slate-400 mb-1">{partner.role}</div>
-                <h4 className="font-display font-bold text-base text-slate-100 mb-2">
-                  {partner.name}
-                </h4>
-                <p className="text-slate-400 text-xs leading-relaxed font-sans">
-                  {partner.description}
-                </p>
-              </div>
-
-              <div className="pt-4 mt-4 border-t border-white/5 text-[11px] font-mono text-cyan-400 group-hover:underline flex items-center gap-1">
-                Learn more <span>→</span>
-              </div>
-            </a>
-          ))}
+              </a>
+            );
+          })}
         </div>
       </div>
     </section>
