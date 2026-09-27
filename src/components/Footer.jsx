@@ -1,5 +1,6 @@
 import React from 'react';
 import { EVENT_DETAILS } from '../data/eventData';
+import { triggerFestiveConfetti } from '../utils/confetti';
 import { Sparkles, ExternalLink, Heart, MessageCircle, Globe } from 'lucide-react';
 
 export default function Footer() {

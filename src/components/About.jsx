@@ -4,7 +4,6 @@ import { triggerFestiveConfetti } from '../utils/confetti';
 import {
   Code,
   Heart,
-  Globe2,
   Users2,
   ExternalLink,
   CheckCircle2,
