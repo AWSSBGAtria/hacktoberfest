@@ -1,6 +1,6 @@
 # 🎃 Hacktoberfest Hack Day Bengaluru 2026
 
-> Official website for **Hacktoberfest Hack Day Bengaluru** hosted by **AWS Student Builder Group at Atria Institute of Technology** on **October 30, 2026**.
+> Official website for **Hacktoberfest Hack Day Bengaluru** hosted by **AWS Student Builder Group at Atria Institute of Technology** on **October 23, 2026**.
 
 [![Hacktoberfest](https://img.shields.io/badge/Hacktoberfest-2026-FF007A?style=for-the-badge&logo=github)](https://hacktoberfest.com/)
 [![AWS Student Builder Group](https://img.shields.io/badge/AWS-Student_Builder_Group-FF9900?style=for-the-badge&logo=amazon-aws)](https://awsatria.tech/)
@@ -10,7 +10,7 @@
 
 ## 🚀 Event Overview
 
-- **Date:** Friday, October 30, 2026
+- **Date:** Friday, October 23, 2026
 - **Time:** 8:30 AM – 8:00 PM IST (Full Day In-Person Hack Day)
 - **Venue:** Atria Institute of Technology, 1st Main Road, AGS Colony, Anandnagar, Hebbal, Bengaluru, Karnataka 560024
 - **Host:** AWS Student Builder Group at Atria Institute of Technology (Lead: Darshan B)
@@ -28,7 +28,7 @@
    - Playful developer stickers, monospace tags, and terminal motifs.
 
 2. **Hero Section & Countdown:**
-   - Real-time countdown timer to October 30, 2026, 8:30 AM IST.
+   - Real-time countdown timer to October 23, 2026, 8:30 AM IST.
    - Direct CTA to the official MLH registration page with festive confetti particle explosion.
    - Quick WhatsApp Community invite button.
    - Interactive Bash terminal snippet simulator with tabbed command scenarios (`status.sh`, `git-pr.sh`, `agent.py`).
