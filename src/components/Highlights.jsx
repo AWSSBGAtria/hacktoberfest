@@ -1,6 +1,7 @@
 import React from 'react';
 import { HIGHLIGHTS } from '../data/eventData';
 import { Clock, Users, Gift, Cpu } from 'lucide-react';
+import Reveal from './Reveal';
 
 const iconMap = {
   Clock: Clock,
@@ -11,38 +12,37 @@ const iconMap = {
 
 export default function Highlights() {
   return (
-    <section className="py-12 border-y border-white/10 bg-[#090b14] relative">
+    <div className="bg-[#f2f2eb] border-b-2 border-[#10201d] py-10 sm:py-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
           {HIGHLIGHTS.map((item, idx) => {
             const IconComponent = iconMap[item.icon] || Clock;
             return (
-              <div
+              <Reveal
                 key={idx}
-                className="relative group p-6 rounded-2xl bg-[#0f111f] border border-white/10 hover:border-[#00f0ff]/50 transition-all duration-300 hover:-translate-y-1 overflow-hidden"
+                delay={(idx % 4) * 80}
+                className="theme-card p-5 bg-[#f7f7f2] border-2 border-[#10201d] shadow-[5px_5px_0_#671912] hover:shadow-[3px_3px_0_#671912] flex flex-col gap-3"
               >
-                <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-[#00f0ff]/10 to-transparent rounded-bl-full pointer-events-none" />
-                
-                <div className="flex items-center justify-between mb-4">
-                  <div className="w-12 h-12 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-[#00f0ff] group-hover:scale-110 transition-transform">
-                    <IconComponent className="w-6 h-6" />
+                <div className="flex items-center justify-between">
+                  <div className="w-10 h-10 flex items-center justify-center bg-[#e4e5da] border-2 border-[#10201d] text-[#e53927]">
+                    <IconComponent className="w-5 h-5" />
                   </div>
-                  <span className="text-[11px] font-mono px-2 py-0.5 rounded-full bg-white/5 border border-white/10 text-slate-300">
-                    {item.badge}
-                  </span>
+                  <span className="ht-tag !bg-[#292b65]">{item.badge}</span>
                 </div>
 
-                <div className="text-2xl sm:text-3xl font-display font-extrabold text-white mb-1 tracking-tight">
-                  {item.value}
+                <div>
+                  <div className="text-xl sm:text-2xl font-display font-extrabold text-[#10201d] tracking-tight leading-tight">
+                    {item.value}
+                  </div>
+                  <div className="text-xs sm:text-sm font-mono text-[#34433f] mt-1">
+                    {item.label}
+                  </div>
                 </div>
-                <div className="text-xs sm:text-sm font-mono text-slate-400">
-                  {item.label}
-                </div>
-              </div>
+              </Reveal>
             );
           })}
         </div>
       </div>
-    </section>
+    </div>
   );
 }

@@ -1,75 +1,130 @@
 import React from 'react';
-import { TRACKS } from '../data/eventData';
-import { ArrowRight } from 'lucide-react';
+import { TRACKS, EVENT_DETAILS } from '../data/eventData';
+import { GitPullRequest, Sparkles, Cloud, ArrowRight } from 'lucide-react';
+import { triggerFestiveConfetti } from '../utils/confetti';
+import Reveal from './Reveal';
+import SectionHead from './SectionHead';
+import Seal from './BadgeArt';
+
+const ICONS = { GitPullRequest, Sparkles, Cloud };
+
+const STEPS = [
+  {
+    n: '01',
+    title: 'Pick a track',
+    body: 'Core Hacktoberfest, Gemma 4, or AWS. One project can qualify for more than one.',
+  },
+  {
+    n: '02',
+    title: 'Build all day',
+    body: 'Mentors from AWS Student Builder Group and open source roam the room from 10:15 AM.',
+  },
+  {
+    n: '03',
+    title: 'Demo and submit',
+    body: 'Push your repo, open your PR, and get your project on stage.',
+  },
+];
 
 export default function Tracks() {
   return (
-    <section id="tracks" className="py-20 sm:py-28 bg-[#f2f2eb] text-[#10201d] border-b-2 border-[#10201d]">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="tracks" className="theme-section py-20 sm:py-28 bg-[#f2f2eb] text-[#10201d] border-b-2 border-[#10201d]">
+      <div className="shell">
         {/* Intro */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-16">
-          <div className="max-w-xl">
-            <p className="font-mono text-xs font-bold text-[#e53927] uppercase tracking-[0.08em] mb-3">
-              TRACKS & DOMAINS
-            </p>
-            <h2 className="font-display font-extrabold text-3xl sm:text-5xl lg:text-6xl tracking-tight leading-[0.94] text-[#10201d] uppercase">
-              Four ways to build <br />
-              <em className="text-[#e53927] not-italic font-normal font-sans italic lowercase">
-                your open source legacy.
-              </em>
-            </h2>
-          </div>
+        <SectionHead
+          eyebrow="CHALLENGE TRACKS"
+          title={<>Three ways to build</>}
+          accent="and three shots at prizes."
+          deck="Every project can qualify for the core Hacktoberfest challenge, and any project that also uses Gemma 4 or AWS can qualify for those too. Mentors are on-site to help."
+        />
 
-          <p className="max-w-md text-sm text-[#34433f] font-sans leading-relaxed">
-            Whether you are making your first git commit, building cloud applications with AWS, or testing modern open-weight LLMs, choose a track that excites you. Mentors are on-site to help.
-          </p>
-        </div>
-
-        {/* Tracks Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
-          {TRACKS.map((t) => (
-            <div
-              key={t.id}
-              className="p-8 bg-[#f7f7f2] border-2 border-[#10201d] shadow-[7px_7px_0_#671912] flex flex-col justify-between"
-            >
+        {/* How the day pays out - handbook-backed, so the tracks read as a
+            process rather than three isolated posters. */}
+        <div className="build-steps">
+          {STEPS.map((s) => (
+            <div key={s.n} className="build-step">
+              <span className="build-step-num" aria-hidden="true">
+                {s.n}
+              </span>
               <div>
-                <span className="ht-tag mb-4 inline-block">
-                  {t.tag}
-                </span>
-
-                <h3 className="font-display font-bold text-2xl sm:text-3xl text-[#10201d] mb-3">
-                  {t.title}
-                </h3>
-
-                <p className="text-sm text-[#34433f] font-sans leading-relaxed mb-6">
-                  {t.description}
-                </p>
-
-                <div className="mb-6">
-                  <div className="font-mono text-[11px] text-[#34433f] uppercase font-bold tracking-wider mb-2">
-                    Key Tools & Focus:
-                  </div>
-                  <div className="flex flex-wrap gap-2">
-                    {t.skills.map((skill, sIdx) => (
-                      <span
-                        key={sIdx}
-                        className="px-2.5 py-1 text-xs font-mono bg-[#e4e5da] border border-[#10201d] text-[#10201d] font-semibold"
-                      >
-                        {skill}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              </div>
-
-              <div className="pt-6 border-t border-[#10201d]/15 flex items-center justify-between text-xs font-mono">
-                <span className="text-[#34433f]">All experience levels welcome</span>
-                <span className="font-bold text-[#e53927] flex items-center gap-1">
-                  Build Track <ArrowRight className="w-3.5 h-3.5" />
-                </span>
+                <p className="build-step-title">{s.title}</p>
+                <p className="build-step-body">{s.body}</p>
               </div>
             </div>
           ))}
+        </div>
+
+        {/* Tracks Grid */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
+          {TRACKS.map((t, i) => {
+            const Icon = ICONS[t.icon] || GitPullRequest;
+            return (
+              <Reveal
+                key={t.id}
+                as="article"
+                delay={(i % 3) * 90}
+                className="track-card"
+                style={{ '--acc': t.accent, '--acc-ink': t.accentInk }}
+              >
+                <span className="track-band" aria-hidden="true" />
+
+                <div className="track-body">
+                  <span className="track-number" aria-hidden="true">
+                    {String(i + 1).padStart(2, '0')}
+                  </span>
+
+                  <span className="track-medallion" aria-hidden="true">
+                    <Icon size={24} strokeWidth={2.4} />
+                  </span>
+
+                  <p className="track-tag">{t.tag}</p>
+
+                  <h3 className="track-title">{t.title}</h3>
+
+                  <p className="track-desc">{t.description}</p>
+
+                  <div className="track-tools">
+                    <p className="track-tools-label">Key tools &amp; focus</p>
+                    <div className="track-chips">
+                      {t.skills.map((skill) => (
+                        <span key={skill} className="track-chip">
+                          {skill}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+
+                <div className="track-prize">
+                  <Seal code={t.prizeSeal} color={t.accent} size={58} />
+                  <div>
+                    <p className="track-prize-label">What you win</p>
+                    <p className="track-prize-body">{t.prize}</p>
+                  </div>
+                </div>
+
+                <div className="track-foot">
+                  <span>All experience levels welcome</span>
+                </div>
+              </Reveal>
+            );
+          })}
+        </div>
+
+        <div className="build-cta">
+          <a
+            href={EVENT_DETAILS.registrationUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={triggerFestiveConfetti}
+            className="ht-btn-primary text-sm"
+          >
+            <span>Register on MLH</span>
+            <ArrowRight className="w-4 h-4 ml-2" />
+          </a>
+          <p className="build-cta-note">
+            Teams form at 10:15 AM — solo builders are just as welcome.
+          </p>
         </div>
       </div>
     </section>

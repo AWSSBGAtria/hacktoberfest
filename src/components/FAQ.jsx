@@ -2,67 +2,84 @@ import React, { useState } from 'react';
 import { FAQS, EVENT_DETAILS } from '../data/eventData';
 import { triggerFestiveConfetti } from '../utils/confetti';
 import { ArrowRight, MessageCircle } from 'lucide-react';
+import Reveal from './Reveal';
+import SectionHead from './SectionHead';
 
 export default function FAQ() {
-  const [openIndex, setOpenIndex] = useState(0);
+  const [openIndex, setOpenIndex] = useState(-1);
 
   const toggle = (idx) => {
     setOpenIndex(openIndex === idx ? -1 : idx);
   };
 
   return (
-    <section id="faq" className="py-20 sm:py-28 bg-[#f2f2eb] text-[#10201d] border-b-2 border-[#10201d]">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="faq" className="theme-section py-20 sm:py-28 bg-[#f2f2eb] text-[#10201d] border-b-2 border-[#10201d]">
+      <div className="shell">
         {/* Intro */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-16">
-          <div className="max-w-xl">
-            <p className="font-mono text-xs font-bold text-[#e53927] uppercase tracking-[0.08em] mb-3">
-              FREQUENTLY ASKED QUESTIONS
-            </p>
-            <h2 className="font-display font-extrabold text-3xl sm:text-5xl lg:text-6xl tracking-tight leading-[0.94] text-[#10201d] uppercase">
-              Got questions? <br />
-              <em className="text-[#e53927] not-italic font-normal font-sans italic lowercase">
-                we have answers.
-              </em>
-            </h2>
-          </div>
+        <SectionHead
+          eyebrow="FREQUENTLY ASKED QUESTIONS"
+          title={<>Got questions?</>}
+          accent="we have answers."
+          deck="Everything you need to know about attending Hacktoberfest Hack Day Bengaluru as a university student."
+        />
 
-          <p className="max-w-md text-sm text-[#34433f] font-sans leading-relaxed">
-            Everything you need to know about attending Hacktoberfest Hack Day Bengaluru as a university student.
-          </p>
-        </div>
-
-        {/* FAQ Panel with 2px borders and hard drop shadow */}
-        <div className="border-2 border-[#10201d] bg-[#f7f7f2] shadow-[7px_7px_0_#671912] divide-y-2 divide-[#10201d] mb-12">
+        {/* FAQ Panel with 2px borders and hard drop shadow, on the shared shell width */}
+        <Reveal className="brutal-static border-2 border-[#10201d] bg-[#f7f7f2] shadow-[7px_7px_0_#671912] divide-y-2 divide-[#10201d] mb-12">
           {FAQS.map((faq, idx) => {
             const isOpen = openIndex === idx;
+            const qId = `faq-q-${idx}`;
+            const pId = `faq-a-${idx}`;
             return (
-              <div key={idx} className="transition-colors">
+              <div key={idx}>
                 <button
+                  id={qId}
                   onClick={() => toggle(idx)}
-                  className="w-full text-left p-6 sm:px-8 sm:py-6 flex items-center justify-between gap-4 cursor-pointer"
+                  aria-expanded={isOpen}
+                  aria-controls={pId}
+                  className="w-full text-left p-6 sm:px-8 sm:py-6 flex items-start justify-between gap-4 cursor-pointer hover:bg-[#e4e5da] transition-colors"
                 >
-                  <span className="font-display font-bold text-xl sm:text-2xl text-[#10201d] tracking-tight leading-snug">
-                    {faq.q}
+                  <span className="flex items-start gap-4 sm:gap-5 min-w-0">
+                    <span
+                      aria-hidden="true"
+                      className={`mt-1 shrink-0 font-mono text-[11px] font-bold leading-none px-2 py-1.5 border-2 border-[#10201d] transition-colors ${
+                        isOpen ? 'bg-[#e53927] text-[#f7f7f2]' : 'bg-[#e4e5da] text-[#34433f]'
+                      }`}
+                    >
+                      {String(idx + 1).padStart(2, '0')}
+                    </span>
+                    <span className="font-display font-bold text-xl sm:text-2xl text-[#10201d] tracking-tight leading-snug">
+                      {faq.q}
+                    </span>
                   </span>
                   <span
-                    className={`font-mono text-2xl font-bold text-[#10201d] shrink-0 transition-transform duration-200 ${
-                      isOpen ? 'transform rotate-45 text-[#e53927]' : ''
+                    aria-hidden="true"
+                    className={`font-mono text-2xl font-bold leading-none shrink-0 mt-1 transition-transform duration-200 ${
+                      isOpen ? 'transform rotate-45 text-[#e53927]' : 'text-[#10201d]'
                     }`}
                   >
                     +
                   </span>
                 </button>
 
-                {isOpen && (
-                  <div className="px-6 pb-6 sm:px-8 sm:pb-8 pt-0 text-sm sm:text-base text-[#34433f] font-sans leading-relaxed">
-                    {faq.a}
+                <div
+                  id={pId}
+                  role="region"
+                  aria-labelledby={qId}
+                  className={`accordion-panel ${isOpen ? 'is-open' : ''}`}
+                >
+                  <div className="px-6 pb-6 sm:px-8 sm:pb-8 pt-0">
+                    <div className="h-0.5 w-6 bg-[#e53927] mb-3.5" aria-hidden="true" />
+                    {/* 65-75ch body measure: keeps answers readable instead of
+                        stretching edge-to-edge across the full panel. */}
+                    <p className="max-w-[70ch] text-sm sm:text-base text-[#34433f] font-sans leading-relaxed">
+                      {faq.a}
+                    </p>
                   </div>
-                )}
+                </div>
               </div>
             );
           })}
-        </div>
+        </Reveal>
 
         {/* FAQ CTA Row */}
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4 text-center">

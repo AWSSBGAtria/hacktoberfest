@@ -2,21 +2,39 @@
 
 @layer base {
   :root {
-    --font-heading: 'Barlow Semi Condensed', ui-sans-serif, system-ui, sans-serif;
-    --font-mono: 'Martian Mono', ui-monospace, monospace;
-    --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
-    
-    --color-forest: #2e4742;
-    --color-sage: #3d5f58;
+    --font-heading: 'Manrope', ui-sans-serif, system-ui, sans-serif;
+    --font-mono: 'IBM Plex Mono', ui-monospace, monospace;
+    --font-sans: 'Manrope', ui-sans-serif, system-ui, sans-serif;
+
+    --color-forest: #20253f;
+    --color-sage: #343b69;
     --color-cream: #f2f2eb;
     --color-paper: #f7f7f2;
     --color-paper-alt: #e4e5da;
     --color-ink: #10201d;
-    --color-coral: #e97b77;
+    --color-coral: #ee8b83;
     --color-red: #e53927;
     --color-sky: #8bb2de;
     --color-yellow: #f5b726;
-    --color-maroon: #671912;
+    --color-maroon: #25204b;
+    --color-indigo: #5146d9;
+    --color-indigo-soft: #e7e5ff;
+
+    /* Chrome: the indigo-navy "frame" that brackets every page (the awsatria.tech thread). */
+    --chrome-base: #211f47;
+    --chrome-deep: #1a1839;
+    --chrome-glow: #4b46a8;
+
+    /* Motion tokens: one easing curve, three duration tiers, used everywhere instead of ad hoc values. */
+    --ease-brand: cubic-bezier(.16, 1, .3, 1);
+    --dur-fast: 220ms;
+    --dur-base: 420ms;
+    --dur-slow: 680ms;
+
+    /* Shadow tokens: the site's signature "stamp" shadow, reused instead of scattered hex values. */
+    --stamp: #671912;
+    --stamp-amber: #8a5d13;
+    --stamp-ink: #10201d;
   }
 }
 
@@ -24,10 +42,14 @@ body {
   position: relative;
   margin: 0;
   color: #10201d;
-  background: #f2f2eb;
-  font-family: 'Inter', ui-sans-serif, system-ui, sans-serif;
+  background: #f4f4f0;
+  font-family: 'Manrope', ui-sans-serif, system-ui, sans-serif;
   line-height: 1.55;
   isolation: isolate;
+  /* `clip` (not `hidden`) - hidden silently turns <body> into its own scroll
+     container, which is what leaves a phantom screenful of empty scroll
+     below the footer in some engines. */
+  overflow-x: clip;
 }
 
 /* Authentic Hacktoberfest dot-matrix subtle texture overlay */
@@ -35,7 +57,7 @@ body::after {
   position: fixed;
   z-index: 1000;
   inset: 0;
-  background-image: 
+  background-image:
     radial-gradient(circle, rgba(24, 37, 34, 0.6) 0 0.45px, transparent 0.65px),
     radial-gradient(circle, rgba(247, 247, 242, 0.6) 0 0.35px, transparent 0.55px);
   background-position: 0 0, 4px 5px;
@@ -52,39 +74,47 @@ body::after {
 }
 
 .font-display {
-  font-family: 'Barlow Semi Condensed', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-family: 'Manrope', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
 .font-mono {
-  font-family: 'Martian Mono', ui-monospace, monospace;
+  font-family: 'IBM Plex Mono', ui-monospace, monospace;
 }
 
-/* Neo-brutalist buttons matching hacktoberfest.com */
+/* ---------------------------------------------------------------------- */
+/* Buttons - the one interactive shape language used everywhere.          */
+/* Fill color signals intent: periwinkle/indigo = primary action (the     */
+/* awsatria.tech accent, reserved for this one job everywhere on site).   */
+/* ---------------------------------------------------------------------- */
+
 .ht-btn-primary {
   appearance: none;
   display: inline-flex;
   min-height: 50px;
   align-items: center;
   justify-content: center;
+  gap: .5rem;
   padding: 12px 22px;
   color: #10201d;
   border: 2px solid #10201d;
-  background: #e97b77;
-  box-shadow: 5px 5px 0 #671912;
+  border-radius: 0;
+  background: #aebaff;
+  box-shadow: 0 8px 0 #5146d9;
   cursor: pointer;
-  font-family: 'Martian Mono', monospace;
+  font-family: var(--font-mono);
   font-size: 0.85rem;
   font-weight: 700;
   letter-spacing: 0.02em;
   line-height: 1.1;
   text-align: center;
   text-decoration: none;
-  transition: transform 150ms ease, box-shadow 150ms ease;
+  transition: transform var(--dur-fast) var(--ease-brand), box-shadow var(--dur-fast) var(--ease-brand), background-color var(--dur-fast) ease;
 }
 
 .ht-btn-primary:hover {
-  transform: translate(2px, 2px);
-  box-shadow: 3px 3px 0 #671912;
+  background: #c3caff;
+  transform: translate(calc(var(--mx, 0px) + 3px), calc(var(--my, 0px) + 3px));
+  box-shadow: 0 3px 0 #5146d9;
 }
 
 .ht-btn-secondary {
@@ -93,51 +123,1491 @@ body::after {
   min-height: 50px;
   align-items: center;
   justify-content: center;
+  gap: .5rem;
   padding: 12px 22px;
   color: #f7f7f2;
   border: 2px solid rgba(255, 255, 255, 0.72);
+  border-radius: 0;
   background: transparent;
-  box-shadow: 5px 5px 0 #2e4742;
+  box-shadow: 0 8px 0 rgba(81, 70, 217, .55);
   cursor: pointer;
-  font-family: 'Martian Mono', monospace;
+  font-family: var(--font-mono);
   font-size: 0.85rem;
   font-weight: 700;
   letter-spacing: 0.02em;
   line-height: 1.1;
   text-align: center;
   text-decoration: none;
-  transition: transform 150ms ease, box-shadow 150ms ease, background-color 150ms ease, color 150ms ease;
+  transition: transform var(--dur-fast) var(--ease-brand), box-shadow var(--dur-fast) var(--ease-brand), background-color var(--dur-fast) ease, color var(--dur-fast) ease;
 }
 
 .ht-btn-secondary:hover {
   color: #10201d;
   background: #f7f7f2;
-  box-shadow: 3px 3px 0 #2e4742;
-  transform: translate(2px, 2px);
+  transform: translate(calc(var(--mx, 0px) + 3px), calc(var(--my, 0px) + 3px));
+  box-shadow: 0 3px 0 rgba(81, 70, 217, .55);
 }
+
+.ht-btn-primary.is-compact,
+.ht-btn-secondary.is-compact {
+  min-height: 42px;
+  padding: 9px 16px;
+  font-size: 0.72rem;
+  box-shadow: 0 5px 0 #5146d9;
+}
+
+.ht-btn-secondary.is-compact {
+  box-shadow: 0 5px 0 rgba(81, 70, 217, .55);
+}
+
+.ht-btn-primary.is-compact:hover,
+.ht-btn-secondary.is-compact:hover {
+  transform: translate(calc(var(--mx, 0px) + 2px), calc(var(--my, 0px) + 2px));
+  box-shadow: 0 2px 0 #5146d9;
+}
+
+.ht-btn-secondary.is-compact:hover {
+  box-shadow: 0 2px 0 rgba(81, 70, 217, .55);
+}
+
+button:disabled,
+a[aria-disabled="true"] {
+  cursor: not-allowed;
+  opacity: .55;
+  transform: none !important;
+}
+
+/* ---------------------------------------------------------------------- */
+/* Shape lock: every structural surface is square (0 radius, 2px ink      */
+/* border, flat offset "stamp" shadow, never blurred). Small inline tags  */
+/* are the one exception, pilled, so the eye can tell "control" from      */
+/* "structure" at a glance.                                               */
+/* ---------------------------------------------------------------------- */
 
 .ht-card {
   border: 2px solid #10201d;
+  border-radius: 0;
   background: #f7f7f2;
-  box-shadow: 7px 7px 0 #671912;
-  transition: transform 150ms ease, box-shadow 150ms ease;
+  box-shadow: 7px 7px 0 var(--stamp);
+  transition: transform var(--dur-fast) var(--ease-brand), box-shadow var(--dur-fast) var(--ease-brand);
 }
 
 .ht-card:hover {
-  transform: translate(-2px, -2px);
-  box-shadow: 9px 9px 0 #671912;
+  transform: translate(3px, 3px);
+  box-shadow: 4px 4px 0 var(--stamp);
 }
 
 .ht-tag {
   display: inline-flex;
   align-items: center;
-  padding: 4px 10px;
+  padding: 4px 12px;
   color: #f7f7f2;
-  border-radius: 6px;
-  background: #10201d;
-  font-family: 'Martian Mono', monospace;
+  border-radius: 999px;
+  background: #292b65;
+  font-family: var(--font-mono);
   font-size: 0.72rem;
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
+}
+
+/* Interactive lift-card: the one hover recipe reused across every card   */
+/* grid on the site. Base shadow keeps whatever the component authored;   */
+/* this only supplies the "press toward its own shadow" feedback.         */
+.theme-card {
+  border-radius: 0 !important;
+  transition: transform var(--dur-fast) var(--ease-brand), box-shadow var(--dur-fast) var(--ease-brand);
+}
+
+.theme-card:hover,
+.theme-card:focus-within {
+  transform: translate(3px, 3px);
+}
+
+/* Static surface: same border/shadow language, but no lift (containers   */
+/* that hold their own clickable rows, e.g. the FAQ accordion). */
+.brutal-static {
+  border-radius: 0 !important;
+}
+
+/* Shared rhythm and type scale: every section now follows the same optical grid. */
+main > section {
+  scroll-margin-top: 96px;
+}
+
+main > section:not(.hero-shell) {
+  padding-top: clamp(4.5rem, 8vw, 7.5rem) !important;
+  padding-bottom: clamp(5rem, 8vw, 8rem) !important;
+}
+
+main section h2 {
+  font-size: clamp(2.65rem, 5.2vw, 5.25rem) !important;
+  line-height: 0.93 !important;
+  text-wrap: balance;
+}
+
+main section h3 {
+  line-height: 1.05;
+  text-wrap: balance;
+}
+
+/* ---------------------------------------------------------------------- */
+/* Shell - the one container every route, band, header and footer uses.   */
+/* One width (1280px) and one padding scale, so content edges line up     */
+/* from page to page instead of drifting section by section.              */
+/* ---------------------------------------------------------------------- */
+
+.shell {
+  width: 100%;
+  max-width: 1280px;
+  margin-inline: auto;
+  padding-inline: 1rem;
+}
+
+@media (min-width: 640px) {
+  .shell {
+    padding-inline: 1.5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .shell {
+    padding-inline: 2rem;
+  }
+}
+
+/* ---------------------------------------------------------------------- */
+/* Section head - the one header structure every section on every route   */
+/* uses: mono eyebrow, display title with its accent line, and a right-   */
+/* hand deck. Surface (light vs .theme-dark) drives the colours only.     */
+/* ---------------------------------------------------------------------- */
+
+.section-head {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 1.5rem;
+  margin-bottom: clamp(2.5rem, 4vw, 4rem);
+}
+
+@media (min-width: 768px) {
+  .section-head {
+    flex-direction: row;
+    align-items: flex-end;
+    gap: 2rem;
+  }
+}
+
+.section-head-main {
+  flex: 0 1 auto;
+  max-width: 42rem;
+}
+
+.section-eyebrow {
+  margin: 0 0 0.75rem;
+  color: var(--color-red);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  line-height: 1.4;
+  text-transform: uppercase;
+}
+
+.section-title {
+  margin: 0;
+  font-family: var(--font-heading);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+}
+
+.section-title em {
+  color: var(--color-red);
+  font-style: normal;
+  font-weight: 400;
+  text-transform: lowercase;
+}
+
+.section-deck {
+  max-width: 28rem;
+  margin: 0;
+  color: #34433f;
+  font-size: 0.95rem;
+  line-height: 1.65;
+}
+
+.theme-dark .section-eyebrow {
+  color: var(--color-sky);
+}
+
+.theme-dark .section-title em {
+  color: var(--color-yellow);
+}
+
+.theme-dark .section-deck {
+  color: #c6caf0;
+}
+
+/* ---------------------------------------------------------------------- */
+/* Hero - indigo-navy chrome, the one big authored entrance moment.       */
+/* ---------------------------------------------------------------------- */
+
+.hero-shell {
+  /* Fills the whole screen below the sticky header so the entrance never
+     leaves a sliver of the next section showing. 82px = h-20 header + 2px rule. */
+  min-height: max(620px, calc(100svh - 82px));
+  display: flex;
+  align-items: center;
+  background: var(--chrome-base) !important;
+  background-image: radial-gradient(circle at 50% 42%, rgba(75, 70, 168, .4), transparent 34%), linear-gradient(180deg, var(--chrome-deep) 0%, #2c2a5e 100%) !important;
+}
+
+.hero-content {
+  width: 100%;
+  text-align: center !important;
+}
+
+.hero-title {
+  max-width: 880px;
+  margin-inline: auto;
+  font-size: clamp(3.35rem, 7.4vw, 7.1rem) !important;
+  line-height: .92 !important;
+  letter-spacing: -0.045em !important;
+  text-wrap: balance;
+}
+
+.hero-title-line {
+  display: block;
+  clip-path: inset(0 0 100% 0);
+  animation: hero-line-reveal 760ms var(--ease-brand) forwards;
+}
+
+.hero-title-subline {
+  color: #aebcff;
+  animation-delay: 110ms;
+}
+
+.hero-title-subline em {
+  color: #f6f7ff;
+  font-style: normal;
+}
+
+.hero-manifesto {
+  margin: -0.4rem auto 1.55rem;
+  color: #c6caf0;
+  font-family: var(--font-mono);
+  font-size: clamp(.78rem, 1.2vw, .95rem);
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  animation: hero-manifesto-reveal var(--dur-slow) var(--ease-brand) 260ms both;
+}
+
+.hero-deck {
+  max-width: 610px !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  font-size: clamp(1rem, 1.5vw, 1.25rem) !important;
+  animation: hero-deck-reveal var(--dur-slow) var(--ease-brand) 340ms both;
+}
+
+.hero-facts {
+  margin-inline: auto;
+  border-color: rgba(255, 255, 255, .35) !important;
+  background: rgba(24, 22, 58, .48) !important;
+  box-shadow: 4px 4px 0 rgba(13, 12, 35, .7) !important;
+  animation: hero-deck-reveal var(--dur-slow) var(--ease-brand) 420ms both;
+}
+
+.hero-partners {
+  text-align: center;
+}
+
+.hero-content > .flex {
+  animation: hero-deck-reveal var(--dur-slow) var(--ease-brand) 500ms both;
+}
+
+.hero-content > .hero-partners {
+  animation: hero-deck-reveal var(--dur-slow) var(--ease-brand) 640ms both;
+}
+
+.hero-decoration {
+  opacity: .16 !important;
+  mix-blend-mode: screen;
+}
+
+@keyframes hero-line-reveal {
+  from { clip-path: inset(0 0 100% 0); transform: translateY(.4em); }
+  to { clip-path: inset(0 0 0 0); transform: translateY(0); }
+}
+
+@keyframes hero-manifesto-reveal {
+  from { opacity: 0; letter-spacing: .3em; transform: translateY(.6rem); }
+  to { opacity: 1; letter-spacing: .12em; transform: translateY(0); }
+}
+
+@keyframes hero-deck-reveal {
+  from { opacity: 0; transform: translateY(1rem); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Route changes carry no CSS entry animation of their own - the View
+   Transitions block at the bottom of this file is the one transition. */
+
+/* ---------------------------------------------------------------------- */
+/* Nav links - the active route is marked with aria-current and swept by   */
+/* the same coral rule that the underline animation uses.                  */
+/* ---------------------------------------------------------------------- */
+
+.site-header nav a {
+  position: relative;
+  padding-block: 4px;
+}
+
+.site-header nav a::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 2px;
+  background: #e97b77;
+  transform: scaleX(0);
+  transform-origin: 100% 50%;
+  transition: transform 420ms var(--ease-brand);
+}
+
+.site-header nav a:hover::after,
+.site-header nav a:focus-visible::after,
+.site-header nav a[aria-current="page"]::after {
+  transform: scaleX(1);
+  transform-origin: 0 50%;
+}
+
+a, button {
+  transition: color var(--dur-fast) var(--ease-brand), background-color var(--dur-fast) var(--ease-brand), border-color var(--dur-fast) var(--ease-brand), box-shadow var(--dur-fast) var(--ease-brand), transform var(--dur-fast) var(--ease-brand), opacity var(--dur-fast) var(--ease-brand);
+}
+
+a:focus-visible, button:focus-visible {
+  outline: 3px solid #8c88ff;
+  outline-offset: 4px;
+}
+
+button:active, a:active {
+  transform: translateY(1px) scale(.985);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    scroll-behavior: auto !important;
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+  }
+
+  .reveal {
+    opacity: 1 !important;
+    translate: none !important;
+    scale: none !important;
+  }
+
+  .split-words .sw-in {
+    clip-path: none !important;
+    transform: none !important;
+    opacity: 1 !important;
+  }
+
+  .scroll-progress {
+    transform: scaleX(1) !important;
+  }
+
+}
+
+/* ---------------------------------------------------------------------- */
+/* Venue map - the site's one real-world surface. It is tinted into the    */
+/* indigo chrome so it reads as part of the same world, and carries the    */
+/* site's hard ink frame + stamp shadow instead of a soft floating card.   */
+/* The only red on the map is our own pin (OSM's built-in marker is off).  */
+/* ---------------------------------------------------------------------- */
+
+.venue-map {
+  position: relative;
+  min-height: 340px;
+  width: 100%;
+  overflow: hidden;
+  border: 2px solid #10201d;
+  background: var(--chrome-deep);
+  box-shadow: 7px 7px 0 var(--stamp);
+  isolation: isolate;
+}
+
+.venue-map iframe {
+  display: block;
+  width: 100%;
+  height: 100%;
+  min-height: 340px;
+  border: 0;
+  /* Desaturate, invert, then re-hue into indigo. Hue rotation needs a
+     colored signal first, so sepia() must follow the invert. */
+  filter: grayscale(1) invert(1) brightness(.85) sepia(1) hue-rotate(200deg) saturate(5) contrast(1.1);
+}
+
+/* Our pin sits exactly on the bbox centre, so it always lands on the venue
+   without relying on OSM's own marker (which the tint above would recolor). */
+.map-pin {
+  position: absolute;
+  z-index: 3;
+  top: 50%;
+  left: 50%;
+  display: block;
+  line-height: 0;
+  pointer-events: none;
+  transform: translate(-50%, -100%);
+  filter: drop-shadow(3px 4px 0 rgba(9, 8, 24, .55));
+}
+
+.map-pin svg {
+  display: block;
+}
+
+.map-ribbon,
+.map-credit {
+  position: absolute;
+  z-index: 2;
+  font-family: var(--font-mono);
+  font-size: .68rem;
+  letter-spacing: .02em;
+}
+
+.map-ribbon {
+  top: .75rem;
+  left: .75rem;
+  display: inline-flex;
+  align-items: center;
+  gap: .55rem;
+  padding: .5rem .7rem;
+  color: #f7f7f2;
+  border: 2px solid #10201d;
+  background: var(--chrome-base);
+  box-shadow: 4px 4px 0 #10201d;
+}
+
+.map-ribbon-dot {
+  width: .55rem;
+  height: .55rem;
+  border-radius: 999px;
+  background: #e53927;
+  box-shadow: 0 0 0 .2rem rgba(229, 57, 39, .3);
+}
+
+/* Sits above OSM's own attribution strip rather than on top of it. */
+.map-credit {
+  right: .75rem;
+  bottom: 2rem;
+  display: inline-flex;
+  align-items: center;
+  gap: .35rem;
+  padding: .5rem .65rem;
+  color: #10201d;
+  border: 2px solid #10201d;
+  background: #f7f7f2;
+  box-shadow: 4px 4px 0 #10201d;
+  text-decoration: none;
+}
+
+.map-credit:hover {
+  color: #10201d;
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0 #10201d;
+}
+
+/* ---------------------------------------------------------------------- */
+/* Site chrome - header, footer and mobile menu all share the same        */
+/* indigo-navy frame that brackets the hacktoberfest-colored content.     */
+/* ---------------------------------------------------------------------- */
+
+.site-header,
+.site-footer,
+.site-mobile-menu {
+  background-color: var(--chrome-base) !important;
+}
+
+.countdown-strip {
+  background: #e4e5da;
+  border-color: #10201d;
+}
+
+/* ---------------------------------------------------------------------- */
+/* CTA callout blocks (Footer + Rewards banner): indigo fill, hard ink    */
+/* shadow, same press feedback as every other interactive surface.       */
+/* ---------------------------------------------------------------------- */
+
+.theme-cta {
+  border-radius: 0 !important;
+  transition: transform var(--dur-fast) var(--ease-brand), box-shadow var(--dur-fast) var(--ease-brand);
+}
+
+/* ---------------------------------------------------------------------- */
+/* Schedule timeline - kept as its own distinct motion metaphor (a path,  */
+/* not a card grid) but pulled onto the same ink/coral palette and hard-  */
+/* edge shape system as the rest of the site. It runs the full width of   */
+/* the shared shell, with the rail hanging off the shell's left edge so   */
+/* the gutter, cards and section headings all start from the same line.   */
+/* ---------------------------------------------------------------------- */
+
+.schedule-flow {
+  position: relative;
+  width: 100%;
+  margin-top: clamp(2.5rem, 4vw, 3.5rem);
+  padding: 0 0 0 7.5rem;
+}
+
+.schedule-flow::before {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 5.25rem;
+  width: 2px;
+  background: linear-gradient(180deg, transparent, rgba(16, 32, 29, .32) 7%, rgba(16, 32, 29, .32) 93%, transparent);
+  content: '';
+}
+
+.schedule-item {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr;
+  padding: 0 0 3.5rem;
+  /* Set inline per row from the event's type - drives the badge and the dot. */
+  --event: #10201d;
+  --event-ink: #f7f7f2;
+}
+
+.schedule-time {
+  position: absolute;
+  top: 1.85rem;
+  left: -7.5rem;
+  width: 4.25rem;
+  color: #34433f;
+  font-family: var(--font-mono);
+  font-size: .72rem;
+  font-weight: 700;
+  line-height: 1.3;
+  text-align: right;
+}
+
+.schedule-node {
+  position: absolute;
+  top: 1.9rem;
+  left: calc(-2.625rem + 1px);
+  width: .75rem;
+  height: .75rem;
+  border: 3px solid #f2f2eb;
+  border-radius: 50%;
+  background: var(--event);
+  box-shadow: 0 0 0 .3rem #e4e5da;
+  transition: transform var(--dur-base) var(--ease-brand), background-color var(--dur-fast) ease, box-shadow var(--dur-base) var(--ease-brand);
+}
+
+.schedule-item:hover .schedule-node {
+  transform: scale(1.7);
+  box-shadow: 0 0 0 .35rem #f6c4c1;
+}
+
+.schedule-content {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-areas: 'head' 'aside' 'main';
+  gap: .75rem;
+  padding: 1.5rem 1.65rem 1.6rem;
+  border: 2px solid #10201d;
+  border-radius: 0;
+  background: #f7f7f2;
+  box-shadow: 4px 4px 0 var(--stamp);
+  transition: transform var(--dur-base) var(--ease-brand), box-shadow var(--dur-base) var(--ease-brand);
+}
+
+.schedule-item:hover .schedule-content {
+  transform: translate(-3px, -3px);
+  box-shadow: 7px 7px 0 var(--stamp);
+}
+
+.schedule-item .schedule-tag {
+  grid-area: head;
+  justify-self: start;
+  background: var(--event);
+  color: var(--event-ink);
+}
+
+.schedule-aside {
+  grid-area: aside;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: .3rem;
+}
+
+.schedule-main {
+  grid-area: main;
+  min-width: 0;
+}
+
+.schedule-index {
+  color: rgba(52, 67, 63, .75);
+  font-family: var(--font-mono);
+  font-size: .68rem;
+  letter-spacing: .06em;
+}
+
+.schedule-range {
+  color: #34433f;
+  font-family: var(--font-mono);
+  font-size: .74rem;
+  font-weight: 700;
+  letter-spacing: .04em;
+  white-space: nowrap;
+}
+
+.schedule-desc {
+  max-width: 68ch;
+  color: #34433f;
+  font-size: .95rem;
+  line-height: 1.65;
+}
+
+@media (min-width: 768px) {
+  .schedule-content {
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-areas: 'head aside' 'main aside';
+    align-items: start;
+    column-gap: 2.5rem;
+    row-gap: .9rem;
+  }
+
+  .schedule-aside {
+    align-items: flex-end;
+    text-align: right;
+  }
+}
+
+@media (max-width: 640px) {
+  .schedule-flow {
+    margin-top: 2rem;
+    padding-left: 2.2rem;
+  }
+
+  .schedule-flow::before {
+    left: .45rem;
+  }
+
+  .schedule-time {
+    display: none;
+  }
+
+  .schedule-node {
+    top: 1.9rem;
+    left: calc(-2.125rem + 1px);
+  }
+
+  .schedule-content {
+    padding: 1.2rem;
+  }
+
+  .schedule-item:hover .schedule-content {
+    transform: translate(-2px, -2px);
+  }
+}
+
+@media (max-width: 767px) {
+  .theme-card:hover {
+    transform: translate(2px, 2px) !important;
+  }
+}
+
+@media (max-width: 640px) {
+  .hero-shell {
+    /* Same full-bleed intent on small screens; content still wins if taller. */
+    min-height: max(560px, calc(100svh - 82px));
+  }
+
+  .hero-title {
+    max-width: 100%;
+    /* Sized so the single unbreakable word "HACKTOBERFEST" always fits the
+       viewport: 15vw clipped it at 390px, so the floor is clamped too. */
+    font-size: clamp(2.1rem, 10.5vw, 5.4rem) !important;
+  }
+
+  .hero-manifesto {
+    max-width: 22rem;
+    line-height: 1.5;
+  }
+
+  .venue-map,
+  .venue-map iframe {
+    min-height: 280px;
+  }
+}
+
+/* ---------------------------------------------------------------------- */
+/* Accordion (FAQ) - smooth grid-based height expansion instead of an     */
+/* instant pop-in.                                                        */
+/* ---------------------------------------------------------------------- */
+
+.accordion-panel {
+  display: grid;
+  grid-template-rows: 0fr;
+  overflow: hidden;
+  transition: grid-template-rows var(--dur-base) var(--ease-brand);
+}
+
+.accordion-panel.is-open {
+  grid-template-rows: 1fr;
+}
+
+.accordion-panel > div {
+  min-height: 0;
+}
+
+/* ---------------------------------------------------------------------- */
+/* Mobile menu - eased slide/fade instead of an instant toggle.           */
+/* ---------------------------------------------------------------------- */
+
+.mobile-menu-panel {
+  overflow: hidden;
+  max-height: 0;
+  opacity: 0;
+  transition: max-height var(--dur-base) var(--ease-brand), opacity var(--dur-fast) ease;
+}
+
+.mobile-menu-panel.is-open {
+  max-height: 480px;
+  opacity: 1;
+}
+
+/* ---------------------------------------------------------------------- */
+/* /build - two deliberately different surfaces. Tracks are light "spec    */
+/* sheets": one accent colour per challenge, a watermark track number, a   */
+/* medallion, and a "what you win" strip. Rewards are the opposite: a dark  */
+/* vault where every handbook prize is shown as a stamped seal, so a       */
+/* visitor can tell "show up" from "win" without reading a word.          */
+/* ---------------------------------------------------------------------- */
+
+.badge-seal {
+  position: relative;
+  display: inline-block;
+  flex: none;
+  aspect-ratio: 1;
+  font-size: calc(var(--seal-size, 92px) * .17);
+  line-height: 1;
+}
+
+.badge-seal > svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.badge-seal-code {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font-family: var(--font-mono);
+  font-size: 1em;
+  font-weight: 700;
+  letter-spacing: .04em;
+  color: #10201d;
+}
+
+/* Hand-bookmarked "how the day pays out" strip above the track grid. */
+.build-steps {
+  display: grid;
+  grid-template-columns: 1fr;
+  margin-bottom: clamp(2.5rem, 4vw, 3.5rem);
+  background: #f7f7f2;
+  border: 2px solid #10201d;
+  box-shadow: 7px 7px 0 #671912;
+}
+
+.build-step {
+  display: flex;
+  gap: .95rem;
+  align-items: flex-start;
+  padding: 1.15rem 1.25rem;
+  border-bottom: 2px solid #10201d;
+}
+
+.build-step:last-child {
+  border-bottom: 0;
+}
+
+.build-step-num {
+  flex: none;
+  padding: .3rem .45rem;
+  background: #e53927;
+  color: #f7f7f2;
+  border: 2px solid #10201d;
+  font-family: var(--font-mono);
+  font-size: .7rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.build-step-title {
+  margin: 0 0 .25rem;
+  font-family: var(--font-heading);
+  font-size: .95rem;
+  font-weight: 800;
+  letter-spacing: -.01em;
+}
+
+.build-step-body {
+  margin: 0;
+  font-size: .82rem;
+  line-height: 1.55;
+  color: #34433f;
+}
+
+.build-cta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1.25rem;
+  margin-top: clamp(2.5rem, 4vw, 3.5rem);
+}
+
+.build-cta-note {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: .75rem;
+  color: #34433f;
+}
+
+@media (min-width: 768px) {
+  .build-steps {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .build-step {
+    border-bottom: 0;
+    border-right: 2px solid #10201d;
+  }
+
+  .build-step:last-child {
+    border-right: 0;
+  }
+}
+
+/* ---- Track card: accent band, watermark number, medallion, prize strip -- */
+
+.track-card {
+  --acc: var(--color-red);
+  --acc-ink: #f7f7f2;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: #f7f7f2;
+  border: 2px solid #10201d;
+  box-shadow: 7px 7px 0 #671912;
+  transition: transform var(--dur-fast) var(--ease-brand), box-shadow var(--dur-fast) var(--ease-brand);
+}
+
+.track-card:hover,
+.track-card:focus-within {
+  transform: translate(3px, 3px);
+  box-shadow: 4px 4px 0 #671912;
+}
+
+.track-band {
+  display: block;
+  flex: none;
+  height: 10px;
+  background: var(--acc);
+  border-bottom: 2px solid #10201d;
+}
+
+.track-body {
+  position: relative;
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  gap: .9rem;
+  padding: 1.5rem 1.6rem 1.6rem;
+}
+
+.track-number {
+  position: absolute;
+  top: .3rem;
+  right: 1.1rem;
+  font-family: var(--font-heading);
+  font-size: 5rem;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -.06em;
+  color: color-mix(in srgb, var(--acc) 24%, transparent);
+  pointer-events: none;
+  user-select: none;
+}
+
+.track-medallion {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  width: 3.25rem;
+  height: 3.25rem;
+  background: var(--acc);
+  color: var(--acc-ink);
+  border: 2px solid #10201d;
+  box-shadow: 4px 4px 0 #10201d;
+}
+
+.track-tag {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  margin: 0;
+  color: #34433f;
+  font-family: var(--font-mono);
+  font-size: .68rem;
+  font-weight: 700;
+  letter-spacing: .13em;
+  line-height: 1.4;
+  text-transform: uppercase;
+}
+
+.track-tag::before {
+  content: '';
+  flex: none;
+  width: .55rem;
+  height: .55rem;
+  background: var(--acc);
+  border: 1px solid #10201d;
+}
+
+.track-title {
+  margin: 0;
+  font-family: var(--font-heading);
+  font-size: 1.45rem;
+  font-weight: 800;
+  line-height: 1.08;
+  letter-spacing: -.02em;
+  text-wrap: balance;
+}
+
+.track-desc {
+  margin: 0;
+  font-size: .9rem;
+  line-height: 1.65;
+  color: #34433f;
+}
+
+.track-tools-label {
+  margin: 0 0 .5rem;
+  color: #34433f;
+  font-family: var(--font-mono);
+  font-size: .63rem;
+  font-weight: 700;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+}
+
+/* Keeps the chips pinned to the bottom of the body so all three cards
+   line their prize strips up exactly, whatever the copy length. */
+.track-tools {
+  margin-top: auto;
+}
+
+.track-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .4rem;
+}
+
+.track-chip {
+  padding: 4px 10px;
+  background: color-mix(in srgb, var(--acc) 18%, #f7f7f2);
+  border: 1px solid #10201d;
+  font-family: var(--font-mono);
+  font-size: .7rem;
+  font-weight: 600;
+  line-height: 1.35;
+  color: #10201d;
+}
+
+.track-prize {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.1rem 1.6rem;
+  background: color-mix(in srgb, var(--acc) 16%, #f7f7f2);
+  border-top: 2px solid #10201d;
+}
+
+.track-prize-label {
+  margin: 0 0 .2rem;
+  color: #34433f;
+  font-family: var(--font-mono);
+  font-size: .63rem;
+  font-weight: 700;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+}
+
+.track-prize-body {
+  margin: 0;
+  font-size: .84rem;
+  line-height: 1.5;
+  color: #10201d;
+}
+
+.track-foot {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: .35rem 1rem;
+  padding: .85rem 1.6rem;
+  background: #e4e5da;
+  border-top: 2px solid #10201d;
+  font-family: var(--font-mono);
+  font-size: .66rem;
+  letter-spacing: .04em;
+  color: #34433f;
+}
+
+/* ---- Rewards: dark vault, tier rails, seal-stamped prize cards ---------- */
+
+.badge-wall {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.5rem 1rem;
+  margin-bottom: clamp(2.75rem, 5vw, 4.5rem);
+  padding: 1.75rem 1.25rem;
+  background: #191745;
+  border: 2px solid #0d0c24;
+  box-shadow: 7px 7px 0 #0d0c24;
+}
+
+.badge-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: .75rem;
+  text-align: center;
+}
+
+.badge-name {
+  margin: 0;
+  color: #c6caf0;
+  font-family: var(--font-mono);
+  font-size: .66rem;
+  font-weight: 700;
+  letter-spacing: .06em;
+  line-height: 1.4;
+  text-transform: uppercase;
+}
+
+@media (min-width: 1024px) {
+  .badge-wall {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    padding: 2rem 1.5rem;
+  }
+}
+
+.reward-tier {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: .75rem 1.5rem;
+  margin-bottom: 1.5rem;
+  padding-bottom: .8rem;
+  border-bottom: 2px solid var(--tier, #8bb2de);
+}
+
+.reward-tier-num {
+  color: var(--tier, #8bb2de);
+  font-family: var(--font-mono);
+  font-size: .68rem;
+  font-weight: 700;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+}
+
+.reward-tier-name {
+  margin: 0;
+  color: #f7f7f2;
+  font-family: var(--font-heading);
+  font-size: 1.15rem;
+  font-weight: 800;
+  letter-spacing: -.01em;
+  text-transform: uppercase;
+}
+
+.reward-tier-note {
+  color: #9aa0e0;
+  font-family: var(--font-mono);
+  font-size: .68rem;
+}
+
+.reward-card {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1.5rem;
+  background: #2e2b68;
+  border: 2px solid #0d0c24;
+  box-shadow: 7px 7px 0 #0d0c24;
+  transition: transform var(--dur-fast) var(--ease-brand), box-shadow var(--dur-fast) var(--ease-brand);
+}
+
+.reward-card:hover,
+.reward-card:focus-within {
+  transform: translate(3px, 3px);
+  box-shadow: 4px 4px 0 #0d0c24;
+}
+
+.reward-card.is-highlight {
+  background: #f5b726;
+  border-color: #10201d;
+  box-shadow: 7px 7px 0 #8a5d13;
+}
+
+.reward-card.is-highlight:hover,
+.reward-card.is-highlight:focus-within {
+  box-shadow: 4px 4px 0 #8a5d13;
+}
+
+.reward-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.reward-tag {
+  display: inline-block;
+  margin-bottom: .6rem;
+  color: #aebaff;
+  font-family: var(--font-mono);
+  font-size: .64rem;
+  font-weight: 700;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+}
+
+.reward-card.is-highlight .reward-tag {
+  color: #671912;
+}
+
+.reward-title {
+  margin: 0;
+  color: #f7f7f2;
+  font-family: var(--font-heading);
+  font-size: 1.3rem;
+  font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: -.02em;
+}
+
+.reward-card.is-highlight .reward-title {
+  color: #10201d;
+}
+
+.reward-desc {
+  margin: 0;
+  color: #b9bdf0;
+  font-size: .875rem;
+  line-height: 1.65;
+}
+
+.reward-card.is-highlight .reward-desc {
+  color: #3a3005;
+}
+
+.reward-foot {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: .5rem 1rem;
+  margin-top: auto;
+  padding-top: .9rem;
+  border-top: 1px solid rgba(255, 255, 255, .18);
+  color: #9aa0e0;
+  font-family: var(--font-mono);
+  font-size: .66rem;
+  letter-spacing: .04em;
+}
+
+.reward-foot-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: .4rem;
+  font-weight: 700;
+  color: #aebaff;
+}
+
+.reward-card.is-highlight .reward-foot {
+  border-top-color: rgba(16, 32, 29, .28);
+  color: #3a3005;
+}
+
+.reward-card.is-highlight .reward-foot-cta {
+  color: #671912;
+}
+
+/* ---------------------------------------------------------------------- */
+/* Scroll reveal - the single restrained recipe used by every card grid,   */
+/* timeline row and content block. It lives at the very bottom of the      */
+/* file so its transition list wins over the card-specific ones above      */
+/* (a .track-card sets `transition: transform, box-shadow`, which would    */
+/* otherwise swallow the reveal), and it animates `translate`/`scale`      */
+/* rather than `transform` so hover transforms are never locked out.       */
+/* ---------------------------------------------------------------------- */
+
+.reveal {
+  opacity: 0;
+  translate: 0 22px;
+  scale: .97;
+  transition:
+    opacity var(--dur-slow) var(--ease-brand) var(--reveal-delay, 0ms),
+    translate var(--dur-slow) var(--ease-brand) var(--reveal-delay, 0ms),
+    scale var(--dur-slow) var(--ease-brand) var(--reveal-delay, 0ms),
+    transform var(--dur-fast) var(--ease-brand),
+    box-shadow var(--dur-fast) var(--ease-brand);
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  translate: 0 0;
+  scale: 1;
+}
+
+/* ---------------------------------------------------------------------- */
+/* Split-word title reveal - each word un-masks left-to-right on a short    */
+/* stagger. clip-path is used instead of overflow+transform so tall glyphs  */
+/* and the tight section-title line-height are never cropped.               */
+/* ---------------------------------------------------------------------- */
+
+.split-words .sw {
+  display: inline-block;
+}
+
+.split-words .sw-in {
+  display: inline-block;
+  clip-path: inset(-50% -4% 112% -4%);
+  transform: translateY(.22em);
+  transition:
+    clip-path 640ms var(--ease-brand),
+    transform 640ms var(--ease-brand);
+  transition-delay: var(--sw-delay, 0ms);
+  will-change: clip-path, transform;
+}
+
+.split-words.is-in .sw-in {
+  clip-path: inset(-50% -4% -50% -4%);
+  transform: translateY(0);
+}
+
+.section-head .section-eyebrow,
+.section-head .section-deck {
+  opacity: 0;
+  translate: 0 14px;
+  transition: opacity 700ms var(--ease-brand), translate 760ms var(--ease-brand);
+}
+
+.section-head.is-visible .section-eyebrow,
+.section-head.is-visible .section-deck {
+  opacity: 1;
+  translate: 0 0;
+}
+
+.section-head.is-visible .section-eyebrow { transition-delay: 40ms; }
+.section-head.is-visible .section-deck { transition-delay: 380ms; }
+
+/* ---------------------------------------------------------------------- */
+/* Reading progress - a hairline orange-to-yellow rule pinned to the very   */
+/* top edge of the viewport, above the sticky header.                       */
+/* ---------------------------------------------------------------------- */
+
+.scroll-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 60;
+  width: 100%;
+  height: 3px;
+  background: linear-gradient(90deg, #ff7a1a, #f5b726);
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+  pointer-events: none;
+}
+
+/* ---------------------------------------------------------------------- */
+/* Custom cursor - an arrow head over a scattered hexagon trail. Pointer-   */
+/* fine devices only; the default cursor is suppressed site-wide so nothing */
+/* shows underneath it.                                                     */
+/* ---------------------------------------------------------------------- */
+
+.cursor-trail {
+  position: fixed;
+  inset: 0;
+  z-index: 4000;
+  pointer-events: none;
+}
+
+/* The custom cursor steps aside while the pointer is over an iframe (the
+   venue map): pointer events never reach us from inside one, so the arrow
+   would freeze. Let the frame keep its own cursor instead. */
+html.has-custom-cursor.cursor-native,
+html.has-custom-cursor.cursor-native * {
+  cursor: auto !important;
+}
+
+/* Chunky rounded arrow head: ink body, cream keyline, hard little shadow.
+   The path's tip sits at the SVG origin (0,0) - which is also where the
+   2.2px keyline stops - so transform-origin is `0 0` and the JS transform is
+   just `translate3d(x, y, 0) scale()`: the tip never drifts off the pointer.
+   viewBox and box are the same size so there is no letterboxing to offset. */
+.cursor-arrow {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 4001;
+  width: 28px;
+  height: 30px;
+  opacity: 0;
+  transform-origin: 0 0;
+  pointer-events: none;
+  will-change: transform;
+  transition: opacity 150ms linear;
+  filter: drop-shadow(1.5px 2px 0 rgba(9, 8, 24, .4));
+}
+
+.cursor-arrow svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.cursor-arrow-body {
+  fill: #10201d;
+  stroke: #f7f7f2;
+  stroke-width: 1.8;
+  stroke-linejoin: round;
+  transition: fill 180ms var(--ease-brand), stroke 180ms var(--ease-brand);
+}
+
+.cursor-arrow.is-hot .cursor-arrow-body {
+  fill: #ff7a1a;
+  stroke: #10201d;
+}
+
+html.has-custom-cursor,
+html.has-custom-cursor * {
+  cursor: none !important;
+}
+
+/* ---------------------------------------------------------------------- */
+/* Hero sponsor lockup - "powered by" and "presenting partner" plates.    */
+/* Every logo sits on a cream plate so its own colours survive on the     */
+/* dark hero regardless of whether the file ships with transparency.      */
+/* ---------------------------------------------------------------------- */
+
+.hero-partners {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 1.5rem 2rem;
+  margin-top: .25rem;
+}
+
+.hero-sponsor {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: .55rem;
+}
+
+.hero-sponsor-label {
+  font-family: var(--font-mono);
+  font-size: .6rem;
+  font-weight: 700;
+  letter-spacing: .26em;
+  text-transform: uppercase;
+  color: #8bb2de;
+}
+
+.hero-sponsor-plate {
+  display: flex;
+  align-items: center;
+  gap: .8rem;
+  padding: .55rem .95rem;
+  background: #f7f7f2;
+  border: 2px solid #10201d;
+  box-shadow: 4px 4px 0 rgba(13, 12, 35, .7);
+}
+
+.hero-sponsor-plate img {
+  display: block;
+  object-fit: contain;
+}
+
+.hero-logo-mlh { height: 34px; width: auto; }
+.hero-logo-dev { height: 30px; width: 30px; }
+.hero-logo-do  { height: 24px; width: auto; }
+
+.hero-sponsor-x {
+  font-family: var(--font-mono);
+  font-size: .95rem;
+  font-weight: 700;
+  color: #34433f;
+  line-height: 1;
+}
+
+.hero-sponsor-divider {
+  width: 2px;
+  height: 46px;
+  background: rgba(255, 255, 255, .28);
+}
+
+@media (max-width: 480px) {
+  .hero-sponsor-divider { display: none; }
+}
+
+/* ---------------------------------------------------------------------- */
+/* Route transitions - when the View Transitions API is available we let    */
+/* the browser cross-fade the page while the header and footer stay pinned  */
+/* in place (they get their own named groups). The CSS fallback entry       */
+/* animation is suppressed while a transition is in flight so the two never  */
+/* stack.                                                                   */
+/* ---------------------------------------------------------------------- */
+
+.site-header { view-transition-name: site-header; }
+.site-footer { view-transition-name: site-footer; }
+
+::view-transition-old(root) {
+  animation: vt-old 360ms var(--ease-brand) both;
+}
+
+::view-transition-new(root) {
+  animation: vt-new 560ms var(--ease-brand) both;
+}
+
+::view-transition-group(site-header),
+::view-transition-group(site-footer) {
+  animation-duration: 360ms;
+  animation-timing-function: var(--ease-brand);
+}
+
+@keyframes vt-old {
+  to { opacity: 0; transform: translateY(-12px) scale(.995); }
+}
+
+@keyframes vt-new {
+  from { opacity: 0; transform: translateY(20px) scale(.99); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
 }

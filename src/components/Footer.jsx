@@ -2,10 +2,11 @@ import React from 'react';
 import { EVENT_DETAILS } from '../data/eventData';
 import { triggerFestiveConfetti } from '../utils/confetti';
 import { ExternalLink, ArrowRight } from 'lucide-react';
+import Reveal from './Reveal';
 
 export default function Footer() {
   return (
-    <footer className="bg-[#2e4742] text-[#f7f7f2] pt-16 pb-12 font-mono text-xs">
+    <footer className="site-footer text-[#f7f7f2] pt-16 pb-12 font-mono text-xs">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
           {/* Brand Info */}
@@ -27,12 +28,11 @@ export default function Footer() {
               Navigation
             </div>
             <ul className="space-y-2.5 text-slate-300">
-              <li><a href="#about" className="hover:text-white hover:underline">About Hack Day</a></li>
-              <li><a href="#tracks" className="hover:text-white hover:underline">Tracks & Themes</a></li>
-              <li><a href="#rewards" className="hover:text-white hover:underline">Swag & Badges</a></li>
-              <li><a href="#schedule" className="hover:text-white hover:underline">Schedule</a></li>
-              <li><a href="#venue" className="hover:text-white hover:underline">Venue & Checklist</a></li>
-              <li><a href="#faq" className="hover:text-white hover:underline">FAQs</a></li>
+              <li><a href="/about" className="hover:text-white hover:underline">About Hack Day</a></li>
+              <li><a href="/build" className="hover:text-white hover:underline">Tracks & Themes</a></li>
+              <li><a href="/day" className="hover:text-white hover:underline">Schedule</a></li>
+              <li><a href="/venue" className="hover:text-white hover:underline">Venue & Checklist</a></li>
+              <li><a href="/faq" className="hover:text-white hover:underline">FAQ</a></li>
             </ul>
           </div>
 
@@ -69,7 +69,7 @@ export default function Footer() {
                   rel="noopener noreferrer"
                   className="hover:text-white hover:underline flex items-center gap-1"
                 >
-                  AWS Atria Club <ExternalLink className="w-3 h-3" />
+                  AWS Student Builder Group <ExternalLink className="w-3 h-3" />
                 </a>
               </li>
               <li>
@@ -86,12 +86,12 @@ export default function Footer() {
           </div>
 
           {/* CTA Box */}
-          <div className="p-6 bg-[#3d5f58] border-2 border-[#10201d] shadow-[4px_4px_0_#10201d]">
+          <Reveal className="theme-cta p-6 bg-[#33306b] border-2 border-[#10201d] shadow-[4px_4px_0_#10201d] hover:shadow-[2px_2px_0_#10201d] hover:translate-x-[2px] hover:translate-y-[2px]">
             <div className="font-display font-bold text-lg text-white uppercase mb-2">
               Ready to Hack?
             </div>
             <p className="font-sans text-xs text-[#f6c4c1] mb-4">
-              Join us on October 30 at Atria Institute of Technology campus.
+              Join us on October 23 at Atria Institute of Technology campus.
             </p>
             <a
               href={EVENT_DETAILS.registrationUrl}
@@ -103,7 +103,7 @@ export default function Footer() {
               <span>Register on MLH</span>
               <ArrowRight className="w-3 h-3 ml-1" />
             </a>
-          </div>
+          </Reveal>
         </div>
 
         {/* Bottom Bar */}

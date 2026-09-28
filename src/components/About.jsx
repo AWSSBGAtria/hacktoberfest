@@ -1,6 +1,8 @@
 import React from 'react';
 import { EVENT_DETAILS } from '../data/eventData';
 import { ExternalLink, Check } from 'lucide-react';
+import Reveal from './Reveal';
+import SectionHead from './SectionHead';
 
 export default function About() {
   const cards = [
@@ -25,49 +27,43 @@ export default function About() {
     {
       tag: '100% FREE',
       title: 'Free Food, Swag & Kits',
-      desc: 'Thanks to our organizers and partners, the entire day is free for university students. Enjoy morning breakfast, lunch, high tea, stickers, and exclusive swag packs.',
+      desc: 'Thanks to our organizers and partners, the entire day is free for university students. Enjoy lunch, snacks, stickers, and exclusive swag packs.',
       accent: 'border-[#10201d]',
     },
   ];
 
   return (
-    <section id="about" className="py-20 sm:py-28 bg-[#2e4742] text-[#f7f7f2] border-b-2 border-[#10201d]">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="about" className="theme-section theme-dark py-20 sm:py-28 bg-[#211f47] text-[#f7f7f2] border-b-2 border-[#10201d]">
+      <div className="shell">
         {/* Intro Row */}
-        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-8 mb-16">
-          <div className="max-w-2xl">
-            <p className="font-mono text-xs font-bold text-[#8bb2de] uppercase tracking-[0.08em] mb-3">
-              ABOUT THE HACK DAY · BENGALURU
-            </p>
-            <h2 className="font-display font-extrabold text-3xl sm:text-5xl lg:text-6xl tracking-tight leading-[0.94] text-[#f7f7f2] uppercase">
-              Building the next generation of open builders <br />
-              <em className="text-[#f5b726] not-italic font-normal font-sans italic text-3xl sm:text-5xl lowercase">
-                at atria institute of technology.
-              </em>
-            </h2>
-          </div>
-
-          <div className="max-w-md text-sm sm:text-base text-slate-200 leading-relaxed font-sans">
-            <p className="mb-4">
-              Open source is built by people who share ideas, solve problems, and improve tools together. This in-person Hack Day brings developers and students together for hands-on collaboration.
-            </p>
-            <a
-              href={EVENT_DETAILS.websiteUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 font-mono text-xs font-bold text-[#8bb2de] hover:underline"
-            >
-              Learn about AWS Student Builder Group Atria <ExternalLink className="w-3.5 h-3.5" />
-            </a>
-          </div>
-        </div>
+        <SectionHead
+          eyebrow="ABOUT THE HACK DAY · BENGALURU"
+          title={<>Building the next generation of open builders</>}
+          accent="at atria institute of technology."
+          deck={
+            <>
+              <p className="mb-4">
+                Open source is built by people who share ideas, solve problems, and improve tools together. This in-person Hack Day brings developers and students together for hands-on collaboration.
+              </p>
+              <a
+                href={EVENT_DETAILS.websiteUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 font-mono text-xs font-bold text-[#8bb2de] hover:underline"
+              >
+                Learn about AWS Student Builder Group Atria <ExternalLink className="w-3.5 h-3.5" />
+              </a>
+            </>
+          }
+        />
 
         {/* 4 Neo-brutalist Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
           {cards.map((c, i) => (
-            <div
+            <Reveal
               key={i}
-              className="p-6 sm:p-8 bg-[#f7f7f2] text-[#10201d] border-2 border-[#10201d] shadow-[7px_7px_0_#671912] flex flex-col justify-between"
+              delay={(i % 2) * 90}
+              className="theme-card p-6 sm:p-8 bg-[#f7f7f2] text-[#10201d] border-2 border-[#10201d] shadow-[7px_7px_0_#671912] hover:shadow-[4px_4px_0_#671912] flex flex-col justify-between"
             >
               <div>
                 <span className="ht-tag mb-4 inline-block">
@@ -89,7 +85,7 @@ export default function About() {
                 </span>
                 <span>In-person @ Hebbal</span>
               </div>
-            </div>
+            </Reveal>
           ))}
         </div>
       </div>

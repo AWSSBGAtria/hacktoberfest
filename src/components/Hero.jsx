@@ -1,17 +1,62 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { EVENT_DETAILS } from '../data/eventData';
 import { triggerFestiveConfetti } from '../utils/confetti';
 import { ArrowRight, MapPin, Calendar, Clock, ExternalLink } from 'lucide-react';
 
 export default function Hero() {
+  const leftRef = useRef(null);
+  const rightRef = useRef(null);
+
   const handleRegisterClick = () => {
     triggerFestiveConfetti();
   };
 
+  // The two corner staircases drift apart as the hero scrolls and lean away
+  // from the pointer - depth without adding anything new to the composition.
+  useEffect(() => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return undefined;
+
+    let raf = 0;
+    let mx = 0;
+    let my = 0;
+
+    const paint = () => {
+      raf = 0;
+      const scroll = window.scrollY;
+      if (scroll > window.innerHeight * 1.2) return;
+      if (leftRef.current) {
+        leftRef.current.style.transform =
+          `translate3d(${(-mx * 18).toFixed(1)}px, ${(scroll * 0.22 - my * 14).toFixed(1)}px, 0)`;
+      }
+      if (rightRef.current) {
+        rightRef.current.style.transform =
+          `translate3d(${(mx * 18).toFixed(1)}px, ${(scroll * 0.34 + my * 14).toFixed(1)}px, 0)`;
+      }
+    };
+    const request = () => {
+      if (!raf) raf = requestAnimationFrame(paint);
+    };
+    const onMove = (event) => {
+      mx = event.clientX / window.innerWidth - 0.5;
+      my = event.clientY / window.innerHeight - 0.5;
+      request();
+    };
+
+    window.addEventListener('scroll', request, { passive: true });
+    window.addEventListener('pointermove', onMove, { passive: true });
+    window.addEventListener('resize', request);
+    return () => {
+      window.removeEventListener('scroll', request);
+      window.removeEventListener('pointermove', onMove);
+      window.removeEventListener('resize', request);
+      if (raf) cancelAnimationFrame(raf);
+    };
+  }, []);
+
   return (
-    <section className="relative overflow-hidden bg-[#3d5f58] text-[#f7f7f2] border-b-2 border-[#10201d] pt-12 pb-20 sm:pt-20 sm:pb-28">
+    <section className="hero-shell relative overflow-hidden text-[#f7f7f2] border-b-2 border-[#10201d] pt-12 pb-20 sm:pt-20 sm:pb-28">
       {/* Corner Pixel Staircase Decorations (Hacktoberfest Motif) */}
-      <div aria-hidden="true" className="absolute top-0 left-0 w-36 sm:w-56 pointer-events-none opacity-40 lg:opacity-75">
+      <div ref={leftRef} aria-hidden="true" className="hero-decoration absolute top-0 left-0 w-36 sm:w-56 pointer-events-none opacity-40 lg:opacity-75">
         <svg viewBox="0 0 317 293" fill="none" className="w-full h-auto">
           <path d="M122 195H73V244H122V195Z" fill="#F7F7F2" />
           <path d="M73 244H24V293H73V244Z" fill="#F7F7F2" />
@@ -27,7 +72,7 @@ export default function Hero() {
         </svg>
       </div>
 
-      <div aria-hidden="true" className="absolute top-0 right-0 w-36 sm:w-56 pointer-events-none opacity-40 lg:opacity-75">
+      <div ref={rightRef} aria-hidden="true" className="hero-decoration absolute top-0 right-0 w-36 sm:w-56 pointer-events-none opacity-40 lg:opacity-75">
         <svg viewBox="0 0 317 293" fill="none" className="w-full h-auto">
           <path d="M49 244H0V293H49V244Z" fill="#F7F7F2" />
           <path d="M98 195H49V244H98V195Z" fill="#F7F7F2" />
@@ -41,7 +86,7 @@ export default function Hero() {
         </svg>
       </div>
 
-      <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <div className="hero-content relative z-10 mx-auto px-4 sm:px-8 lg:px-12">
         {/* 4 Colored Squares */}
         <div className="flex items-center justify-center gap-2 mb-6">
           <span className="w-3.5 h-3.5 bg-[#e53927]" />
@@ -52,27 +97,27 @@ export default function Hero() {
 
         {/* Eyebrow */}
         <p className="font-mono text-xs sm:text-sm text-[#f6c4c1] uppercase tracking-[0.1em] mb-4">
-          Friday, October 30, 2026 · In-Person Hack Day · Bengaluru, India
+          Friday, October 23, 2026 · In-Person Hack Day · Bengaluru, India
         </p>
 
         {/* Hero Heading */}
-        <h1 className="font-display font-extrabold text-4xl sm:text-6xl lg:text-7xl tracking-tight leading-[0.94] text-[#f7f7f2] mb-6 uppercase">
-          Hacktoberfest Hack Day: <br />
-          <em className="text-[#8bb2de] not-italic block mt-2 lowercase text-3xl sm:text-5xl lg:text-6xl font-normal font-sans italic">
-            ai & open source belong to everyone.
-          </em>
+        <h1 className="hero-title font-display font-extrabold text-4xl sm:text-6xl lg:text-7xl text-[#f7f7f2] mb-6 uppercase">
+          <span className="hero-title-line">Hacktoberfest</span>
+          <span className="hero-title-line hero-title-subline">Hack Day <em>Bengaluru</em></span>
         </h1>
 
+        <p className="hero-manifesto">AI and open source belong to everyone.</p>
+
         {/* Subtitle / Deck */}
-        <p className="max-w-2xl mx-auto text-base sm:text-xl text-[#f7f7f2] leading-relaxed mb-8 font-sans">
+        <p className="hero-deck text-base sm:text-xl text-[#f7f7f2] leading-relaxed mb-8 font-sans">
           Join the <strong className="font-bold underline decoration-[#f5b726] decoration-2 underline-offset-4">AWS Student Builder Group</strong> at <strong className="font-bold">Atria Institute of Technology</strong> for a full day of open-source building, Google Gemma 4 AI exploration, and hands-on cloud development.
         </p>
 
         {/* Event Quick Facts Badges */}
-        <div className="inline-flex flex-wrap items-center justify-center gap-3 sm:gap-6 px-4 py-2.5 bg-[#2e4742] border-2 border-[#10201d] shadow-[4px_4px_0_#10201d] text-xs font-mono text-[#f7f7f2] mb-10">
+        <div className="hero-facts inline-flex flex-wrap items-center justify-center gap-3 sm:gap-6 px-4 py-2.5 text-xs font-mono text-[#f7f7f2] mb-10">
           <span className="flex items-center gap-1.5">
             <Calendar className="w-4 h-4 text-[#f5b726]" />
-            October 30, 2026
+            October 23, 2026
           </span>
           <span className="text-white/40">·</span>
           <span className="flex items-center gap-1.5">
@@ -87,7 +132,7 @@ export default function Hero() {
         </div>
 
         {/* Hero Actions */}
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 max-w-lg mx-auto mb-14">
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 max-w-lg mx-auto mb-10">
           <a
             href={EVENT_DETAILS.registrationUrl}
             target="_blank"
@@ -109,38 +154,27 @@ export default function Hero() {
           </a>
         </div>
 
-        {/* Partner Chips (Matching exact hacktoberfest.com style) */}
-        <div className="pt-8 border-t border-white/15">
-          <span className="font-mono text-[11px] text-[#f6c4c1] tracking-widest uppercase block mb-4">
-            Hosted & Powered By
-          </span>
-
-          <div className="flex flex-wrap items-center justify-center gap-3">
-            <div className="flex items-center gap-2 px-3.5 py-2 border-2 border-[#10201d] bg-[#f7f7f2] text-[#10201d] shadow-[4px_4px_0_#2e4742]">
-              <span className="font-display font-bold text-sm tracking-tight">AWS Student Builder Group</span>
-              <span className="font-mono text-[10px] bg-[#f5b726] px-1 py-0.2 text-[#10201d] font-bold">Atria IT</span>
+        {/* Sponsor lockup */}
+        <div className="hero-partners">
+          <div className="hero-sponsor">
+            <span className="hero-sponsor-label">Powered by</span>
+            <div className="hero-sponsor-plate">
+              <img src="/MLH.png" alt="Major League Hacking" className="hero-logo-mlh" />
+              <span className="hero-sponsor-x" aria-hidden="true">×</span>
+              <img src="/Dev.png" alt="DEV" className="hero-logo-dev" />
             </div>
+          </div>
 
-            <span className="font-display font-bold text-lg text-white">×</span>
+          <span className="hero-sponsor-divider" aria-hidden="true" />
 
-            <div className="flex items-center gap-2 px-3.5 py-2 border-2 border-[#10201d] bg-[#f7f7f2] text-[#10201d] shadow-[4px_4px_0_#2e4742]">
-              <span className="font-display font-black text-sm tracking-tight text-[#e53927]">MLH</span>
-              <span className="font-mono text-[10px] text-slate-600">Major League Hacking</span>
-            </div>
-
-            <span className="font-display font-bold text-lg text-white">×</span>
-
-            <div className="flex items-center gap-2 px-3.5 py-2 border-2 border-[#10201d] bg-[#f7f7f2] text-[#10201d] shadow-[4px_4px_0_#2e4742]">
-              <span className="font-display font-bold text-sm tracking-tight">Hacktoberfest 2026</span>
-            </div>
-
-            <span className="font-display font-bold text-lg text-white">×</span>
-
-            <div className="flex items-center gap-2 px-3.5 py-2 border-2 border-[#10201d] bg-[#f7f7f2] text-[#10201d] shadow-[4px_4px_0_#2e4742]">
-              <span className="font-display font-bold text-sm tracking-tight">Atria IT Campus</span>
+          <div className="hero-sponsor">
+            <span className="hero-sponsor-label">Presenting Partner</span>
+            <div className="hero-sponsor-plate">
+              <img src="/DigitalOcean.png" alt="DigitalOcean" className="hero-logo-do" />
             </div>
           </div>
         </div>
+
       </div>
     </section>
   );
