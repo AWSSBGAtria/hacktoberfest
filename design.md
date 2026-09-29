@@ -80,8 +80,8 @@ Tokens live in `:root` in `src/index.css`. Use the token, not a hex literal.
 | `--color-yellow` | `#f5b726` | Reward, deadline emphasis, underline highlight |
 | `--color-coral` | `#ee8b83` | Dark-surface accent |
 | `--color-indigo-soft` | `#e7e5ff` | Light indigo tint |
-| coral-pink `#e97b77` | — | Hero 4th square, `::selection`, nav underline |
-| trail orange `#ff7a1a` | — | Cursor trail + hot cursor state only |
+| coral-pink `#e97b77` | — | `::selection`, nav underline |
+| trail orange `#ff7a1a` | — | Retired with the JS cursor; no live uses remain |
 
 ### Shadow tokens
 
@@ -97,17 +97,20 @@ used at mono-bold sizes only, never as small body text.
 ## 4. Typography
 
 Loaded in `index.html`: **Manrope** 400–800 and **IBM Plex Mono** 400–700 from
-Google Fonts, with `preconnect`.
+Google Fonts, with `preconnect`, plus **Bricolage Grotesque** variable
+(`opsz 12–96, wght 200–800`) for the hero title only.
 
 | Role | Family | Notes |
 | --- | --- | --- |
+| Hero title | Bricolage Grotesk 800, Manrope fallback (`.hero-title`) | Showcase voice; condensed grotesque carries the event name |
 | Display / headings / body | Manrope (`--font-heading`, `--font-sans`) | `.font-display` for the heavy display cut |
 | Eyebrows, labels, times, buttons, tags | IBM Plex Mono (`--font-mono`) | `text-transform: uppercase`, tracking `0.08em`–`0.26em` |
 
 Scale anchors:
 
-- Hero title: `clamp(3.35rem, 7.4vw, 7.1rem)`, line-height `.92`,
-  tracking `-0.045em`, `.hero-title-line` masked reveal per line.
+- Hero title: Bricolage 800, `clamp(3.35rem, 7.4vw, 7.1rem)`, line-height `.92`,
+  tracking `-0.045em`, `.hero-title-line` masked reveal per line. Event colour
+  squares ride on the eyebrow line; manifesto tracking `.1em`.
 - Section title: `.section-title`, with `em` as the accent phrase.
 - Deck / answer measure: capped near **65–75ch** (`.section-deck`,
   `.faq-answer`), never wider.
@@ -125,15 +128,18 @@ Scale anchors:
 - **Section rhythm:** `py-20 sm:py-28` on every `.theme-section`, separated by a
   full-bleed `border-b-2 border-[#10201d]`. Dark sections opt in with
   `.theme-dark` (flips eyebrow/title/deck colors only).
-- **Section header:** `.section-head` — eyebrow, title, deck on the left, meta
-  on the right at `md+`; `margin-bottom: clamp(2.5rem, 4vw, 4rem)`.
-  Implemented by `src/components/SectionHead.jsx`.
+- **Section header:** `.section-head` — eyebrow, title, deck on the left; a
+  right column (`.section-head-side`) stacks the compact Pac-Man spot box over
+  the deck at `md+`, and the row is vertically centred so the title spans
+  their combined height. `margin-bottom: clamp(1.75rem, 3vw, 2.75rem)`.
+  Implemented by `src/components/SectionHead.jsx` (`pacColor` prop).
 - **Header:** `.site-header`, sticky, `h-20` (80px) + 2px border = **82px**
   of chrome. Mobile menu is an inline panel, not an overlay.
-- **Hero:** `.hero-shell` is `min-height: max(620px, calc(100svh - 82px))` so it
-  fills the first viewport exactly below the header (mobile variant lowers the
-  floor). Content is centered; the two pixel staircases are decorative
-  (`aria-hidden`) and parallax away from the pointer.
+- **Hero:** `.hero-shell` is `min-height: max(620px, calc(100svh - 82px))`,
+  content centred with block auto margins. Two full-height ambient Pac-Man
+  side mazes (`.pac-side`, desktop only) run behind the copy; the two pixel
+  staircases are decorative (`aria-hidden`) and parallax away from the
+  pointer.
 - **Footer:** dark chrome band, sitemap + MLH/code-of-conduct links + CTA.
 - **Body:** `overflow-x: clip` (not `hidden` — `hidden` turns `<body>` into a
   scroll container and leaves a phantom screenful below the footer).
@@ -168,16 +174,19 @@ All in `src/components/`; shared styles in `src/index.css`.
 | --- | --- |
 | `Navbar.jsx` | Sticky header, mono nav, coral underline sweep, mobile panel, WhatsApp + MLH CTAs, `aria-current="page"` |
 | `Footer.jsx` | Dark sitemap, external links, final CTA |
-| `Hero.jsx` | Eyebrow, masked title, manifesto, deck, `.hero-facts` pills, CTA pair, sponsor lockup |
-| `SectionHead.jsx` | Eyebrow + title + accent + deck, staggered reveal |
+| `Hero.jsx` | Eyebrow (event colours inline), masked Bricolage title, manifesto, deck, `.hero-facts` pills, CTA pair, sponsor lockup, side mazes |
+| `SectionHead.jsx` | Eyebrow + title + accent + deck + optional Pac-Man spot box, staggered reveal |
 | `SplitWords.jsx` | Per-word mask reveal for section titles |
 | `Highlights.jsx` | 4 stat cards (HIGHLIGHTS) |
-| `Tracks.jsx` | 3 tracks: SVG glyph, stepper, prizes, `.track-foot` meta line |
-| `Rewards.jsx` | Dark reward tiers + `BadgeArt.jsx` seal |
+| `Tracks.jsx` | 3 tracks: SVG medallion, stepper, recognition strip, neutral star seal, `.track-foot` meta line |
+| `Rewards.jsx` | Dark reward tiers + `BadgeArt.jsx` seal; vague recognition copy only |
 | `BadgeArt.jsx` | Procedural SVG octagonal badge/seal |
 | `Schedule.jsx` | Timeline, **no filters**, per-event color via `TYPE_COLORS` → `--event` / `--event-ink` CSS vars |
-| `FAQ.jsx` | Single-open accordion, per-item ids, `aria-expanded` / `aria-controls` / `aria-labelledby`, red rule as answer divider |
-| `Venue.jsx` | Details card + OpenStreetMap iframe in a clipped frame + OSM credit |
+| `FAQ.jsx` | Search + topic chips + single-open rows with accent-bar answers + support card; closed answers measure 0px |
+| `Venue.jsx` | Details card + Leaflet map (`VenueMap.jsx`) + researched travel cards |
+| `VenueMap.jsx` | Leaflet 1.9.4 (CDN) on OSM tiles, custom red divIcon pin, scroll-wheel zoom off |
+| `PacStrip.jsx` | Ambient chase canvas (`mini` header spots, `side` hero panels), self-healing rAF guard |
+| `PacPlay.jsx` | Modal single-run game: guide/playing/result/done, async submit, private scores |
 | `About.jsx`, `Partners.jsx` | Story + partner wall |
 | `Countdown.jsx` | Live countdown to `EVENT_DETAILS.eventTargetDate` |
 | `Reveal.jsx`, `useReveal.js` | One-shot IntersectionObserver entrance (threshold `.18`, fires once) |
@@ -210,30 +219,11 @@ Tokens: `--ease-brand: cubic-bezier(.16, 1, .3, 1)`,
 | Nav underline | `.site-header nav a::after` | `scaleX` sweep, `transform-origin: 100% 50%` |
 | Button press | `.ht-btn-primary:active` | Shadow collapses, card translates |
 | Confetti | `utils/confetti.js` | On register click only |
-| Cursor | `Cursor.jsx` | rAF-smoothed arrow (τ ≈ 80ms) + hexagon fairy-dust canvas |
-
-**Cursor details.** Arrow is a four-point chunky pointer (`viewBox 0 0 28 30`,
-28×30px box) whose tip sits at the SVG origin — which is also where the 1.8px
-cream keyline stops — so `transform-origin: 0 0` and the JS transform is just
-`translate3d(x, y, 0) scale()`: smoothing and hover scaling can never pull the
-tip off the pointer.
-
-The trail is a **fairy-dust** recipe drawn as hexagons: spawn at the pointer,
-give each particle a small random kick (±0.45–1.5 px/frame, upward-biased),
-pull it down with `GRAVITY 0.022`, shrink and fade it (`FADE 0.965` per frame,
-`LIFE0 100`, removed below 6% scale). Spawn distance is randomised
-(`GAP_MIN 3` → `GAP_MAX 12`), so density varies with pointer speed. Look:
-`HEX_R 8` (±30% per particle), `PARTICLE_COUNT 2` per event, `ALPHA 0.85`,
-1px ink stroke, colours `#ff7a1a` / `#f5b726` / `#e97b77`, capped at
-`MAX_PARTICLES 360`. Click throws an 8-hex burst.
-
-Over an iframe the arrow hides, the document gains `.cursor-native` (restores
-the OS cursor), and the first real `pointermove` afterwards snaps it back.
-Disabled entirely for coarse pointers and `prefers-reduced-motion`.
+| Cursor | Site-wide CSS cursors | GTA-style white arrow, event-yellow over interactive elements, I-beam in text fields, native cursors in the map |
 
 **Reduced motion:** everything above collapses to static — `.reveal` becomes
-visible immediately, transforms are neutralized, the cursor and trail do not
-mount.
+visible immediately, transforms are neutralized, ambient strips render one
+static frame.
 
 ---
 
@@ -246,10 +236,12 @@ intercepted anchor clicks, `popstate`, `TITLES` for `document.title`.
 | --- | --- | --- |
 | `/` | `HomePage` | Hacktoberfest Hack Day Bengaluru 2026 |
 | `/about` | `AboutPage` | About — Hack Day Bengaluru |
-| `/build` | `BuildPage` | Tracks & Prizes — Hack Day Bengaluru |
+| `/build` | `BuildPage` | Tracks — Hack Day Bengaluru |
 | `/day` | `DayPage` | Schedule — Hack Day Bengaluru |
 | `/venue` | `VenuePage` | Venue & Map — Hack Day Bengaluru |
 | `/faq`, `/community` | `FaqPage` | FAQ — Hack Day Bengaluru |
+| `/volunteer` | redirect | Volunteer — Hack Day Bengaluru → binary.so/EnumX2Q |
+| `/mentor` | redirect | Mentor — Hack Day Bengaluru → binary.so/eGuTA0x |
 
 Nav order: About · Build · Day plan · Venue · FAQ.
 
@@ -264,7 +256,7 @@ Nav order: About · Build · Day plan · Venue · FAQ.
   `8:30 AM – 8:00 PM IST`.
 - Marketing copy does not restate operational deadlines as hype; the schedule
   is the single place timing lives.
-- Eyebrows are 2–3 words, uppercase, mono: `ABOUT THE DAY`, `TRACKS & PRIZES`.
+- Eyebrows are 2–3 words, uppercase, mono: `ABOUT THE DAY`, `CHALLENGE TRACKS`.
 - No keyword-stuffed titles — page titles are "what it is, then event name".
 
 ---
@@ -272,14 +264,16 @@ Nav order: About · Build · Day plan · Venue · FAQ.
 ## 11. Accessibility
 
 - Landmarks: `header` / `main` / `footer`, one `h1` per route, sections with ids.
-- FAQ: real `<button>` triggers, `aria-expanded`, `aria-controls`,
-  `aria-labelledby` on the panel; index chips are decorative.
+- FAQ: search input with label, topic chips as `aria-pressed` buttons, real
+  `<button>` question triggers, `aria-expanded` / `aria-controls` /
+  `aria-labelledby` on each answer region; live count via `role="status"`.
 - Focus is always visible; `.ht-btn-*` and nav links have focus states matching
   hover.
-- `aria-hidden="true"` on every decorative SVG, the hero staircases, the red
-  answer rule, and both cursor layers.
+- `aria-hidden="true"` on every decorative SVG, the hero staircases, and the
+  Pac-Man canvases.
 - Images carry real `alt` (`Major League Hacking`, `DEV`, `DigitalOcean`).
-- The map iframe has a descriptive `title` and a visible OSM credit link.
+- The venue map is a labelled Leaflet region with OSM attribution; the pin is
+  decorative (`interactive: false`).
 - Contrast ≥ 4.5:1 for text; measured body measure 65–75ch.
 - `prefers-reduced-motion` respected at every entry point (see §8).
 
@@ -288,25 +282,31 @@ Nav order: About · Build · Day plan · Venue · FAQ.
 ## 12. Architecture
 
 ```
-index.html            fonts, meta, <body> classes
+index.html            fonts, meta, Leaflet CDN, <body> classes
 src/main.jsx          React root
-src/App.jsx           router, titles, View Transitions, scroll progress, cursor
+src/App.jsx           router, titles, redirects, View Transitions, scroll progress
 src/index.css         Tailwind v4 import + all design tokens & components
 src/pages/*           route shells (compose sections)
 src/components/*      sections and primitives
 src/data/eventData.js all content
 src/hooks/useReveal.js
 src/utils/confetti.js
+src/utils/pacmaze.js  ambient maze engine
+src/utils/awspac.js   playable AWS SBG maze engine
+src/utils/scoredb.js  score store (local or /api)
+server/index.js       event-day backend: dist + scores API on MySQL
 scripts/screenshot.mjs  Playwright review shots (SHOTS_DIR, preview on :4173)
 ```
 
 - **Stack:** Vite 6, React 19, Tailwind v4 (`@tailwindcss/vite`), `lucide-react`,
-  `canvas-confetti`, `clsx`/`tailwind-merge`. No router, no component library,
-  no animation library.
+  `canvas-confetti`, `clsx`/`tailwind-merge`, Express + `mysql2` (server only),
+  Leaflet 1.9.4 via CDN (venue map only), `playwright-core` dev tooling. No
+  router, no component library, no animation library.
 - **Styling:** Tailwind for layout/utility, hand-written CSS in `src/index.css`
   for the design system. Tokens first; literals only inside a token definition.
-- **Commands:** `npm run dev` · `npm run build` · `npm run preview` (serves
-  `dist` on `:4173`; run `build` before any visual check).
+- **Commands:** `npm run dev` (proxies `/api` to `:3001`) · `npm run build` ·
+  `npm run preview` (serves `dist` on `:4173`; run `build` before any visual
+  check) · `npm run server` / `npm run serve` (event-day backend on `:3001`).
 
 ---
 
@@ -329,6 +329,9 @@ scripts/screenshot.mjs  Playwright review shots (SHOTS_DIR, preview on :4173)
 - Don't hardcode event facts, dates, or URLs in components.
 - Don't widen prose past ~75ch or drop below 4.5:1 contrast.
 - Don't animate anything without a `prefers-reduced-motion` fallback.
+- Don't commit `.env` or any credentials (see `.env.example`).
+- Don't show other players' scores anywhere; duplicate entries are rejected
+  by email OR name-plus-institution.
 
 ---
 
@@ -336,13 +339,10 @@ scripts/screenshot.mjs  Playwright review shots (SHOTS_DIR, preview on :4173)
 
 - Footer-blank report could not be reproduced (gap = 0 on all 6 routes across
   four viewports); the `overflow-x: clip` guard on `<body>` is preventive.
-- The schedule still carries the factual `05:15 PM – 06:45 PM` "Final Hacking &
-  PR Submission Deadline" row — the only remaining 6:45 reference on the site.
 
 ## 15. Pac-Challenge game + compact header spots
 
-- Route headers slimmed: `main section h2` is now
-  `clamp(1.8rem, 3.2vw, 2.75rem)` (was 2.65–5.25rem); hero title untouched.
+- Route headers: `main section h2` is `clamp(2rem, 3.8vw, 3.2rem)`; hero title untouched.
 - Full-width mini ribbons removed from all five sub-route pages. The ambient
   chase now lives in a 230px `.pac-spot` box pinned to the right of each
   `SectionHead` (`pacColor` prop; About coral, Build light-indigo, Day red,
@@ -419,3 +419,77 @@ scripts/screenshot.mjs  Playwright review shots (SHOTS_DIR, preview on :4173)
   https://binary.so/eGuTA0x, handled in the client router (`REDIRECTS` map +
   effect in `App.jsx`) so in-app links and pasted URLs both work; the Express
   SPA fallback serves index.html for direct hits. Verified end-to-end.
+
+## 20. Venue travel section, map wash, strip self-heal
+
+- Side strips: 90s browser soak was clean (no freezes/errors, flat heap), so
+  the reported crash was most likely the pre-fix wrap desync. Added a
+  self-healing rAF guard in `PacStrip`: a fault rebuilds the maze, persistent
+  faults park the loop instead of spamming errors.
+- Map: heavy re-hue filter replaced by near-natural tiles plus a light indigo
+  wash overlay (pointer-transparent), so OSM's own red pin survives and pans
+  with the map. "Open in OpenStreetMap" button and its CSS removed.
+- Attendee checklist pro-tip removed. New "Coming from across the city"
+  block: nearest metro (honest October-2026 answer - no open metro in Hebbal,
+  Yeshwanthpur Green Line ~7 km), Majestic, KR Puram side, Yelahanka side,
+  BEL Circle, each with a time chip.
+
+## 21. Playable-game bugfix pass, private scores, red pin, ambient spawns
+
+- Found by audit: `submitEntry` never awaited the async save, so the UI showed
+  success even when the save failed or the email was a duplicate. Submit is
+  now async with a saving state and a disabled button.
+- No public leaderboard anymore: results/done screens show only the player's
+  own score; the shared-board fetch and its CSS are gone.
+- Duplicates: same email OR same name-plus-institution (case-insensitive),
+  enforced server-side (409 email/person) with matching messages, mirrored in
+  the offline store.
+- Engine feel fixes: steering held through the death blink is kept (was
+  wiped), eyes get a 10s failsafe home (greedy pathing could orbit loops),
+  ghosts spawn facing open corridor, frightened ghosts got their arcade face.
+  Verified: fright chain, death/reset, win, eyes, stuck-recovery, zero wall
+  violations; autoplay bots play full games without errors.
+- Ambient strips: ghost dens are now spread far apart across the board
+  (was: pile-up on one fallback tile next to Pac on narrow mazes = instant
+  death loop). Early-death rate 1/24 runs, zero wall locks.
+- Venue map moved to a Google embed: OSM's own marker renders green, Google's
+  is red and pans with the map.
+
+## 22. Leaflet venue map, researched buses, unnumbered tracks
+
+- Venue map is Leaflet 1.9.4 (CDN, pinned) on OSM raster tiles with a custom
+  red divIcon pin (the site's own ink-stroked marker) - pans/zooms natively,
+  no keys or consent walls. Google embed dropped (blank in the field),
+  OSM-marker green avoided. Scroll-wheel zoom off so the page keeps scrolling.
+- Travel cards carry researched BMTC numbers: metro 401-NY/287/279E/402,
+  Majestic 287/279E/402, KR Puram 500QP, Yelahanka 402, BEL Circle 501-BH.
+- Track cards dropped the 01/02/03 watermarks (SVG medallions only); track
+  and reward seals are now a neutral star.
+
+## 23. Production DB, ghost waves, hero rhythm
+
+- Production MySQL is TiDB Cloud (`hacktober2026` created, `scores` schema
+  synced, write roundtrip verified, probe rows removed). Connection string
+  lives in gitignored `.env` as `DATABASE_URL`; `.env.example` documents the
+  shape. The server only uses `.env` when `DATABASE_URL` is explicitly
+  exported - local runs keep hitting local MySQL, so test entries can never
+  leak into production. Verified end-to-end over TLS (health + insert + list).
+- Playable ghosts run arcade scatter/chase waves with reversals, plus a
+  confinement breaker (16-arrival window, 8-tile spread) that steps onto the
+  least-visited neighbour including reverse. Measured: all pocket traps
+  (S/G/A interiors, house, corners) escape in 8-16s; tighter triggers were
+  tried and reverted (they fought exits). Fright/death/win/eyes regressions
+  still pass.
+- Hero rhythm (taste + impeccable typeset): the four colour squares now ride
+  on the eyebrow line instead of stacking above it; manifesto tracking
+  .12em to .1em with matching keyframes. Title metrics untouched (brand
+  moment). Type-scope detector clean.
+
+## 24. Bricolage display voice, schedule retime, score privacy UI
+
+- Hero title uses Bricolage Grotesque 800 (hero-only voice; measured 11%
+  narrower than Manrope at the same size); everything else stays Manrope.
+- Schedule: Quiz 1 11:30–11:45 AM, Lunch 12:45–1:30 PM, Quiz 2 3:00–3:15 PM,
+  evening slot is "Snacks, Refreshments & Networking".
+- Done screen uses a dedicated light-panel `.pac-btn-secondary` (the shared
+  secondary button is cream-on-transparent and vanished on paper).
