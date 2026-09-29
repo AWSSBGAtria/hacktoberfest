@@ -1,18 +1,18 @@
 import React from 'react';
 import SplitWords from './SplitWords';
+import PacStrip from './PacStrip';
 import { useReveal } from '../hooks/useReveal';
 
 /**
  * The one section header used by every route: mono eyebrow, display title
- * with its accent line, and a right-hand deck. Structure and spacing are
- * fixed here so every page opens a section the same way; colour is driven
- * by the surrounding surface (.theme-dark vs the default light surface).
- *
- * Title and accent are split as a single word stream so the stagger counts
- * straight through the line break, and the eyebrow/deck fade in behind it.
+ * with its accent line, and a right-hand side column. The side column holds
+ * an optional compact Pac-Man box above the deck - the ambient chase lives
+ * there now instead of a full-width ribbon, so the page keeps its rhythm.
+ * Colour is driven by the surrounding surface (.theme-dark vs light).
  */
-export default function SectionHead({ eyebrow, title, accent, deck }) {
+export default function SectionHead({ eyebrow, title, accent, deck, pacColor }) {
   const [ref, visible] = useReveal({ threshold: 0.3 });
+  const hasSide = Boolean(pacColor || deck);
 
   return (
     <div ref={ref} className={`section-head${visible ? ' is-visible' : ''}`}>
@@ -30,7 +30,16 @@ export default function SectionHead({ eyebrow, title, accent, deck }) {
           </SplitWords>
         </h2>
       </div>
-      {deck ? <div className="section-deck">{deck}</div> : null}
+      {hasSide ? (
+        <div className="section-head-side">
+          {pacColor ? (
+            <div className="pac-spot">
+              <PacStrip variant="mini" pacColor={pacColor} />
+            </div>
+          ) : null}
+          {deck ? <div className="section-deck">{deck}</div> : null}
+        </div>
+      ) : null}
     </div>
   );
 }

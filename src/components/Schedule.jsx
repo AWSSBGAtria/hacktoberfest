@@ -25,6 +25,7 @@ export default function Schedule() {
           eyebrow="TIMELINE · OCTOBER 23, 2026"
           title={<>The Hack Day Schedule</>}
           accent="from morning kickoff to awards."
+          pacColor="#e53927"
           deck={
             <>
               <p>

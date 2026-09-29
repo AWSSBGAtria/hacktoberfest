@@ -20,6 +20,7 @@ export default function Venue() {
           eyebrow="VENUE & ATTENDEE LOGISTICS"
           title={<>Location &amp;</>}
           accent="what you should bring."
+          pacColor="#ff7a1a"
           deck="The event will take place on campus at Atria Institute of Technology in Hebbal, Bengaluru. High-speed Wi-Fi, power ports, lunch, and refreshments are provided."
         />
 

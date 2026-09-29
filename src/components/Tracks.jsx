@@ -35,6 +35,7 @@ export default function Tracks() {
           eyebrow="CHALLENGE TRACKS"
           title={<>Three ways to build</>}
           accent="and three shots at prizes."
+          pacColor="#aebcff"
           deck="Every project can qualify for the core Hacktoberfest challenge, and any project that also uses Gemma 4 or AWS can qualify for those too. Mentors are on-site to help."
         />
 

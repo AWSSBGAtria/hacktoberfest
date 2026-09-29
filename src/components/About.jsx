@@ -40,6 +40,7 @@ export default function About() {
           eyebrow="ABOUT THE HACK DAY · BENGALURU"
           title={<>Building the next generation of open builders</>}
           accent="at atria institute of technology."
+          pacColor="#e97b77"
           deck={
             <>
               <p className="mb-4">

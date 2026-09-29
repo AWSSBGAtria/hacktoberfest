@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import { EVENT_DETAILS } from '../data/eventData';
 import { triggerFestiveConfetti } from '../utils/confetti';
+import PacStrip from './PacStrip';
 import { ArrowRight, MapPin, Calendar, Clock, ExternalLink } from 'lucide-react';
 
 export default function Hero() {
@@ -54,7 +55,7 @@ export default function Hero() {
   }, []);
 
   return (
-    <section className="hero-shell relative overflow-hidden text-[#f7f7f2] border-b-2 border-[#10201d] pt-12 pb-20 sm:pt-20 sm:pb-28">
+    <section className="hero-shell relative overflow-hidden text-[#f7f7f2] border-b-2 border-[#10201d] pt-12 sm:pt-20">
       {/* Corner Pixel Staircase Decorations (Hacktoberfest Motif) */}
       <div ref={leftRef} aria-hidden="true" className="hero-decoration absolute top-0 left-0 w-36 sm:w-56 pointer-events-none opacity-40 lg:opacity-75">
         <svg viewBox="0 0 317 293" fill="none" className="w-full h-auto">
@@ -86,7 +87,12 @@ export default function Hero() {
         </svg>
       </div>
 
-      <div className="hero-content relative z-10 mx-auto px-4 sm:px-8 lg:px-12">
+      {/* Ambient side mazes - the chase runs full-height down both edges on
+          wide screens, behind the copy. Pure decoration. */}
+      <PacStrip variant="side" salt="left" className="pac-side pac-side-left" />
+      <PacStrip variant="side" salt="right" className="pac-side pac-side-right" />
+
+      <div className="hero-content relative z-10 mx-auto px-4 sm:px-8 lg:px-12 pb-20 sm:pb-28">
         {/* 4 Colored Squares */}
         <div className="flex items-center justify-center gap-2 mb-6">
           <span className="w-3.5 h-3.5 bg-[#e53927]" />

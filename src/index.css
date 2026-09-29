@@ -241,8 +241,8 @@ main > section:not(.hero-shell) {
 }
 
 main section h2 {
-  font-size: clamp(2.65rem, 5.2vw, 5.25rem) !important;
-  line-height: 0.93 !important;
+  font-size: clamp(2rem, 3.8vw, 3.2rem) !important;
+  line-height: 0.98 !important;
   text-wrap: balance;
 }
 
@@ -287,13 +287,15 @@ main section h3 {
   flex-direction: column;
   justify-content: space-between;
   gap: 1.5rem;
-  margin-bottom: clamp(2.5rem, 4vw, 4rem);
+  margin-bottom: clamp(1.75rem, 3vw, 2.75rem);
 }
 
 @media (min-width: 768px) {
   .section-head {
     flex-direction: row;
-    align-items: flex-end;
+    /* Centred against the whole right stack (deck + spot box) so the title
+       spans their combined height instead of hugging the deck's baseline. */
+    align-items: center;
     gap: 2rem;
   }
 }
@@ -302,6 +304,22 @@ main section h3 {
   flex: 0 1 auto;
   max-width: 42rem;
 }
+/* Right-hand column of a section header: the compact Pac-Man box sits above
+   the deck, both pinned to the header's right edge on desktop. */
+.section-head-side {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+@media (min-width: 768px) {
+  .section-head-side {
+    align-items: flex-end;
+    margin-left: auto;
+    padding-bottom: 0.15rem;
+  }
+}
+
 
 .section-eyebrow {
   margin: 0 0 0.75rem;
@@ -358,7 +376,8 @@ main section h3 {
      leaves a sliver of the next section showing. 82px = h-20 header + 2px rule. */
   min-height: max(620px, calc(100svh - 82px));
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  justify-content: flex-start;
   background: var(--chrome-base) !important;
   background-image: radial-gradient(circle at 50% 42%, rgba(75, 70, 168, .4), transparent 34%), linear-gradient(180deg, var(--chrome-deep) 0%, #2c2a5e 100%) !important;
 }
@@ -452,6 +471,12 @@ main section h3 {
 }
 
 /* ---------------------------------------------------------------------- */
+/* The hero stacks: the copy centred in whatever space is left, the arcade band
+   pinned flush to the section's bottom rule below it. Auto block margins keep
+   the copy in normal flow - only its position inside the column shifts. */
+.hero-content {
+  margin-block: auto;
+}
 /* Arcade band - a full-bleed Pac-Man chase. Not a card: it runs edge to    */
 /* edge with square corners and a 2px ink rule, and it is pure decoration.  */
 /* ---------------------------------------------------------------------- */
@@ -477,6 +502,46 @@ main section h3 {
   height: clamp(112px, 13vw, 152px);
   border-bottom: 2px solid #10201d;
 }
+/* Hero side mazes: full-height ambient strips down both edges, desktop only.
+   display:none until lg so the copy keeps the whole width on small screens. */
+.pac-side {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  z-index: 1;
+  display: none;
+  width: clamp(220px, 21vw, 330px);
+}
+
+@media (min-width: 1024px) {
+  .pac-side {
+    display: flex;
+  }
+}
+
+.pac-side-left {
+  left: 0;
+  border-right: 2px solid #10201d;
+}
+
+.pac-side-right {
+  right: 0;
+  border-left: 2px solid #10201d;
+}
+
+/* The compact header box: same chase, postage-stamp size. The wrapper owns
+   the ink rule, so the strip inside drops its own bottom border. */
+.pac-spot {
+  width: min(230px, 100%);
+  border: 2px solid #10201d;
+  background: var(--chrome-deep);
+}
+
+.pac-spot .pac-strip-mini {
+  height: 132px;
+  border-bottom: 0;
+}
+
 /* Route changes carry no CSS entry animation of their own - the View
    Transitions block at the bottom of this file is the one transition. */
 
