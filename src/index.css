@@ -390,6 +390,9 @@ main section h3 {
 .hero-title {
   max-width: 880px;
   margin-inline: auto;
+  /* Showcase voice: Bricolage's quirky grotesque letterforms carry the event
+     name; everything else on the site stays Manrope. */
+  font-family: 'Bricolage Grotesque', 'Manrope', ui-sans-serif, system-ui, sans-serif;
   font-size: clamp(3.35rem, 7.4vw, 7.1rem) !important;
   line-height: .92 !important;
   letter-spacing: -0.045em !important;
