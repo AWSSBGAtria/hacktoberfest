@@ -3,631 +3,1781 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sponsorship Prospectus - Hacktoberfest Hack Day Bengaluru 2026</title>
+  <title>Sponsorship Prospectus — Hacktoberfest Hack Day Bengaluru 2026</title>
+  <meta name="description" content="Sponsorship prospectus for Hacktoberfest Hack Day Bengaluru 2026. Cash, food and snacks, credits and goodies partnerships.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,800&family=IBM+Plex+Mono:wght@400;700&family=Manrope:wght@400;600;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&family=Bricolage+Grotesque:opsz,wght@12..96,200..800&display=swap" rel="stylesheet">
   <style>
-    /* 
-     * THEME TOKENS 
-     * Derived strictly from Hacktoberfest Hack Day Bengaluru 2026 Design System[cite: 1]
-     */
+    /* ================================================================
+       TOKENS — mirrors the Hack Day Bengaluru 2026 design system
+       (src/index.css :root). One source of truth, three ink fields.
+       ================================================================ */
     :root {
-      /* Surfaces[cite: 1] */
       --color-cream: #f2f2eb;
       --color-paper: #f7f7f2;
       --color-paper-alt: #e4e5da;
-      --color-forest: #20253f;
-      --color-sage: #343b69;
-      --color-maroon: #25204b;
-      --chrome-base: #211f47;
-      
-      /* Ink & Line[cite: 1] */
       --color-ink: #10201d;
-      
-      /* Accents[cite: 1] */
+      --color-chrome: #211f47;
+      --color-chrome-deep: #1a1839;
+
       --color-indigo: #5146d9;
       --color-sky: #8bb2de;
       --color-red: #e53927;
       --color-yellow: #f5b726;
       --color-coral: #ee8b83;
-      
-      /* Shadows[cite: 1] */
-      --stamp: #671912;
-      --stamp-amber: #8a5d13;
+      --color-moss: #2f6b4f;
+
+      /* Text-grade and fill-grade variants. The brand red is a 3.78:1 accent on
+         cream - fine as a fill, unreadable as type. Anything that carries words
+         uses --red-ink (5.8:1 on cream, 5.1:1 on the recessed surface). */
+      --red-ink: #b3261e;
+      --sky-ink: #34628c;
+
       --stamp-ink: #10201d;
-      
-      /* Typography[cite: 1] */
-      --font-hero: 'Bricolage Grotesque', sans-serif;
-      --font-sans: 'Manrope', sans-serif;
-      --font-mono: 'IBM Plex Mono', monospace;
+      --stamp-red: #671912;
+      --stamp-amber: #8a5d13;
+
+      --font-display: 'Bricolage Grotesque', 'Manrope', ui-sans-serif, system-ui, sans-serif;
+      --font-sans: 'Manrope', ui-sans-serif, system-ui, sans-serif;
+      --font-mono: 'IBM Plex Mono', ui-monospace, 'SFMono-Regular', monospace;
+
+      /* Page geometry. 210 x 297 mm is A4 portrait; padding is inside it. */
+      --pw: 210mm;
+      --ph: 297mm;
+      --pad-x: 15mm;
+      --pad-top: 14mm;
+      --pad-bot: 12mm;
+      --sheet-scale: 1;
     }
 
-    /* BASE SETTINGS & PRINT ADJUSTMENTS */
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { background: #deded4; scroll-behavior: smooth; }
 
     body {
-      background-color: var(--color-cream);
+      background: #deded4;
       color: var(--color-ink);
       font-family: var(--font-sans);
-      line-height: 1.55;
-      -webkit-print-color-adjust: exact !important;
-      print-color-adjust: exact !important;
+      font-size: 9pt;
+      line-height: 1.5;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+      -webkit-font-smoothing: antialiased;
     }
 
-    /* TEXTURE: Dot-matrix print grain[cite: 1] */
-    body::after {
+    /* The deck's print grain, scoped to each page so it rides the sheet
+       into the PDF instead of freezing over the whole document. */
+    .page::after {
       content: "";
-      position: fixed;
+      position: absolute;
       inset: 0;
-      z-index: 9999;
+      z-index: 3;
       pointer-events: none;
-      opacity: 0.075;
+      opacity: 0.06;
       mix-blend-mode: multiply;
-      background-image: radial-gradient(circle at center, #10201d 1px, transparent 1.5px);
-      background-size: 6px 6px;
+      background-image:
+        radial-gradient(circle, rgba(16, 32, 29, 0.7) 0 0.45px, transparent 0.6px),
+        radial-gradient(circle, rgba(255, 255, 255, 0.9) 0 0.35px, transparent 0.55px);
+      background-position: 0 0, 4px 5px;
+      background-size: 7px 7px, 11px 11px;
+    }
+    .page--ink::after {
+      mix-blend-mode: normal;
+      opacity: 0.10;
+      background-image:
+        radial-gradient(circle, rgba(247, 247, 242, 0.85) 0 0.45px, transparent 0.65px);
+      background-size: 7px 7px;
     }
 
-    /* TYPOGRAPHY */
-    .hero-title {
-      font-family: var(--font-hero);
-      font-weight: 800;
-      font-size: 4.5rem; 
-      line-height: 0.92;
-      letter-spacing: -0.045em;
-      text-transform: uppercase;
-      margin-bottom: 2rem;
-      color: var(--color-ink);
+    /* ================================================================
+       THE SHEET
+       ================================================================ */
+    /* One wrapper holds the whole run of sheets. Its layout width tracks the
+       preview scale, and it clips horizontally: a scaled sheet still occupies
+       its full 210mm layout box, which would otherwise leave a scrollable
+       dead zone either side of the page on a phone. `clip` (not `hidden`)
+       trims that without turning the wrapper into a scroll container. */
+    .doc {
+      width: calc(var(--pw) * var(--sheet-scale));
+      margin: 0 auto;
+      overflow-x: clip;
     }
 
-    .hero-title.light {
-      color: var(--color-cream);
+    .page {
+      position: relative;
+      width: var(--pw);
+      height: var(--ph);
+      padding: var(--pad-top) var(--pad-x) var(--pad-bot);
+      margin: 0 auto calc(9mm * var(--sheet-scale));
+      background: var(--color-cream);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transform: scale(var(--sheet-scale));
+      transform-origin: top center;
+      box-shadow: 0 2px 6px rgba(16, 32, 29, 0.18), 0 18px 44px rgba(16, 32, 29, 0.14);
+      break-after: page;
+      page-break-after: always;
+      break-inside: avoid;
+      scroll-margin-top: 16px;
     }
+    .page:last-child { break-after: auto; page-break-after: auto; }
 
-    .section-title {
-      font-family: var(--font-sans);
-      font-size: 2.25rem;
-      font-weight: 800;
-      margin-bottom: 1.5rem;
-      line-height: 1.1;
-      color: var(--color-ink);
-    }
+    .page--ink { background: var(--color-chrome); color: var(--color-cream); }
+    .page--paper { background: var(--color-paper); }
 
-    .section-title.light {
-      color: var(--color-cream);
-    }
+    .page__body { flex: 1 1 auto; min-height: 0; display: flex; flex-direction: column; }
 
-    .section-deck {
-      font-size: 1.125rem;
-      max-width: 65ch; /* Capped near 65-75ch[cite: 1] */
-      margin-bottom: 2rem;
-    }
-
-    .section-eyebrow {
+    /* Running head + foot: the furniture that makes a PDF read as a
+       document rather than a stack of screens. */
+    .run {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 6mm;
       font-family: var(--font-mono);
-      color: var(--color-red); /* Eyebrow red #e53927[cite: 1] */
-      font-weight: 700;
-      font-size: 0.85rem;
+      font-size: 6.2pt;
+      font-weight: 600;
+      letter-spacing: 0.16em;
       text-transform: uppercase;
-      letter-spacing: 0.15em;
+    }
+    .run--head {
+      padding-bottom: 2.4mm;
+      border-bottom: 1.4pt solid var(--color-ink);
+      color: var(--color-ink);
+    }
+    .page--ink .run--head { border-bottom-color: rgba(247, 247, 242, 0.35); color: rgba(247, 247, 242, 0.72); }
+    .run--foot {
+      margin-top: auto;
+      padding-top: 2.4mm;
+      border-top: 1.4pt solid var(--color-ink);
+      color: rgba(16, 32, 29, 0.68);
+    }
+    .page--ink .run--foot { border-top-color: rgba(247, 247, 242, 0.35); color: rgba(247, 247, 242, 0.66); }
+    .run__num { font-weight: 700; }
+    .run__num::before { content: "P"; opacity: 0.55; }
+    /* The running foot carries the live event URL, and it stays a real link in
+       the exported PDF - it just borrows the furniture's own colour. */
+    .run a { color: inherit; text-decoration: none; }
+    .run a:hover { text-decoration: underline; }
+
+    /* ================================================================
+       TYPE
+       ================================================================ */
+    .eyebrow {
       display: block;
-      margin-bottom: 1rem;
-    }
-
-    .mono-label {
       font-family: var(--font-mono);
-      font-size: 0.72rem; /* Mono label 0.6rem-0.72rem[cite: 1] */
-      text-transform: uppercase;
-      letter-spacing: 0.15em;
+      font-size: 6.4pt;
       font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--red-ink);
+      margin-bottom: 2.6mm;
     }
+    .page--ink .eyebrow { color: var(--color-yellow); }
 
-    /* COMPONENTS[cite: 1] */
-    .theme-card {
-      background: var(--color-paper);
-      border: 2px solid var(--color-ink); /* Square everything, 2px ink border[cite: 1] */
-      border-radius: 0;
-      box-shadow: 5px 5px 0 var(--stamp); /* Stamp shadow[cite: 1] */
-      padding: 2.5rem;
-      margin-bottom: 2rem;
-      position: relative;
-      break-inside: avoid;
+    .display {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 40pt;
+      line-height: 0.9;
+      letter-spacing: -0.035em;
+      text-transform: uppercase;
+      text-wrap: balance;
     }
-
-    .theme-card-dark {
-      background: var(--color-forest);
-      color: var(--color-cream);
-      border: 2px solid var(--color-ink);
-      border-radius: 0;
-      box-shadow: 5px 5px 0 var(--stamp-ink);
-      padding: 2.5rem;
-      margin-bottom: 2rem;
-      break-inside: avoid;
+    .title {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 26pt;
+      line-height: 1.02;
+      letter-spacing: -0.028em;
+      text-transform: uppercase;
+      text-wrap: balance;
+      max-width: 26ch;
     }
-
-    .theme-card-dark .section-title {
-      color: var(--color-cream);
+    .title--wide { max-width: 34ch; }
+    .subhead {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 12.5pt;
+      line-height: 1.15;
+      letter-spacing: -0.015em;
+      text-transform: uppercase;
     }
-
-    .theme-card-dark .mono-label {
-      color: var(--color-sky);
+    .deck {
+      font-size: 10pt;
+      line-height: 1.6;
+      color: rgba(16, 32, 29, 0.78);
+      max-width: 68ch;
     }
+    .page--ink .deck { color: rgba(247, 247, 242, 0.76); }
+    .deck--lead { font-size: 11pt; line-height: 1.56; color: var(--color-ink); }
+    .page--ink .deck--lead { color: var(--color-cream); }
 
-    .stat-card {
-      background: var(--color-cream);
-      border: 2px solid var(--color-ink);
-      border-radius: 0;
-      box-shadow: 3px 3px 0 var(--stamp-ink);
-      padding: 1.5rem;
-      break-inside: avoid;
-    }
-
-    .ht-tag {
-      display: inline-block;
-      background: var(--color-sky); /* Info tags default[cite: 1] */
-      color: var(--color-ink);
-      border: 2px solid var(--color-ink);
-      padding: 0.25rem 0.75rem;
+    .mono {
       font-family: var(--font-mono);
-      font-size: 0.7rem;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
+      font-size: 6.4pt;
       font-weight: 700;
-      margin-bottom: 1rem;
-      border-radius: 0; /* Square everything[cite: 1] */
-    }
-
-    /* TABLES[cite: 1] */
-    .theme-table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-bottom: 2rem;
-      background: var(--color-paper);
-      border: 2px solid var(--color-ink); /* Square everything, 2px ink border[cite: 1] */
-      box-shadow: 5px 5px 0 var(--stamp); /* Stamp shadow[cite: 1] */
-      break-inside: avoid;
-    }
-
-    .theme-table th, .theme-table td {
-      border: 2px solid var(--color-ink);
-      padding: 1.25rem;
-      text-align: left;
-      vertical-align: top;
-    }
-
-    .theme-table th {
-      font-family: var(--font-mono); /* IBM Plex Mono for labels/headers[cite: 1] */
-      font-size: 0.75rem;
+      letter-spacing: 0.14em;
       text-transform: uppercase;
-      letter-spacing: 0.1em;
-      background: var(--color-cream);
-      color: var(--color-ink);
-      font-weight: 700;
     }
+    .mono--red { color: var(--red-ink); }
+    .mono--indigo { color: var(--color-indigo); }
+    .mono--moss { color: var(--color-moss); }
+    .mono--amber { color: var(--color-stamp-amber); }
+    .mono--sky { color: var(--sky-ink); }
+    .mono--mute { color: rgba(16, 32, 29, 0.68); }
+    .page--ink .mono--sky { color: var(--color-sky); }
+    .page--ink .mono--mute { color: rgba(247, 247, 242, 0.66); }
 
-    /* LAYOUT UTILITIES */
-    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
-    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
-    .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; }
-    .flex-col { display: flex; flex-direction: column; gap: 1rem; }
-    
-    .divider {
-      height: 2px;
-      background-color: var(--color-ink);
-      width: 100%;
-      margin: 2rem 0;
-    }
+    .lede { font-weight: 700; }
+    .tnum { font-variant-numeric: tabular-nums; font-feature-settings: "tnum" 1; }
 
-    .divider-light {
-      height: 2px;
-      background-color: var(--color-cream);
-      opacity: 0.2;
-      width: 100%;
-      margin: 2rem 0;
-    }
-
-    ul.hacker-list {
-      list-style: none;
-      margin-left: 0;
-    }
-
-    ul.hacker-list li {
+    /* ================================================================
+       PRIMITIVES
+       ================================================================ */
+    .tick { list-style: none; }
+    .tick li {
       position: relative;
-      padding-left: 1.5rem;
-      margin-bottom: 0.75rem;
+      padding-left: 5.6mm;
+      font-size: 8.7pt;
+      line-height: 1.45;
+      margin-bottom: 2.4mm;
     }
-
-    ul.hacker-list li::before {
-      content: "■";
-      color: var(--color-red);
-      font-size: 0.75rem;
+    .tick li:last-child { margin-bottom: 0; }
+    .tick li::before {
+      content: "";
       position: absolute;
       left: 0;
-      top: 0.2rem;
+      top: 0.42em;
+      width: 2.6mm;
+      height: 1.6pt;
+      background: var(--red-ink);
     }
+    .page--ink .tick li::before { background: var(--color-yellow); }
+    .tick strong { font-weight: 800; }
 
-    ul.compact-list li {
-      margin-bottom: 0.25rem;
+    .icon { width: 5.4mm; height: 5.4mm; display: block; }
+    .icon--lg { width: 7mm; height: 7mm; }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 2mm;
+      padding: 2.6mm 4mm;
+      border: 1.4pt solid currentColor;
+      font-family: var(--font-mono);
+      font-size: 7pt;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      text-decoration: none;
+      color: inherit;
     }
+    .btn--fill { background: var(--color-sky); color: var(--color-ink); border-color: var(--color-ink); }
+    .btn--ghost { background: transparent; }
 
-    /* DECORATIVE ELEMENTS */
-    .pac-spot {
-      width: 120px;
-      height: 120px;
-      border: 2px solid var(--color-ink);
-      background-image: 
-        linear-gradient(45deg, var(--color-yellow) 25%, transparent 25%), 
-        linear-gradient(-45deg, var(--color-yellow) 25%, transparent 25%),
-        linear-gradient(45deg, transparent 75%, var(--color-yellow) 75%),
-        linear-gradient(-45deg, transparent 75%, var(--color-yellow) 75%);
-      background-size: 20px 20px;
-      background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
-      box-shadow: 4px 4px 0 var(--stamp-ink);
-      margin-bottom: 2rem;
+    /* ================================================================
+       P1 — COVER
+       ================================================================ */
+    .cover { padding: 16mm var(--pad-x) 12mm; }
+    .cover__top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-bottom: 3mm;
+      border-bottom: 1.4pt solid rgba(247, 247, 242, 0.35);
     }
+    .cover__title { margin-top: 13mm; }
+    .cover__title .display { color: var(--color-cream); }
+    .cover__title .display em { font-style: normal; color: var(--color-yellow); }
+    .cover__mark {
+      display: inline-flex;
+      align-items: center;
+      gap: 2.6mm;
+      padding: 2mm 3.4mm 2mm 2.2mm;
+      background: var(--color-paper);
+      color: var(--color-ink);
+      border: 1.4pt solid rgba(247, 247, 242, 0.5);
+      margin-top: 6.5mm;
+    }
+    .cover__mark img { height: 5mm; display: block; }
+    .cover__deck { margin-top: 5mm; }
 
-    .seal {
-      width: 80px;
-      height: 80px;
-      background: var(--color-indigo);
-      border: 2px solid var(--color-ink);
-      color: var(--color-cream);
+    .cover__facts {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      margin-top: 8mm;
+      border-top: 1.4pt solid rgba(247, 247, 242, 0.35);
+      border-bottom: 1.4pt solid rgba(247, 247, 242, 0.35);
+    }
+    .cover__fact { padding: 4mm 4mm 4mm 0; }
+    .cover__fact + .cover__fact {
+      border-left: 1.4pt solid rgba(247, 247, 242, 0.35);
+      padding-left: 4mm;
+    }
+    .cover__fact p { font-size: 8.6pt; font-weight: 700; line-height: 1.32; margin-top: 1.6mm; }
+    .cover__fact p + p { font-weight: 500; font-size: 7.4pt; color: rgba(247, 247, 242, 0.76); }
+
+    .cover__lanes { margin-top: 7mm; }
+    .cover__lanes-head {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      margin-bottom: 3.4mm;
+    }
+    .cover__lane { display: grid; grid-template-columns: repeat(3, 1fr); gap: 3mm; }
+    .cover__lane-card {
+      border: 1.4pt solid rgba(247, 247, 242, 0.42);
+      padding: 3.4mm 3.4mm 3.6mm;
+      display: flex;
+      flex-direction: column;
+      gap: 2.2mm;
+    }
+    .cover__lane-card .icon { color: var(--color-yellow); }
+    .cover__lane-card p {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 9.4pt;
+      line-height: 1.1;
+      letter-spacing: -0.01em;
+      text-transform: uppercase;
+    }
+    .cover__lane-card span { font-size: 7pt; color: rgba(247, 247, 242, 0.72); line-height: 1.35; }
+
+    .cover__foot {
+      margin-top: auto;
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 6mm;
+      padding-top: 7mm;
+    }
+    .lockup {
+      border: 1.4pt solid rgba(247, 247, 242, 0.45);
+      background: var(--color-paper);
+      padding: 2.2mm 3mm;
+      display: inline-flex;
+      align-items: center;
+      gap: 2.4mm;
+    }
+    .lockup img { height: 6.4mm; display: block; }
+    /* The second mark is DEV. It is sized by position rather than adjacency,
+       because the joining cross now sits between the two images. */
+    .lockup img:nth-of-type(2) { height: 5.6mm; }
+    .lockup__x {
+      flex: none;
+      width: 2.6mm;
+      height: 2.6mm;
+      color: var(--color-ink);
+      opacity: 0.75;
+    }
+    .lockup-group { display: flex; flex-direction: column; gap: 2.4mm; }
+    .lockup-group > .mono { color: rgba(247, 247, 242, 0.66); font-size: 7.2pt; letter-spacing: 0.16em; }
+    /* The cover's pair of plates carries the partnership line, so it is set a
+       step larger than the same lockup used in running matter. */
+    .cover__foot .lockup img { height: 7.6mm; }
+    .cover__foot .lockup img:nth-of-type(2) { height: 6.6mm; }
+    .cover__foot .lockup__x { width: 3mm; height: 3mm; }
+    .cover__foot .lockup { padding: 2.6mm 3.4mm; gap: 2.8mm; }
+    .cover__foot .lockup-group { gap: 2.8mm; }
+    .cover__foot .lockup-group > .mono { font-size: 7.8pt; }
+
+    /* ================================================================
+       P2 — CONTENTS
+       ================================================================ */
+    .toc { margin-top: 8mm; }
+    .toc__row {
+      display: grid;
+      grid-template-columns: 11mm 1fr 12mm;
+      align-items: baseline;
+      gap: 0 3mm;
+      padding: 5.8mm 0;
+      border-bottom: 1.4pt solid rgba(16, 32, 29, 0.18);
+      text-decoration: none;
+      color: inherit;
+    }
+    .toc__row:first-child { border-top: 1.4pt solid var(--color-ink); }
+    .toc__row:hover .toc__name { text-decoration: underline; text-underline-offset: 0.18em; }
+    .toc__idx { color: var(--red-ink); }
+    .toc__name {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 13.5pt;
+      letter-spacing: -0.015em;
+      text-transform: uppercase;
+      line-height: 1.1;
+    }
+    .toc__note {
+      display: block;
+      font-family: var(--font-sans);
+      font-size: 8pt;
+      font-weight: 500;
+      letter-spacing: 0;
+      text-transform: none;
+      color: rgba(16, 32, 29, 0.72);
+      margin-top: 1.4mm;
+    }
+    .toc__pg { text-align: right; color: var(--color-ink); }
+    .toc__lanes { margin-top: 7mm; display: grid; grid-template-columns: repeat(3, 1fr); gap: 3mm; }
+    .toc__lane {
+      border: 1.4pt solid var(--color-ink);
+      background: var(--color-paper);
+      padding: 3.6mm 4mm 4mm;
+      text-decoration: none;
+      color: inherit;
+      display: block;
+    }
+    .toc__lane:hover { background: var(--color-paper-alt); }
+    .toc__lane .icon { margin-bottom: 2mm; }
+    .toc__lane--cash .icon { color: var(--color-indigo); }
+    .toc__lane--food .icon { color: var(--stamp-amber); }
+    .toc__lane--goodies .icon { color: var(--color-moss); }
+    .toc__lane p {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 9.4pt;
+      text-transform: uppercase;
+      letter-spacing: -0.008em;
+    }
+    .toc__lane span { display: block; font-size: 7.2pt; color: rgba(16, 32, 29, 0.66); margin-top: 0.8mm; }
+
+    .toc__foot {
+      margin-top: 6mm;
+      border: 1.4pt solid var(--color-ink);
+      background: var(--color-paper);
+      padding: 4mm 4.8mm;
+      display: flex;
+      align-items: flex-start;
+      gap: 3mm;
+    }
+    .toc__foot .icon { color: var(--color-indigo); flex: none; margin-top: 0.4mm; }
+    .toc__foot p { font-size: 7.8pt; line-height: 1.5; color: rgba(16, 32, 29, 0.78); }
+    .toc__foot strong { font-weight: 800; }
+
+    /* ================================================================
+       P3 — THE EVENT
+       ================================================================ */
+    .statband {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      margin: 7mm 0 0;
+      border-top: 1.4pt solid var(--color-ink);
+      border-bottom: 1.4pt solid var(--color-ink);
+    }
+    .statband > div { padding: 6mm 4mm 6mm 0; }
+    .statband > div + div { border-left: 1.4pt solid var(--color-ink); padding-left: 4mm; }
+    .statband b {
+      display: block;
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 27pt;
+      line-height: 1;
+      letter-spacing: -0.035em;
+    }
+    .statband span { display: block; margin-top: 1.4mm; }
+
+    .glance {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      margin-top: 7mm;
+      border-top: 1.4pt solid rgba(16, 32, 29, 0.22);
+    }
+    .glance > div { padding: 3.2mm 3.4mm 0 0; }
+    .glance > div + div { border-left: 1.4pt solid rgba(16, 32, 29, 0.22); padding-left: 3.4mm; }
+    .glance p { font-size: 7.6pt; line-height: 1.4; font-weight: 600; margin-top: 1.4mm; }
+
+    .why {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5mm;
+      margin-top: 11mm;
+      flex: 1 1 auto;
+      min-height: 0;
+    }
+    .why__item {
+      border: 1.4pt solid var(--color-ink);
+      background: var(--color-paper);
+      box-shadow: 2.4mm 2.4mm 0 var(--stamp-red);
+      padding: 6mm 6.2mm;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .why__item .icon { color: var(--color-indigo); margin-bottom: 3mm; }
+    .why__item h3 {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 11pt;
+      letter-spacing: -0.012em;
+      text-transform: uppercase;
+      margin-bottom: 1.8mm;
+    }
+    .why__item p { font-size: 8.4pt; line-height: 1.52; color: rgba(16, 32, 29, 0.78); }
+
+    /* ================================================================
+       P4 — THREE LANES
+       ================================================================ */
+    .lanes {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 4mm;
+      margin-top: 8mm;
+      flex: 1 1 auto;
+      min-height: 0;
+    }
+    .lane {
+      border: 1.4pt solid var(--color-ink);
+      background: var(--color-paper);
+      display: flex;
+      flex-direction: column;
+      padding: 0 0 4mm;
+    }
+    .lane__head { padding: 4.6mm 4.6mm 4mm; border-bottom: 1.4pt solid var(--color-ink); }
+    .lane__badge {
+      width: 8mm;
+      height: 8mm;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-family: var(--font-hero);
-      font-size: 2rem;
-      box-shadow: 3px 3px 0 var(--stamp-ink);
-      position: absolute;
-      top: -20px;
-      right: 20px;
+      border: 1.4pt solid var(--color-ink);
+      margin-bottom: 2.6mm;
     }
+    .lane__badge--cash { background: var(--color-indigo); color: var(--color-cream); }
+    .lane__badge--food { background: var(--color-yellow); color: var(--color-ink); }
+    .lane__badge--goodies { background: var(--color-moss); color: var(--color-cream); }
+    .lane__name {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 13.5pt;
+      line-height: 1.02;
+      letter-spacing: -0.02em;
+      text-transform: uppercase;
+    }
+    .lane__promise { font-size: 8.2pt; line-height: 1.45; color: rgba(16, 32, 29, 0.76); margin-top: 2mm; }
 
-    /* PAGE SETUP FOR WEB PREVIEW AND PRINT */
-    .page {
-      width: 210mm;
-      min-height: 297mm;
-      padding: 20mm;
-      margin: 20px auto;
+    .rungs { padding: 4mm 4.6mm 0; }
+    .rung { padding: 3.4mm 0; border-bottom: 1.4pt dotted rgba(16, 32, 29, 0.28); }
+    .rung:last-child { border-bottom: 0; }
+    .rung__row { display: flex; align-items: baseline; justify-content: space-between; gap: 2mm; }
+    .rung__amt {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 13.5pt;
+      line-height: 1;
+      letter-spacing: -0.025em;
+      tnum: 1;
+    }
+    .rung__name { text-align: right; }
+    .rung__what { font-size: 7.8pt; line-height: 1.42; color: rgba(16, 32, 29, 0.72); margin-top: 1.2mm; }
+
+    .lane__foot {
+      margin-top: auto;
+      padding: 3.6mm 4.6mm 0;
+      display: flex;
+      align-items: center;
+      gap: 1.8mm;
+      text-decoration: none;
+      color: inherit;
+    }
+    .lane__foot .icon { width: 3.6mm; height: 3.6mm; color: var(--color-ink); flex: none; }
+    .lane__foot:hover .mono { text-decoration: underline; text-underline-offset: 0.2em; }
+
+    .lanes__note {
+      margin-top: 6.5mm;
+      padding-top: 3.6mm;
+      border-top: 1.4pt solid var(--color-ink);
+      display: flex;
+      align-items: baseline;
+      gap: 3mm;
+    }
+    .lanes__note p { font-size: 8pt; line-height: 1.45; color: rgba(16, 32, 29, 0.76); }
+
+    /* ================================================================
+       P5 / P7 — cash + goodies rate cards
+       ================================================================ */
+    .ladder { display: flex; flex-direction: column; gap: 4.6mm; margin-top: 8mm; }
+    .step {
+      display: grid;
+      grid-template-columns: 42mm 1fr;
+      border: 1.4pt solid var(--color-ink);
+      background: var(--color-paper);
+      box-shadow: 2.4mm 2.4mm 0 var(--stamp-ink);
+    }
+    .step__key {
+      padding: 4.6mm 4.6mm;
+      border-right: 1.4pt solid var(--color-ink);
+      background: var(--color-paper-alt);
+    }
+    .step__amt {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 19pt;
+      line-height: 1;
+      letter-spacing: -0.03em;
+      margin-top: 1.8mm;
+      tnum: 1;
+    }
+    .step__role { font-size: 8pt; line-height: 1.35; color: rgba(16, 32, 29, 0.72); margin-top: 1.8mm; }
+    .step__body { padding: 4.6mm 5mm; }
+
+    .everything {
+      margin-top: 7.5mm;
+      border: 1.4pt solid var(--color-ink);
       background: var(--color-cream);
-      position: relative;
+      padding: 4.2mm 4.8mm;
+    }
+    .everything__grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 3.2mm 5mm;
+      margin-top: 2.8mm;
+    }
+    .everything__grid li {
+      display: flex;
+      align-items: flex-start;
+      gap: 1.8mm;
+      font-size: 7.8pt;
+      line-height: 1.38;
+      list-style: none;
+    }
+    .everything__grid .icon { width: 3.4mm; height: 3.4mm; flex: none; margin-top: 0.5mm; color: var(--red-ink); }
+
+    /* ================================================================
+       P6 — FOOD & SNACKS
+       ================================================================ */
+    .service { display: grid; grid-template-columns: 1fr 1fr; gap: 4.6mm; margin-top: 8mm; }
+    /* Three windows: the two scheduled services plus the counter that runs
+       through the whole build phase. */
+    .service--three { grid-template-columns: repeat(3, 1fr); }
+    .service__card--cont { background: var(--color-paper-alt); box-shadow: 2.4mm 2.4mm 0 var(--stamp-ink); }
+    .service__card {
+      border: 1.4pt solid var(--color-ink);
+      background: var(--color-paper);
+      box-shadow: 2.4mm 2.4mm 0 var(--color-red);
+      padding: 5mm 5.2mm 5.2mm;
+    }
+    .service__time {
+      display: inline-block;
+      background: var(--color-ink);
+      color: var(--color-cream);
+      font-family: var(--font-mono);
+      font-size: 7pt;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      padding: 1.2mm 2.2mm;
+      margin-bottom: 2.6mm;
+    }
+    .service__card h3 {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 14pt;
+      line-height: 1.04;
+      letter-spacing: -0.02em;
+      text-transform: uppercase;
+      margin-bottom: 2.4mm;
+    }
+    .service__card p { font-size: 8.2pt; line-height: 1.52; color: rgba(16, 32, 29, 0.78); }
+    .service__head {
+      display: flex;
+      align-items: center;
+      gap: 2.4mm;
+      margin-top: 3.6mm;
+      padding-top: 3mm;
+      border-top: 1.4pt solid var(--color-ink);
+    }
+    .service__head .icon { color: var(--red-ink); flex: none; }
+    .service__head p { font-size: 7.8pt; line-height: 1.35; color: rgba(16, 32, 29, 0.8); }
+
+    .touch { display: grid; grid-template-columns: repeat(3, 1fr); gap: 3.6mm; margin-top: 7.5mm; }
+    .touch__item {
+      border: 1.4pt solid var(--color-ink);
+      background: var(--color-paper);
+      padding: 3.8mm 4mm 4mm;
+    }
+    /* Yellow is a fill, never a 1.67:1 hairline on paper. The icon rides a
+       yellow plate so the accent stays in the system and the stroke stays
+       legible. */
+    .touch__item .icon {
+      color: var(--color-ink);
+      background: var(--color-yellow);
+      padding: 1.5mm;
+      margin-bottom: 2.4mm;
+      width: 8mm;
+      height: 8mm;
+    }
+    .touch__item h4 {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 9.2pt;
+      letter-spacing: -0.008em;
+      text-transform: uppercase;
+      margin-bottom: 1.4mm;
+    }
+    .touch__item p { font-size: 7.6pt; line-height: 1.42; color: rgba(16, 32, 29, 0.74); }
+
+    .dietary {
+      margin-top: 6.5mm;
+      border: 1.4pt solid var(--color-ink);
+      background: var(--color-paper-alt);
+      padding: 4mm 4.8mm;
+      display: flex;
+      align-items: flex-start;
+      gap: 2.6mm;
+    }
+    .dietary .icon { color: var(--color-ink); flex: none; margin-top: 0.4mm; }
+    .dietary p { font-size: 7.8pt; line-height: 1.45; }
+
+    /* ================================================================
+       P8 — TRACKS + SCHEDULE
+       ================================================================ */
+    .tracks { display: grid; grid-template-columns: repeat(3, 1fr); gap: 3.4mm; margin-top: 6mm; }
+    .track {
+      border: 1.4pt solid rgba(247, 247, 242, 0.4);
+      background: rgba(247, 247, 242, 0.06);
+      padding: 4.6mm 4.6mm 5mm;
+    }
+    .track__tag {
+      display: inline-block;
+      font-family: var(--font-mono);
+      font-size: 6.2pt;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 1mm 1.8mm;
+      margin-bottom: 2.4mm;
+    }
+    .track h3 {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 11pt;
+      line-height: 1.12;
+      letter-spacing: -0.012em;
+      text-transform: uppercase;
+      margin-bottom: 2mm;
+    }
+    .track p { font-size: 7.8pt; line-height: 1.48; color: rgba(247, 247, 242, 0.78); }
+
+    .schedule { margin-top: 7.5mm; border-top: 1.4pt solid rgba(247, 247, 242, 0.35); }
+    .slot {
+      display: grid;
+      grid-template-columns: 34mm 1fr;
+      align-items: baseline;
+      gap: 4mm;
+      padding: 3.3mm 0;
+      border-bottom: 1.4pt dotted rgba(247, 247, 242, 0.22);
+    }
+    .slot__time {
+      font-family: var(--font-mono);
+      font-size: 7.2pt;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      color: var(--color-sky);
+      tnum: 1;
+    }
+    .slot__what { font-size: 8.4pt; font-weight: 600; letter-spacing: -0.005em; }
+    .slot--key .slot__what { color: var(--color-yellow); }
+    .slot--key .slot__time { color: var(--color-yellow); }
+
+    /* ================================================================
+       P9 — PAST SPONSORS + CONTACT
+       ================================================================ */
+    .wall { margin-top: 7.5mm; }
+    .wall__head {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      padding-bottom: 2.4mm;
+      border-bottom: 1.4pt solid var(--color-ink);
+    }
+    .wall__grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 3.6mm; margin-top: 4mm; }
+    .wall__tile {
+      border: 1.4pt solid var(--color-ink);
+      background: var(--color-paper);
+      padding: 5.5mm 3.4mm 4.5mm;
       display: flex;
       flex-direction: column;
-      box-shadow: 0 0 15px rgba(0,0,0,0.1);
+      align-items: center;
+      justify-content: center;
+      gap: 3.2mm;
+      min-height: 31mm;
     }
-    
-    .page.dark-page {
-      background: var(--chrome-base); /* Dark section field[cite: 1] */
-      color: var(--color-cream);
+    .wall__tile img { max-width: 100%; max-height: 10.5mm; width: auto; object-fit: contain; display: block; }
+    .wall__tile span {
+      font-family: var(--font-mono);
+      font-size: 6.2pt;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(16, 32, 29, 0.62);
+      text-align: center;
     }
 
-    .page.dark-page .hero-title,
-    .page.dark-page .section-title {
-      color: var(--color-cream);
+    .people { display: grid; grid-template-columns: 1fr 1fr; gap: 4.6mm; margin-top: 8.5mm; }
+    .person {
+      border: 1.4pt solid var(--color-ink);
+      background: var(--color-paper);
+      box-shadow: 2.4mm 2.4mm 0 var(--stamp-ink);
+      padding: 5mm 5.4mm 5.4mm;
     }
+    .person__name {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 19pt;
+      line-height: 1;
+      letter-spacing: -0.028em;
+      margin-top: 2.2mm;
+    }
+    .person__role { font-size: 8pt; font-weight: 700; color: var(--red-ink); margin-top: 1.6mm; }
+    .person__org { font-size: 7.4pt; color: rgba(16, 32, 29, 0.68); margin-top: 0.8mm; }
+    .person__lines { margin-top: 3.4mm; padding-top: 3mm; border-top: 1.4pt solid var(--color-ink); display: flex; flex-direction: column; gap: 2mm; }
+    .person__line { display: flex; align-items: baseline; gap: 2.4mm; }
+    .person__line .mono { color: var(--color-indigo); flex: none; width: 15mm; }
+    .person__line a,
+    .person__line span.val {
+      font-family: var(--font-mono);
+      font-size: 8.6pt;
+      font-weight: 500;
+      color: var(--color-ink);
+      text-decoration: none;
+      word-break: break-word;
+    }
+    .person__line a:hover { text-decoration: underline; }
+
+    .nextstep {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 4.6mm;
+      margin-top: 8.5mm;
+    }
+    .nextstep > div {
+      border-top: 1.4pt solid var(--color-ink);
+      padding-top: 2.6mm;
+    }
+    .nextstep p { font-size: 8.2pt; font-weight: 600; line-height: 1.4; margin-top: 1.4mm; }
+    .nextstep .mono { color: var(--color-indigo); }
+
+    .closing {
+      margin-top: 8.5mm;
+      border: 1.4pt solid var(--color-ink);
+      background: var(--color-ink);
+      color: var(--color-cream);
+      padding: 4.4mm 5mm;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 6mm;
+    }
+    .closing p { font-size: 8pt; line-height: 1.45; max-width: 68ch; color: rgba(247, 247, 242, 0.88); }
+    .closing .btn { flex: none; }
+
+    /* ================================================================
+       PRINT — one sheet of A4 per page, no browser chrome
+       ================================================================ */
+    @page { size: A4 portrait; margin: 0; }
 
     @media print {
-      @page {
-        size: A4 portrait;
-        margin: 0;
-      }
-      body { margin: 0; background-color: var(--color-cream); }
+      html, body { background: #fff; margin: 0; padding: 0; scroll-behavior: auto; }
+      /* !important so the print rule beats the preview script's inline
+         --sheet-scale on <html>, which would otherwise survive into the PDF. */
+      :root { --sheet-scale: 1 !important; }
+      .doc { width: var(--pw); }
       .page {
         margin: 0;
+        transform: none;
         box-shadow: none;
-        width: 210mm;
-        height: 297mm;
-        page-break-after: always;
-        break-after: page;
+        width: var(--pw);
+        height: var(--ph);
       }
-      .page:last-child {
-        page-break-after: auto;
-        break-after: auto;
-      }
-      .page.dark-page {
-        -webkit-print-color-adjust: exact !important;
-        background-color: var(--chrome-base) !important;
-      }
+      a { color: inherit; }
     }
   </style>
 </head>
 <body>
 
-  <!-- PAGE 1: COVER -->
-  <div class="page" style="justify-content: center;">
-    <div class="pac-spot"></div>
-    <span class="section-eyebrow">Sponsorship Prospectus</span>
-    <h1 class="hero-title">Hacktoberfest<br>Hack Day<br>Bengaluru 2026</h1>
-    <p class="section-deck" style="font-size: 1.35rem; font-weight: 600; margin-bottom: 3rem;">
-      Partner with the ultimate open-source celebration built for the next generation of engineers and developers.
+<div class="doc">
+
+<!-- ============================ P1 · COVER ============================ -->
+<section class="page page--ink cover" id="cover">
+  <div class="cover__top">
+    <span class="mono" style="color: rgba(247,247,242,.72);">Sponsorship Prospectus</span>
+    <span class="mono" style="color: var(--color-yellow);">Bengaluru · 2026</span>
+  </div>
+
+  <div class="cover__title">
+    <h1 class="display">Hacktoberfest<br>Hack Day<br><em>Bengaluru</em></h1>
+    <div class="cover__mark">
+      <img src="aws-sbg-dark.png" alt="AWS Student Builder Group">
+      <span class="mono" style="color: var(--color-ink);">AWS Student Builder Group at Atria Institute of Technology</span>
+    </div>
+    <p class="deck deck--lead cover__deck">
+      Partner with the ultimate open-source celebration built for the next generation
+      of engineers and developers. Choose a lane, pick a level, and put your brand in
+      front of 100 builders across a full day of shipping.
     </p>
-    
-    <div class="theme-card">
-      <div class="grid-2">
-        <div>
-          <span class="mono-label" style="color: var(--color-red);">Date & Time</span>
-          <p style="font-weight: 800; font-size: 1.25rem;">Friday, October 23, 2026</p> <!-- Date from eventData[cite: 1] -->
-          <p class="mono-label" style="margin-top: 0.5rem;">8:30 AM – 8:00 PM IST</p> <!-- Times are IST with the full range[cite: 1] -->
-        </div>
-        <div>
-          <span class="mono-label" style="color: var(--color-red);">Venue</span>
-          <p style="font-weight: 800; font-size: 1.25rem;">Atria Institute of Technology</p> <!-- Venue details[cite: 1] -->
-          <p class="mono-label" style="margin-top: 0.5rem;">Hebbal, Bengaluru</p> <!-- Venue details[cite: 1] -->
-        </div>
+  </div>
+
+  <div class="cover__facts">
+    <div class="cover__fact">
+      <span class="mono" style="color: var(--color-sky);">Date &amp; Time</span>
+      <p>Friday, October 23, 2026</p>
+      <p>8:30&nbsp;AM – 8:00&nbsp;PM IST</p>
+    </div>
+    <div class="cover__fact">
+      <span class="mono" style="color: var(--color-sky);">Venue</span>
+      <p>Atria Institute of Technology</p>
+      <p>1st Main Road, AGS Colony, Anandnagar, Hebbal, Bengaluru 560024</p>
+    </div>
+    <div class="cover__fact">
+      <span class="mono" style="color: var(--color-sky);">Organized By</span>
+      <p>AWS Student Builder Group</p>
+      <p>at Atria Institute of Technology</p>
+    </div>
+  </div>
+
+  <div class="cover__lanes">
+    <div class="cover__lanes-head">
+      <span class="mono" style="color: var(--color-yellow);">Three partnership lanes</span>
+      <span class="mono" style="color: rgba(247,247,242,.66);">₹25,000 &nbsp;·&nbsp; ₹10,000 &nbsp;·&nbsp; ₹5,000</span>
+    </div>
+    <div class="cover__lane">
+      <div class="cover__lane-card">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="square" aria-hidden="true">
+          <rect x="2.5" y="6" width="19" height="12"/><path d="M2.5 10V6a2 2 0 0 1 2-2h11.5"/><path d="M16.5 12h2.5"/>
+        </svg>
+        <p>Cash Sponsors</p>
+        <span>Logo, stage time, prize category and talent access.</span>
       </div>
-      <div class="divider"></div>
-      <div>
-        <span class="mono-label" style="color: var(--color-red);">Organized By</span>
-        <p style="font-weight: 800; font-size: 1.25rem;">AWS Student Builder Group</p> <!-- Organizer details[cite: 1] -->
-        <p class="mono-label" style="margin-top: 0.5rem;">Atria Institute of Technology</p> <!-- Organizer details[cite: 1] -->
+      <div class="cover__lane-card">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="square" aria-hidden="true">
+          <path d="M5 3v6a2.5 2.5 0 0 0 5 0V3"/><path d="M7.5 11.5V21"/><path d="M16 3v18"/><path d="M16 3c2.4 1.6 2.9 6 .4 8.2"/>
+        </svg>
+        <p>Food &amp; Snacks</p>
+        <span>Feed the room — lunch and the 5 PM snack window.</span>
+      </div>
+      <div class="cover__lane-card">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="square" aria-hidden="true">
+          <rect x="3" y="8.5" width="18" height="4"/><path d="M5 12.5V20a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-7.5"/><path d="M12 8.5V21"/><path d="M12 8.5S10.6 3 8 3a2.5 2.5 0 0 0 0 5.5"/><path d="M12 8.5S13.4 3 16 3a2.5 2.5 0 0 1 0 5.5"/>
+        </svg>
+        <p>Credits &amp; Goodies</p>
+        <span>Cloud credits, API keys and swag for every builder.</span>
       </div>
     </div>
   </div>
 
-  <!-- PAGE 2: EXECUTIVE SUMMARY -->
-  <div class="page">
-    <span class="section-eyebrow">The Vision</span>
-    <h2 class="section-title">Empowering the Open Source Ecosystem.</h2>
-    <p class="section-deck">
-      Hacktoberfest Hack Day Bengaluru 2026 is an immersive, in-person hack day run by the AWS Student Builder Group at Atria Institute of Technology[cite: 1]. It unites passionate student builders, developers, and creators to contribute to open-source software, build innovative technical solutions, and foster a collaborative developer community.
+  <div class="cover__foot">
+    <div class="lockup-group">
+      <span class="mono">Powered by</span>
+      <span class="lockup">
+        <img src="MLH.png" alt="Major League Hacking">
+        <svg class="lockup__x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="square" aria-hidden="true"><path d="M5 5 19 19"/><path d="M19 5 5 19"/></svg>
+        <img src="Dev.png" alt="DEV">
+      </span>
+    </div>
+    <div class="lockup-group">
+      <span class="mono">Presenting Partner</span>
+      <span class="lockup">
+        <img src="DigitalOcean.png" alt="DigitalOcean">
+      </span>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ P2 · CONTENTS ============================ -->
+<section class="page" id="contents">
+  <div class="run run--head">
+    <span>AWS Student Builder Group · Atria Institute of Technology</span>
+    <span>Contents</span>
+  </div>
+
+  <div class="page__body" style="padding-top: 8mm;">
+    <span class="eyebrow">Inside this prospectus</span>
+    <h2 class="title title--wide">Contents.</h2>
+    <p class="deck" style="margin-top: 3.4mm;">
+      Seven pages, three partnership lanes, one day. Jump straight to the lane you
+      are interested in, or read it end to end.
     </p>
 
-    <div class="grid-3" style="margin-bottom: 2.5rem;">
-      <div class="stat-card">
-        <h3 class="hero-title" style="font-size: 2.5rem; margin-bottom: 0;">12+</h3>
-        <span class="mono-label">Hours of Building</span>
+    <nav class="toc" aria-label="Table of contents">
+      <a class="toc__row" href="#event">
+        <span class="mono toc__idx">01</span>
+        <span class="toc__name">The Event
+          <span class="toc__note">What the day is, who turns up, and what sponsoring it gets you.</span>
+        </span>
+        <span class="mono toc__pg">03</span>
+      </a>
+      <a class="toc__row" href="#lanes">
+        <span class="mono toc__idx">02</span>
+        <span class="toc__name">Three Lanes
+          <span class="toc__note">Cash Sponsors, Food &amp; Snacks, Credits &amp; Goodies — the same three levels in every lane.</span>
+        </span>
+        <span class="mono toc__pg">04</span>
+      </a>
+      <a class="toc__row" href="#cash">
+        <span class="mono toc__idx">03</span>
+        <span class="toc__name">Lane 01 · Cash Sponsors
+          <span class="toc__note">Stage time, booth space, prize categories and talent access.</span>
+        </span>
+        <span class="mono toc__pg">05</span>
+      </a>
+      <a class="toc__row" href="#food">
+        <span class="mono toc__idx">04</span>
+        <span class="toc__name">Lane 02 · Food &amp; Snacks
+          <span class="toc__note">Lunch, the 5 PM snack window, and the counter between them.</span>
+        </span>
+        <span class="mono toc__pg">06</span>
+      </a>
+      <a class="toc__row" href="#goodies">
+        <span class="mono toc__idx">05</span>
+        <span class="toc__name">Lane 03 · Credits &amp; Goodies
+          <span class="toc__note">Cloud credits, prize pools, swag and vouchers for every builder.</span>
+        </span>
+        <span class="mono toc__pg">07</span>
+      </a>
+      <a class="toc__row" href="#experience">
+        <span class="mono toc__idx">06</span>
+        <span class="toc__name">The Experience
+          <span class="toc__note">Challenge tracks and the hour-by-hour schedule.</span>
+        </span>
+        <span class="mono toc__pg">08</span>
+      </a>
+      <a class="toc__row" href="#contact">
+        <span class="mono toc__idx">07</span>
+        <span class="toc__name">Past Sponsors &amp; Contact
+          <span class="toc__note">Who backed the last one, and how to reach us this time.</span>
+        </span>
+        <span class="mono toc__pg">09</span>
+      </a>
+    </nav>
+
+    <div class="toc__lanes">
+      <a class="toc__lane toc__lane--cash" href="#cash">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="square" aria-hidden="true">
+          <rect x="2.5" y="6" width="19" height="12"/><path d="M2.5 10V6a2 2 0 0 1 2-2h11.5"/><path d="M16.5 12h2.5"/>
+        </svg>
+        <p>Cash Sponsors</p>
+        <span>Page 05</span>
+      </a>
+      <a class="toc__lane toc__lane--food" href="#food">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="square" aria-hidden="true">
+          <path d="M5 3v6a2.5 2.5 0 0 0 5 0V3"/><path d="M7.5 11.5V21"/><path d="M16 3v18"/><path d="M16 3c2.4 1.6 2.9 6 .4 8.2"/>
+        </svg>
+        <p>Food &amp; Snacks</p>
+        <span>Page 06</span>
+      </a>
+      <a class="toc__lane toc__lane--goodies" href="#goodies">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="square" aria-hidden="true">
+          <rect x="3" y="8.5" width="18" height="4"/><path d="M5 12.5V20a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-7.5"/><path d="M12 8.5V21"/><path d="M12 8.5S10.6 3 8 3a2.5 2.5 0 0 0 0 5.5"/><path d="M12 8.5S13.4 3 16 3a2.5 2.5 0 0 1 0 5.5"/>
+        </svg>
+        <p>Credits &amp; Goodies</p>
+        <span>Page 07</span>
+      </a>
+    </div>
+
+    <div class="toc__foot">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="square" aria-hidden="true">
+        <circle cx="12" cy="12" r="9"/><path d="M12 16.5v-5"/><path d="M12 7.8h.01"/>
+      </svg>
+      <p><strong>New to hack days?</strong> Start at page 03 for the audience and the
+      return on a sponsorship, then jump to the lane that matches what you sell. Every
+      lane carries the same three levels — <strong>₹25,000</strong>, <strong>₹10,000</strong>
+      and <strong>₹5,000</strong> — so the only question is what you bring: money,
+      food, or credits and swag. Page 09 has the sponsor wall and both contact numbers.</p>
+    </div>
+  </div>
+
+  <div class="run run--foot">
+    <a href="https://hacktober.awsatria.tech">hacktober.awsatria.tech</a>
+    <span class="run__num">02</span>
+  </div>
+</section>
+
+<!-- ============================ P3 · THE EVENT ============================ -->
+<section class="page" id="event">
+  <div class="run run--head">
+    <span>AWS Student Builder Group · Atria Institute of Technology</span>
+    <span>Sponsorship Prospectus</span>
+  </div>
+
+  <div class="page__body" style="padding-top: 8mm;">
+    <span class="eyebrow">The Vision</span>
+    <h2 class="title">Empowering the open source ecosystem.</h2>
+    <p class="deck" style="margin-top: 4mm;">
+      Hacktoberfest Hack Day Bengaluru 2026 is an immersive, in-person hack day run by the
+      AWS Student Builder Group at Atria Institute of Technology. It unites passionate
+      student builders, developers, and creators to contribute to open-source software,
+      build innovative technical solutions, and foster a collaborative developer community.
+    </p>
+
+    <div class="statband">
+      <div><b class="tnum">10</b><span class="mono mono--red">Hours of Building</span></div>
+      <div><b class="tnum">100</b><span class="mono mono--red">Builders Expected</span></div>
+      <div><b class="tnum">03</b><span class="mono mono--red">Challenge Tracks</span></div>
+    </div>
+
+    <div class="glance">
+      <div>
+        <span class="mono mono--mute">Format</span>
+        <p>In-person hack day</p>
       </div>
-      <div class="stat-card">
-        <h3 class="hero-title" style="font-size: 2.5rem; margin-bottom: 0;">500+</h3>
-        <span class="mono-label">Hackers Expected</span>
+      <div>
+        <span class="mono mono--mute">Date</span>
+        <p>Friday, 23 October 2026</p>
       </div>
-      <div class="stat-card">
-        <h3 class="hero-title" style="font-size: 2.5rem; margin-bottom: 0;">03</h3>
-        <span class="mono-label">Challenge Tracks</span> <!-- Track details[cite: 1] -->
+      <div>
+        <span class="mono mono--mute">Hours</span>
+        <p>8:30&nbsp;AM – 8:00&nbsp;PM IST</p>
+      </div>
+      <div>
+        <span class="mono mono--mute">Venue</span>
+        <p>Atria Institute of Technology, Hebbal</p>
       </div>
     </div>
 
-    <span class="section-eyebrow">Why Partner With Us?</span>
-    <h2 class="section-title" style="font-size: 2rem;">Brand Visibility Meets Top Talent.</h2>
-    <div class="theme-card">
-      <ul class="hacker-list">
-        <li><strong>Developer Relations (DevRel):</strong> Get your APIs, cloud platforms, and developer tools directly into the hands of 500+ eager engineering students and budding technologists actively seeking robust tech stacks.</li>
-        <li><strong>Direct Recruitment Pipeline:</strong> Identify top-tier problem solvers, collaborative team players, and passionate open-source contributors for your hiring and internship funnels.</li>
-        <li><strong>Brand Amplification:</strong> Gain prominent logo placement across digital channels, physical venue banners, and our official MLH event page[cite: 1].</li>
-        <li><strong>Community Impact:</strong> Directly support the regional tech ecosystem and invest in the educational and professional growth of Bengaluru's next engineering generation.</li>
+    <div class="why">
+      <div class="why__item">
+        <svg class="icon icon--lg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="square" aria-hidden="true">
+          <path d="M8.5 7 4 12l4.5 5"/><path d="M15.5 7 20 12l-4.5 5"/>
+        </svg>
+        <h3>Developer Relations</h3>
+        <p>Get your APIs, cloud platforms, and developer tools directly into the hands of
+        100 eager builders — students and budding technologists actively seeking robust tech stacks.</p>
+      </div>
+      <div class="why__item">
+        <svg class="icon icon--lg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="square" aria-hidden="true">
+          <circle cx="9" cy="8" r="3.2"/><path d="M3.2 20a5.8 5.8 0 0 1 11.6 0"/>
+          <path d="M16.4 5.3a3.2 3.2 0 0 1 0 5.4"/><path d="M17.6 14.8A5.8 5.8 0 0 1 20.8 20"/>
+        </svg>
+        <h3>Direct Recruitment</h3>
+        <p>Identify top-tier problem solvers, collaborative team players, and passionate
+        open-source contributors for your hiring and internship funnels.</p>
+      </div>
+      <div class="why__item">
+        <svg class="icon icon--lg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="square" aria-hidden="true">
+          <path d="M4 10.5V14a2 2 0 0 0 2 2h.8L17 20.5V3.5L6.8 8H6a2 2 0 0 0-2 2Z"/><path d="M19.5 9.2a3.4 3.4 0 0 1 0 5.6"/>
+        </svg>
+        <h3>Brand Amplification</h3>
+        <p>Gain prominent logo placement across digital channels, physical venue banners,
+        and our official MLH event page.</p>
+      </div>
+      <div class="why__item">
+        <svg class="icon icon--lg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="square" aria-hidden="true">
+          <path d="M12 20.5s-7.4-4.6-7.4-9.6A4.2 4.2 0 0 1 12 8.1a4.2 4.2 0 0 1 7.4 2.8c0 5-7.4 9.6-7.4 9.6Z"/>
+        </svg>
+        <h3>Community Impact</h3>
+        <p>Directly support the regional tech ecosystem and invest in the educational and
+        professional growth of Bengaluru's next engineering generation.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="run run--foot">
+    <a href="https://hacktober.awsatria.tech">hacktober.awsatria.tech</a>
+    <span class="run__num">03</span>
+  </div>
+</section>
+
+<!-- ============================ P4 · THREE LANES ============================ -->
+<section class="page page--paper" id="lanes">
+  <div class="run run--head">
+    <span>AWS Student Builder Group · Atria Institute of Technology</span>
+    <span>Sponsorship Prospectus</span>
+  </div>
+
+  <div class="page__body" style="padding-top: 7mm;">
+    <span class="eyebrow">How to Partner</span>
+    <h2 class="title title--wide">Three lanes, one event.</h2>
+    <p class="deck" style="margin-top: 3.4mm;">
+      Cash, food, or credits — every lane carries the same three levels and the same
+      recognition. Take the one that fits what you do best, or combine lanes to cover
+      the full day.
+    </p>
+
+    <div class="lanes">
+      <div class="lane">
+        <div class="lane__head">
+          <div class="lane__badge lane__badge--cash">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="square" aria-hidden="true">
+              <rect x="2.5" y="6" width="19" height="12"/><path d="M2.5 10V6a2 2 0 0 1 2-2h11.5"/><path d="M16.5 12h2.5"/>
+            </svg>
+          </div>
+          <h3 class="lane__name">Cash<br>Sponsors</h3>
+          <p class="lane__promise">Put money behind the day and take the brand across every
+          surface we control — digital, physical and on stage.</p>
+        </div>
+        <div class="rungs">
+          <div class="rung">
+            <div class="rung__row"><span class="rung__amt tnum">₹25,000</span><span class="mono rung__name">Lead</span></div>
+            <p class="rung__what">Co-branded event billing, a branded challenge, prime booth space and full attendee resume access.</p>
+          </div>
+          <div class="rung">
+            <div class="rung__row"><span class="rung__amt tnum">₹10,000</span><span class="mono rung__name">Partner</span></div>
+            <p class="rung__what">Dedicated booth, a 30-minute workshop slot, and a prize category you define.</p>
+          </div>
+          <div class="rung">
+            <div class="rung__row"><span class="rung__amt tnum">₹5,000</span><span class="mono rung__name">Backer</span></div>
+            <p class="rung__what">Logo on the site and venue banners, ceremony acknowledgement, social recognition.</p>
+          </div>
+        </div>
+        <a class="lane__foot" href="#cash">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" aria-hidden="true"><path d="M4 12h14"/><path d="m12.5 6 6 6-6 6"/></svg>
+          <span class="mono">Details on page 05</span>
+        </a>
+      </div>
+
+      <div class="lane">
+        <div class="lane__head">
+          <div class="lane__badge lane__badge--food">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="square" aria-hidden="true">
+              <path d="M5 3v6a2.5 2.5 0 0 0 5 0V3"/><path d="M7.5 11.5V21"/><path d="M16 3v18"/><path d="M16 3c2.4 1.6 2.9 6 .4 8.2"/>
+            </svg>
+          </div>
+          <h3 class="lane__name">Food &amp;<br>Snacks</h3>
+          <p class="lane__promise">Nobody ships on an empty stomach. Feed 100 builders
+          across a full hacking day with your product in front of them.</p>
+        </div>
+        <div class="rungs">
+          <div class="rung">
+            <div class="rung__row"><span class="rung__amt tnum">₹25,000</span><span class="mono rung__name">Title Food</span></div>
+            <p class="rung__what">Covers the full day — both meal windows, branded throughout, named first in every thank-you.</p>
+          </div>
+          <div class="rung">
+            <div class="rung__row"><span class="rung__amt tnum">₹10,000</span><span class="mono rung__name">Meal</span></div>
+            <p class="rung__what">Own one service window — lunch or the 5 PM snack break — with signage and a stage mention.</p>
+          </div>
+          <div class="rung">
+            <div class="rung__row"><span class="rung__amt tnum">₹5,000</span><span class="mono rung__name">Break</span></div>
+            <p class="rung__what">Stock the coffee, tea and snack counter for a stretch of the day, branded on the table.</p>
+          </div>
+        </div>
+        <a class="lane__foot" href="#food">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" aria-hidden="true"><path d="M4 12h14"/><path d="m12.5 6 6 6-6 6"/></svg>
+          <span class="mono">Details on page 06</span>
+        </a>
+      </div>
+
+      <div class="lane">
+        <div class="lane__head">
+          <div class="lane__badge lane__badge--goodies">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="square" aria-hidden="true">
+              <rect x="3" y="8.5" width="18" height="4"/><path d="M5 12.5V20a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-7.5"/><path d="M12 8.5V21"/><path d="M12 8.5S10.6 3 8 3a2.5 2.5 0 0 0 0 5.5"/><path d="M12 8.5S13.4 3 16 3a2.5 2.5 0 0 1 0 5.5"/>
+            </svg>
+          </div>
+          <h3 class="lane__name">Credits &amp;<br>Goodies</h3>
+          <p class="lane__promise">Put your product in the builder's hands before, during
+          and long after the event.</p>
+        </div>
+        <div class="rungs">
+          <div class="rung">
+            <div class="rung__row"><span class="rung__amt tnum">₹25,000</span><span class="mono rung__name">Credits &amp; Swag</span></div>
+            <p class="rung__what">A credits pool worth the contribution, a named swag item in the Attendee Kit, and the prize pool.</p>
+          </div>
+          <div class="rung">
+            <div class="rung__row"><span class="rung__amt tnum">₹10,000</span><span class="mono rung__name">Credits</span></div>
+            <p class="rung__what">Fund the builder credit pool and attach an API or tool prize to the judging sheet.</p>
+          </div>
+          <div class="rung">
+            <div class="rung__row"><span class="rung__amt tnum">₹5,000</span><span class="mono rung__name">Goodies</span></div>
+            <p class="rung__what">One branded item in the Attendee Kit plus logo placement on site and on the goodie board.</p>
+          </div>
+        </div>
+        <a class="lane__foot" href="#goodies">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" aria-hidden="true"><path d="M4 12h14"/><path d="m12.5 6 6 6-6 6"/></svg>
+          <span class="mono">Details on page 07</span>
+        </a>
+      </div>
+    </div>
+
+    <div class="lanes__note">
+      <span class="mono" style="white-space: nowrap;">Same levels, every lane</span>
+      <p>Levels are priced identically across all three lanes — a ₹25,000 commitment buys
+      the same weight of visibility whether it arrives as cash, as catering, or as credits
+      and swag. In-kind contributions can be valued against these levels with us in advance,
+      and every level can be combined across lanes.</p>
+    </div>
+  </div>
+
+  <div class="run run--foot">
+    <a href="https://hacktober.awsatria.tech">hacktober.awsatria.tech</a>
+    <span class="run__num">04</span>
+  </div>
+</section>
+
+<!-- ============================ P5 · CASH SPONSORS ============================ -->
+<section class="page" id="cash">
+  <div class="run run--head">
+    <span>Lane 01 · Cash Sponsors</span>
+    <span>Sponsorship Prospectus</span>
+  </div>
+
+  <div class="page__body" style="padding-top: 7mm;">
+    <span class="eyebrow">Lane 01</span>
+    <h2 class="title">Cash sponsors.</h2>
+    <p class="deck" style="margin-top: 3.4mm;">
+      Cash is the most flexible way in: it converts directly into stage time, floor
+      space and prize money, which is exactly what a hack day runs on. Three levels,
+      one per slot at the top.
+    </p>
+
+    <div class="ladder">
+      <div class="step">
+        <div class="step__key">
+          <span class="mono mono--indigo">Lead</span>
+          <p class="step__amt tnum">₹25,000</p>
+          <p class="step__role">One sponsor</p>
+        </div>
+        <div class="step__body">
+          <ul class="tick">
+            <li><strong>Co-branded billing.</strong> Event billed as “Presented by [Your Company]” across the prospectus, site and closing credits.</li>
+            <li><strong>Dedicated challenge.</strong> A branded challenge track with your choice of technical focus and judging criteria.</li>
+            <li><strong>Prime real estate.</strong> Premium central booth space in the primary hacking arena, plus a dedicated prize category you set.</li>
+            <li><strong>Badge integration.</strong> Logo on the physical attendee credentials and the official Hacktoberfest ticket badge.</li>
+            <li><strong>Talent access.</strong> Pre-event and post-event access to the complete opt-in attendee resume database.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step__key">
+          <span class="mono mono--amber">Partner</span>
+          <p class="step__amt tnum">₹10,000</p>
+          <p class="step__role">Up to three sponsors</p>
+        </div>
+        <div class="step__body">
+          <ul class="tick">
+            <li><strong>Dedicated booth.</strong> Physical booth space for product demos, dev-rel and direct recruitment conversations.</li>
+            <li><strong>Technical workshop.</strong> A 30-minute technical workshop or specialised mentorship slot during the build phase.</li>
+            <li><strong>Brand placement.</strong> Prominent logo on the event website partner wall, stage banners and official t-shirts.</li>
+            <li><strong>Prize category.</strong> A dedicated API or tool prize category during final judging — you define the prize and the criteria.</li>
+            <li><strong>Talent access.</strong> Post-event access to the opt-in attendee resume database.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step__key">
+          <span class="mono mono--red">Backer</span>
+          <p class="step__amt tnum">₹5,000</p>
+          <p class="step__role">Open to all</p>
+        </div>
+        <div class="step__body">
+          <ul class="tick">
+            <li><strong>Logo placement.</strong> Your mark on the event website and on secondary venue banners.</li>
+            <li><strong>Attendee Kit.</strong> Branded swag distributed in the Attendee Kit handed out at check-in.</li>
+            <li><strong>Ceremony acknowledgement.</strong> A named thank-you during the awards and closing ceremony.</li>
+            <li><strong>Social recognition.</strong> A post-event post on the event's official channels.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="everything">
+      <span class="mono">Included at every cash level</span>
+      <ul class="everything__grid">
+        <li><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="square" aria-hidden="true"><path d="m4 12 5 5L20 6"/></svg>Name on the sponsor wall</li>
+        <li><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="square" aria-hidden="true"><path d="m4 12 5 5L20 6"/></svg>Thank-you in the closing ceremony</li>
+        <li><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="square" aria-hidden="true"><path d="m4 12 5 5L20 6"/></svg>Placement in this prospectus</li>
+        <li><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="square" aria-hidden="true"><path d="m4 12 5 5L20 6"/></svg>Logo on the official MLH event page</li>
+        <li><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="square" aria-hidden="true"><path d="m4 12 5 5L20 6"/></svg>Certificate of partnership</li>
+        <li><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="square" aria-hidden="true"><path d="m4 12 5 5L20 6"/></svg>Post-event reach on social channels</li>
       </ul>
     </div>
   </div>
 
-  <!-- PAGE 3: THE EXPERIENCE & TRACKS -->
-  <div class="page dark-page">
-    <span class="section-eyebrow" style="color: var(--color-yellow);">The Experience</span>
-    <h2 class="section-title">Challenge Tracks & Building.</h2>
-    <p class="section-deck" style="color: var(--color-paper-alt);">
-      Our hack day is structured to push boundaries. We provide the environment, the mentorship, and the sustenance; the hackers provide the ingenuity. We feature 3 challenge tracks[cite: 1], culminating in intensive judging and track recognition announced on stage[cite: 1].
+  <div class="run run--foot">
+    <span>Cash Sponsors · Levels ₹25,000 / ₹10,000 / ₹5,000</span>
+    <span class="run__num">05</span>
+  </div>
+</section>
+
+<!-- ============================ P6 · FOOD & SNACKS ============================ -->
+<section class="page" id="food">
+  <div class="run run--head">
+    <span>Lane 02 · Food &amp; Snacks</span>
+    <span>Sponsorship Prospectus</span>
+  </div>
+
+  <div class="page__body" style="padding-top: 7mm;">
+    <span class="eyebrow">Lane 02</span>
+    <h2 class="title">Food &amp; snacks.</h2>
+    <p class="deck" style="margin-top: 3.4mm;">
+      Sponsor lunch, dinner, or midnight snacks with dedicated signage and verbal
+      announcements. The day has two formal service windows plus the continuous
+      counter — take one, take both, or keep the counter running all day.
     </p>
 
-    <div class="grid-2">
-      <div class="theme-card" style="background: var(--color-paper); color: var(--color-ink);">
-        <span class="ht-tag" style="background: var(--color-sky);">Integration</span>
-        <h3 style="font-size: 1.5rem; font-weight: 800; margin-bottom: 1rem;">Platform Adoption</h3>
-        <p style="font-size: 0.95rem;">Sponsors have the unique opportunity to challenge hackers to build on top of their proprietary APIs, SDKs, or cloud infrastructure. This drives immediate, hands-on user adoption and generates valuable developer feedback.</p>
+    <div class="service service--three">
+      <div class="service__card">
+        <span class="service__time">12:45 – 01:30 PM</span>
+        <h3>Lunch service</h3>
+        <p>The build window's only hard stop. Every builder leaves their laptop for this,
+        which is exactly why the room is the most talkative it will be all day.</p>
+        <div class="service__head">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="square" aria-hidden="true">
+            <circle cx="8.5" cy="7.5" r="2.6"/><path d="M3 20a5.5 5.5 0 0 1 11 0"/><path d="M16 5.5a2.6 2.6 0 0 1 0 4.4"/><path d="M17 12.6A5.5 5.5 0 0 1 21 20"/>
+          </svg>
+          <p>Covered for <strong class="lede">100 attendees</strong> plus mentors and the organizing team.</p>
+        </div>
       </div>
-      
-      <div class="theme-card" style="background: var(--color-paper); color: var(--color-ink);">
-        <span class="ht-tag" style="background: var(--color-yellow);">Mentorship</span>
-        <h3 style="font-size: 1.5rem; font-weight: 800; margin-bottom: 1rem;">Direct Guidance</h3>
-        <p style="font-size: 0.95rem;">Send your technical advocates and engineers to mentor teams. This establishes your company as a thought leader and builds authentic relationships with top student developers while they navigate complex technical hurdles.</p>
+      <div class="service__card">
+        <span class="service__time">05:00 – 05:30 PM</span>
+        <h3>Snacks &amp; refreshments</h3>
+        <p>Tea, coffee, and snacks — plus open networking with mentors, peers, and
+        organizers before judging. The last chance to put your product in front of
+        the room while people are still relaxed.</p>
+        <div class="service__head">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="square" aria-hidden="true">
+            <circle cx="8.5" cy="7.5" r="2.6"/><path d="M3 20a5.5 5.5 0 0 1 11 0"/><path d="M16 5.5a2.6 2.6 0 0 1 0 4.4"/><path d="M17 12.6A5.5 5.5 0 0 1 21 20"/>
+          </svg>
+          <p>Covered for <strong class="lede">100 attendees</strong> plus mentors and the organizing team.</p>
+        </div>
+      </div>
+      <div class="service__card service__card--cont">
+        <span class="service__time">10:00 – 05:00</span>
+        <h3>All-day counter</h3>
+        <p>Coffee, tea and water through the whole build phase. The longest window on
+        the page and the one your branding sits behind for seven hours straight.</p>
+        <div class="service__head">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="square" aria-hidden="true">
+            <path d="M4 8h13v6a4 4 0 0 1-4 4H8a4 4 0 0 1-4-4Z"/><path d="M17 9.5h1.5a2.5 2.5 0 0 1 0 5H17"/><path d="M6 3v2.5"/><path d="M10 3v2.5"/>
+          </svg>
+          <p>Restock on your schedule, or hand the counter over and let us run it.</p>
+        </div>
       </div>
     </div>
 
-    <div class="divider-light"></div>
-
-    <span class="section-eyebrow" style="color: var(--color-yellow);">The Schedule</span>
-    <h2 class="section-title" style="font-size: 1.75rem;">A Day of Intense Creation.</h2>
-    <div class="grid-4">
-      <div>
-        <span class="mono-label" style="color: var(--color-sky);">8:30 AM</span>
-        <p style="font-weight: 600; font-size: 1rem;">Doors Open</p>
+    <div class="touch">
+      <div class="touch__item">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="square" aria-hidden="true">
+          <path d="M4 9V4h16v5"/><path d="M4 9h16v11H4z"/><path d="M4 14h16"/>
+        </svg>
+        <h4>Dedicated signage</h4>
+        <p>A branded board at your service point, visible from the hacking floor.</p>
       </div>
-      <div>
-        <span class="mono-label" style="color: var(--color-sky);">11:30 AM</span>
-        <p style="font-weight: 600; font-size: 1rem;">Quiz 1</p> <!-- Schedule retime details[cite: 1] -->
+      <div class="touch__item">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="square" aria-hidden="true">
+          <path d="M4 10.5V14a2 2 0 0 0 2 2h.8L17 20.5V3.5L6.8 8H6a2 2 0 0 0-2 2Z"/><path d="M19.5 9.2a3.4 3.4 0 0 1 0 5.6"/>
+        </svg>
+        <h4>Verbal announcement</h4>
+        <p>Named aloud on the mic at the start of your service window and again at the close.</p>
       </div>
-      <div>
-        <span class="mono-label" style="color: var(--color-sky);">12:45 PM</span>
-        <p style="font-weight: 600; font-size: 1rem;">Lunch</p> <!-- Schedule retime details[cite: 1] -->
+      <div class="touch__item">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="square" aria-hidden="true">
+          <path d="M3 8 12 3l9 5-9 5Z"/><path d="M3 8v8l9 5 9-5V8"/><path d="M12 13v8"/>
+        </svg>
+        <h4>Table tents &amp; kit</h4>
+        <p>Counter branding, plus your product sampled or handed out with the meal.</p>
       </div>
-      <div>
-        <span class="mono-label" style="color: var(--color-sky);">3:00 PM</span>
-        <p style="font-weight: 600; font-size: 1rem;">Quiz 2</p> <!-- Schedule retime details[cite: 1] -->
+      <div class="touch__item">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="square" aria-hidden="true">
+          <path d="M8 8V5.5A1.5 1.5 0 0 1 9.5 4h5A1.5 1.5 0 0 1 16 5.5V8"/><rect x="3" y="8" width="18" height="12"/><path d="M9.5 8v12"/><path d="M14.5 8v12"/>
+        </svg>
+        <h4>Photo moment</h4>
+        <p>Your branding on the shared photo wall, in every photo the room takes.</p>
+      </div>
+      <div class="touch__item">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="square" aria-hidden="true">
+          <path d="M12 3.5 20 8v8l-8 4.5L4 16V8Z"/><path d="M12 12.5 20 8"/><path d="M12 12.5v8"/><path d="m4 8 8 4.5"/>
+        </svg>
+        <h4>Product sampling</h4>
+        <p>Hand out samples, coupons or vouchers to every builder who eats.</p>
+      </div>
+      <div class="touch__item">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="square" aria-hidden="true">
+          <path d="M12 20.5s-7.4-4.6-7.4-9.6A4.2 4.2 0 0 1 12 8.1a4.2 4.2 0 0 1 7.4 2.8c0 5-7.4 9.6-7.4 9.6Z"/>
+        </svg>
+        <h4>Thanks from the team</h4>
+        <p>Named in the closing ceremony alongside every other food partner.</p>
       </div>
     </div>
-    <div style="margin-top: 1rem;">
-       <span class="mono-label" style="color: var(--color-sky);">Evening</span>
-       <p style="font-weight: 600; font-size: 1rem;">Snacks, Refreshments & Networking</p> <!-- Schedule retime details[cite: 1] -->
+
+    <div class="dietary">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="square" aria-hidden="true">
+        <path d="M12 3.5c-3.6 0-6.5 2.7-6.5 6 0 4.4 4.6 9.3 5.7 10.4a1.1 1.1 0 0 0 1.6 0C13.9 18.8 18.5 13.9 18.5 9.5c0-3.3-2.9-6-6.5-6Z"/><path d="M12 9v6"/>
+      </svg>
+      <p><strong class="lede">Dietary requirements.</strong> Vegetarian and vegan options
+      are served by default. Jain, allergy-specific or other requirements are welcome —
+      send us the full headcount and the requirement list at least 72 hours before the
+      event so the kitchen can plan for it.</p>
     </div>
   </div>
 
-  <!-- PAGE 4: SPONSORSHIP MATRIX (TABLES) -->
-  <div class="page">
-    <span class="section-eyebrow">At A Glance</span>
-    <h2 class="section-title">Sponsorship Matrix.</h2>
-    <p class="section-deck" style="margin-bottom: 2rem;">
-      Lock in maximum visibility and engagement with our top-tier packages. Review our key partnership deliverables below.
-    </p>
+  <div class="run run--foot">
+    <span>Food &amp; Snacks · Levels ₹25,000 / ₹10,000 / ₹5,000</span>
+    <span class="run__num">06</span>
+  </div>
+</section>
 
-    <table class="theme-table">
-      <thead>
-        <tr>
-          <th style="width: 25%;">Tier / Investment</th>
-          <th style="width: 25%;">Partner Level</th>
-          <th style="width: 50%;">Key Features & Deliverables</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>
-            <span class="ht-tag" style="background: var(--color-indigo); color: var(--color-cream); margin-bottom: 0.5rem;">Tera Tier</span>
-            <div style="font-weight: 800; font-size: 1.25rem;">₹1,50,000</div>
-          </td>
-          <td>
-            <strong style="font-size: 1.1rem; display: block; margin-bottom: 0.25rem;">Title Partner</strong>
-            <span class="mono-label" style="color: var(--color-red);">(Limit: 1)</span>
-          </td>
-          <td>
-            <ul class="hacker-list compact-list" style="font-size: 0.95rem; margin-bottom: 0;">
-              <li>Co-branded event billing</li>
-              <li>15-minute opening keynote</li>
-              <li>Dedicated Challenge Track</li>
-              <li>Premium central booth</li>
-              <li>Logo on participant badge</li>
-              <li>Full attendee resume access</li>
-            </ul>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <span class="ht-tag" style="background: var(--color-yellow); margin-bottom: 0.5rem;">Giga Tier</span>
-            <div style="font-weight: 800; font-size: 1.25rem;">₹75,000</div>
-          </td>
-          <td>
-            <strong style="font-size: 1.1rem; display: block; margin-bottom: 0.25rem;">Platform Partner</strong>
-            <span class="mono-label" style="color: var(--color-red);">(Limit: 3)</span>
-          </td>
-          <td>
-            <ul class="hacker-list compact-list" style="font-size: 0.95rem; margin-bottom: 0;">
-              <li>Dedicated physical booth</li>
-              <li>30-minute technical workshop</li>
-              <li>Logo on website, t-shirts, banners</li>
-              <li>Dedicated API prize category</li>
-              <li>Post-event resume access</li>
-            </ul>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <span class="ht-tag" style="background: var(--color-sky); margin-bottom: 0.5rem;">Mega Tier</span>
-            <div style="font-weight: 800; font-size: 1.25rem;">₹35,000</div>
-          </td>
-          <td>
-            <strong style="font-size: 1.1rem; display: block; margin-bottom: 0.25rem;">Community Partner</strong>
-          </td>
-          <td>
-            <ul class="hacker-list compact-list" style="font-size: 0.95rem; margin-bottom: 0;">
-              <li>Logo on website and secondary banners</li>
-              <li>Swag distribution in Attendee Kit</li>
-              <li>Ceremony acknowledgment</li>
-              <li>Social media recognition</li>
-            </ul>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-
-    <h3 class="section-title" style="font-size: 1.5rem; margin-top: 2rem;">Custom Opportunities</h3>
-    <table class="theme-table">
-      <thead>
-        <tr>
-          <th style="width: 25%;">Custom Opportunity</th>
-          <th style="width: 25%;">Support Area</th>
-          <th style="width: 50%;">Description</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td><strong style="font-size: 1.1rem;">Food & Beverage</strong></td>
-          <td><span class="mono-label" style="color: var(--color-indigo);">Catering</span></td>
-          <td style="font-size: 0.95rem;">Sponsor lunch, dinner, or midnight snacks with dedicated signage and verbal announcements.</td>
-        </tr>
-        <tr>
-          <td><strong style="font-size: 1.1rem;">Prizes & Hardware</strong></td>
-          <td><span class="mono-label" style="color: var(--color-indigo);">Track Rewards</span></td>
-          <td style="font-size: 0.95rem;">Provide direct rewards (monetary, hardware, or premium software subscriptions) to track winning teams.</td>
-        </tr>
-      </tbody>
-    </table>
+<!-- ============================ P7 · CREDITS & GOODIES ============================ -->
+<section class="page" id="goodies">
+  <div class="run run--head">
+    <span>Lane 03 · Credits &amp; Goodies</span>
+    <span>Sponsorship Prospectus</span>
   </div>
 
-  <!-- PAGE 5: PREMIUM SPONSORSHIP TIERS (DETAILS) -->
-  <div class="page">
-    <span class="section-eyebrow">Deep Dive</span>
-    <h2 class="section-title">Premium Sponsorship Tiers.</h2>
-    <p class="section-deck">
-      Detailed breakdown of the value delivered within our top partnerships.
+  <div class="page__body" style="padding-top: 7mm;">
+    <span class="eyebrow">Lane 03</span>
+    <h2 class="title">Credits &amp; goodies.</h2>
+    <p class="deck" style="margin-top: 3.4mm;">
+      The most direct route into a builder's actual workflow. Fund the credits they
+      run on, ship the swag they carry home, and the product does its own marketing
+      for the rest of the quarter.
     </p>
-    
-    <div class="theme-card" style="border-color: var(--color-indigo); box-shadow: 5px 5px 0 var(--color-indigo);">
-      <div class="seal">T</div>
-      <span class="ht-tag" style="background: var(--color-indigo); color: var(--color-cream);">Tera Tier — ₹1,50,000</span>
-      <h3 style="font-size: 1.75rem; font-weight: 800; margin-bottom: 1rem;">Title Partner (Limit: 1)</h3>
-      <ul class="hacker-list">
-        <li><strong>Ultimate Branding:</strong> Co-branded event billing across all assets ("Presented by [Your Company]").</li>
-        <li><strong>Stage Time:</strong> Custom 15-minute keynote speaking slot during the opening ceremony to address the entire cohort.</li>
-        <li><strong>Custom Challenge:</strong> Dedicated branded Challenge Track with your choice of technical focus and judging criteria.</li>
-        <li><strong>Prime Real Estate:</strong> Premium, central physical booth space in the primary hacking arena for dev-rel and recruiting.</li>
-        <li><strong>Badge Integration:</strong> Exclusive logo placement on the physical attendee credentials/lanyards and the procedural SVG octagonal participant badge[cite: 1].</li>
-        <li><strong>Talent Access:</strong> Pre-event and post-event access to the complete opt-in attendee resume database.</li>
+
+    <div class="ladder">
+      <div class="step">
+        <div class="step__key">
+          <span class="mono mono--moss">Credits &amp; Swag</span>
+          <p class="step__amt tnum">₹25,000</p>
+          <p class="step__role">One sponsor</p>
+        </div>
+        <div class="step__body">
+          <ul class="tick">
+            <li><strong>Credits pool.</strong> Cloud, API or tooling credits worth the contribution, distributed to every attendee at check-in.</li>
+            <li><strong>Named swag item.</strong> Your product in the Attendee Kit — the item builders carry out of the room.</li>
+            <li><strong>Prize pool.</strong> Your credits and gear fund the top contributor bounties handed out at the awards.</li>
+            <li><strong>Mentor presence.</strong> Engineers from your team on the floor for the build window, if you want to send them.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step__key">
+          <span class="mono mono--indigo">Credits</span>
+          <p class="step__amt tnum">₹10,000</p>
+          <p class="step__role">Up to three sponsors</p>
+        </div>
+        <div class="step__body">
+          <ul class="tick">
+            <li><strong>Builder credit pool.</strong> Your credits added to the shared pool every attendee can draw from on the day.</li>
+            <li><strong>Tool prize category.</strong> A dedicated prize awarded at judging for the best use of your API or platform.</li>
+            <li><strong>Named handover.</strong> Redemption codes and setup instructions handed out with a short walkthrough from your team.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step__key">
+          <span class="mono mono--red">Goodies</span>
+          <p class="step__amt tnum">₹5,000</p>
+          <p class="step__role">Open to all</p>
+        </div>
+        <div class="step__body">
+          <ul class="tick">
+            <li><strong>Attendee Kit.</strong> One branded item of your choosing, dropped into the kit every builder takes home.</li>
+            <li><strong>Goodie board.</strong> Your logo on the goodies wall beside the Attendee Kit station.</li>
+            <li><strong>Vouchers &amp; offers.</strong> Discount codes, free-tier extensions or trial credits included in the kit.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="everything">
+      <span class="mono">What every builder walks away with</span>
+      <ul class="everything__grid">
+        <li><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="square" aria-hidden="true"><path d="m4 12 5 5L20 6"/></svg>Swag in the Attendee Kit</li>
+        <li><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="square" aria-hidden="true"><path d="m4 12 5 5L20 6"/></svg>AWS Cloud Club merchandise</li>
+        <li><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="square" aria-hidden="true"><path d="m4 12 5 5L20 6"/></svg>Cloud credits &amp; vouchers</li>
+        <li><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="square" aria-hidden="true"><path d="m4 12 5 5L20 6"/></svg>MLH × Hacktoberfest sticker pack</li>
+        <li><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="square" aria-hidden="true"><path d="m4 12 5 5L20 6"/></svg>A tree planted in their honour</li>
+        <li><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="square" aria-hidden="true"><path d="m4 12 5 5L20 6"/></svg>Certificate of participation</li>
       </ul>
     </div>
+  </div>
 
-    <div class="theme-card">
-      <span class="ht-tag" style="background: var(--color-yellow);">Giga Tier — ₹75,000</span>
-      <h3 style="font-size: 1.5rem; font-weight: 800; margin-bottom: 1rem;">Platform Partner (Limit: 3)</h3>
-      <ul class="hacker-list">
-        <li><strong>Dedicated Booth:</strong> Physical booth space for product demos, dev-rel, and direct recruitment conversations.</li>
-        <li><strong>Technical Workshop:</strong> Option to host a 30-minute technical workshop or specialized mentorship session during the build phase.</li>
-        <li><strong>Brand Placement:</strong> Prominent logo placement on the event website (`/partners` wall[cite: 1]), stage banners, and official t-shirts.</li>
-        <li><strong>Prize Category:</strong> Dedicated API or tool prize category during final judging (you define the prize and criteria).</li>
-        <li><strong>Talent Access:</strong> Post-event access to the opt-in attendee resume database.</li>
-      </ul>
+  <div class="run run--foot">
+    <span>Credits &amp; Goodies · Levels ₹25,000 / ₹10,000 / ₹5,000</span>
+    <span class="run__num">07</span>
+  </div>
+</section>
+
+<!-- ============================ P8 · TRACKS + SCHEDULE ============================ -->
+<section class="page page--ink" id="experience">
+  <div class="run run--head">
+    <span>The Experience</span>
+    <span>Sponsorship Prospectus</span>
+  </div>
+
+  <div class="page__body" style="padding-top: 7mm;">
+    <span class="eyebrow">The Experience</span>
+    <h2 class="title title--wide">Challenge tracks &amp; a day of intense creation.</h2>
+    <p class="deck" style="margin-top: 3.4mm;">
+      We provide the environment, the mentorship, and the sustenance; the builders provide
+      the ingenuity. Every project can qualify for the core Hacktoberfest challenge, and
+      any project that also uses Gemma 4 or AWS can qualify for those too — culminating
+      in judging and track recognition announced on stage.
+    </p>
+
+    <div class="tracks">
+      <div class="track">
+        <span class="track__tag" style="background: var(--red-ink); color: var(--color-cream);">Core Hacktoberfest Challenge</span>
+        <h3>Best Open-Source AI Project</h3>
+        <p>Build an original project where open-source or open-weight AI does real work — an
+        agent skill, an open-weight model, or a model harness — shipped to a public GitHub
+        repo under an open-source license.</p>
+      </div>
+      <div class="track">
+        <span class="track__tag" style="background: var(--color-indigo); color: var(--color-cream);">Google Partner Challenge</span>
+        <h3>Best Use of Gemma 4</h3>
+        <p>Build with Gemma 4, Google's open-weight multimodal model, through the Gemini
+        API. Understand text and images together, or move quickly from an idea to a
+        working prototype.</p>
+      </div>
+      <div class="track">
+        <span class="track__tag" style="background: var(--color-yellow); color: var(--color-ink);">AWS SBG Special</span>
+        <h3>Best Use of AWS</h3>
+        <p>Build or deploy your project on AWS — Lambda, S3, Bedrock, API Gateway. The
+        strongest AWS-powered entry takes the track, on top of any Hacktoberfest challenge
+        it also qualifies for.</p>
+      </div>
+    </div>
+
+    <div style="display: flex; align-items: baseline; justify-content: space-between; margin-top: 6.5mm; padding-bottom: 1.8mm;">
+      <span class="eyebrow" style="margin: 0;">The Schedule</span>
+      <span class="mono mono--mute">Friday, October 23, 2026 · IST</span>
+    </div>
+
+    <div class="schedule">
+      <div class="slot"><span class="slot__time">08:30 – 09:30</span><span class="slot__what">Check-in &amp; Registration</span></div>
+      <div class="slot"><span class="slot__time">09:30 – 10:00</span><span class="slot__what">Opening Ceremony &amp; Briefing</span></div>
+      <div class="slot slot--key"><span class="slot__time">10:00 – 05:00</span><span class="slot__what">Hacking &amp; Building</span></div>
+      <div class="slot"><span class="slot__time">11:30 – 11:45</span><span class="slot__what">Quiz 1</span></div>
+      <div class="slot slot--key"><span class="slot__time">12:45 – 01:30</span><span class="slot__what">Lunch Break</span></div>
+      <div class="slot"><span class="slot__time">03:00 – 03:15</span><span class="slot__what">Quiz 2</span></div>
+      <div class="slot slot--key"><span class="slot__time">05:00 – 05:30</span><span class="slot__what">Snacks, Refreshments &amp; Networking</span></div>
+      <div class="slot"><span class="slot__time">05:30 – 06:30</span><span class="slot__what">Judging &amp; Project Evaluation</span></div>
+      <div class="slot"><span class="slot__time">06:30 – 07:00</span><span class="slot__what">Awards &amp; Closing Ceremony</span></div>
     </div>
   </div>
 
-  <!-- PAGE 6: BACK COVER / CONTACT -->
-  <div class="page" style="justify-content: center;">
-    <div class="theme-card-dark">
-      <span class="section-eyebrow" style="color: var(--color-yellow);">Ready to Build?</span>
-      <h2 class="section-title">Secure Your Partnership.</h2>
-      <p class="section-deck" style="color: var(--color-paper-alt); margin-bottom: 2.5rem;">
-        Sponsorship slots are limited to ensure maximum visibility and meaningful engagement for our partners. Custom packages can be tailored to meet your specific community outreach and hiring goals.
-      </p>
-      
-      <div class="divider-light"></div>
-      
-      <div class="flex-col">
-        <span class="mono-label" style="color: var(--color-sky);">Primary Contact</span>
-        <p style="font-weight: 800; font-size: 2rem; margin-bottom: 0;">Darshan B</p> <!-- Host details[cite: 1] -->
-        <p class="mono-label" style="color: var(--color-coral);">Event Host & Lead Organizer</p> <!-- Host details[cite: 1] -->
-        
-        <div style="margin-top: 2rem; display: flex; flex-direction: column; gap: 1rem;">
-          <div>
-            <span class="mono-label" style="display: block; color: var(--color-sky); margin-bottom: 0.25rem;">EMAIL</span> 
-            <span style="font-family: var(--font-mono); font-size: 1.25rem;">partnerships@awssbgatria.com</span>
+  <div class="run run--foot">
+    <a href="https://hacktober.awsatria.tech">hacktober.awsatria.tech</a>
+    <span class="run__num">08</span>
+  </div>
+</section>
+
+<!-- ==================== P9 · PAST SPONSORS + CONTACT ==================== -->
+<section class="page" id="contact">
+  <div class="run run--head">
+    <span>Sponsorship Prospectus</span>
+    <a href="https://hacktober.awsatria.tech">hacktober.awsatria.tech</a>
+  </div>
+
+  <div class="page__body" style="padding-top: 8mm;">
+    <span class="eyebrow">Ready to Build?</span>
+    <h2 class="title title--wide">Secure your partnership.</h2>
+    <p class="deck" style="margin-top: 3.4mm;">
+      Sponsorship slots are limited to ensure maximum visibility and meaningful engagement
+      for our partners. Custom packages can be tailored to meet your specific community
+      outreach and hiring goals.
+    </p>
+
+    <div class="wall">
+      <div class="wall__head">
+        <span class="mono">Past sponsors</span>
+        <span class="mono mono--mute">Hack Days 2026</span>
+      </div>
+      <div class="wall__grid">
+        <div class="wall__tile"><img src="sponsors/MLH.png" alt="Major League Hacking"><span>MLH</span></div>
+        <div class="wall__tile"><img src="sponsors/n8n.png" alt="n8n"><span>n8n</span></div>
+        <div class="wall__tile"><img src="sponsors/Render.png" alt="Render"><span>Render</span></div>
+        <div class="wall__tile"><img src="sponsors/RedBull.png" alt="Red Bull"><span>Red Bull</span></div>
+        <div class="wall__tile"><img src="sponsors/SpotMe.png" alt="SpotMe"><span>SpotMe</span></div>
+        <div class="wall__tile"><img src="sponsors/HackCulture.png" alt="HackCulture"><span>HackCulture</span></div>
+        <div class="wall__tile"><img src="sponsors/HulChul.png" alt="HulChul"><span>HulChul</span></div>
+        <div class="wall__tile"><img src="sponsors/TAF.png" alt="The Atria Foundation"><span>The Atria Foundation</span></div>
+      </div>
+    </div>
+
+    <div class="people">
+      <div class="person">
+        <span class="mono mono--red">Sponsorship Lead</span>
+        <p class="person__name">Darshan B</p>
+        <p class="person__role">Event Host &amp; Lead Organizer</p>
+        <p class="person__org">AWS Student Builder Group · Atria Institute of Technology</p>
+        <div class="person__lines">
+          <div class="person__line">
+            <span class="mono">Phone</span>
+            <a href="tel:+919964541002">+91 99645 41002</a>
           </div>
-          <div>
-            <span class="mono-label" style="display: block; color: var(--color-sky); margin-bottom: 0.25rem;">PHONE</span> 
-            <span style="font-family: var(--font-mono); font-size: 1.25rem;">+91 98765 43210</span>
+          <div class="person__line">
+            <span class="mono">Email</span>
+            <a href="mailto:darshanb.2208@gmail.com">darshanb.2208@gmail.com</a>
           </div>
-          <div>
-            <span class="mono-label" style="display: block; color: var(--color-sky); margin-bottom: 0.25rem;">EXTRA CHANNEL</span> 
-            <span style="font-family: var(--font-mono); font-size: 1.25rem;">WhatsApp group</span> <!-- Extra channel details[cite: 1] -->
+        </div>
+      </div>
+      <div class="person">
+        <span class="mono mono--red">Sponsorship Lead</span>
+        <p class="person__name">Aniket R</p>
+        <p class="person__role">Event Host &amp; Lead Organizer</p>
+        <p class="person__org">Atria Summer of Code · Atria Institute of Technology</p>
+        <div class="person__lines">
+          <div class="person__line">
+            <span class="mono">Phone</span>
+            <a href="tel:+917061327854">+91 70613 27854</a>
+          </div>
+          <div class="person__line">
+            <span class="mono">Email</span>
+            <a href="mailto:rajaniket6379@gmail.com">rajaniket6379@gmail.com</a>
           </div>
         </div>
       </div>
     </div>
-    
-    <div style="text-align: center; margin-top: 4rem;">
-      <div class="pac-spot" style="width: 60px; height: 60px; margin: 0 auto 1.5rem auto; border-width: 1px; box-shadow: 2px 2px 0 var(--stamp-ink);"></div>
-      <p class="mono-label" style="color: var(--color-ink); opacity: 0.8;">
-        HACKTOBERFEST HACK DAY BENGALURU 2026<br>AWS STUDENT BUILDER GROUP
-      </p>
+
+    <div class="nextstep">
+      <div>
+        <span class="mono">Step one</span>
+        <p>Pick a lane and a level</p>
+      </div>
+      <div>
+        <span class="mono">Step two</span>
+        <p>Send your logo in SVG or PNG</p>
+      </div>
+      <div>
+        <span class="mono">Step three</span>
+        <p>Written confirmation in two working days</p>
+      </div>
+    </div>
+
+    <div class="closing">
+      <p>Hacktoberfest Hack Day Bengaluru 2026 · AWS Student Builder Group at Atria
+      Institute of Technology · Friday, 23 October 2026 · 8:30&nbsp;AM – 8:00&nbsp;PM IST,
+      Atria Institute of Technology, Hebbal.</p>
+      <a class="btn btn--fill" href="https://events.mlh.com/events/15272-hacktoberfest-hack-day-bengaluru-x-aws-student-builder-group-at-atria-institute-of-technology">View on MLH</a>
     </div>
   </div>
+
+  <div class="run run--foot">
+    <span>Thank you for supporting open source in Bengaluru.</span>
+    <span class="run__num">09</span>
+  </div>
+</section>
+
+</div>
+
+<script>
+  // Fit-to-width preview. The pages are real A4 sheets (210 x 297 mm); on a
+  // narrower viewport we scale the whole document down rather than letting the
+  // sheet reflow, so what you see on screen is what the PDF will be. Print
+  // always resets the scale to 1 (see the @media print block).
+  (function () {
+    var doc = document.documentElement;
+    var page = document.querySelector('.page');
+    function fit() {
+      if (!page) return;
+      var sheetWidth = page.offsetWidth;
+      var available = window.innerWidth - 32;
+      var scale = Math.min(1, available / sheetWidth);
+      doc.style.setProperty('--sheet-scale', scale.toFixed(4));
+    }
+    window.addEventListener('resize', fit);
+    window.addEventListener('beforeprint', function () {
+      doc.style.setProperty('--sheet-scale', '1');
+    });
+    fit();
+  })();
+</script>
 
 </body>
 </html>
