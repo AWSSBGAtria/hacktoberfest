@@ -704,6 +704,14 @@ button:active, a:active {
   letter-spacing: .02em;
 }
 
+.map-ribbon-dot {
+  width: .55rem;
+  height: .55rem;
+  border-radius: 999px;
+  background: #e53927;
+  box-shadow: 0 0 0 .2rem rgba(229, 57, 39, .3);
+}
+
 /* ---------------------------------------------------------------------- */
 /* Site chrome - header, footer and mobile menu all share the same        */
 /* indigo-navy frame that brackets the hacktoberfest-colored content.     */
@@ -1401,7 +1409,6 @@ button:active, a:active {
   padding: 1.5rem 1.6rem 1.6rem;
 }
 
-
 .track-medallion {
   display: inline-flex;
   align-items: center;
@@ -1799,7 +1806,7 @@ button:active, a:active {
 /* ---------------------------------------------------------------------- */
 /* Pointer - a GTA-style white arrow with an ink outline, turning event      */
 /* yellow over anything interactive. Pure CSS (no JS, no trail), so it      */
-/* works over iframes and respects touch devices by simply not applying.    */
+/* respects touch devices by simply not applying.                           */
 /* ---------------------------------------------------------------------- */
 
 :root {
@@ -1828,10 +1835,6 @@ input[type="text"],
 input[type="email"],
 textarea {
   cursor: text;
-}
-
-iframe {
-  cursor: auto;
 }
 
 /* ---------------------------------------------------------------------- */
