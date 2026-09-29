@@ -493,3 +493,26 @@ scripts/screenshot.mjs  Playwright review shots (SHOTS_DIR, preview on :4173)
   evening slot is "Snacks, Refreshments & Networking".
 - Done screen uses a dedicated light-panel `.pac-btn-secondary` (the shared
   secondary button is cream-on-transparent and vanished on paper).
+
+## 25. Ticket badge rework, bento page, LinkedIn-ready share
+
+- Badge is a 2:1 landscape ticket (1600x800) with perforation divider: photo
+  plate, wrapped name and chip left; title, sponsor plates (MLH x DEV,
+  DigitalOcean, same partners as the hero) and the white AWS SBG program mark
+  (`public/aws-sbg-mark.png`) right. Footer line dropped after it collided
+  with the mark in screenshots.
+- Names wrap to two balanced lines (word-split minimizing max width, floor
+  30px); input caps at 30 chars with a live counter.
+- Badge page is a 2x2 bento (make-it-yours, preview, take-it-with-you,
+  caption) instead of the lopsided two-column split.
+- LinkedIn share: share-offsite URL (LinkedIn accepts only a URL - text
+  cannot be prefilled) plus auto-copied caption and a static 1200x630 OG
+  image (`public/og-share.png`) with full OG/Twitter meta so the composer
+  unfurls richly. Caption carries #StudentsAtAWS.
+
+## 26. Ticket rhythm, hero badge entry, venue strip
+
+- Ticket spreads vertically: photo upper-left, wrapped name, chip; brandmark,
+  title, subtitle, sponsors, then the venue pin row full-width along the
+  bottom. Bottom-right club mark removed (it collided with the footer line).
+- Hero CTA row carries a third button, "Get your badge" -> /badge.
