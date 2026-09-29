@@ -1,8 +1,9 @@
 import React from 'react';
 import { EVENT_DETAILS } from '../data/eventData';
-import { MapPin, Navigation, Calendar, CheckCircle, Wifi, Lightbulb, ArrowUpRight } from 'lucide-react';
+import { MapPin, Navigation, Calendar, CheckCircle, Wifi, TrainFront, Landmark, CarFront, CircleDot, ArrowUpRight } from 'lucide-react';
 import Reveal from './Reveal';
 import SectionHead from './SectionHead';
+import VenueMap from './VenueMap';
 
 export default function Venue() {
   const checklist = [
@@ -10,6 +11,51 @@ export default function Venue() {
     'Valid College / University Student ID Card',
     'Active GitHub account (ready to submit PRs)',
     'Joined the official WhatsApp group for live event updates',
+  ];
+
+  // Grounded October 2026: no metro station is open in Hebbal yet (the Blue
+  // Line stop is still under construction). Bus numbers below are BMTC routes
+  // verified against current timetables - reconfirm on the BMTC app before
+  // leaving, since numbers and frequency change.
+  const travel = [
+    {
+      icon: TrainFront,
+      title: 'Nearest metro',
+      body: 'No metro station is open in Hebbal yet, so every trip ends on the road. Yeshwanthpur (Green Line), Sandal Soap Factory (Green Line) and Central / Majestic (Purple + Green) are each roughly 7 km out.',
+      links: [
+        { label: 'Yeshwanthpur Metro', href: 'https://maps.app.goo.gl/PT4UXFqZFFbF9GAZA' },
+        { label: 'Central Metro', href: 'https://maps.app.goo.gl/okchxJTCUtviSbhR6' },
+      ],
+      time: '~25–35 min',
+    },
+    {
+      icon: Landmark,
+      title: 'From Majestic',
+      body: 'City station to Hebbal is roughly 12 km straight up Bellary Road. Board at Kempegowda Bus Station and get down at Hebbala.',
+      links: [{ label: 'Get directions', href: 'https://maps.app.goo.gl/mTL1R8SWty4VFPMdA' }],
+      time: '~30–45 min',
+    },
+    {
+      icon: CarFront,
+      title: 'From the KR Puram side',
+      body: 'Come down via Hennur and Nagavara, about 15 km. It is the longest leg on this list, so leave early.',
+      links: [{ label: 'Get directions', href: 'https://maps.app.goo.gl/RuDkyECueMx6v2qK9' }],
+      time: '~45–60 min',
+    },
+    {
+      icon: Navigation,
+      title: 'From the Yelahanka side',
+      body: 'Straight down Bellary Road toward the city, about 8–9 km. Watch for the Atria IT turn-off just before the Hebbal flyover.',
+      links: [{ label: 'Get directions', href: 'https://maps.app.goo.gl/5iKqqMtaFAjTTJf5A' }],
+      time: '~20–30 min',
+    },
+    {
+      icon: CircleDot,
+      title: 'From BEL Circle',
+      body: 'Practically next door: about 2–3 km toward Hebbal. An auto takes under ten minutes.',
+      links: [{ label: 'Get directions', href: 'https://maps.app.goo.gl/gxcrSv1wf2BCAV7D9' }],
+      time: '~10 min',
+    },
   ];
 
   return (
@@ -83,18 +129,9 @@ export default function Venue() {
               <span className="map-ribbon-dot" aria-hidden="true" />
               Atria Institute of Technology · Hebbal
             </div>
-            {/* bbox frames the venue; OSM's own marker is pinned to the same
-                coordinates, so it rides with the map when the visitor pans. */}
-            <iframe
-              src="https://www.openstreetmap.org/export/embed.html?bbox=77.58803%2C13.029816%2C77.59483%2C13.035616&layer=mapnik&marker=13.032716%2C77.59143"
-              title="OpenStreetMap showing Atria Institute of Technology"
-              loading="lazy"
-              referrerPolicy="no-referrer-when-downgrade"
-              allowFullScreen
-            />
-            <a className="map-credit inline-flex items-center gap-1" href="https://www.openstreetmap.org/?mlat=13.032716&mlon=77.59143#map=17/13.032716/77.59143" target="_blank" rel="noopener noreferrer">
-              Open in OpenStreetMap <ArrowUpRight className="w-3 h-3" aria-hidden="true" />
-            </a>
+            {/* Leaflet on OSM tiles with our own red pin: pans and zooms with
+                the map, no keys or consent walls. */}
+            <VenueMap />
           </Reveal>
 
           {/* Card 2: Attendee Checklist */}
@@ -120,12 +157,61 @@ export default function Venue() {
                 ))}
               </div>
             </div>
-
-            <div className="p-4 bg-[#f5b726] border-2 border-[#10201d] text-[#10201d] font-mono text-xs flex items-start gap-2">
-              <Lightbulb className="w-4 h-4 shrink-0 mt-0.5" />
-              <span><strong>Builder Pro-Tip:</strong> Install Git on your laptop beforehand and verify that your GitHub SSH/HTTPS credentials are configured.</span>
-            </div>
           </Reveal>
+        </div>
+
+        {/* Getting here from across Bengaluru */}
+        <div className="mt-12 sm:mt-16">
+          <p className="font-mono text-xs font-bold tracking-[0.08em] uppercase text-[#8bb2de] mb-2">
+            Reach the venue · Bengaluru
+          </p>
+          <h3 className="font-display font-extrabold uppercase tracking-tight text-2xl sm:text-4xl text-[#f7f7f2] mb-3">
+            Coming from across the city
+          </h3>
+          <p className="text-sm sm:text-base text-[#c6caf0] font-sans max-w-[70ch] mb-8">
+            Atria IT sits in Anandnagar, Hebbal, right off Bellary Road. Aim to arrive
+            by 8:30 AM — autos and cabs surge on event mornings, so leave early.
+          </p>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {travel.map((t, idx) => {
+              const Icon = t.icon;
+              return (
+                <Reveal
+                  key={t.title}
+                  delay={(idx % 3) * 90}
+                  className="theme-card p-6 bg-[#f7f7f2] text-[#10201d] border-2 border-[#10201d] shadow-[7px_7px_0_#671912] hover:shadow-[4px_4px_0_#671912] flex flex-col gap-3"
+                >
+                  <span className="w-11 h-11 inline-flex items-center justify-center bg-[#211f47] text-[#f5b726] border-2 border-[#10201d] shadow-[3px_3px_0_#10201d]" aria-hidden="true">
+                    <Icon className="w-5 h-5" />
+                  </span>
+                  <h4 className="font-display font-bold text-lg text-[#10201d] leading-snug">
+                    {t.title}
+                  </h4>
+                  <p className="text-sm text-[#34433f] font-sans leading-relaxed flex-grow">
+                    {t.body}
+                  </p>
+                  <div className="flex flex-wrap gap-2">
+                    {t.links.map((l) => (
+                      <a
+                        key={l.href}
+                        href={l.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1.5 px-3 py-2 font-mono text-[11px] font-bold uppercase tracking-wide border-2 border-[#10201d] bg-[#e4e5da] text-[#10201d] hover:bg-[#f5b726] shadow-[3px_3px_0_#10201d] hover:shadow-[1px_1px_0_#10201d] hover:translate-x-[2px] hover:translate-y-[2px]"
+                      >
+                        {l.label}
+                        <ArrowUpRight className="w-3.5 h-3.5" aria-hidden="true" />
+                      </a>
+                    ))}
+                  </div>
+                  <span className="self-start font-mono text-[11px] font-bold px-2 py-1 bg-[#e4e5da] text-[#10201d] border-2 border-[#10201d]">
+                    {t.time}
+                  </span>
+                </Reveal>
+              );
+            })}
+          </div>
         </div>
       </div>
     </section>

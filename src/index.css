@@ -636,27 +636,59 @@ button:active, a:active {
   isolation: isolate;
 }
 
-.venue-map iframe {
-  display: block;
-  width: 100%;
-  height: 100%;
+.venue-map .venue-leaflet {
+  position: relative;
+  z-index: 0;
+  height: 420px;
   min-height: 340px;
-  border: 0;
-  /* Desaturate, invert, then re-hue into indigo. Hue rotation needs a
-     colored signal first, so sepia() must follow the invert. */
-  filter: grayscale(1) invert(1) brightness(.85) sepia(1) hue-rotate(200deg) saturate(5) contrast(1.1);
+  background: #e4e5da;
 }
 
-.map-ribbon,
-.map-credit {
-  position: absolute;
-  z-index: 2;
+@media (max-width: 640px) {
+  .venue-map .venue-leaflet {
+    height: 340px;
+  }
+}
+
+/* Our red pin rides inside the map, so it pans and zooms with the tiles.
+   Leaflet's default divIcon chrome (white box) is stripped off. */
+.venue-pin-icon {
+  background: none;
+  border: 0;
+}
+
+.venue-pin-icon svg {
+  display: block;
+  filter: drop-shadow(3px 4px 0 rgba(9, 8, 24, .55));
+}
+
+.venue-map-fallback {
+  display: grid;
+  gap: 1rem;
+  justify-items: center;
+  align-content: center;
+  min-height: 340px;
+  padding: 2rem;
+  text-align: center;
   font-family: var(--font-mono);
-  font-size: .68rem;
-  letter-spacing: .02em;
+  font-size: 0.85rem;
+}
+
+/* Light indigo wash over the live map: cools the tiles toward the site
+   chrome while leaving the red venue pin clearly red. Pointer events pass
+   through so the map stays draggable; ribbon sits above it. */
+.venue-map::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: rgba(43, 41, 106, .22);
+  pointer-events: none;
 }
 
 .map-ribbon {
+  position: absolute;
+  z-index: 2;
   top: .75rem;
   left: .75rem;
   display: inline-flex;
@@ -667,35 +699,9 @@ button:active, a:active {
   border: 2px solid #10201d;
   background: var(--chrome-base);
   box-shadow: 4px 4px 0 #10201d;
-}
-
-.map-ribbon-dot {
-  width: .55rem;
-  height: .55rem;
-  border-radius: 999px;
-  background: #e53927;
-  box-shadow: 0 0 0 .2rem rgba(229, 57, 39, .3);
-}
-
-/* Sits above OSM's own attribution strip rather than on top of it. */
-.map-credit {
-  right: .75rem;
-  bottom: 2rem;
-  display: inline-flex;
-  align-items: center;
-  gap: .35rem;
-  padding: .5rem .65rem;
-  color: #10201d;
-  border: 2px solid #10201d;
-  background: #f7f7f2;
-  box-shadow: 4px 4px 0 #10201d;
-  text-decoration: none;
-}
-
-.map-credit:hover {
-  color: #10201d;
-  transform: translate(2px, 2px);
-  box-shadow: 2px 2px 0 #10201d;
+  font-family: var(--font-mono);
+  font-size: .68rem;
+  letter-spacing: .02em;
 }
 
 /* ---------------------------------------------------------------------- */
@@ -919,7 +925,7 @@ button:active, a:active {
   }
 
   .venue-map,
-  .venue-map iframe {
+  .venue-map .venue-leaflet {
     min-height: 280px;
   }
 }
