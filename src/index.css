@@ -170,6 +170,43 @@ body::after {
   box-shadow: 0 2px 0 rgba(81, 70, 217, .55);
 }
 
+/* Secondary button for light surfaces (the base secondary is cream text for
+   dark chrome and vanishes on paper). */
+.ht-btn-secondary-dark {
+  appearance: none;
+  display: inline-flex;
+  min-height: 50px;
+  align-items: center;
+  justify-content: center;
+  gap: .5rem;
+  padding: 12px 22px;
+  color: #10201d;
+  border: 2px solid #10201d;
+  border-radius: 0;
+  background: #f7f7f2;
+  box-shadow: 4px 4px 0 #10201d;
+  cursor: var(--cursor-hand);
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  line-height: 1.1;
+  text-align: center;
+  text-decoration: none;
+  transition: transform var(--dur-fast) var(--ease-brand), box-shadow var(--dur-fast) var(--ease-brand), background-color var(--dur-fast) ease;
+}
+
+.ht-btn-secondary-dark:hover {
+  background: #f5b726;
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0 #10201d;
+}
+
+.ht-btn-secondary-dark:active {
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0 #10201d;
+}
+
 button:disabled,
 a[aria-disabled="true"] {
   cursor: not-allowed;
@@ -1583,15 +1620,6 @@ button:active, a:active {
   margin-bottom: 1.5rem;
   padding-bottom: .8rem;
   border-bottom: 2px solid var(--tier, #8bb2de);
-}
-
-.reward-tier-num {
-  color: var(--tier, #8bb2de);
-  font-family: var(--font-mono);
-  font-size: .68rem;
-  font-weight: 700;
-  letter-spacing: .16em;
-  text-transform: uppercase;
 }
 
 .reward-tier-name {

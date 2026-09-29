@@ -119,6 +119,10 @@ export default function Tracks() {
             <span>Register on MLH</span>
             <ArrowRight className="w-4 h-4 ml-2" />
           </a>
+          <a href="/badge" className="ht-btn-secondary-dark text-sm">
+            <span>Get your badge</span>
+            <ArrowRight className="w-4 h-4 ml-2" />
+          </a>
           <p className="build-cta-note">
             Teams form at 10:15 AM — solo builders are just as welcome.
           </p>
