@@ -136,7 +136,7 @@ export default function Hero() {
         </div>
 
         {/* Hero Actions */}
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 max-w-lg mx-auto mb-10">
+        <div className="flex flex-col sm:flex-row flex-wrap items-center justify-center gap-4 max-w-2xl mx-auto mb-10">
           <a
             href={EVENT_DETAILS.registrationUrl}
             target="_blank"
@@ -155,6 +155,11 @@ export default function Hero() {
             className="ht-btn-secondary w-full sm:w-auto text-sm"
           >
             Join WhatsApp Group
+          </a>
+
+          <a href="/badge" className="ht-btn-secondary w-full sm:w-auto text-sm">
+            <span>Get your badge</span>
+            <ArrowRight className="w-4 h-4 ml-2" />
           </a>
         </div>
 
