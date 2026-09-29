@@ -1,16 +1,32 @@
-import React, { useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { FAQS, EVENT_DETAILS } from '../data/eventData';
 import { triggerFestiveConfetti } from '../utils/confetti';
-import { ArrowRight, MessageCircle } from 'lucide-react';
-import Reveal from './Reveal';
+import { ArrowRight, MessageCircle, Search, ChevronDown, LifeBuoy } from 'lucide-react';
 import SectionHead from './SectionHead';
 
-export default function FAQ() {
-  const [openIndex, setOpenIndex] = useState(-1);
+const CATS = ['All', 'Attending', 'Teams', 'First-timers', 'Registration'];
 
-  const toggle = (idx) => {
-    setOpenIndex(openIndex === idx ? -1 : idx);
-  };
+export default function FAQ() {
+  const [query, setQuery] = useState('');
+  const [cat, setCat] = useState('All');
+  const [openId, setOpenId] = useState(0);
+
+  const items = useMemo(() => {
+    const q = query.trim().toLowerCase();
+    return FAQS.map((faq, id) => ({ ...faq, id })).filter((faq) => {
+      if (cat !== 'All' && faq.category !== cat) return false;
+      if (!q) return true;
+      return (
+        faq.q.toLowerCase().includes(q) || faq.a.toLowerCase().includes(q)
+      );
+    });
+  }, [query, cat]);
+
+  // Keep an answer open whenever the filter changes, so the list never sits
+  // fully collapsed after a search.
+  useEffect(() => {
+    setOpenId(items.length ? items[0].id : -1);
+  }, [query, cat]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <section id="faq" className="theme-section py-20 sm:py-28 bg-[#f2f2eb] text-[#10201d] border-b-2 border-[#10201d]">
@@ -20,89 +36,125 @@ export default function FAQ() {
           eyebrow="FREQUENTLY ASKED QUESTIONS"
           title={<>Got questions?</>}
           accent="we have answers."
+          pacColor="#8bb2de"
           deck="Everything you need to know about attending Hacktoberfest Hack Day Bengaluru as a university student."
         />
 
-        {/* FAQ Panel with 2px borders and hard drop shadow, on the shared shell width */}
-        <Reveal className="brutal-static border-2 border-[#10201d] bg-[#f7f7f2] shadow-[7px_7px_0_#671912] divide-y-2 divide-[#10201d] mb-12">
-          {FAQS.map((faq, idx) => {
-            const isOpen = openIndex === idx;
-            const qId = `faq-q-${idx}`;
-            const pId = `faq-a-${idx}`;
-            return (
-              <div key={idx}>
-                <button
-                  id={qId}
-                  onClick={() => toggle(idx)}
-                  aria-expanded={isOpen}
-                  aria-controls={pId}
-                  className="w-full text-left p-6 sm:px-8 sm:py-6 flex items-start justify-between gap-4 cursor-pointer hover:bg-[#e4e5da] transition-colors"
-                >
-                  <span className="flex items-start gap-4 sm:gap-5 min-w-0">
-                    <span
-                      aria-hidden="true"
-                      className={`mt-1 shrink-0 font-mono text-[11px] font-bold leading-none px-2 py-1.5 border-2 border-[#10201d] transition-colors ${
-                        isOpen ? 'bg-[#e53927] text-[#f7f7f2]' : 'bg-[#e4e5da] text-[#34433f]'
-                      }`}
-                    >
-                      {String(idx + 1).padStart(2, '0')}
-                    </span>
-                    <span className="font-display font-bold text-xl sm:text-2xl text-[#10201d] tracking-tight leading-snug">
-                      {faq.q}
-                    </span>
-                  </span>
-                  <span
-                    aria-hidden="true"
-                    className={`font-mono text-2xl font-bold leading-none shrink-0 mt-1 transition-transform duration-200 ${
-                      isOpen ? 'transform rotate-45 text-[#e53927]' : 'text-[#10201d]'
-                    }`}
-                  >
-                    +
-                  </span>
-                </button>
+        {/* Toolbar: live search + category chips */}
+        <div className="faq-toolbar">
+          <label className="faq-search">
+            <Search className="w-4 h-4 shrink-0" aria-hidden="true" />
+            <span className="sr-only">Search questions</span>
+            <input
+              type="search"
+              value={query}
+              onChange={(event) => setQuery(event.target.value)}
+              placeholder="Search questions - try “team”, “laptop”, “fee”…"
+              aria-label="Search questions"
+            />
+          </label>
+          <div className="faq-chips" role="group" aria-label="Filter by topic">
+            {CATS.map((c) => (
+              <button
+                key={c}
+                type="button"
+                className="faq-chip"
+                aria-pressed={cat === c}
+                onClick={() => setCat(c)}
+              >
+                {c}
+              </button>
+            ))}
+          </div>
+        </div>
+        <p className="faq-count" role="status">
+          {items.length} {items.length === 1 ? 'answer' : 'answers'}
+          {cat !== 'All' ? ` in ${cat}` : ''}
+          {query.trim() ? ` matching “${query.trim()}”` : ''}
+        </p>
 
-                <div
-                  id={pId}
-                  role="region"
-                  aria-labelledby={qId}
-                  className={`accordion-panel ${isOpen ? 'is-open' : ''}`}
-                >
-                  <div className="px-6 pb-6 sm:px-8 sm:pb-8 pt-0">
-                    <div className="h-0.5 w-6 bg-[#e53927] mb-3.5" aria-hidden="true" />
-                    {/* 65-75ch body measure: keeps answers readable instead of
-                        stretching edge-to-edge across the full panel. */}
-                    <p className="max-w-[70ch] text-sm sm:text-base text-[#34433f] font-sans leading-relaxed">
-                      {faq.a}
-                    </p>
+        {/* Answers */}
+        {items.length ? (
+          <div className="faq-list">
+            {items.map((faq) => {
+              const isOpen = openId === faq.id;
+              const qId = `faq-q-${faq.id}`;
+              const pId = `faq-a-${faq.id}`;
+              return (
+                <div key={faq.id} className={`faq-row${isOpen ? ' is-open' : ''}`}>
+                  <button
+                    id={qId}
+                    type="button"
+                    onClick={() => setOpenId(isOpen ? -1 : faq.id)}
+                    aria-expanded={isOpen}
+                    aria-controls={pId}
+                    className="faq-q"
+                  >
+                    <span className="faq-q-text">
+                      <span className="faq-cat">{faq.category}</span>
+                      <span className="faq-question">{faq.q}</span>
+                    </span>
+                    <span className="faq-chevron" aria-hidden="true">
+                      <ChevronDown className="w-5 h-5" />
+                    </span>
+                  </button>
+                  <div
+                    id={pId}
+                    role="region"
+                    aria-labelledby={qId}
+                    className={`faq-a${isOpen ? ' is-open' : ''}`}
+                  >
+                    <div>
+                      <p>{faq.a}</p>
+                    </div>
                   </div>
                 </div>
-              </div>
-            );
-          })}
-        </Reveal>
+              );
+            })}
+          </div>
+        ) : (
+          <div className="faq-empty">
+            <p className="faq-empty-title">No answers match that search.</p>
+            <p className="faq-empty-body">
+              Try a shorter keyword, or ask a human - the WhatsApp group answers
+              fast on event week.
+            </p>
+          </div>
+        )}
 
-        {/* FAQ CTA Row */}
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 text-center">
-          <a
-            href={EVENT_DETAILS.registrationUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            onClick={triggerFestiveConfetti}
-            className="ht-btn-primary w-full sm:w-auto text-sm"
-          >
-            <span>Register on MLH</span>
-            <ArrowRight className="w-4 h-4 ml-2" />
-          </a>
-
-          <a
-            href={EVENT_DETAILS.whatsappUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="px-6 py-3.5 font-mono text-xs font-bold border-2 border-[#10201d] bg-[#f7f7f2] text-[#10201d] hover:bg-[#e4e5da] shadow-[4px_4px_0_#10201d] flex items-center justify-center gap-2 w-full sm:w-auto"
-          >
-            <MessageCircle className="w-4 h-4 text-[#e53927]" />
-            Ask in WhatsApp Group
-          </a>
+        {/* Support card */}
+        <div className="faq-support">
+          <span className="faq-support-icon" aria-hidden="true">
+            <LifeBuoy className="w-6 h-6" />
+          </span>
+          <div className="faq-support-copy">
+            <p className="faq-support-title">Still stuck?</p>
+            <p className="faq-support-body">
+              Organisers and mentors answer in the WhatsApp group, usually within
+              the hour on event week. For registration issues, start with MLH.
+            </p>
+          </div>
+          <div className="faq-support-actions">
+            <a
+              href={EVENT_DETAILS.whatsappUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="ht-btn-primary whitespace-nowrap text-sm"
+            >
+              <MessageCircle className="w-4 h-4 mr-2" />
+              <span>Ask in WhatsApp</span>
+            </a>
+            <a
+              href={EVENT_DETAILS.registrationUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={triggerFestiveConfetti}
+              className="px-6 py-3.5 font-mono text-xs font-bold border-2 border-[#10201d] bg-[#f7f7f2] text-[#10201d] hover:bg-[#e4e5da] shadow-[4px_4px_0_#10201d] flex items-center justify-center gap-2 whitespace-nowrap"
+            >
+              <span>Register on MLH</span>
+              <ArrowRight className="w-4 h-4 ml-1" />
+            </a>
+          </div>
         </div>
       </div>
     </section>

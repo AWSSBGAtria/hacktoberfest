@@ -213,32 +213,34 @@ export const SCHEDULE = [
 
 export const FAQS = [
   {
+    category: "Attending",
     q: "Who can attend this Hack Day?",
     a: "This event is open to all university and college students, whether you are a beginner writing your first lines of code or an experienced open-source contributor.",
   },
   {
+    category: "Attending",
     q: "Is there any registration fee?",
     a: "No! The event is completely free of charge. You get access to the hack day, workshops, mentor guidance, refreshments/food, and swags for free.",
   },
   {
+    category: "Attending",
     q: "What should I bring to the event?",
     a: "Bring your laptop, charger, student ID card, and have a valid GitHub account. We recommend having Git installed on your laptop beforehand.",
   },
   {
+    category: "Teams",
     q: "Can I participate individually or do I need a team?",
     a: "You can participate solo or in teams of up to 4 members. If you don't have a team yet, you can easily find teammates during the morning team formation session.",
   },
   {
+    category: "First-timers",
     q: "I am a complete beginner to Open Source. Can I still join?",
     a: "Absolutely! Hacktoberfest is built to be welcoming to all levels. We will have dedicated mentors to guide you through Git commands, finding good first issues, and submitting clean pull requests.",
   },
   {
+    category: "Registration",
     q: "How does the MLH registration work?",
     a: "Click any 'Register Now' button on this site to go to the official MLH event page. Log in or create an MLH account, answer the questions (like your college name & phone number), and join the official WhatsApp group for live announcements.",
-  },
-  {
-    q: "What are the rewards and swags?",
-    a: "Every attendee is eligible for the Hacktoberfest event pack (T-shirts, stickers, and postcards, while supplies last) and a participation badge. The winning team of Best Open-Source AI Project earns a DEV Badge for every member and a possible MLH x DEV swag bag. Best Use of Gemma 4 and our own Best Use of AWS track carry their own partner and host prizes.",
   },
 ];
 
