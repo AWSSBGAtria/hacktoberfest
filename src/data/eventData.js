@@ -58,7 +58,7 @@ export const TRACKS = [
     icon: "GitPullRequest",
     accent: "#e53927",
     accentInk: "#f7f7f2",
-    prizeSeal: "01",
+    prizeSeal: "★",
     prize: "The winning team is announced on stage; prizes are confirmed closer to the day.",
   },
   {
@@ -70,7 +70,7 @@ export const TRACKS = [
     icon: "Sparkles",
     accent: "#5146d9",
     accentInk: "#f7f7f2",
-    prizeSeal: "02",
+    prizeSeal: "★",
     prize: "The winning team is announced on stage; prizes are confirmed closer to the day.",
   },
   {
@@ -82,7 +82,7 @@ export const TRACKS = [
     icon: "Cloud",
     accent: "#f5b726",
     accentInk: "#10201d",
-    prizeSeal: "03",
+    prizeSeal: "★",
     prize: "The strongest AWS-powered build takes the track; prizes are confirmed closer to the day.",
   },
 ];
@@ -112,7 +112,7 @@ export const REWARDS = [
     category: "Core Hacktoberfest Challenge",
     description: "The winning team is announced on stage; prizes are confirmed closer to the day.",
     tag: "Core Track",
-    seal: "01",
+    seal: "★",
     sealColor: "#f5b726",
   },
   {
@@ -121,7 +121,7 @@ export const REWARDS = [
     category: "Google Partner Challenge",
     description: "The winning team is announced on stage; prizes are confirmed closer to the day.",
     tag: "Partner Track",
-    seal: "02",
+    seal: "★",
     sealColor: "#ee8b83",
   },
   {
@@ -130,7 +130,7 @@ export const REWARDS = [
     category: "AWS Student Builder Group Special",
     description: "Our own bonus challenge for this Hack Day. The strongest AWS-powered build takes the track; prizes are confirmed closer to the day.",
     tag: "Host Track",
-    seal: "03",
+    seal: "★",
     sealColor: "#e53927",
     isHighlight: true,
   },

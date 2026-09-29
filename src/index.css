@@ -1395,19 +1395,6 @@ button:active, a:active {
   padding: 1.5rem 1.6rem 1.6rem;
 }
 
-.track-number {
-  position: absolute;
-  top: .3rem;
-  right: 1.1rem;
-  font-family: var(--font-heading);
-  font-size: 5rem;
-  font-weight: 800;
-  line-height: 1;
-  letter-spacing: -.06em;
-  color: color-mix(in srgb, var(--acc) 24%, transparent);
-  pointer-events: none;
-  user-select: none;
-}
 
 .track-medallion {
   display: inline-flex;

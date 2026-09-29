@@ -70,10 +70,6 @@ export default function Tracks() {
                 <span className="track-band" aria-hidden="true" />
 
                 <div className="track-body">
-                  <span className="track-number" aria-hidden="true">
-                    {String(i + 1).padStart(2, '0')}
-                  </span>
-
                   <span className="track-medallion" aria-hidden="true">
                     <Icon size={24} strokeWidth={2.4} />
                   </span>
