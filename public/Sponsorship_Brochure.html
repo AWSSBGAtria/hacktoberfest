@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sponsorship Prospectus - Hacktoberfest Hack Day Bengaluru 2026</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,800&family=IBM+Plex+Mono:wght@400;700&family=Manrope:wght@400;600;800&display=swap" rel="stylesheet">
+  <style>
+    /* 
+     * THEME TOKENS 
+     * Derived strictly from Hacktoberfest Hack Day Bengaluru 2026 Design System[cite: 1]
+     */
+    :root {
+      /* Surfaces[cite: 1] */
+      --color-cream: #f2f2eb;
+      --color-paper: #f7f7f2;
+      --color-paper-alt: #e4e5da;
+      --color-forest: #20253f;
+      --color-sage: #343b69;
+      --color-maroon: #25204b;
+      --chrome-base: #211f47;
+      
+      /* Ink & Line[cite: 1] */
+      --color-ink: #10201d;
+      
+      /* Accents[cite: 1] */
+      --color-indigo: #5146d9;
+      --color-sky: #8bb2de;
+      --color-red: #e53927;
+      --color-yellow: #f5b726;
+      --color-coral: #ee8b83;
+      
+      /* Shadows[cite: 1] */
+      --stamp: #671912;
+      --stamp-amber: #8a5d13;
+      --stamp-ink: #10201d;
+      
+      /* Typography[cite: 1] */
+      --font-hero: 'Bricolage Grotesque', sans-serif;
+      --font-sans: 'Manrope', sans-serif;
+      --font-mono: 'IBM Plex Mono', monospace;
+    }
+
+    /* BASE SETTINGS & PRINT ADJUSTMENTS */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--color-cream);
+      color: var(--color-ink);
+      font-family: var(--font-sans);
+      line-height: 1.55;
+      -webkit-print-color-adjust: exact !important;
+      print-color-adjust: exact !important;
+    }
+
+    /* TEXTURE: Dot-matrix print grain[cite: 1] */
+    body::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      pointer-events: none;
+      opacity: 0.075;
+      mix-blend-mode: multiply;
+      background-image: radial-gradient(circle at center, #10201d 1px, transparent 1.5px);
+      background-size: 6px 6px;
+    }
+
+    /* TYPOGRAPHY */
+    .hero-title {
+      font-family: var(--font-hero);
+      font-weight: 800;
+      font-size: 4.5rem; 
+      line-height: 0.92;
+      letter-spacing: -0.045em;
+      text-transform: uppercase;
+      margin-bottom: 2rem;
+      color: var(--color-ink);
+    }
+
+    .hero-title.light {
+      color: var(--color-cream);
+    }
+
+    .section-title {
+      font-family: var(--font-sans);
+      font-size: 2.25rem;
+      font-weight: 800;
+      margin-bottom: 1.5rem;
+      line-height: 1.1;
+      color: var(--color-ink);
+    }
+
+    .section-title.light {
+      color: var(--color-cream);
+    }
+
+    .section-deck {
+      font-size: 1.125rem;
+      max-width: 65ch; /* Capped near 65-75ch[cite: 1] */
+      margin-bottom: 2rem;
+    }
+
+    .section-eyebrow {
+      font-family: var(--font-mono);
+      color: var(--color-red); /* Eyebrow red #e53927[cite: 1] */
+      font-weight: 700;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      display: block;
+      margin-bottom: 1rem;
+    }
+
+    .mono-label {
+      font-family: var(--font-mono);
+      font-size: 0.72rem; /* Mono label 0.6rem-0.72rem[cite: 1] */
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      font-weight: 700;
+    }
+
+    /* COMPONENTS[cite: 1] */
+    .theme-card {
+      background: var(--color-paper);
+      border: 2px solid var(--color-ink); /* Square everything, 2px ink border[cite: 1] */
+      border-radius: 0;
+      box-shadow: 5px 5px 0 var(--stamp); /* Stamp shadow[cite: 1] */
+      padding: 2.5rem;
+      margin-bottom: 2rem;
+      position: relative;
+      break-inside: avoid;
+    }
+
+    .theme-card-dark {
+      background: var(--color-forest);
+      color: var(--color-cream);
+      border: 2px solid var(--color-ink);
+      border-radius: 0;
+      box-shadow: 5px 5px 0 var(--stamp-ink);
+      padding: 2.5rem;
+      margin-bottom: 2rem;
+      break-inside: avoid;
+    }
+
+    .theme-card-dark .section-title {
+      color: var(--color-cream);
+    }
+
+    .theme-card-dark .mono-label {
+      color: var(--color-sky);
+    }
+
+    .stat-card {
+      background: var(--color-cream);
+      border: 2px solid var(--color-ink);
+      border-radius: 0;
+      box-shadow: 3px 3px 0 var(--stamp-ink);
+      padding: 1.5rem;
+      break-inside: avoid;
+    }
+
+    .ht-tag {
+      display: inline-block;
+      background: var(--color-sky); /* Info tags default[cite: 1] */
+      color: var(--color-ink);
+      border: 2px solid var(--color-ink);
+      padding: 0.25rem 0.75rem;
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      border-radius: 0; /* Square everything[cite: 1] */
+    }
+
+    /* TABLES[cite: 1] */
+    .theme-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 2rem;
+      background: var(--color-paper);
+      border: 2px solid var(--color-ink); /* Square everything, 2px ink border[cite: 1] */
+      box-shadow: 5px 5px 0 var(--stamp); /* Stamp shadow[cite: 1] */
+      break-inside: avoid;
+    }
+
+    .theme-table th, .theme-table td {
+      border: 2px solid var(--color-ink);
+      padding: 1.25rem;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    .theme-table th {
+      font-family: var(--font-mono); /* IBM Plex Mono for labels/headers[cite: 1] */
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      background: var(--color-cream);
+      color: var(--color-ink);
+      font-weight: 700;
+    }
+
+    /* LAYOUT UTILITIES */
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
+    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+    .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; }
+    .flex-col { display: flex; flex-direction: column; gap: 1rem; }
+    
+    .divider {
+      height: 2px;
+      background-color: var(--color-ink);
+      width: 100%;
+      margin: 2rem 0;
+    }
+
+    .divider-light {
+      height: 2px;
+      background-color: var(--color-cream);
+      opacity: 0.2;
+      width: 100%;
+      margin: 2rem 0;
+    }
+
+    ul.hacker-list {
+      list-style: none;
+      margin-left: 0;
+    }
+
+    ul.hacker-list li {
+      position: relative;
+      padding-left: 1.5rem;
+      margin-bottom: 0.75rem;
+    }
+
+    ul.hacker-list li::before {
+      content: "■";
+      color: var(--color-red);
+      font-size: 0.75rem;
+      position: absolute;
+      left: 0;
+      top: 0.2rem;
+    }
+
+    ul.compact-list li {
+      margin-bottom: 0.25rem;
+    }
+
+    /* DECORATIVE ELEMENTS */
+    .pac-spot {
+      width: 120px;
+      height: 120px;
+      border: 2px solid var(--color-ink);
+      background-image: 
+        linear-gradient(45deg, var(--color-yellow) 25%, transparent 25%), 
+        linear-gradient(-45deg, var(--color-yellow) 25%, transparent 25%),
+        linear-gradient(45deg, transparent 75%, var(--color-yellow) 75%),
+        linear-gradient(-45deg, transparent 75%, var(--color-yellow) 75%);
+      background-size: 20px 20px;
+      background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+      box-shadow: 4px 4px 0 var(--stamp-ink);
+      margin-bottom: 2rem;
+    }
+
+    .seal {
+      width: 80px;
+      height: 80px;
+      background: var(--color-indigo);
+      border: 2px solid var(--color-ink);
+      color: var(--color-cream);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-hero);
+      font-size: 2rem;
+      box-shadow: 3px 3px 0 var(--stamp-ink);
+      position: absolute;
+      top: -20px;
+      right: 20px;
+    }
+
+    /* PAGE SETUP FOR WEB PREVIEW AND PRINT */
+    .page {
+      width: 210mm;
+      min-height: 297mm;
+      padding: 20mm;
+      margin: 20px auto;
+      background: var(--color-cream);
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 0 15px rgba(0,0,0,0.1);
+    }
+    
+    .page.dark-page {
+      background: var(--chrome-base); /* Dark section field[cite: 1] */
+      color: var(--color-cream);
+    }
+
+    .page.dark-page .hero-title,
+    .page.dark-page .section-title {
+      color: var(--color-cream);
+    }
+
+    @media print {
+      @page {
+        size: A4 portrait;
+        margin: 0;
+      }
+      body { margin: 0; background-color: var(--color-cream); }
+      .page {
+        margin: 0;
+        box-shadow: none;
+        width: 210mm;
+        height: 297mm;
+        page-break-after: always;
+        break-after: page;
+      }
+      .page:last-child {
+        page-break-after: auto;
+        break-after: auto;
+      }
+      .page.dark-page {
+        -webkit-print-color-adjust: exact !important;
+        background-color: var(--chrome-base) !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- PAGE 1: COVER -->
+  <div class="page" style="justify-content: center;">
+    <div class="pac-spot"></div>
+    <span class="section-eyebrow">Sponsorship Prospectus</span>
+    <h1 class="hero-title">Hacktoberfest<br>Hack Day<br>Bengaluru 2026</h1>
+    <p class="section-deck" style="font-size: 1.35rem; font-weight: 600; margin-bottom: 3rem;">
+      Partner with the ultimate open-source celebration built for the next generation of engineers and developers.
+    </p>
+    
+    <div class="theme-card">
+      <div class="grid-2">
+        <div>
+          <span class="mono-label" style="color: var(--color-red);">Date & Time</span>
+          <p style="font-weight: 800; font-size: 1.25rem;">Friday, October 23, 2026</p> <!-- Date from eventData[cite: 1] -->
+          <p class="mono-label" style="margin-top: 0.5rem;">8:30 AM – 8:00 PM IST</p> <!-- Times are IST with the full range[cite: 1] -->
+        </div>
+        <div>
+          <span class="mono-label" style="color: var(--color-red);">Venue</span>
+          <p style="font-weight: 800; font-size: 1.25rem;">Atria Institute of Technology</p> <!-- Venue details[cite: 1] -->
+          <p class="mono-label" style="margin-top: 0.5rem;">Hebbal, Bengaluru</p> <!-- Venue details[cite: 1] -->
+        </div>
+      </div>
+      <div class="divider"></div>
+      <div>
+        <span class="mono-label" style="color: var(--color-red);">Organized By</span>
+        <p style="font-weight: 800; font-size: 1.25rem;">AWS Student Builder Group</p> <!-- Organizer details[cite: 1] -->
+        <p class="mono-label" style="margin-top: 0.5rem;">Atria Institute of Technology</p> <!-- Organizer details[cite: 1] -->
+      </div>
+    </div>
+  </div>
+
+  <!-- PAGE 2: EXECUTIVE SUMMARY -->
+  <div class="page">
+    <span class="section-eyebrow">The Vision</span>
+    <h2 class="section-title">Empowering the Open Source Ecosystem.</h2>
+    <p class="section-deck">
+      Hacktoberfest Hack Day Bengaluru 2026 is an immersive, in-person hack day run by the AWS Student Builder Group at Atria Institute of Technology[cite: 1]. It unites passionate student builders, developers, and creators to contribute to open-source software, build innovative technical solutions, and foster a collaborative developer community.
+    </p>
+
+    <div class="grid-3" style="margin-bottom: 2.5rem;">
+      <div class="stat-card">
+        <h3 class="hero-title" style="font-size: 2.5rem; margin-bottom: 0;">12+</h3>
+        <span class="mono-label">Hours of Building</span>
+      </div>
+      <div class="stat-card">
+        <h3 class="hero-title" style="font-size: 2.5rem; margin-bottom: 0;">500+</h3>
+        <span class="mono-label">Hackers Expected</span>
+      </div>
+      <div class="stat-card">
+        <h3 class="hero-title" style="font-size: 2.5rem; margin-bottom: 0;">03</h3>
+        <span class="mono-label">Challenge Tracks</span> <!-- Track details[cite: 1] -->
+      </div>
+    </div>
+
+    <span class="section-eyebrow">Why Partner With Us?</span>
+    <h2 class="section-title" style="font-size: 2rem;">Brand Visibility Meets Top Talent.</h2>
+    <div class="theme-card">
+      <ul class="hacker-list">
+        <li><strong>Developer Relations (DevRel):</strong> Get your APIs, cloud platforms, and developer tools directly into the hands of 500+ eager engineering students and budding technologists actively seeking robust tech stacks.</li>
+        <li><strong>Direct Recruitment Pipeline:</strong> Identify top-tier problem solvers, collaborative team players, and passionate open-source contributors for your hiring and internship funnels.</li>
+        <li><strong>Brand Amplification:</strong> Gain prominent logo placement across digital channels, physical venue banners, and our official MLH event page[cite: 1].</li>
+        <li><strong>Community Impact:</strong> Directly support the regional tech ecosystem and invest in the educational and professional growth of Bengaluru's next engineering generation.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- PAGE 3: THE EXPERIENCE & TRACKS -->
+  <div class="page dark-page">
+    <span class="section-eyebrow" style="color: var(--color-yellow);">The Experience</span>
+    <h2 class="section-title">Challenge Tracks & Building.</h2>
+    <p class="section-deck" style="color: var(--color-paper-alt);">
+      Our hack day is structured to push boundaries. We provide the environment, the mentorship, and the sustenance; the hackers provide the ingenuity. We feature 3 challenge tracks[cite: 1], culminating in intensive judging and track recognition announced on stage[cite: 1].
+    </p>
+
+    <div class="grid-2">
+      <div class="theme-card" style="background: var(--color-paper); color: var(--color-ink);">
+        <span class="ht-tag" style="background: var(--color-sky);">Integration</span>
+        <h3 style="font-size: 1.5rem; font-weight: 800; margin-bottom: 1rem;">Platform Adoption</h3>
+        <p style="font-size: 0.95rem;">Sponsors have the unique opportunity to challenge hackers to build on top of their proprietary APIs, SDKs, or cloud infrastructure. This drives immediate, hands-on user adoption and generates valuable developer feedback.</p>
+      </div>
+      
+      <div class="theme-card" style="background: var(--color-paper); color: var(--color-ink);">
+        <span class="ht-tag" style="background: var(--color-yellow);">Mentorship</span>
+        <h3 style="font-size: 1.5rem; font-weight: 800; margin-bottom: 1rem;">Direct Guidance</h3>
+        <p style="font-size: 0.95rem;">Send your technical advocates and engineers to mentor teams. This establishes your company as a thought leader and builds authentic relationships with top student developers while they navigate complex technical hurdles.</p>
+      </div>
+    </div>
+
+    <div class="divider-light"></div>
+
+    <span class="section-eyebrow" style="color: var(--color-yellow);">The Schedule</span>
+    <h2 class="section-title" style="font-size: 1.75rem;">A Day of Intense Creation.</h2>
+    <div class="grid-4">
+      <div>
+        <span class="mono-label" style="color: var(--color-sky);">8:30 AM</span>
+        <p style="font-weight: 600; font-size: 1rem;">Doors Open</p>
+      </div>
+      <div>
+        <span class="mono-label" style="color: var(--color-sky);">11:30 AM</span>
+        <p style="font-weight: 600; font-size: 1rem;">Quiz 1</p> <!-- Schedule retime details[cite: 1] -->
+      </div>
+      <div>
+        <span class="mono-label" style="color: var(--color-sky);">12:45 PM</span>
+        <p style="font-weight: 600; font-size: 1rem;">Lunch</p> <!-- Schedule retime details[cite: 1] -->
+      </div>
+      <div>
+        <span class="mono-label" style="color: var(--color-sky);">3:00 PM</span>
+        <p style="font-weight: 600; font-size: 1rem;">Quiz 2</p> <!-- Schedule retime details[cite: 1] -->
+      </div>
+    </div>
+    <div style="margin-top: 1rem;">
+       <span class="mono-label" style="color: var(--color-sky);">Evening</span>
+       <p style="font-weight: 600; font-size: 1rem;">Snacks, Refreshments & Networking</p> <!-- Schedule retime details[cite: 1] -->
+    </div>
+  </div>
+
+  <!-- PAGE 4: SPONSORSHIP MATRIX (TABLES) -->
+  <div class="page">
+    <span class="section-eyebrow">At A Glance</span>
+    <h2 class="section-title">Sponsorship Matrix.</h2>
+    <p class="section-deck" style="margin-bottom: 2rem;">
+      Lock in maximum visibility and engagement with our top-tier packages. Review our key partnership deliverables below.
+    </p>
+
+    <table class="theme-table">
+      <thead>
+        <tr>
+          <th style="width: 25%;">Tier / Investment</th>
+          <th style="width: 25%;">Partner Level</th>
+          <th style="width: 50%;">Key Features & Deliverables</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            <span class="ht-tag" style="background: var(--color-indigo); color: var(--color-cream); margin-bottom: 0.5rem;">Tera Tier</span>
+            <div style="font-weight: 800; font-size: 1.25rem;">₹1,50,000</div>
+          </td>
+          <td>
+            <strong style="font-size: 1.1rem; display: block; margin-bottom: 0.25rem;">Title Partner</strong>
+            <span class="mono-label" style="color: var(--color-red);">(Limit: 1)</span>
+          </td>
+          <td>
+            <ul class="hacker-list compact-list" style="font-size: 0.95rem; margin-bottom: 0;">
+              <li>Co-branded event billing</li>
+              <li>15-minute opening keynote</li>
+              <li>Dedicated Challenge Track</li>
+              <li>Premium central booth</li>
+              <li>Logo on participant badge</li>
+              <li>Full attendee resume access</li>
+            </ul>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <span class="ht-tag" style="background: var(--color-yellow); margin-bottom: 0.5rem;">Giga Tier</span>
+            <div style="font-weight: 800; font-size: 1.25rem;">₹75,000</div>
+          </td>
+          <td>
+            <strong style="font-size: 1.1rem; display: block; margin-bottom: 0.25rem;">Platform Partner</strong>
+            <span class="mono-label" style="color: var(--color-red);">(Limit: 3)</span>
+          </td>
+          <td>
+            <ul class="hacker-list compact-list" style="font-size: 0.95rem; margin-bottom: 0;">
+              <li>Dedicated physical booth</li>
+              <li>30-minute technical workshop</li>
+              <li>Logo on website, t-shirts, banners</li>
+              <li>Dedicated API prize category</li>
+              <li>Post-event resume access</li>
+            </ul>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <span class="ht-tag" style="background: var(--color-sky); margin-bottom: 0.5rem;">Mega Tier</span>
+            <div style="font-weight: 800; font-size: 1.25rem;">₹35,000</div>
+          </td>
+          <td>
+            <strong style="font-size: 1.1rem; display: block; margin-bottom: 0.25rem;">Community Partner</strong>
+          </td>
+          <td>
+            <ul class="hacker-list compact-list" style="font-size: 0.95rem; margin-bottom: 0;">
+              <li>Logo on website and secondary banners</li>
+              <li>Swag distribution in Attendee Kit</li>
+              <li>Ceremony acknowledgment</li>
+              <li>Social media recognition</li>
+            </ul>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3 class="section-title" style="font-size: 1.5rem; margin-top: 2rem;">Custom Opportunities</h3>
+    <table class="theme-table">
+      <thead>
+        <tr>
+          <th style="width: 25%;">Custom Opportunity</th>
+          <th style="width: 25%;">Support Area</th>
+          <th style="width: 50%;">Description</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong style="font-size: 1.1rem;">Food & Beverage</strong></td>
+          <td><span class="mono-label" style="color: var(--color-indigo);">Catering</span></td>
+          <td style="font-size: 0.95rem;">Sponsor lunch, dinner, or midnight snacks with dedicated signage and verbal announcements.</td>
+        </tr>
+        <tr>
+          <td><strong style="font-size: 1.1rem;">Prizes & Hardware</strong></td>
+          <td><span class="mono-label" style="color: var(--color-indigo);">Track Rewards</span></td>
+          <td style="font-size: 0.95rem;">Provide direct rewards (monetary, hardware, or premium software subscriptions) to track winning teams.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- PAGE 5: PREMIUM SPONSORSHIP TIERS (DETAILS) -->
+  <div class="page">
+    <span class="section-eyebrow">Deep Dive</span>
+    <h2 class="section-title">Premium Sponsorship Tiers.</h2>
+    <p class="section-deck">
+      Detailed breakdown of the value delivered within our top partnerships.
+    </p>
+    
+    <div class="theme-card" style="border-color: var(--color-indigo); box-shadow: 5px 5px 0 var(--color-indigo);">
+      <div class="seal">T</div>
+      <span class="ht-tag" style="background: var(--color-indigo); color: var(--color-cream);">Tera Tier — ₹1,50,000</span>
+      <h3 style="font-size: 1.75rem; font-weight: 800; margin-bottom: 1rem;">Title Partner (Limit: 1)</h3>
+      <ul class="hacker-list">
+        <li><strong>Ultimate Branding:</strong> Co-branded event billing across all assets ("Presented by [Your Company]").</li>
+        <li><strong>Stage Time:</strong> Custom 15-minute keynote speaking slot during the opening ceremony to address the entire cohort.</li>
+        <li><strong>Custom Challenge:</strong> Dedicated branded Challenge Track with your choice of technical focus and judging criteria.</li>
+        <li><strong>Prime Real Estate:</strong> Premium, central physical booth space in the primary hacking arena for dev-rel and recruiting.</li>
+        <li><strong>Badge Integration:</strong> Exclusive logo placement on the physical attendee credentials/lanyards and the procedural SVG octagonal participant badge[cite: 1].</li>
+        <li><strong>Talent Access:</strong> Pre-event and post-event access to the complete opt-in attendee resume database.</li>
+      </ul>
+    </div>
+
+    <div class="theme-card">
+      <span class="ht-tag" style="background: var(--color-yellow);">Giga Tier — ₹75,000</span>
+      <h3 style="font-size: 1.5rem; font-weight: 800; margin-bottom: 1rem;">Platform Partner (Limit: 3)</h3>
+      <ul class="hacker-list">
+        <li><strong>Dedicated Booth:</strong> Physical booth space for product demos, dev-rel, and direct recruitment conversations.</li>
+        <li><strong>Technical Workshop:</strong> Option to host a 30-minute technical workshop or specialized mentorship session during the build phase.</li>
+        <li><strong>Brand Placement:</strong> Prominent logo placement on the event website (`/partners` wall[cite: 1]), stage banners, and official t-shirts.</li>
+        <li><strong>Prize Category:</strong> Dedicated API or tool prize category during final judging (you define the prize and criteria).</li>
+        <li><strong>Talent Access:</strong> Post-event access to the opt-in attendee resume database.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- PAGE 6: BACK COVER / CONTACT -->
+  <div class="page" style="justify-content: center;">
+    <div class="theme-card-dark">
+      <span class="section-eyebrow" style="color: var(--color-yellow);">Ready to Build?</span>
+      <h2 class="section-title">Secure Your Partnership.</h2>
+      <p class="section-deck" style="color: var(--color-paper-alt); margin-bottom: 2.5rem;">
+        Sponsorship slots are limited to ensure maximum visibility and meaningful engagement for our partners. Custom packages can be tailored to meet your specific community outreach and hiring goals.
+      </p>
+      
+      <div class="divider-light"></div>
+      
+      <div class="flex-col">
+        <span class="mono-label" style="color: var(--color-sky);">Primary Contact</span>
+        <p style="font-weight: 800; font-size: 2rem; margin-bottom: 0;">Darshan B</p> <!-- Host details[cite: 1] -->
+        <p class="mono-label" style="color: var(--color-coral);">Event Host & Lead Organizer</p> <!-- Host details[cite: 1] -->
+        
+        <div style="margin-top: 2rem; display: flex; flex-direction: column; gap: 1rem;">
+          <div>
+            <span class="mono-label" style="display: block; color: var(--color-sky); margin-bottom: 0.25rem;">EMAIL</span> 
+            <span style="font-family: var(--font-mono); font-size: 1.25rem;">partnerships@awssbgatria.com</span>
+          </div>
+          <div>
+            <span class="mono-label" style="display: block; color: var(--color-sky); margin-bottom: 0.25rem;">PHONE</span> 
+            <span style="font-family: var(--font-mono); font-size: 1.25rem;">+91 98765 43210</span>
+          </div>
+          <div>
+            <span class="mono-label" style="display: block; color: var(--color-sky); margin-bottom: 0.25rem;">EXTRA CHANNEL</span> 
+            <span style="font-family: var(--font-mono); font-size: 1.25rem;">WhatsApp group</span> <!-- Extra channel details[cite: 1] -->
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div style="text-align: center; margin-top: 4rem;">
+      <div class="pac-spot" style="width: 60px; height: 60px; margin: 0 auto 1.5rem auto; border-width: 1px; box-shadow: 2px 2px 0 var(--stamp-ink);"></div>
+      <p class="mono-label" style="color: var(--color-ink); opacity: 0.8;">
+        HACKTOBERFEST HACK DAY BENGALURU 2026<br>AWS STUDENT BUILDER GROUP
+      </p>
+    </div>
+  </div>
+
+</body>
+</html>
