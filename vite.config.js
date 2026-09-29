@@ -9,4 +9,10 @@ export default defineConfig({
     react(),
     tailwindcss(),
   ],
+  // `npm run dev` forwards API calls to the event-day backend.
+  server: {
+    proxy: {
+      '/api': 'http://localhost:3001',
+    },
+  },
 })
