@@ -16,6 +16,13 @@ function getPath() {
   return window.location.pathname.replace(/\/$/, '') || '/';
 }
 
+// Off-site jumps handled by the client router so in-app links and pasted
+// URLs both land correctly (the server SPA fallback serves index.html).
+const REDIRECTS = {
+  '/volunteer': 'https://binary.so/EnumX2Q',
+  '/mentor': 'https://binary.so/eGuTA0x',
+};
+
 function RouteView({ path }) {
   switch (path) {
     case '/about':
@@ -29,6 +36,13 @@ function RouteView({ path }) {
     case '/community':
     case '/faq':
       return <FaqPage />;
+    case '/volunteer':
+    case '/mentor':
+      return (
+        <p className="shell py-20 sm:py-28 font-mono text-sm tracking-wide">
+          Redirecting you onward…
+        </p>
+      );
     default:
       return <HomePage />;
   }
@@ -44,6 +58,8 @@ const TITLES = {
   '/venue': 'Venue & Map — Hack Day Bengaluru',
   '/community': 'FAQ — Hack Day Bengaluru',
   '/faq': 'FAQ — Hack Day Bengaluru',
+  '/volunteer': 'Volunteer — Hack Day Bengaluru',
+  '/mentor': 'Mentor — Hack Day Bengaluru',
 };
 
 export default function App() {
@@ -57,6 +73,8 @@ export default function App() {
 
   useEffect(() => {
     document.title = TITLES[path] || TITLES['/'];
+    const target = REDIRECTS[path];
+    if (target) window.location.replace(target);
   }, [path]);
 
   // Swap the route through the View Transitions API so the header and footer
