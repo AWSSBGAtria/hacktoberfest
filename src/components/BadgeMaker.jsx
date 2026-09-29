@@ -3,7 +3,8 @@ import { EVENT_DETAILS } from '../data/eventData';
 import { Download, ArrowUpRight, Link2, ImagePlus, Share2 } from 'lucide-react';
 import SectionHead from './SectionHead';
 
-const SIZE = 1080;
+const W = 1600;
+const H = 800;
 const CREAM = '#f7f7f2';
 const INK = '#10201d';
 const NAVY = '#211f47';
@@ -40,23 +41,42 @@ function fitFont(ctx, text, maxWidth, base, family, weight) {
   return size;
 }
 
-function drawBadge(canvas, photo, name) {
+function drawContain(ctx, img, x, y, w, h) {
+  const s = Math.min(w / img.width, h / img.height);
+  const dw = img.width * s;
+  const dh = img.height * s;
+  ctx.drawImage(img, x + (w - dw) / 2, y + (h - dh) / 2, dw, dh);
+}
+
+function loadImage(src) {
+  return new Promise((resolve) => {
+    const img = new Image();
+    img.onload = () => resolve(img);
+    img.onerror = () => resolve(null);
+    img.src = src;
+  });
+}
+
+// Landscape ticket, 2:1. Left: photo plate, name, attending chip. Right:
+// title block, sponsor lockup (same partners as the hero), club mark.
+function drawBadge(canvas, assets, photo, name) {
   const ctx = canvas.getContext('2d');
   if (!ctx) return;
-  const W = SIZE;
-  const H = SIZE;
-  const cx = W / 2;
+  const mark = assets ? assets.mark : null;
+  const mlh = assets ? assets.mlh : null;
+  const dev = assets ? assets.dev : null;
+  const digio = assets ? assets.dig : null;
 
-  // Chrome backdrop with a soft top glow, like the hero.
+  // Chrome backdrop with a soft glow, like the hero.
   ctx.fillStyle = NAVY;
   ctx.fillRect(0, 0, W, H);
-  const glow = ctx.createRadialGradient(cx, 300, 60, cx, 300, 620);
+  const glow = ctx.createRadialGradient(1150, 260, 60, 1150, 260, 700);
   glow.addColorStop(0, 'rgba(81, 70, 217, .55)');
   glow.addColorStop(1, 'rgba(81, 70, 217, 0)');
   ctx.fillStyle = glow;
   ctx.fillRect(0, 0, W, H);
 
-  // Double frame: cream hairline outside, ink rule inside.
+  // Double frame.
   ctx.strokeStyle = CREAM;
   ctx.lineWidth = 6;
   ctx.strokeRect(28, 28, W - 56, H - 56);
@@ -64,36 +84,25 @@ function drawBadge(canvas, photo, name) {
   ctx.lineWidth = 10;
   ctx.strokeRect(52, 52, W - 104, H - 104);
 
+  // Ticket perforation between photo and content.
+  ctx.save();
+  ctx.strokeStyle = CREAM;
+  ctx.globalAlpha = 0.45;
+  ctx.lineWidth = 4;
+  ctx.setLineDash([14, 12]);
+  ctx.beginPath();
+  ctx.moveTo(660, 110);
+  ctx.lineTo(660, 690);
+  ctx.stroke();
+  ctx.restore();
+
   ctx.textAlign = 'center';
   ctx.textBaseline = 'alphabetic';
 
-  // Eyebrow.
-  ctx.fillStyle = SKY;
-  ctx.font = '700 30px "IBM Plex Mono", monospace';
-  try {
-    ctx.letterSpacing = '8px';
-  } catch {
-    /* older canvas: tracking unsupported, still fine */
-  }
-  ctx.fillText('AWS STUDENT BUILDER GROUP · ATRIA IT', cx + 4, 128);
-  try {
-    ctx.letterSpacing = '0px';
-  } catch {
-    /* noop */
-  }
-
-  // Title block.
-  ctx.fillStyle = CREAM;
-  ctx.font = '800 118px "Bricolage Grotesque", Manrope, sans-serif';
-  ctx.fillText('HACKTOBERFEST', cx, 248);
-  ctx.fillStyle = YELLOW;
-  ctx.font = '800 54px "Bricolage Grotesque", Manrope, sans-serif';
-  ctx.fillText('HACK DAY · BENGALURU 2026', cx, 312);
-
-  // Photo plate with hard offset shadow.
+  // ---- Left: photo, name, chip.
   const ps = 440;
-  const px = cx - ps / 2;
-  const py = 356;
+  const px = 110;
+  const py = 140;
   ctx.fillStyle = CREAM;
   ctx.fillRect(px + 16, py + 16, ps, ps);
   ctx.fillStyle = INK;
@@ -104,28 +113,86 @@ function drawBadge(canvas, photo, name) {
     ctx.fillStyle = YELLOW;
     ctx.fillRect(px + 12, py + 12, ps - 24, ps - 24);
     ctx.fillStyle = INK;
-    ctx.font = '800 190px "Bricolage Grotesque", Manrope, sans-serif';
+    ctx.font = '800 180px "Bricolage Grotesque", Manrope, sans-serif';
     ctx.textBaseline = 'middle';
-    ctx.fillText(initialsOf(name), cx, py + ps / 2 + 8);
+    ctx.fillText(initialsOf(name), px + ps / 2, py + ps / 2 + 8);
     ctx.textBaseline = 'alphabetic';
   }
 
-  // Name, shrunk to fit.
   const label = name.trim() || 'YOUR NAME';
   ctx.fillStyle = CREAM;
-  const size = fitFont(ctx, label.toUpperCase(), 920, 76, '"Bricolage Grotesque", Manrope, sans-serif', 800);
+  const size = fitFont(ctx, label.toUpperCase(), 500, 60, '"Bricolage Grotesque", Manrope, sans-serif', 800);
   ctx.font = `800 ${size}px "Bricolage Grotesque", Manrope, sans-serif`;
-  ctx.fillText(label.toUpperCase(), cx, 892);
+  ctx.fillText(label.toUpperCase(), px + ps / 2, 668);
 
-  // Attending chip.
   ctx.fillStyle = CORAL;
-  ctx.font = '700 30px "IBM Plex Mono", monospace';
-  ctx.fillText('★ ATTENDING · OCT 23 ★', cx, 952);
+  ctx.font = '700 27px "IBM Plex Mono", monospace';
+  ctx.fillText('★ ATTENDING · OCT 23 ★', px + ps / 2, 714);
 
-  // Footer.
+  // ---- Right: title, sponsors, club mark.
+  const rcx = 1105;
+  try {
+    ctx.letterSpacing = '6px';
+  } catch {
+    /* older canvas: tracking unsupported, still fine */
+  }
+  ctx.fillStyle = SKY;
+  ctx.font = '700 26px "IBM Plex Mono", monospace';
+  ctx.fillText('AWS STUDENT BUILDER GROUP · ATRIA IT', rcx + 3, 172);
+  try {
+    ctx.letterSpacing = '0px';
+  } catch {
+    /* noop */
+  }
+
+  ctx.fillStyle = CREAM;
+  ctx.font = '800 96px "Bricolage Grotesque", Manrope, sans-serif';
+  ctx.fillText('HACKTOBERFEST', rcx, 288);
+  ctx.fillStyle = YELLOW;
+  ctx.font = '800 44px "Bricolage Grotesque", Manrope, sans-serif';
+  ctx.fillText('HACK DAY · BENGALURU 2026', rcx, 348);
+
+  // Sponsor lockup, same partners as the hero.
+  ctx.textAlign = 'left';
   ctx.fillStyle = MUTED;
-  ctx.font = '700 24px "IBM Plex Mono", monospace';
-  ctx.fillText('HACKTOBERFEST HACK DAY · BENGALURU', cx, 1006);
+  ctx.font = '700 20px "IBM Plex Mono", monospace';
+  ctx.fillText('POWERED BY', 730, 452);
+  ctx.fillText('PRESENTING PARTNER', 1120, 452);
+  const plate = (x, draw) => {
+    ctx.fillStyle = CREAM;
+    ctx.fillRect(x, 470, 300, 84);
+    ctx.strokeStyle = INK;
+    ctx.lineWidth = 4;
+    ctx.strokeRect(x, 470, 300, 84);
+    draw(x + 14, 484, 272, 56);
+  };
+  ctx.fillStyle = INK;
+  ctx.font = '700 30px "IBM Plex Mono", monospace';
+  plate(730, (x, y, w, h) => {
+    // MLH mark, divider cross, DEV mark.
+    let cx = x;
+    if (mlh) {
+      const s = Math.min((w - 60) / 2.4 / mlh.width, h / mlh.height);
+      const dw = mlh.width * s;
+      const dh = mlh.height * s;
+      ctx.drawImage(mlh, cx, y + (h - dh) / 2, dw, dh);
+      cx += dw + 14;
+    }
+    ctx.textAlign = 'left';
+    ctx.fillText('×', cx, y + h / 2 + 11);
+    const tw = ctx.measureText('×').width;
+    cx += tw + 14;
+    if (dev) drawContain(ctx, dev, cx, y, w - (cx - x), h);
+  });
+  plate(1120, (x, y, w, h) => {
+    if (digio) drawContain(ctx, digio, x, y, w, h);
+  });
+  ctx.textAlign = 'center';
+
+  // Club mark, bottom-right corner on its own breathing room.
+  if (mark) {
+    drawContain(ctx, mark, 1390, 615, 100, 100);
+  }
 }
 
 export default function BadgeMaker() {
@@ -134,6 +201,7 @@ export default function BadgeMaker() {
   const [photo, setPhoto] = useState(null);
   const [photoName, setPhotoName] = useState('');
   const [photoError, setPhotoError] = useState('');
+  const [assets, setAssets] = useState(null);
   const [name, setName] = useState('');
   const [dragging, setDragging] = useState(false);
   const [copied, setCopied] = useState(false);
@@ -144,9 +212,18 @@ export default function BadgeMaker() {
     Promise.all([
       document.fonts.load('800 100px "Bricolage Grotesque"'),
       document.fonts.load('700 30px "IBM Plex Mono"'),
+      loadImage('/aws-sbg-mark.png').then((mark) => ({ mark })),
+      loadImage('/MLH.png').then((mlh) => ({ mlh })),
+      loadImage('/Dev.png').then((dev) => ({ dev })),
+      loadImage('/DigitalOcean.png').then((dig) => ({ dig })),
     ])
-      .catch(() => {})
-      .finally(() => {
+      .then(([, , ...logos]) => {
+        if (live) {
+          setAssets(Object.assign({}, ...logos));
+          setFontsReady(true);
+        }
+      })
+      .catch(() => {
         if (live) setFontsReady(true);
       });
     return () => {
@@ -156,9 +233,9 @@ export default function BadgeMaker() {
 
   useEffect(() => {
     if (fontsReady && canvasRef.current) {
-      drawBadge(canvasRef.current, photo, name);
+      drawBadge(canvasRef.current, assets, photo, name);
     }
-  }, [fontsReady, photo, name]);
+  }, [fontsReady, assets, photo, name]);
 
   const takeFile = useCallback((file) => {
     setPhotoError('');
@@ -188,7 +265,7 @@ export default function BadgeMaker() {
   const download = useCallback(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
-    drawBadge(canvas, photo, name);
+    drawBadge(canvas, assets, photo, name);
     canvas.toBlob((blob) => {
       if (!blob) return;
       const url = URL.createObjectURL(blob);
@@ -200,7 +277,7 @@ export default function BadgeMaker() {
       a.remove();
       setTimeout(() => URL.revokeObjectURL(url), 4000);
     }, 'image/png');
-  }, [photo, name]);
+  }, [assets, photo, name]);
 
   const copyCaption = useCallback(async () => {
     try {
@@ -228,7 +305,7 @@ export default function BadgeMaker() {
   const shareNative = useCallback(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
-    drawBadge(canvas, photo, name);
+    drawBadge(canvas, assets, photo, name);
     canvas.toBlob(async (blob) => {
       if (!blob) return;
       const file = new File([blob], 'hacktoberfest-hack-day-badge.png', { type: 'image/png' });
@@ -244,7 +321,7 @@ export default function BadgeMaker() {
         /* user cancelled - stay on the page */
       }
     }, 'image/png');
-  }, [photo, name]);
+  }, [assets, photo, name]);
 
   return (
     <section id="badge" className="theme-section py-20 sm:py-28 bg-[#f2f2eb] text-[#10201d] border-b-2 border-[#10201d]">
@@ -254,7 +331,7 @@ export default function BadgeMaker() {
           title={<>Get your attendee</>}
           accent="badge."
           pacColor="#f5b726"
-          deck="Drop your photo, type your name, and take home a square badge made for LinkedIn and X timelines. Download the PNG, then post it with the caption below."
+          deck="Drop your photo, type your name, and take home a wide ticket badge made for LinkedIn and X timelines. Download the PNG, then post it with the caption below."
         />
 
         <div className="grid grid-cols-1 lg:grid-cols-[380px_1fr] gap-8 items-start">
@@ -362,8 +439,8 @@ export default function BadgeMaker() {
             <div className="border-2 border-[#10201d] bg-[#211f47] shadow-[7px_7px_0_#671912] p-4 sm:p-6">
               <canvas
                 ref={canvasRef}
-                width={SIZE}
-                height={SIZE}
+                width={W}
+                height={H}
                 className="block w-full h-auto"
                 aria-label="Preview of your attendee badge"
               />
