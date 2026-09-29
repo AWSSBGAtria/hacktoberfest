@@ -5,11 +5,11 @@ import SectionHead from './SectionHead';
 
 const W = 1600;
 const H = 800;
+const TAU = Math.PI * 2;
 const CREAM = '#f7f7f2';
 const INK = '#10201d';
 const NAVY = '#211f47';
 const YELLOW = '#f5b726';
-const SKY = '#8bb2de';
 const CORAL = '#e97b77';
 const MUTED = '#aebcff';
 
@@ -34,11 +34,33 @@ function drawCover(ctx, img, x, y, w, h) {
 function fitFont(ctx, text, maxWidth, base, family, weight) {
   let size = base;
   ctx.font = `${weight} ${size}px ${family}`;
-  while (size > 34 && ctx.measureText(text).width > maxWidth) {
-    size -= 4;
+  while (size > 30 && ctx.measureText(text).width > maxWidth) {
+    size -= 2;
     ctx.font = `${weight} ${size}px ${family}`;
   }
   return size;
+}
+
+// Long names wrap to two balanced lines instead of shrinking to a speck.
+// Returns { lines, size }; single short names stay on one line.
+function wrapName(ctx, upper, maxWidth, base, family) {
+  ctx.font = `800 ${base}px ${family}`;
+  const words = upper.split(/\s+/).filter(Boolean);
+  if (words.length < 2 || ctx.measureText(upper).width <= maxWidth) {
+    return { lines: [upper], size: fitFont(ctx, upper, maxWidth, base, family, 800) };
+  }
+  for (let size = 52; size >= 30; size -= 2) {
+    ctx.font = `800 ${size}px ${family}`;
+    let best = null;
+    for (let i = 1; i < words.length; i += 1) {
+      const a = words.slice(0, i).join(' ');
+      const b = words.slice(i).join(' ');
+      const w = Math.max(ctx.measureText(a).width, ctx.measureText(b).width);
+      if (w <= maxWidth && (!best || w < best.w)) best = { lines: [a, b], w };
+    }
+    if (best) return { lines: best.lines, size };
+  }
+  return { lines: [upper], size: fitFont(ctx, upper, maxWidth, base, family, 800) };
 }
 
 function drawContain(ctx, img, x, y, w, h) {
@@ -91,18 +113,18 @@ function drawBadge(canvas, assets, photo, name) {
   ctx.lineWidth = 4;
   ctx.setLineDash([14, 12]);
   ctx.beginPath();
-  ctx.moveTo(660, 110);
-  ctx.lineTo(660, 690);
+  ctx.moveTo(660, 100);
+  ctx.lineTo(660, 700);
   ctx.stroke();
   ctx.restore();
 
   ctx.textAlign = 'center';
   ctx.textBaseline = 'alphabetic';
 
-  // ---- Left: photo, name, chip.
-  const ps = 440;
-  const px = 110;
-  const py = 140;
+  // ---- Left: photo, wrapped name, chip.
+  const ps = 400;
+  const px = 130;
+  const py = 100;
   ctx.fillStyle = CREAM;
   ctx.fillRect(px + 16, py + 16, ps, ps);
   ctx.fillStyle = INK;
@@ -113,86 +135,149 @@ function drawBadge(canvas, assets, photo, name) {
     ctx.fillStyle = YELLOW;
     ctx.fillRect(px + 12, py + 12, ps - 24, ps - 24);
     ctx.fillStyle = INK;
-    ctx.font = '800 180px "Bricolage Grotesque", Manrope, sans-serif';
+    ctx.font = '800 170px "Bricolage Grotesque", Manrope, sans-serif';
     ctx.textBaseline = 'middle';
     ctx.fillText(initialsOf(name), px + ps / 2, py + ps / 2 + 8);
     ctx.textBaseline = 'alphabetic';
   }
 
-  const label = name.trim() || 'YOUR NAME';
+  // Names wrap to two balanced lines (input caps at 30 chars); short names
+  // stay on one line. Block sits centred in the space below the plate.
+  const label = (name.trim() || 'YOUR NAME').toUpperCase();
+  const wrapped = wrapName(ctx, label, 500, 60, '"Bricolage Grotesque", Manrope, sans-serif');
   ctx.fillStyle = CREAM;
-  const size = fitFont(ctx, label.toUpperCase(), 500, 60, '"Bricolage Grotesque", Manrope, sans-serif', 800);
-  ctx.font = `800 ${size}px "Bricolage Grotesque", Manrope, sans-serif`;
-  ctx.fillText(label.toUpperCase(), px + ps / 2, 668);
+  ctx.font = `800 ${wrapped.size}px "Bricolage Grotesque", Manrope, sans-serif`;
+  if (wrapped.lines.length === 1) {
+    ctx.fillText(wrapped.lines[0], px + ps / 2, 608);
+  } else {
+    ctx.fillText(wrapped.lines[0], px + ps / 2, 576);
+    ctx.fillText(wrapped.lines[1], px + ps / 2, 632);
+  }
 
   ctx.fillStyle = CORAL;
   ctx.font = '700 27px "IBM Plex Mono", monospace';
-  ctx.fillText('★ ATTENDING · OCT 23 ★', px + ps / 2, 714);
+  ctx.fillText('★ ATTENDING · OCT 23 ★', px + ps / 2, 680);
 
-  // ---- Right: title, sponsors, club mark.
+  // ---- Right: brandmark, venue, title, sponsors, club mark.
   const rcx = 1105;
-  try {
-    ctx.letterSpacing = '6px';
-  } catch {
-    /* older canvas: tracking unsupported, still fine */
-  }
-  ctx.fillStyle = SKY;
-  ctx.font = '700 26px "IBM Plex Mono", monospace';
-  ctx.fillText('AWS STUDENT BUILDER GROUP · ATRIA IT', rcx + 3, 172);
+  ctx.textAlign = 'center';
   try {
     ctx.letterSpacing = '0px';
   } catch {
     /* noop */
   }
 
+  // Brandmark: program icon left, two-line wordmark right, centred as one.
   ctx.fillStyle = CREAM;
-  ctx.font = '800 96px "Bricolage Grotesque", Manrope, sans-serif';
-  ctx.fillText('HACKTOBERFEST', rcx, 288);
+  ctx.font = '700 32px "IBM Plex Mono", monospace';
+  ctx.textAlign = 'left';
+  const line1 = 'AWS STUDENT';
+  const line2 = 'BUILDER GROUP';
+  const wordW = Math.max(ctx.measureText(line1).width, ctx.measureText(line2).width);
+  const markS = 92;
+  const markGap = 22;
+  const lockX = rcx - (markS + markGap + wordW) / 2;
+  if (mark) {
+    drawContain(ctx, mark, lockX, 96, markS, markS);
+  }
+  ctx.fillText(line1, lockX + markS + markGap, 138);
+  ctx.fillText(line2, lockX + markS + markGap, 176);
+  ctx.textAlign = 'center';
+
+  ctx.fillStyle = CREAM;
+  const titleSize = fitFont(ctx, 'HACKTOBERFEST', 780, 96, '"Bricolage Grotesque", Manrope, sans-serif', 800);
+  ctx.font = `800 ${titleSize}px "Bricolage Grotesque", Manrope, sans-serif`;
+  ctx.fillText('HACKTOBERFEST', rcx, 330);
   ctx.fillStyle = YELLOW;
   ctx.font = '800 44px "Bricolage Grotesque", Manrope, sans-serif';
-  ctx.fillText('HACK DAY · BENGALURU 2026', rcx, 348);
+  ctx.fillText('HACK DAY · BENGALURU 2026', rcx, 390);
 
   // Sponsor lockup, same partners as the hero.
   ctx.textAlign = 'left';
   ctx.fillStyle = MUTED;
   ctx.font = '700 20px "IBM Plex Mono", monospace';
-  ctx.fillText('POWERED BY', 730, 452);
-  ctx.fillText('PRESENTING PARTNER', 1120, 452);
+  ctx.fillText('POWERED BY', 730, 478);
+  ctx.fillText('PRESENTING PARTNER', 1120, 478);
   const plate = (x, draw) => {
     ctx.fillStyle = CREAM;
-    ctx.fillRect(x, 470, 300, 84);
+    ctx.fillRect(x, 496, 300, 84);
     ctx.strokeStyle = INK;
     ctx.lineWidth = 4;
-    ctx.strokeRect(x, 470, 300, 84);
-    draw(x + 14, 484, 272, 56);
+    ctx.strokeRect(x, 496, 300, 84);
+    draw(x + 14, 510, 272, 56);
   };
   ctx.fillStyle = INK;
   ctx.font = '700 30px "IBM Plex Mono", monospace';
   plate(730, (x, y, w, h) => {
-    // MLH mark, divider cross, DEV mark.
-    let cx = x;
+    // MLH mark, divider cross, DEV mark: measured as one centred lockup so
+    // no trailing space sits inside the plate.
+    const gap = 6;
+    const xw = ctx.measureText('×').width;
+    const share = (w - gap * 2 - xw) / 2;
+    let mw = 0;
+    let mh = 0;
     if (mlh) {
-      const s = Math.min((w - 60) / 2.4 / mlh.width, h / mlh.height);
-      const dw = mlh.width * s;
-      const dh = mlh.height * s;
-      ctx.drawImage(mlh, cx, y + (h - dh) / 2, dw, dh);
-      cx += dw + 14;
+      const s = Math.min(share / mlh.width, h / mlh.height);
+      mw = mlh.width * s;
+      mh = mlh.height * s;
     }
+    let dw = 0;
+    let dh = 0;
+    if (dev) {
+      const s = Math.min(share / dev.width, h / dev.height);
+      dw = dev.width * s;
+      dh = dev.height * s;
+    }
+    let cx = x + (w - (mw + gap + xw + gap + dw)) / 2;
     ctx.textAlign = 'left';
+    if (mlh) {
+      ctx.drawImage(mlh, cx, y + (h - mh) / 2, mw, mh);
+      cx += mw + gap;
+    }
     ctx.fillText('×', cx, y + h / 2 + 11);
-    const tw = ctx.measureText('×').width;
-    cx += tw + 14;
-    if (dev) drawContain(ctx, dev, cx, y, w - (cx - x), h);
+    cx += xw + gap;
+    if (dev) {
+      ctx.drawImage(dev, cx, y + (h - dh) / 2, dw, dh);
+    }
   });
   plate(1120, (x, y, w, h) => {
     if (digio) drawContain(ctx, digio, x, y, w, h);
   });
   ctx.textAlign = 'center';
 
-  // Club mark, bottom-right corner on its own breathing room.
-  if (mark) {
-    drawContain(ctx, mark, 1390, 615, 100, 100);
-  }
+  // Venue row: bottom strip below the sponsors, centred on the right panel
+  // exactly like the title, subtitle and lockup above it.
+  const venue = 'Atria Institute of Technology, Bengaluru';
+  ctx.textAlign = 'left';
+  ctx.font = '700 26px "IBM Plex Mono", monospace';
+  const venueW = ctx.measureText(venue).width;
+  const pinS = 34;
+  const pinGap = 14;
+  const rowX = rcx - (pinS + pinGap + venueW) / 2;
+  const pinCx = rowX + pinS / 2;
+  const pinTip = 720;
+  ctx.fillStyle = '#e53927';
+  ctx.beginPath();
+  ctx.moveTo(pinCx, pinTip);
+  ctx.bezierCurveTo(
+    pinCx - pinS * 0.5, pinTip - pinS * 0.45,
+    pinCx - pinS * 0.42, pinTip - pinS,
+    pinCx, pinTip - pinS,
+  );
+  ctx.bezierCurveTo(
+    pinCx + pinS * 0.42, pinTip - pinS,
+    pinCx + pinS * 0.5, pinTip - pinS * 0.45,
+    pinCx, pinTip,
+  );
+  ctx.closePath();
+  ctx.fill();
+  ctx.fillStyle = CREAM;
+  ctx.beginPath();
+  ctx.arc(pinCx, pinTip - pinS * 0.62, pinS * 0.14, 0, TAU);
+  ctx.fill();
+  ctx.fillStyle = MUTED;
+  ctx.fillText(venue, rowX + pinS + pinGap, 716);
+  ctx.textAlign = 'center';
 }
 
 export default function BadgeMaker() {
@@ -334,9 +419,9 @@ export default function BadgeMaker() {
           deck="Drop your photo, type your name, and take home a wide ticket badge made for LinkedIn and X timelines. Download the PNG, then post it with the caption below."
         />
 
-        <div className="grid grid-cols-1 lg:grid-cols-[380px_1fr] gap-8 items-start">
-          {/* Controls */}
-          <div className="border-2 border-[#10201d] bg-[#f7f7f2] shadow-[7px_7px_0_#671912] p-6 sm:p-7 grid gap-5">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8 items-stretch">
+          {/* Make it yours */}
+          <div className="border-2 border-[#10201d] bg-[#f7f7f2] shadow-[7px_7px_0_#671912] p-6 sm:p-7 grid gap-5 content-start">
             <div>
               <p className="font-mono text-xs font-bold uppercase tracking-[0.08em] mb-2">
                 1 · Your photo
@@ -384,85 +469,96 @@ export default function BadgeMaker() {
             </div>
 
             <div>
-              <label
-                htmlFor="badge-name"
-                className="block font-mono text-xs font-bold uppercase tracking-[0.08em] mb-2"
-              >
-                2 · Your full name
-              </label>
+              <div className="flex items-baseline justify-between gap-3 mb-2">
+                <label
+                  htmlFor="badge-name"
+                  className="font-mono text-xs font-bold uppercase tracking-[0.08em]"
+                >
+                  2 · Your full name
+                </label>
+                <span className="font-mono text-[11px] text-[#5c665f]" aria-hidden="true">
+                  {name.length} / 30
+                </span>
+              </div>
               <input
                 id="badge-name"
                 type="text"
                 value={name}
-                onChange={(e) => setName(e.target.value.slice(0, 40))}
+                maxLength={30}
+                onChange={(e) => setName(e.target.value.slice(0, 30))}
                 placeholder="Aarav Sharma"
                 autoComplete="name"
+                aria-describedby="badge-name-hint"
                 className="w-full border-2 border-[#10201d] bg-white px-3 py-2.5 text-base text-[#10201d] placeholder:text-[#7a847f] focus:outline-2 focus:outline-[#5146d9] focus:outline-offset-1"
               />
-            </div>
-
-            <div className="grid gap-3">
-              <p className="font-mono text-xs font-bold uppercase tracking-[0.08em]">
-                3 · Take it with you
-              </p>
-              <button type="button" onClick={download} className="ht-btn-primary w-full text-sm">
-                <Download className="w-4 h-4 mr-2" />
-                <span>Download badge PNG</span>
-              </button>
-              <button
-                type="button"
-                onClick={shareLinkedIn}
-                className="px-6 py-3.5 font-mono text-xs font-bold border-2 border-[#10201d] bg-[#f7f7f2] text-[#10201d] hover:bg-[#e4e5da] shadow-[4px_4px_0_#10201d] flex items-center justify-center gap-2 w-full"
-              >
-                <ArrowUpRight className="w-4 h-4 text-[#e53927]" />
-                <span>Share on LinkedIn</span>
-              </button>
-              {canNativeShare && (
-                <button
-                  type="button"
-                  onClick={shareNative}
-                  className="px-6 py-3.5 font-mono text-xs font-bold border-2 border-[#10201d] bg-[#f7f7f2] text-[#10201d] hover:bg-[#e4e5da] shadow-[4px_4px_0_#10201d] flex items-center justify-center gap-2 w-full"
-                >
-                  <Share2 className="w-4 h-4 text-[#e53927]" />
-                  <span>Share image to apps</span>
-                </button>
-              )}
-              <p className="font-mono text-[11px] text-[#5c665f] leading-relaxed">
-                LinkedIn opens its share dialog and copies your caption — attach
-                the downloaded PNG there.
+              <p id="badge-name-hint" className="font-mono text-[11px] text-[#5c665f] mt-1.5">
+                Long names wrap to two lines on the ticket.
               </p>
             </div>
           </div>
 
-          {/* Preview + caption */}
-          <div className="grid gap-6">
-            <div className="border-2 border-[#10201d] bg-[#211f47] shadow-[7px_7px_0_#671912] p-4 sm:p-6">
-              <canvas
-                ref={canvasRef}
-                width={W}
-                height={H}
-                className="block w-full h-auto"
-                aria-label="Preview of your attendee badge"
-              />
-            </div>
-            <div className="border-2 border-[#10201d] bg-[#f7f7f2] shadow-[7px_7px_0_#671912] p-6 sm:p-7">
-              <div className="flex items-center justify-between gap-3 mb-3">
-                <p className="font-mono text-xs font-bold uppercase tracking-[0.08em]">
-                  Post caption
-                </p>
-                <button
-                  type="button"
-                  onClick={copyCaption}
-                  className="inline-flex items-center gap-1.5 px-3 py-1.5 font-mono text-[11px] font-bold uppercase border-2 border-[#10201d] bg-[#e4e5da] hover:bg-[#f5b726]"
-                >
-                  <Link2 className="w-3.5 h-3.5" aria-hidden="true" />
-                  <span>{copied ? 'Copied!' : 'Copy'}</span>
-                </button>
-              </div>
-              <p className="font-sans text-sm text-[#34433f] leading-relaxed whitespace-pre-line">
-                {EVENT_DETAILS.promoText}
+          {/* Live preview */}
+          <div className="border-2 border-[#10201d] bg-[#211f47] shadow-[7px_7px_0_#671912] p-4 sm:p-6 grid content-center">
+            <canvas
+              ref={canvasRef}
+              width={W}
+              height={H}
+              className="block w-full h-auto"
+              aria-label="Preview of your attendee badge"
+            />
+          </div>
+
+          {/* Take it with you */}
+          <div className="border-2 border-[#10201d] bg-[#f7f7f2] shadow-[7px_7px_0_#671912] p-6 sm:p-7 grid gap-3 content-start">
+            <p className="font-mono text-xs font-bold uppercase tracking-[0.08em]">
+              3 · Take it with you
+            </p>
+            <button type="button" onClick={download} className="ht-btn-primary w-full text-sm">
+              <Download className="w-4 h-4 mr-2" />
+              <span>Download badge PNG</span>
+            </button>
+            <button
+              type="button"
+              onClick={shareLinkedIn}
+              className="px-6 py-3.5 font-mono text-xs font-bold border-2 border-[#10201d] bg-[#f7f7f2] text-[#10201d] hover:bg-[#e4e5da] shadow-[4px_4px_0_#10201d] flex items-center justify-center gap-2 w-full"
+            >
+              <ArrowUpRight className="w-4 h-4 text-[#e53927]" />
+              <span>Share on LinkedIn</span>
+            </button>
+            {canNativeShare && (
+              <button
+                type="button"
+                onClick={shareNative}
+                className="px-6 py-3.5 font-mono text-xs font-bold border-2 border-[#10201d] bg-[#f7f7f2] text-[#10201d] hover:bg-[#e4e5da] shadow-[4px_4px_0_#10201d] flex items-center justify-center gap-2 w-full"
+              >
+                <Share2 className="w-4 h-4 text-[#e53927]" />
+                <span>Share image to apps</span>
+              </button>
+            )}
+            <p className="font-mono text-[11px] text-[#5c665f] leading-relaxed">
+              LinkedIn opens ready to post with the event link attached, and
+              your caption is copied — paste it and attach the PNG.
+            </p>
+          </div>
+
+          {/* Caption */}
+          <div className="border-2 border-[#10201d] bg-[#f7f7f2] shadow-[7px_7px_0_#671912] p-6 sm:p-7">
+            <div className="flex items-center justify-between gap-3 mb-3">
+              <p className="font-mono text-xs font-bold uppercase tracking-[0.08em]">
+                Post caption
               </p>
+              <button
+                type="button"
+                onClick={copyCaption}
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 font-mono text-[11px] font-bold uppercase border-2 border-[#10201d] bg-[#e4e5da] hover:bg-[#f5b726]"
+              >
+                <Link2 className="w-3.5 h-3.5" aria-hidden="true" />
+                <span>{copied ? 'Copied!' : 'Copy'}</span>
+              </button>
             </div>
+            <p className="font-sans text-sm text-[#34433f] leading-relaxed whitespace-pre-line">
+              {EVENT_DETAILS.promoText}
+            </p>
           </div>
         </div>
       </div>
