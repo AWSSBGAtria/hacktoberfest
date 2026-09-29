@@ -100,7 +100,7 @@ body::after {
   border-radius: 0;
   background: #aebaff;
   box-shadow: 0 8px 0 #5146d9;
-  cursor: pointer;
+  cursor: var(--cursor-hand);
   font-family: var(--font-mono);
   font-size: 0.85rem;
   font-weight: 700;
@@ -130,7 +130,7 @@ body::after {
   border-radius: 0;
   background: transparent;
   box-shadow: 0 8px 0 rgba(81, 70, 217, .55);
-  cursor: pointer;
+  cursor: var(--cursor-hand);
   font-family: var(--font-mono);
   font-size: 0.85rem;
   font-weight: 700;
@@ -1801,69 +1801,41 @@ button:active, a:active {
 }
 
 /* ---------------------------------------------------------------------- */
-/* Custom cursor - an arrow head over a scattered hexagon trail. Pointer-   */
-/* fine devices only; the default cursor is suppressed site-wide so nothing */
-/* shows underneath it.                                                     */
+/* Pointer - a GTA-style white arrow with an ink outline, turning event      */
+/* yellow over anything interactive. Pure CSS (no JS, no trail), so it      */
+/* works over iframes and respects touch devices by simply not applying.    */
 /* ---------------------------------------------------------------------- */
 
-.cursor-trail {
-  position: fixed;
-  inset: 0;
-  z-index: 4000;
-  pointer-events: none;
+:root {
+  --cursor-arrow: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='26' height='26' viewBox='0 0 26 26'%3E%3Cpath d='M7 3 L7 20 L12 15.8 L14.8 22 L17.3 20.8 L14.6 14.6 L20.5 14.6 Z' fill='%23f7f7f2' stroke='%2310201d' stroke-width='1.6' stroke-linejoin='round'/%3E%3C/svg%3E") 7 3, auto;
+  --cursor-hand: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='26' height='26' viewBox='0 0 26 26'%3E%3Cpath d='M7 3 L7 20 L12 15.8 L14.8 22 L17.3 20.8 L14.6 14.6 L20.5 14.6 Z' fill='%23f5b726' stroke='%2310201d' stroke-width='1.6' stroke-linejoin='round'/%3E%3C/svg%3E") 7 3, pointer;
 }
 
-/* The custom cursor steps aside while the pointer is over an iframe (the
-   venue map): pointer events never reach us from inside one, so the arrow
-   would freeze. Let the frame keep its own cursor instead. */
-html.has-custom-cursor.cursor-native,
-html.has-custom-cursor.cursor-native * {
-  cursor: auto !important;
+body {
+  cursor: var(--cursor-arrow);
 }
 
-/* Chunky rounded arrow head: ink body, cream keyline, hard little shadow.
-   The path's tip sits at the SVG origin (0,0) - which is also where the
-   2.2px keyline stops - so transform-origin is `0 0` and the JS transform is
-   just `translate3d(x, y, 0) scale()`: the tip never drifts off the pointer.
-   viewBox and box are the same size so there is no letterboxing to offset. */
-.cursor-arrow {
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 4001;
-  width: 28px;
-  height: 30px;
-  opacity: 0;
-  transform-origin: 0 0;
-  pointer-events: none;
-  will-change: transform;
-  transition: opacity 150ms linear;
-  filter: drop-shadow(1.5px 2px 0 rgba(9, 8, 24, .4));
+a,
+button,
+summary,
+label,
+select,
+[role="button"],
+input[type="submit"],
+input[type="checkbox"],
+input[type="radio"] {
+  cursor: var(--cursor-hand);
 }
 
-.cursor-arrow svg {
-  display: block;
-  width: 100%;
-  height: 100%;
-  overflow: visible;
+/* Text stays an I-beam, the map keeps its grab cursors. */
+input[type="text"],
+input[type="email"],
+textarea {
+  cursor: text;
 }
 
-.cursor-arrow-body {
-  fill: #10201d;
-  stroke: #f7f7f2;
-  stroke-width: 1.8;
-  stroke-linejoin: round;
-  transition: fill 180ms var(--ease-brand), stroke 180ms var(--ease-brand);
-}
-
-.cursor-arrow.is-hot .cursor-arrow-body {
-  fill: #ff7a1a;
-  stroke: #10201d;
-}
-
-html.has-custom-cursor,
-html.has-custom-cursor * {
-  cursor: none !important;
+iframe {
+  cursor: auto;
 }
 
 /* ---------------------------------------------------------------------- */
