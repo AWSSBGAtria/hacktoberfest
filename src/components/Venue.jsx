@@ -83,27 +83,15 @@ export default function Venue() {
               <span className="map-ribbon-dot" aria-hidden="true" />
               Atria Institute of Technology · Hebbal
             </div>
-            {/* bbox is symmetric around the venue with OSM's own marker removed,
-                so our pin sits exactly on the building at the frame's centre. */}
+            {/* bbox frames the venue; OSM's own marker is pinned to the same
+                coordinates, so it rides with the map when the visitor pans. */}
             <iframe
-              src="https://www.openstreetmap.org/export/embed.html?bbox=77.58803%2C13.029816%2C77.59483%2C13.035616&layer=mapnik"
+              src="https://www.openstreetmap.org/export/embed.html?bbox=77.58803%2C13.029816%2C77.59483%2C13.035616&layer=mapnik&marker=13.032716%2C77.59143"
               title="OpenStreetMap showing Atria Institute of Technology"
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"
               allowFullScreen
             />
-            <span className="map-pin" aria-hidden="true">
-              <svg width="34" height="44" viewBox="0 0 34 44" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path
-                  d="M17 43C17 43 32 26.4 32 16.5A15 15 0 1 0 2 16.5C2 26.4 17 43 17 43Z"
-                  fill="#e53927"
-                  stroke="#10201d"
-                  strokeWidth="3"
-                  strokeLinejoin="round"
-                />
-                <circle cx="17" cy="16.5" r="5.5" fill="#f7f7f2" stroke="#10201d" strokeWidth="2.5" />
-              </svg>
-            </span>
             <a className="map-credit inline-flex items-center gap-1" href="https://www.openstreetmap.org/?mlat=13.032716&mlon=77.59143#map=17/13.032716/77.59143" target="_blank" rel="noopener noreferrer">
               Open in OpenStreetMap <ArrowUpRight className="w-3 h-3" aria-hidden="true" />
             </a>

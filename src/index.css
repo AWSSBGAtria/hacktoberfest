@@ -618,7 +618,8 @@ button:active, a:active {
 /* Venue map - the site's one real-world surface. It is tinted into the    */
 /* indigo chrome so it reads as part of the same world, and carries the    */
 /* site's hard ink frame + stamp shadow instead of a soft floating card.   */
-/* The only red on the map is our own pin (OSM's built-in marker is off).  */
+/* The venue marker is OSM's own (see the embed URL), so it pans with the  */
+/* map instead of floating over its centre.                                */
 /* ---------------------------------------------------------------------- */
 
 .venue-map {
@@ -641,24 +642,6 @@ button:active, a:active {
   /* Desaturate, invert, then re-hue into indigo. Hue rotation needs a
      colored signal first, so sepia() must follow the invert. */
   filter: grayscale(1) invert(1) brightness(.85) sepia(1) hue-rotate(200deg) saturate(5) contrast(1.1);
-}
-
-/* Our pin sits exactly on the bbox centre, so it always lands on the venue
-   without relying on OSM's own marker (which the tint above would recolor). */
-.map-pin {
-  position: absolute;
-  z-index: 3;
-  top: 50%;
-  left: 50%;
-  display: block;
-  line-height: 0;
-  pointer-events: none;
-  transform: translate(-50%, -100%);
-  filter: drop-shadow(3px 4px 0 rgba(9, 8, 24, .55));
-}
-
-.map-pin svg {
-  display: block;
 }
 
 .map-ribbon,
