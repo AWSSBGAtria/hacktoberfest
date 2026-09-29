@@ -434,7 +434,11 @@ function stepGhost(world, ghost, dt) {
     const dy = ghost.ty - ghost.y;
     const d = Math.hypot(dx, dy);
     if (d <= left) {
-      ghost.x = ghost.tx;
+      // Normalise through the wrap: the logical tile is modded but the raw
+      // float position is what the next target is measured from, so a raw
+      // -1/cols left standing would send the next leg back across the whole
+      // map, through walls, to a random death. mod() keeps both in agreement.
+      ghost.x = mod(ghost.tx, world.cols);
       ghost.y = ghost.ty;
       ghost.cx = mod(Math.round(ghost.tx), world.cols);
       ghost.cy = Math.round(ghost.ty);
@@ -621,7 +625,10 @@ export function updateWorld(world, dt) {
     const dy = p.ty - p.y;
     const d = Math.hypot(dx, dy);
     if (d <= left) {
-      p.x = p.tx;
+      // Same wrap normalisation as the ghosts (see stepGhost): without it a
+      // left-edge exit desyncs the float position from the logical tile and
+      // the next leg rides back through every wall on the map.
+      p.x = mod(p.tx, world.cols);
       p.y = p.ty;
       p.cx = mod(Math.round(p.tx), world.cols);
       p.cy = Math.round(p.ty);
