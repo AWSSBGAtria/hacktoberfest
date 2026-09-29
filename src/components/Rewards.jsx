@@ -17,21 +17,18 @@ const GROUPS = [
   {
     name: 'For every attendee',
     note: 'Included just for showing up and building',
-    tier: 'Tier 01',
     accent: '#8bb2de',
     cols: 'sm:grid-cols-2',
   },
   {
     name: 'Track winners',
     note: 'Awarded to the winning team of each challenge',
-    tier: 'Tier 02',
     accent: '#f5b726',
     cols: 'sm:grid-cols-2 lg:grid-cols-3',
   },
   {
     name: 'Recognition',
     note: 'Issued after the event to everyone who finishes the day',
-    tier: 'Tier 03',
     accent: '#ee8b83',
     cols: 'sm:grid-cols-1',
   },
@@ -79,7 +76,6 @@ export default function Rewards() {
                   style={{ '--tier': group.accent }}
                 >
                   <div className="flex items-baseline gap-3 flex-wrap">
-                    <span className="reward-tier-num">{group.tier}</span>
                     <h3 className="reward-tier-name">{group.name}</h3>
                   </div>
                   <span className="reward-tier-note">{group.note}</span>
