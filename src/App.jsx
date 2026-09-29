@@ -40,7 +40,7 @@ function RouteView({ path }) {
 const TITLES = {
   '/': 'Hacktoberfest Hack Day Bengaluru 2026',
   '/about': 'About — Hack Day Bengaluru',
-  '/build': 'Tracks & Prizes — Hack Day Bengaluru',
+  '/build': 'Tracks — Hack Day Bengaluru',
   '/day': 'Schedule — Hack Day Bengaluru',
   '/venue': 'Venue & Map — Hack Day Bengaluru',
   '/community': 'FAQ — Hack Day Bengaluru',

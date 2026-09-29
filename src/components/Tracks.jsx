@@ -34,7 +34,7 @@ export default function Tracks() {
         <SectionHead
           eyebrow="CHALLENGE TRACKS"
           title={<>Three ways to build</>}
-          accent="and three shots at prizes."
+          accent="and three ways to win."
           pacColor="#aebcff"
           deck="Every project can qualify for the core Hacktoberfest challenge, and any project that also uses Gemma 4 or AWS can qualify for those too. Mentors are on-site to help."
         />
@@ -99,7 +99,7 @@ export default function Tracks() {
                 <div className="track-prize">
                   <Seal code={t.prizeSeal} color={t.accent} size={58} />
                   <div>
-                    <p className="track-prize-label">What you win</p>
+                    <p className="track-prize-label">Recognition</p>
                     <p className="track-prize-body">{t.prize}</p>
                   </div>
                 </div>

@@ -8,10 +8,10 @@ import Seal from './BadgeArt';
 
 /**
  * Rewards is deliberately NOT the same surface as Tracks. Tracks are a light
- * "spec sheet" per challenge; this section is a dark vault where every prize
- * named in the MLH Hacktoberfest Host Handbook is shown as a stamped seal,
- * so a visitor can tell "what you get for showing up" apart from "what you
- * get for winning" at a glance.
+ * "spec sheet" per challenge; this section is a dark vault where every reward
+ * tier is shown as a stamped seal, so a visitor can tell "what you get for
+ * showing up" apart from "what you get for winning" at a glance. Prize
+ * specifics stay vague on purpose - details are confirmed closer to the day.
  */
 const GROUPS = [
   {
@@ -22,7 +22,7 @@ const GROUPS = [
     cols: 'sm:grid-cols-2',
   },
   {
-    name: 'Prize challenges',
+    name: 'Track winners',
     note: 'Awarded to the winning team of each challenge',
     tier: 'Tier 02',
     accent: '#f5b726',
@@ -50,13 +50,13 @@ export default function Rewards() {
       <div className="shell">
         {/* Intro */}
         <SectionHead
-          eyebrow="SWAG & RECOGNITION"
+          eyebrow="TRACKS & RECOGNITION"
           title={<>What you walk away</>}
-          accent="with, exactly."
-          deck="Straight from the official Hacktoberfest Host Handbook, plus our own AWS Student Builder Group bonus track. Physical swag quantities are limited and depend on availability."
+          accent="with on the day."
+          deck="Three challenge tracks plus our own club bonus. Prize details are confirmed closer to the day."
         />
 
-        {/* Badge wall - every handbook prize as an object, up front. */}
+        {/* Badge wall - every reward as a stamped object, up front. */}
         <div className="badge-wall">
           {REWARDS.map((r) => (
             <div key={r.title} className="badge-item">
@@ -88,7 +88,7 @@ export default function Rewards() {
                 <div className={`grid grid-cols-1 ${group.cols} gap-6`}>
                   {items.map((r, i) => {
                     const isHighlight = Boolean(r.isHighlight);
-                    const isPrize = group.name === 'Prize challenges';
+                    const isPrize = group.name === 'Track winners';
                     const FooterIcon = isPrize ? Trophy : Check;
                     const footerLabel = isPrize
                       ? 'Awarded to the winning team'
@@ -137,13 +137,13 @@ export default function Rewards() {
         {/* Bottom Banner Call to Action */}
         <div className="theme-cta p-8 sm:p-12 bg-[#f7f7f2] text-[#10201d] border-2 border-[#10201d] shadow-[7px_7px_0_#e53927] hover:shadow-[4px_4px_0_#e53927] hover:translate-x-[3px] hover:translate-y-[3px] flex flex-col md:flex-row items-center justify-between gap-6">
           <div className="max-w-xl text-center md:text-left">
-            <h3 className="font-display font-extrabold text-2xl sm:text-4xl uppercase tracking-tight text-[#10201d] mb-2">
-              Ready to claim your swag kit on Oct 23?
-            </h3>
-            <p className="text-sm sm:text-base text-[#34433f] font-sans">
-              Attendee kits and food are limited to registered participants, while supplies
-              last. Make sure to complete your registration via MLH.
-            </p>
+              <h3 className="font-display font-extrabold text-2xl sm:text-4xl uppercase tracking-tight text-[#10201d] mb-2">
+                Ready to build on Oct 23?
+              </h3>
+              <p className="text-sm sm:text-base text-[#34433f] font-sans">
+                Food and attendee kits are limited to registered participants, while supplies
+                last. Make sure to complete your registration via MLH.
+              </p>
           </div>
 
           <a
