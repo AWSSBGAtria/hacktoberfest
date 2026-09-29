@@ -338,3 +338,84 @@ scripts/screenshot.mjs  Playwright review shots (SHOTS_DIR, preview on :4173)
   four viewports); the `overflow-x: clip` guard on `<body>` is preventive.
 - The schedule still carries the factual `05:15 PM – 06:45 PM` "Final Hacking &
   PR Submission Deadline" row — the only remaining 6:45 reference on the site.
+
+## 15. Pac-Challenge game + compact header spots
+
+- Route headers slimmed: `main section h2` is now
+  `clamp(1.8rem, 3.2vw, 2.75rem)` (was 2.65–5.25rem); hero title untouched.
+- Full-width mini ribbons removed from all five sub-route pages. The ambient
+  chase now lives in a 230px `.pac-spot` box pinned to the right of each
+  `SectionHead` (`pacColor` prop; About coral, Build light-indigo, Day red,
+  Venue orange, FAQ sky). The home hero band stays.
+- `PacPlay` (mounted once in `App`): bottom-right FAB ("Play me for a
+  surprise!") opens a modal single-run challenge on a doodle-style `AWS SBG`
+  map (`src/utils/awspac.js`: 57x13 hand-authored ASCII, 1-cell wall outlines
+  for A W S S B G with ring openings, open travel bands top/bottom, ghost
+  house in the word gap; BFS pass strips pellets from any sealed counter so
+  every maze is clearable). 1 run, 3 lives, clock keeps ticking through
+  deaths. Scoring: 10/pellet, 50/energizer, 200 then 400 per blue ghost;
+  results store score + time, highest score wins with fastest time breaking
+  ties. Guide screen states the goodies rule; entry form (name/email/
+  institution) enforces one entry per email. Storage seam is
+  `src/utils/scoredb.js`: localStorage-backed local DB today (`REMOTE_URL =
+  null`); point it at the MySQL-backed scores endpoint when the URL arrives
+  and implement the two remote functions - the component needs no changes.
+  Results screen shows a top-5 local leaderboard (device-local until remote
+  lands).
+
+## 16. Hero side mazes, wrap fix, map marker, CSS cursor
+
+- Hero carries two full-height ambient mazes (`.pac-side`, desktop only) with
+  a `PacStrip` `side` variant (width-fit tiles, up to 61 rows, 3 ghosts,
+  `salt` prop so left/right differ). Hidden < lg. The old full-width bottom
+  band is gone; header spots use the `mini` variant.
+- Wrap-desync bugfix (`pacmaze.js`): crossing the torus edge used to strand
+  the float position a full map away from the logical tile, so the next leg
+  rode back through every wall to a random death. Arrival now normalises
+  `x = mod(tx, cols)`; headless sims across six sizes x four seeds report 0
+  wall locks (was up to 273/180s).
+- Route headers: `section-head` row is vertically centred so the title spans
+  the deck + spot stack; `main section h2` now `clamp(2rem, 3.8vw, 3.2rem)`.
+- Game copy: the board "closes when the Hack Day starts" (guide, results,
+  done screens).
+- Venue map: OSM `&marker=` param instead of the centred overlay pin, so the
+  pin pans with the map. Tradeoff: the site tint filter recolours it from red
+  to chrome-blue.
+- Custom JS cursor deleted (`Cursor.jsx` + CSS + `App` mount). Pointer is now
+  pure CSS: GTA-style white arrow with ink outline, event-yellow over
+  interactive elements, I-beam in text fields, native cursors in iframes.
+
+## 17. FAQ revamp, /build prize scrub, B glyph
+
+- FAQ rebuilt as search + topic chips (Attending/Teams/First-timers/
+  Registration/Rewards) with live counts, single-open rows (category eyebrow,
+  chevron, accent-bar answers), an empty state, and a "Still stuck?" support
+  card. Old `.accordion-panel` CSS removed. Closed answers measure true 0px.
+- /build promises nothing specific anymore: track prize strips read
+  "Recognition" + "announced on stage; prizes confirmed closer to the day",
+  seals are neutral (01/02/03, KIT), the Rewards vault is "Track winners" /
+  "Attendee Kit" with the same vague line, CTA is "Ready to build on Oct 23?",
+  tab title is "Tracks". FAQ/schedule/home prize copy untouched (out of scope).
+- Map B redrawn as a closed ring with mid/top/bottom bars (was open-sided and
+  read as H); sealed interiors are pellet-free via the BFS pass, 0 unreachable.
+
+## 18. MySQL scoreboard + async leaderboard fix
+
+- `hacktober2026.scores` in local MySQL (root/Darshan1122): id, name,
+  email UNIQUE, institution, score, time, created_at. `server/index.js`
+  (Express + mysql2) serves dist + GET/POST /api/scores (409 on duplicate)
+  and /api/health; `npm run server`, `./vite.config` proxies /api in dev. Production uses one variable: `DATABASE_URL=mysql://USER:PASSWORD@HOST:PORT/hacktober2026` (discrete DB_HOST/DB_USER/DB_PASSWORD/DB_NAME remain as local fallback).
+  `scoredb.js` points at /api with a null fallback to the local store.
+- Fixed a real bug the first MySQL test exposed: `loadEntries()` is async in
+  remote mode but the component consumed it sync, so the shared leaderboard
+  never rendered and reopening with a lock threw. All three call sites
+  (open, result screen, post-submit) are promise-aware now; verified: fresh
+  browser shows the shared row, no page errors.
+- FAQ rewards entry removed (6 rows, 5 chips).
+
+## 19. Off-site redirects
+
+- `/volunteer` -> https://binary.so/EnumX2Q and `/mentor` ->
+  https://binary.so/eGuTA0x, handled in the client router (`REDIRECTS` map +
+  effect in `App.jsx`) so in-app links and pasted URLs both work; the Express
+  SPA fallback serves index.html for direct hits. Verified end-to-end.
