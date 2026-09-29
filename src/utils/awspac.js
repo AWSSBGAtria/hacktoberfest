@@ -17,6 +17,19 @@ export const FRIGHT_TIME = 6;
 export const DOT_SCORE = 10;
 export const POWER_SCORE = 50;
 export const GHOST_SCORES = [200, 400];
+// Scatter/chase waves like the arcade: mode swaps yank every ghost around,
+// which is also what shakes a hunter out of a letter-counter loop or a
+// corner camp. Shortened for a small map, then wraps forever.
+const MODE_SCHEDULE = [
+  ['scatter', 5],
+  ['chase', 14],
+  ['scatter', 5],
+  ['chase', 14],
+  ['scatter', 4],
+  ['chase', 14],
+  ['scatter', 4],
+  ['chase', 12],
+];
 const DEATH_PAUSE = 1.2;
 const OPP = [2, 3, 0, 1];
 
@@ -166,6 +179,13 @@ function isWalkable(game, tx, ty) {
   return tileAt(game, tx, ty) !== WALL;
 }
 
+function firstOpenDir(game, cx, cy) {
+  for (let d = 0; d < 4; d += 1) {
+    if (isWalkable(game, cx + DIRS[d][0], cy + DIRS[d][1])) return d;
+  }
+  return 0;
+}
+
 function targetOf(actor, dir) {
   return [actor.cx + DIRS[dir][0], actor.cy + DIRS[dir][1]];
 }
@@ -177,7 +197,7 @@ function dist2(ax, ay, bx, by) {
 }
 
 function makeActor(x, y, dir) {
-  return { x, y, dir, want: dir, cx: x, cy: y, tx: null, ty: null };
+  return { x, y, dir, want: dir, cx: x, cy: y, tx: null, ty: null, hist: [] };
 }
 
 function eatAt(game) {
@@ -200,6 +220,9 @@ function eatAt(game) {
 function ghostTarget(game, ghost) {
   if (ghost.state === 'eyes') return [ghost.hx, ghost.hy];
   if (game.frightT > 0) return [ghost.x, ghost.y];
+  if (MODE_SCHEDULE[game.modeIndex][0] === 'scatter') {
+    return [ghost.scatter[0], ghost.scatter[1]];
+  }
   const p = game.pac;
   if (ghost.role === 'pinky') {
     let ax = p.cx;
@@ -228,6 +251,34 @@ function chooseGhostDir(game, ghost) {
   if (game.frightT > 0 && ghost.state !== 'eyes') {
     return options[Math.floor(Math.random() * options.length)];
   }
+
+  // Confinement breaker: greedy no-reverse steering cannot leave a loop,
+  // so a hunter can orbit a letter ring or a corner pocket forever while its
+  // target gradient points through walls. If the last sixteen arrivals span
+  // only a handful of tiles, forget the target and step onto the
+  // least-visited neighbour, reversing included, until the trail spreads out
+  // again. (Kept to this one window: tighter triggers were measured to fight
+  // the exit and re-trap hunters.)
+  const recent = ghost.hist.slice(-16);
+  const confined =
+    recent.length >= 14 &&
+    new Set(recent.map(([hx, hy]) => `${hx},${hy}`)).size <= 8;
+  if (confined) {
+    let pick = -1;
+    let pickSeen = Infinity;
+    for (let d = 0; d < 4; d += 1) {
+      const [nx, ny] = targetOf(ghost, d);
+      if (!isWalkable(game, nx, ny)) continue;
+      let seen = 0;
+      for (const [hx, hy] of ghost.hist) if (hx === nx && hy === ny) seen += 1;
+      if (seen < pickSeen) {
+        pickSeen = seen;
+        pick = d;
+      }
+    }
+    if (pick !== -1) return pick;
+  }
+
   const [trx, try_] = ghostTarget(game, ghost);
   let best = options[0];
   let bestD = Infinity;
@@ -274,6 +325,8 @@ function stepGhost(game, ghost, dt) {
       ghost.y = ghost.ty;
       ghost.cx = ghost.tx;
       ghost.cy = ghost.ty;
+      ghost.hist.push([ghost.cx, ghost.cy]);
+      if (ghost.hist.length > 40) ghost.hist.splice(0, ghost.hist.length - 40);
       ghost.tx = null;
       ghost.ty = null;
       left -= d;
@@ -353,18 +406,21 @@ function resetPositions(game) {
   p.tx = null;
   p.ty = null;
   p.dir = 0;
-  p.want = 0;
-  game.ghosts.forEach((g, i) => {
+  // Keep the player's queued direction: steering held through the death
+  // blink applies the instant Pac-Man is back.
+  game.ghosts.forEach((g) => {
     g.x = g.hx;
     g.y = g.hy;
     g.cx = g.hx;
     g.cy = g.hy;
     g.tx = null;
     g.ty = null;
-    g.dir = i % 2 ? 2 : 0;
+    g.dir = firstOpenDir(game, g.hx, g.hy);
     g.want = g.dir;
+    g.hist = [];
     g.state = 'normal';
     g.reverse = false;
+    g.eyeT = 0;
   });
   game.frightT = 0;
 }
@@ -433,6 +489,8 @@ export function createChallenge() {
     lives: LIVES_PER_ATTEMPT,
     frightT: 0,
     ghostChain: 0,
+    modeIndex: 0,
+    modeT: 0,
     score: 0,
     time: 0,
     deadT: 0,
@@ -440,14 +498,21 @@ export function createChallenge() {
   };
   const roles = ['blinky', 'pinky'];
   const colors = ['#e53927', '#e97b77'];
+  const scatter = [
+    [1, 1],
+    [cols - 2, 1],
+  ];
   dens.forEach(([hx, hy], i) => {
-    const g = makeActor(hx, hy, i % 2 ? 2 : 0);
+    const dir = firstOpenDir({ grid, rows, cols }, hx, hy);
+    const g = makeActor(hx, hy, dir);
     g.hx = hx;
     g.hy = hy;
     g.role = roles[i];
     g.color = colors[i];
+    g.scatter = scatter[i];
     g.state = 'normal';
     g.reverse = false;
+    g.eyeT = 0;
     game.ghosts.push(g);
   });
   // The spawn tiles start eaten so the counters open at totalDots dots.
@@ -458,6 +523,17 @@ export function createChallenge() {
 export function setWant(game, dir) {
   if (game && (game.status === 'playing' || game.status === 'dying')) {
     game.pac.want = dir;
+  }
+}
+
+function stepMode(game, dt) {
+  if (game.frightT > 0) return; // the fright clock owns reversals meanwhile
+  const [, length] = MODE_SCHEDULE[game.modeIndex];
+  game.modeT += dt;
+  if (game.modeT >= length) {
+    game.modeIndex = (game.modeIndex + 1) % MODE_SCHEDULE.length;
+    game.modeT = 0;
+    for (const g of game.ghosts) if (g.state !== 'eyes') g.reverse = true;
   }
 }
 
@@ -483,8 +559,28 @@ export function updateChallenge(game, dt) {
     return;
   }
 
+  stepMode(game, dt);
   stepPac(game, dt);
   if (game.status === 'won') return;
   for (const ghost of game.ghosts) stepGhost(game, ghost, dt);
+  for (const ghost of game.ghosts) {
+    // Failsafe: greedy eyes can orbit loops forever without reaching the den.
+    // After ten seconds they pop home instead of haunting the maze unseen.
+    if (ghost.state === 'eyes') {
+      ghost.eyeT = (ghost.eyeT || 0) + dt;
+      if (ghost.eyeT > 10) {
+        ghost.x = ghost.hx;
+        ghost.y = ghost.hy;
+        ghost.cx = ghost.hx;
+        ghost.cy = ghost.hy;
+        ghost.tx = null;
+        ghost.ty = null;
+        ghost.state = 'normal';
+        ghost.eyeT = 0;
+      }
+    } else {
+      ghost.eyeT = 0;
+    }
+  }
   collide(game);
 }

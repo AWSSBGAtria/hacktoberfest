@@ -20,7 +20,14 @@ const here = path.dirname(fileURLToPath(import.meta.url));
 const PORT = Number(process.env.PORT) || 3001;
 
 const pool = process.env.DATABASE_URL
-  ? mysql.createPool(process.env.DATABASE_URL)
+  ? mysql.createPool({
+      uri: process.env.DATABASE_URL,
+      // Managed clouds (TiDB Cloud included) terminate MySQL with mandatory
+      // TLS; verify against the system CA store.
+      ssl: { rejectUnauthorized: true },
+      waitForConnections: true,
+      connectionLimit: 10,
+    })
   : mysql.createPool({
       host: process.env.DB_HOST || 'localhost',
       user: process.env.DB_USER || 'root',
@@ -56,6 +63,18 @@ app.post('/api/scores', async (req, res) => {
     return res.status(400).json({ error: 'invalid' });
   }
   try {
+    // One entry per person: same email, or same name plus institution
+    // (case-insensitive) - catches a second email from the same player.
+    const [existing] = await pool.query(
+      'SELECT email, name, institution FROM scores WHERE LOWER(email) = LOWER(?) OR (LOWER(name) = LOWER(?) AND LOWER(institution) = LOWER(?)) LIMIT 1',
+      [email, name, institution],
+    );
+    if (existing.length > 0) {
+      const hit = existing[0];
+      const reason =
+        String(hit.email).toLowerCase() === email ? 'email' : 'person';
+      return res.status(409).json({ error: 'duplicate', reason });
+    }
     await pool.query(
       'INSERT INTO scores (name, email, institution, score, time) VALUES (?, ?, ?, ?, ?)',
       [name, email, institution, score, time],
@@ -63,7 +82,7 @@ app.post('/api/scores', async (req, res) => {
     return res.status(201).json({ ok: true });
   } catch (err) {
     if (err && err.code === 'ER_DUP_ENTRY') {
-      return res.status(409).json({ error: 'duplicate' });
+      return res.status(409).json({ error: 'duplicate', reason: 'email' });
     }
     console.error('POST /api/scores:', err.message);
     return res.status(500).json({ error: 'db' });

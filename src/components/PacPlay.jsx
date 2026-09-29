@@ -47,7 +47,30 @@ function drawGhost(ctx, x, y, radius, color, dir, face, time) {
     ctx.fill();
     ctx.strokeStyle = INK;
     ctx.stroke();
-    if (face !== 'normal') return; // frightened face is a plain sheet + eyes below
+    if (face !== 'normal') {
+      // Scared face: dot eyes and a zigzag mouth, like the arcade.
+      const paint = face === 'flash' ? '#5146d9' : '#f7f7f2';
+      ctx.fillStyle = paint;
+      const eye = radius * 0.2;
+      ctx.beginPath();
+      ctx.arc(x - radius * 0.38, y - radius * 0.1, eye, 0, TAU);
+      ctx.arc(x + radius * 0.38, y - radius * 0.1, eye, 0, TAU);
+      ctx.fill();
+
+      ctx.strokeStyle = paint;
+      ctx.lineWidth = Math.max(1, radius * 0.16);
+      ctx.beginPath();
+      const zigY = y + radius * 0.38;
+      const zigW = radius * 1.3;
+      for (let i = 0; i <= 6; i += 1) {
+        const zx = x - zigW / 2 + (zigW * i) / 6;
+        const zy = zigY + (i % 2 === 0 ? 0 : radius * 0.24);
+        if (i === 0) ctx.moveTo(zx, zy);
+        else ctx.lineTo(zx, zy);
+      }
+      ctx.stroke();
+      return;
+    }
   }
   const eyeR = radius * 0.36;
   const pupilR = radius * 0.17;
@@ -204,9 +227,9 @@ export default function PacPlay() {
   const [won, setWon] = useState(false);
   const [endScore, setEndScore] = useState(0);
   const [endTime, setEndTime] = useState(0);
-  const [board, setBoard] = useState([]);
   const [form, setForm] = useState({ name: '', email: '', institution: '' });
   const [formError, setFormError] = useState('');
+  const [saving, setSaving] = useState(false);
   const [entry, setEntry] = useState(null);
 
   const gameRef = useRef(null);
@@ -254,6 +277,7 @@ export default function PacPlay() {
     const game = gameRef.current;
     if (!canvas || !game) return undefined;
     const ctx = canvas.getContext('2d');
+    if (!ctx) return undefined;
     const dpr = Math.min(window.devicePixelRatio || 1, 2);
     canvas.width = game.cols * TILE * dpr;
     canvas.height = game.rows * TILE * dpr;
@@ -344,7 +368,7 @@ export default function PacPlay() {
     setFormError('');
   };
 
-  const submitEntry = (event) => {
+  const submitEntry = async (event) => {
     event.preventDefault();
     const name = form.name.trim();
     const email = form.email.trim();
@@ -365,10 +389,16 @@ export default function PacPlay() {
       time: Math.round(endTime * 10) / 10,
       at: new Date().toISOString(),
     };
+    setSaving(true);
     try {
-      saveEntry(record);
+      await saveEntry(record);
     } catch (err) {
-      if (err && err.message === 'duplicate') {
+      setSaving(false);
+      if (err && err.message === 'duplicate-email') {
+        setFormError('This email already has an entry - one entry per person.');
+      } else if (err && err.message === 'duplicate-person') {
+        setFormError('Someone with this name and institution already entered - one entry per person.');
+      } else if (err && err.message === 'duplicate') {
         setFormError('This email already has an entry - one entry per person.');
       } else if (err && err.message === 'remote') {
         setFormError('Could not reach the scoreboard - please try again.');
@@ -377,34 +407,9 @@ export default function PacPlay() {
       }
       return;
     }
-    try {
-      loadEntries()
-        .then(setBoard)
-        .catch(() => {
-          /* board stays as-is */
-        });
-    } catch {
-      /* board stays as-is */
-    }
     setEntry(record);
     setScreen('done');
   };
-
-  // Refresh the shared board whenever the result screen lands.
-  useEffect(() => {
-    if (screen !== 'result') return undefined;
-    let live = true;
-    loadEntries()
-      .then((entries) => {
-        if (live) setBoard(entries);
-      })
-      .catch(() => {
-        if (live) setBoard([]);
-      });
-    return () => {
-      live = false;
-    };
-  }, [screen]);
 
   return (
     <>
@@ -532,29 +537,13 @@ export default function PacPlay() {
                 </p>
                 <p className="pac-sub">
                   {won
-                    ? 'Every pellet of the AWS SBG, gone. That score is on the board below.'
+                    ? 'Every pellet of the AWS SBG, gone.'
                     : 'The ghosts keep the maze this time. Your score still counts - lock it in.'}{' '}
                   Winners are the highest scores, fastest first on ties - the board
                   closes when the Hack Day starts. Goodies go out at the awards,
-                  so use your real institution email.
+                  so use your real institution email. Your score stays private:
+                  only you see it here.
                 </p>
-                {board.length > 0 && (
-                  <>
-                    <p className="pac-boardtitle">Top scores on this device</p>
-                    <ol className="pac-leaderboard">
-                      {board.slice(0, 5).map((e, i) => (
-                        <li key={`${e.email}-${i}`}>
-                          <span>
-                            {i + 1}. {e.name}
-                          </span>
-                          <span>
-                            {e.score} pts · {formatTime(e.time)}
-                          </span>
-                        </li>
-                      ))}
-                    </ol>
-                  </>
-                )}
                 <form className="pac-form" onSubmit={submitEntry} noValidate>
                   <label>
                     Name
@@ -591,8 +580,8 @@ export default function PacPlay() {
                       {formError}
                     </p>
                   )}
-                  <button type="submit" className="ht-btn-primary">
-                    Submit entry
+                  <button type="submit" className="ht-btn-primary" disabled={saving}>
+                    {saving ? 'Saving…' : 'Submit entry'}
                   </button>
                 </form>
               </div>

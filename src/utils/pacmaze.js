@@ -460,6 +460,46 @@ function stepGhost(world, ghost, dt) {
   }
 }
 
+function walkableDir(world, cx, cy) {
+  for (let d = 0; d < 4; d += 1) {
+    if (isWalkable(world, cx + DIRS[d][0], cy + DIRS[d][1])) return d;
+  }
+  return 0;
+}
+
+function torusSep(ax, ay, bx, by, cols) {
+  const dx = Math.abs(ax - bx) % cols;
+  return Math.max(Math.min(dx, cols - dx), Math.abs(ay - by));
+}
+
+// Ghost dens: walkable tiles anywhere on the board, far from Pac-Man and
+// spread apart. The old arithmetic (pacCol + half + i*2 on the home row)
+// lands on odd columns that are often walls on narrow mazes, piling every
+// ghost onto the fallback tile next to Pac-Man - an instant-death loop.
+function pickSpawns(world, n) {
+  const { cols, rows, home } = world;
+  const cands = [];
+  for (let y = 1; y < rows - 1; y += 1) {
+    for (let x = 0; x < cols; x += 1) {
+      if (x === home.pacCol && y === home.row) continue;
+      if (!isWalkable(world, x, y)) continue;
+      cands.push({ x, y, d: torusSep(x, y, home.pacCol, home.row, cols) });
+    }
+  }
+  cands.sort((a, b) => b.d - a.d);
+  const picks = [];
+  for (const c of cands) {
+    if (picks.length >= n) break;
+    if (picks.every((pr) => torusSep(pr.x, pr.y, c.x, c.y, cols) >= 4)) picks.push(c);
+  }
+  for (const c of cands) {
+    if (picks.length >= n) break;
+    if (!picks.includes(c)) picks.push(c);
+  }
+  while (picks.length < n) picks.push({ x: home.col, y: home.row });
+  return picks;
+}
+
 function resetActors(world) {
   const { home } = world;
   const pac = world.pac;
@@ -473,16 +513,16 @@ function resetActors(world) {
   pac.dead = false;
   pac.deadT = 0;
 
+  const starts = pickSpawns(world, world.ghosts.length);
   world.ghosts.forEach((g, i) => {
-    const col = mod(home.pacCol + (world.cols >> 1) + i * 2, world.cols);
-    const start = isWalkable(world, col, home.row) ? col : home.col;
-    g.x = start;
-    g.y = home.row;
-    g.cx = start;
-    g.cy = home.row;
+    const start = starts[i];
+    g.x = start.x;
+    g.y = start.y;
+    g.cx = start.x;
+    g.cy = start.y;
     g.tx = null;
     g.ty = null;
-    g.dir = i % 2 ? 2 : 0;
+    g.dir = walkableDir(world, start.x, start.y);
     g.state = 'normal';
     g.reverse = false;
   });
@@ -573,9 +613,9 @@ export function createWorld({
     [0, roomRows[roomRows.length - 1]],
     [half, roomRows[0]],
   ];
+  const starts = pickSpawns(world, ghostColors.length);
   ghostColors.forEach((color, i) => {
-    const startCol = mod(home.pacCol + (cols >> 1) + i * 2, cols);
-    const g = makeActor(isWalkable(world, startCol, row) ? startCol : home.col, row, i % 2 ? 2 : 0);
+    const g = makeActor(starts[i].x, starts[i].y, walkableDir(world, starts[i].x, starts[i].y));
     g.color = color;
     g.role = ghostRoles[i] ?? 'blinky';
     g.scatter = scatter[i % 4];

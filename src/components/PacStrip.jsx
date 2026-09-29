@@ -269,6 +269,7 @@ export default function PacStrip({
     let raf = 0;
     let last = 0;
     let running = false;
+    let failures = 0;
     let inView = true;
     const motion = window.matchMedia('(prefers-reduced-motion: reduce)');
 
@@ -343,11 +344,29 @@ export default function PacStrip({
     const frame = (t) => {
       if (!running) return;
       raf = requestAnimationFrame(frame);
-      const dt = Math.min(0.05, Math.max(0, (t - last) / 1000));
-      last = t;
-      if (!dt || !world) return;
-      updateWorld(world, dt);
-      draw(ctx, world, view);
+      try {
+        const dt = Math.min(0.05, Math.max(0, (t - last) / 1000));
+        last = t;
+        if (!dt || !world) return;
+        updateWorld(world, dt);
+        draw(ctx, world, view);
+        failures = 0;
+      } catch (err) {
+        // Self-healing: a transient canvas/world fault rebuilds the maze
+        // instead of freezing the strip; persistent faults park the loop
+        // instead of spamming errors every frame.
+        failures += 1;
+        if (failures > 30) {
+          running = false;
+          cancelAnimationFrame(raf);
+          return;
+        }
+        try {
+          build();
+        } catch {
+          /* wait for the next resize/visibility nudge */
+        }
+      }
     };
 
     const sync = () => {

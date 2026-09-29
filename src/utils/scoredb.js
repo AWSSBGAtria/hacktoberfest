@@ -40,13 +40,8 @@ export function saveEntry(entry) {
   if (REMOTE_URL) return saveEntryRemote(entry);
   const entries = readLocal(ENTRIES_KEY, []);
   const list = Array.isArray(entries) ? entries : [];
-  if (
-    list.some(
-      (e) => e.email && e.email.toLowerCase() === entry.email.toLowerCase(),
-    )
-  ) {
-    throw new Error('duplicate');
-  }
+  const clash = findClash(list, entry);
+  if (clash) throw new Error(clash === 'person' ? 'duplicate-person' : 'duplicate-email');
   list.push(entry);
   try {
     writeLocal(ENTRIES_KEY, list);
@@ -55,6 +50,21 @@ export function saveEntry(entry) {
     throw new Error('storage');
   }
   return entry;
+}
+
+// One entry per person: same email, or same name plus institution
+// (case-insensitive, trimmed) - catches a second email from the same player.
+function findClash(list, entry) {
+  const email = entry.email.trim().toLowerCase();
+  const name = entry.name.trim().toLowerCase();
+  const inst = entry.institution.trim().toLowerCase();
+  for (const e of list) {
+    if (!e || !e.email) continue;
+    if (String(e.email).toLowerCase() === email) return 'email';
+    if (String(e.name || '').trim().toLowerCase() === name &&
+        String(e.institution || '').trim().toLowerCase() === inst) return 'person';
+  }
+  return null;
 }
 
 export function getLock() {
@@ -82,7 +92,16 @@ async function saveEntryRemote(entry) {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(entry),
   });
-  if (res.status === 409) throw new Error('duplicate');
+  if (res.status === 409) {
+    let reason = 'email';
+    try {
+      const data = await res.json();
+      if (data && data.reason === 'person') reason = 'person';
+    } catch {
+      /* keep default */
+    }
+    throw new Error(reason === 'person' ? 'duplicate-person' : 'duplicate-email');
+  }
   if (!res.ok) throw new Error('remote');
   try {
     writeLocal(DONE_KEY, { email: entry.email });
