@@ -8,7 +8,9 @@ import BuildPage from './pages/BuildPage';
 import DayPage from './pages/DayPage';
 import VenuePage from './pages/VenuePage';
 import FaqPage from './pages/FaqPage';
+import BadgePage from './pages/BadgePage';
 import PacPlay from './components/PacPlay';
+import { EVENT_DETAILS } from './data/eventData';
 import { useEffect, useState } from 'react';
 import { flushSync } from 'react-dom';
 
@@ -21,6 +23,7 @@ function getPath() {
 const REDIRECTS = {
   '/volunteer': 'https://binary.so/EnumX2Q',
   '/mentor': 'https://binary.so/eGuTA0x',
+  '/register': EVENT_DETAILS.registrationUrl,
 };
 
 function RouteView({ path }) {
@@ -36,8 +39,11 @@ function RouteView({ path }) {
     case '/community':
     case '/faq':
       return <FaqPage />;
+    case '/badge':
+      return <BadgePage />;
     case '/volunteer':
     case '/mentor':
+    case '/register':
       return (
         <p className="shell py-20 sm:py-28 font-mono text-sm tracking-wide">
           Redirecting you onward…
@@ -60,6 +66,8 @@ const TITLES = {
   '/faq': 'FAQ — Hack Day Bengaluru',
   '/volunteer': 'Volunteer — Hack Day Bengaluru',
   '/mentor': 'Mentor — Hack Day Bengaluru',
+  '/badge': 'Get Your Badge — Hack Day Bengaluru',
+  '/register': 'Register — Hack Day Bengaluru',
 };
 
 export default function App() {

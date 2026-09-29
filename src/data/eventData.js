@@ -19,6 +19,8 @@ export const EVENT_DETAILS = {
   websiteUrl: "https://awsatria.tech/",
   mlhUrl: "https://mlh.com/",
   hacktoberfestUrl: "https://hacktoberfest.com/",
+  promoText:
+    "I'm attending Hacktoberfest Hack Day Bengaluru 2026! A full day of open-source hacking with student builders - plus Google Gemma 4, AWS, mentors, food and good company.\n\nOctober 23, 2026 · Atria Institute of Technology, Bengaluru\n\nGrab your free spot and build with us.\n\n#Hacktoberfest #Hacktoberfest2026 #OpenSource #AWS #GenAI #Bengaluru #BuildInPublic",
 };
 
 export const HIGHLIGHTS = [
