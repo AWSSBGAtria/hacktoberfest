@@ -27,3 +27,6 @@ dist-ssr
 .env
 .env.*
 !.env.example
+
+# Local design-tool artifacts (review screenshots, generated PDFs, caches)
+.impeccable

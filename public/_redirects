@@ -1,0 +1,8 @@
+# Netlify / Cloudflare Pages. The three off-site routes are real 302s so a
+# direct hit (or a shared link) never depends on the SPA fallback resolving.
+/volunteer  https://binary.so/EnumX2Q  302
+/mentor     https://binary.so/eGuTA0x  302
+/register   https://events.mlh.com/events/15272-hacktoberfest-hack-day-bengaluru-x-aws-student-builder-group-at-atria-institute-of-technology  302
+
+# Everything else is the client-routed SPA.
+/*    /index.html   200

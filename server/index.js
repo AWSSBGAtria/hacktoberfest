@@ -100,6 +100,21 @@ app.get('/api/health', async (req, res) => {
 
 // Serve the built site (same origin => no CORS needed) with an SPA fallback.
 const dist = path.join(here, '..', 'dist');
+
+// Off-site routes. These are also handled client-side in src/App.jsx and by
+// public/{volunteer,mentor,register}/index.html, but a 302 here means a direct
+// hit, a shared link, or a bot never has to wait on the SPA to boot before it
+// leaves - and it cannot 404 the way a static host without a fallback would.
+const REDIRECTS = {
+  '/volunteer': 'https://binary.so/EnumX2Q',
+  '/mentor': 'https://binary.so/eGuTA0x',
+  '/register':
+    'https://events.mlh.com/events/15272-hacktoberfest-hack-day-bengaluru-x-aws-student-builder-group-at-atria-institute-of-technology',
+};
+for (const [from, to] of Object.entries(REDIRECTS)) {
+  app.get(from, (req, res) => res.redirect(302, to));
+}
+
 app.use(express.static(dist));
 app.use((req, res, next) => {
   if (req.method !== 'GET' || req.path.startsWith('/api/') || req.path.includes('.')) {
