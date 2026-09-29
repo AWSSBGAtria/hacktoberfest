@@ -1637,3 +1637,350 @@ html.has-custom-cursor * {
   from { opacity: 0; transform: translateY(20px) scale(.99); }
   to { opacity: 1; transform: translateY(0) scale(1); }
 }
+.pac-fab {
+  position: fixed;
+  right: 1rem;
+  bottom: 1rem;
+  z-index: 60;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  background: #f5b726;
+  color: #10201d;
+  border: 2px solid #10201d;
+  box-shadow: 4px 4px 0 #10201d;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  padding: 0.6rem 0.9rem 0.6rem 0.65rem;
+  cursor: var(--cursor-hand);
+}
+
+.pac-fab:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0 #10201d;
+}
+
+.pac-fab:active {
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0 #10201d;
+}
+
+@media (min-width: 640px) {
+  .pac-fab {
+    right: 1.5rem;
+    bottom: 1.5rem;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .pac-fab svg {
+    animation: pac-chomp 1.1s ease-in-out infinite;
+  }
+}
+
+@keyframes pac-chomp {
+  0%, 100% { transform: rotate(-10deg); }
+  50% { transform: rotate(10deg); }
+}
+
+.pac-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 70;
+  background: rgba(16, 32, 29, 0.74);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  overflow-y: auto;
+}
+
+.pac-panel {
+  width: min(860px, 100%);
+  max-height: calc(100svh - 2rem);
+  overflow-y: auto;
+  background: #f2f2eb;
+  color: #10201d;
+  border: 2px solid #10201d;
+  box-shadow: 8px 8px 0 #10201d;
+  outline: none;
+  margin: auto;
+}
+
+.pac-panel-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem 1.25rem;
+  border-bottom: 2px solid #10201d;
+  background: #211f47;
+  color: #f7f7f2;
+}
+
+.pac-eyebrow {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  color: #f5b726;
+}
+
+.pac-title {
+  margin: 0.15rem 0 0;
+  font-family: var(--font-heading);
+  font-weight: 800;
+  text-transform: uppercase;
+  font-size: 1.3rem;
+  line-height: 1.05;
+}
+
+.pac-close {
+  flex: 0 0 auto;
+  width: 2.4rem;
+  height: 2.4rem;
+  border: 2px solid #f7f7f2;
+  background: transparent;
+  color: #f7f7f2;
+  font-size: 1.4rem;
+  line-height: 1;
+  cursor: var(--cursor-hand);
+}
+
+.pac-close:hover {
+  background: #e53927;
+  border-color: #e53927;
+}
+
+.pac-body {
+  padding: 1.25rem;
+  display: grid;
+  gap: 1rem;
+  align-content: start;
+}
+
+.pac-rules {
+  margin: 0;
+  padding-left: 1.3rem;
+  display: grid;
+  gap: 0.6rem;
+  font-size: 0.95rem;
+  line-height: 1.55;
+}
+
+.pac-goodies {
+  margin: 0;
+  border: 2px solid #10201d;
+  background: #fff3c4;
+  box-shadow: 4px 4px 0 #10201d;
+  padding: 0.75rem 0.9rem;
+  font-size: 0.9rem;
+  line-height: 1.55;
+}
+
+.pac-hudrow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 1.25rem;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+}
+
+.pac-hudrow strong {
+  font-size: 0.9rem;
+}
+
+.pac-lives strong {
+  color: #e53927;
+  letter-spacing: 0.12em;
+}
+
+.pac-boardwrap {
+  border: 2px solid #10201d;
+  background: #1a1839;
+}
+
+.pac-board {
+  display: block;
+  width: 100%;
+  height: auto;
+  touch-action: none;
+}
+
+.pac-dpad {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.pac-dpad button {
+  width: 3rem;
+  height: 3rem;
+  border: 2px solid #10201d;
+  background: #f7f7f2;
+  box-shadow: 3px 3px 0 #10201d;
+  font-size: 1rem;
+  cursor: var(--cursor-hand);
+  color: #10201d;
+}
+
+.pac-dpad button:active {
+  transform: translate(2px, 2px);
+  box-shadow: 1px 1px 0 #10201d;
+}
+
+.pac-dpad-mid {
+  display: flex;
+  gap: 0.4rem;
+}
+
+.pac-hint {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  text-align: center;
+  opacity: 0.7;
+}
+
+.pac-center {
+  text-align: center;
+  justify-items: center;
+}
+
+.pac-big {
+  margin: 0;
+  font-family: var(--font-heading);
+  font-weight: 800;
+  text-transform: uppercase;
+  font-size: clamp(1.4rem, 3vw, 2rem);
+  line-height: 1.05;
+}
+
+.pac-sub {
+  margin: 0;
+  max-width: 34rem;
+  line-height: 1.6;
+}
+
+.pac-times {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.4rem;
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+}
+
+.pac-resultline {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: 1rem;
+}
+
+.pac-boardtitle {
+  margin: 0.5rem 0 0;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.pac-leaderboard {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 0.35rem;
+  border: 2px solid #10201d;
+  background: #211f47;
+  color: #f7f7f2;
+  padding: 0.7rem 0.9rem;
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+}
+
+.pac-leaderboard li {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.pac-form {
+  display: grid;
+  gap: 0.8rem;
+  text-align: left;
+}
+
+.pac-form label {
+  display: grid;
+  gap: 0.35rem;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.pac-form input {
+  border: 2px solid #10201d;
+  border-radius: 0;
+  padding: 0.6rem 0.7rem;
+  font-size: 0.95rem;
+  background: #ffffff;
+  color: #10201d;
+  width: 100%;
+}
+
+.pac-form input:focus {
+  outline: 2px solid #5146d9;
+  outline-offset: 1px;
+}
+
+.pac-error {
+  margin: 0;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #a41612;
+}
+
+/* Light-panel secondary button: the shared .ht-btn-secondary is cream text
+   for dark surfaces and vanishes on this paper, so the game gets its own. */
+.pac-btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 50px;
+  padding: 12px 26px;
+  border: 2px solid #10201d;
+  border-radius: 0;
+  background: #f7f7f2;
+  color: #10201d;
+  box-shadow: 4px 4px 0 #10201d;
+  cursor: var(--cursor-hand);
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  transition: transform var(--dur-fast) var(--ease-brand), box-shadow var(--dur-fast) var(--ease-brand),
+    background-color var(--dur-fast) ease;
+}
+
+.pac-btn-secondary:hover {
+  background: #f5b726;
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0 #10201d;
+}
+
+.pac-btn-secondary:active {
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0 #10201d;
+}

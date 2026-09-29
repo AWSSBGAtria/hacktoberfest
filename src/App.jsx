@@ -9,6 +9,7 @@ import BuildPage from './pages/BuildPage';
 import DayPage from './pages/DayPage';
 import VenuePage from './pages/VenuePage';
 import FaqPage from './pages/FaqPage';
+import PacPlay from './components/PacPlay';
 import { useEffect, useState } from 'react';
 import { flushSync } from 'react-dom';
 
@@ -144,6 +145,7 @@ export default function App() {
         <RouteView path={path} />
       </main>
       <Footer />
+      <PacPlay />
       <Cursor />
     </div>
   );
