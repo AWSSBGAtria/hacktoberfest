@@ -168,21 +168,21 @@ export const SCHEDULE = [
     highlight: true,
   },
   {
-    time: "12:30 PM – 12:50 PM",
+    time: "11:30 AM – 11:45 AM",
     title: "Quiz 1",
     type: "Quiz",
-    description: "A quick developer trivia break between commits - twenty minutes, teams of up to four.",
+    description: "A quick developer trivia break between commits - fifteen minutes, teams of up to four.",
     highlight: false,
   },
   {
-    time: "12:50 PM – 01:40 PM",
+    time: "12:45 PM – 01:30 PM",
     title: "Lunch Break",
     type: "Break",
     description: "Lunch is provided on campus. Step away, refuel, and swap project ideas with the room.",
     highlight: false,
   },
   {
-    time: "04:00 PM – 04:20 PM",
+    time: "03:00 PM – 03:15 PM",
     title: "Quiz 2",
     type: "Quiz",
     description: "Second round of trivia before the final push - same rules, harder questions.",
@@ -190,9 +190,9 @@ export const SCHEDULE = [
   },
   {
     time: "05:00 PM – 05:30 PM",
-    title: "Snacks & Refreshments",
+    title: "Snacks, Refreshments & Networking",
     type: "Break",
-    description: "Tea, coffee, and snacks to carry you into judging.",
+    description: "Tea, coffee, and snacks - plus open networking with mentors, peers, and organizers before judging.",
     highlight: false,
   },
   {
