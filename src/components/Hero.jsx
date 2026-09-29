@@ -93,16 +93,14 @@ export default function Hero() {
       <PacStrip variant="side" salt="right" className="pac-side pac-side-right" />
 
       <div className="hero-content relative z-10 mx-auto px-4 sm:px-8 lg:px-12 pb-20 sm:pb-28">
-        {/* 4 Colored Squares */}
-        <div className="flex items-center justify-center gap-2 mb-6">
-          <span className="w-3.5 h-3.5 bg-[#e53927]" />
-          <span className="w-3.5 h-3.5 bg-[#8bb2de]" />
-          <span className="w-3.5 h-3.5 bg-[#f5b726]" />
-          <span className="w-3.5 h-3.5 bg-[#e97b77]" />
-        </div>
-
-        {/* Eyebrow */}
-        <p className="font-mono text-xs sm:text-sm text-[#f6c4c1] uppercase tracking-[0.1em] mb-4">
+        {/* Eyebrow with the four event colours riding on the same line */}
+        <p className="font-mono text-xs sm:text-sm text-[#f6c4c1] uppercase tracking-[0.1em] mb-4 flex items-center justify-center gap-3">
+          <span className="flex items-center gap-1.5" aria-hidden="true">
+            <span className="w-2.5 h-2.5 bg-[#e53927]" />
+            <span className="w-2.5 h-2.5 bg-[#8bb2de]" />
+            <span className="w-2.5 h-2.5 bg-[#f5b726]" />
+            <span className="w-2.5 h-2.5 bg-[#e97b77]" />
+          </span>
           Friday, October 23, 2026 · In-Person Hack Day · Bengaluru, India
         </p>
 
