@@ -7,7 +7,7 @@ import {
   LIVES_PER_ATTEMPT,
 } from '../utils/awspac';
 import { ghostDisplayState, WALL, DOT, POWER } from '../utils/pacmaze';
-import { loadEntries, saveEntry, getLock } from '../utils/scoredb';
+import { loadMine, saveEntry, getLock } from '../utils/scoredb';
 
 const BOARD_BG = '#1a1839';
 const WALL_FILL = '#211f47';
@@ -245,11 +245,9 @@ export default function PacPlay() {
     const lock = getLock();
     if (lock) {
       try {
-        const entries = await loadEntries();
-        const found = entries.find(
-          (e) => e.email && lock.email && e.email.toLowerCase() === lock.email.toLowerCase(),
-        );
-        setEntry(found || lock);
+        // Own row only: the public list no longer carries emails.
+        const mine = await loadMine(lock.email);
+        setEntry(mine || lock);
       } catch {
         setEntry(lock);
       }
