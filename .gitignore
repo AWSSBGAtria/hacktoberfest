@@ -30,3 +30,4 @@ dist-ssr
 
 # Local design-tool artifacts (review screenshots, generated PDFs, caches)
 .impeccable
+.vercel
