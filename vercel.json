@@ -1,0 +1,25 @@
+{
+  "redirects": [
+    {
+      "source": "/volunteer",
+      "destination": "https://binary.so/EnumX2Q",
+      "permanent": false
+    },
+    {
+      "source": "/mentor",
+      "destination": "https://binary.so/eGuTA0x",
+      "permanent": false
+    },
+    {
+      "source": "/register",
+      "destination": "https://events.mlh.com/events/15272-hacktoberfest-hack-day-bengaluru-x-aws-student-builder-group-at-atria-institute-of-technology",
+      "permanent": false
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/((?!api/).*)",
+      "destination": "/index.html"
+    }
+  ]
+}

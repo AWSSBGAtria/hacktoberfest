@@ -9,6 +9,7 @@
     "preview": "vite preview",
     "server": "node server/index.js",
     "serve": "npm run build && node server/index.js",
+    "api:verify": "node scripts/verify-api.mjs",
     "brochure:verify": "node scripts/verify-brochure.mjs",
     "brochure:check": "node scripts/check-brochure.mjs",
     "brochure:audit": "node scripts/audit-brochure.mjs"
