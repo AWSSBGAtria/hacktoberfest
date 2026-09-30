@@ -125,10 +125,10 @@ export default function Venue() {
           </Reveal>
 
           <Reveal delay={90} className="venue-map" aria-label="Map showing Atria Institute of Technology">
-            <div className="map-ribbon">
+            {/* <div className="map-ribbon">
               <span className="map-ribbon-dot" aria-hidden="true" />
               Atria Institute of Technology · Hebbal
-            </div>
+            </div>*/}
             {/* Leaflet on OSM tiles with our own red pin: pans and zooms with
                 the map, no keys or consent walls. */}
             <VenueMap />
