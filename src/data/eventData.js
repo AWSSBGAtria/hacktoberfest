@@ -5,7 +5,7 @@ export const EVENT_DETAILS = {
   hostName: "Darshan B",
   date: "October 23, 2026",
   day: "Friday",
-  time: "8:30 AM – 8:00 PM IST",
+  time: "8:30 AM onwards",
   eventTargetDate: "2026-10-23T08:30:00+05:30",
   venue: {
     name: "Atria Institute of Technology",
@@ -20,7 +20,6 @@ export const EVENT_DETAILS = {
   mlhUrl: "https://mlh.com/",
   hacktoberfestUrl: "https://hacktoberfest.com/",
   goodiesWorth: "₹1.4 Lakh+",
-  goodiesNote: "Tees · stickers · swag bags",
   promoText:
     "I'm attending Hacktoberfest Hack Day Bengaluru 2026! A full day of open-source hacking with student builders - plus Google Gemma 4, AWS, mentors, food, good company and a goody haul worth ₹1.4 Lakh+.\n\nOctober 23, 2026 · Atria Institute of Technology, Bengaluru\n\nCome build with us - register here: https://hacktober.awsatria.tech/register\n\n#Hacktoberfest #Hacktoberfest2026 #OpenSource #AWS #StudentsAtAWS #GenAI #Bengaluru #BuildInPublic",
 };

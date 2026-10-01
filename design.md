@@ -14,7 +14,7 @@ Technology.
 | Fact | Value |
 | --- | --- |
 | Date | Friday, October 23, 2026 |
-| Time | 8:30 AM – 8:00 PM IST |
+| Time | 8:30 AM onwards |
 | Venue | Atria Institute of Technology, Hebbal, Bengaluru |
 | Organizer | AWS Student Builder Group at Atria Institute of Technology |
 | Host | Darshan B |
@@ -252,8 +252,8 @@ Nav order: About · Build · Day plan · Venue · FAQ.
 - Direct, warm, community-first. Second person. Short sentences.
 - Facts always from `eventData.js` — dates, times, venue, links never
   duplicated into components.
-- Dates read **October 23, 2026**; times are IST with the full range
-  `8:30 AM – 8:00 PM IST`.
+- Dates read **October 23, 2026**; the day opens `8:30 AM IST` and public
+  copy never quotes a closing hour — it reads **8:30 AM onwards**.
 - Marketing copy does not restate operational deadlines as hype; the schedule
   is the single place timing lives.
 - Eyebrows are 2–3 words, uppercase, mono: `ABOUT THE DAY`, `CHALLENGE TRACKS`.
@@ -524,10 +524,10 @@ scripts/screenshot.mjs  Playwright review shots (SHOTS_DIR, preview on :4173)
   (black border, hard shadow, mono uppercase) sits between the hero deck and
   the logistics facts - the only saturated block in a cream-on-navy hero, so
   the number reads before the date does.
-- Single source of truth in `EVENT_DETAILS.goodiesWorth` / `goodiesNote`;
-  the same figure reaches the Highlights card (value "₹1.4 Lakh+"), the
+- Single source of truth in `EVENT_DETAILS.goodiesWorth`; the same figure
+  reaches the Highlights card (value "₹1.4 Lakh+"), the
   About "Free Food, Swag & Kits" card, the Rewards deck on /build, the badge
   share caption, and OG/Twitter descriptions.
-- Stamp is deliberately non-interactive (sells, does not ask for a click);
-  the tees/stickers/swag-bags note hides under 520px so the line stays one
-  row on phones.
+- Stamp is deliberately non-interactive (sells, it does not ask for a click).
+  It carries nothing but the number: the haul in display face at ~2.1x the
+  stamp body, gift glyph scaling alongside, so one line owns the block.

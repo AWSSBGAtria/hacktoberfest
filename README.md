@@ -11,7 +11,7 @@
 ## 🚀 Event Overview
 
 - **Date:** Friday, October 23, 2026
-- **Time:** 8:30 AM – 8:00 PM IST (Full Day In-Person Hack Day)
+- **Time:** 8:30 AM IST onwards (Full Day In-Person Hack Day)
 - **Venue:** Atria Institute of Technology, 1st Main Road, AGS Colony, Anandnagar, Hebbal, Bengaluru, Karnataka 560024
 - **Host:** AWS Student Builder Group at Atria Institute of Technology (Lead: Darshan B)
 - **Registration Link:** [Register on MLH](https://events.mlh.com/events/15272-hacktoberfest-hack-day-bengaluru-x-aws-student-builder-group-at-atria-institute-of-technology)
@@ -51,7 +51,7 @@
    - Top contributor bounties & certificates of participation.
 
 6. **Timeline & Schedule:**
-   - Filterable hour-by-hour itinerary from 8:30 AM check-in to 8:00 PM closing ceremony and photo ops.
+   - Filterable hour-by-hour itinerary from the 8:30 AM check-in through the closing ceremony and photo ops.
 
 7. **Venue & Attendee Checklist:**
    - Campus location with direct Google Maps link and Google Calendar invite generator.

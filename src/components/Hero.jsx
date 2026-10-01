@@ -93,16 +93,14 @@ export default function Hero() {
       <PacStrip variant="side" salt="right" className="pac-side pac-side-right" />
 
       <div className="hero-content relative z-10 mx-auto px-4 sm:px-8 lg:px-12 pb-20 sm:pb-28">
-        {/* Eyebrow with the four event colours riding on the same line */}
-        <p className="font-mono text-xs sm:text-sm text-[#f6c4c1] uppercase tracking-[0.1em] mb-4 flex items-center justify-center gap-3">
-          <span className="flex items-center gap-1.5" aria-hidden="true">
-            <span className="w-2.5 h-2.5 bg-[#e53927]" />
-            <span className="w-2.5 h-2.5 bg-[#8bb2de]" />
-            <span className="w-2.5 h-2.5 bg-[#f5b726]" />
-            <span className="w-2.5 h-2.5 bg-[#e97b77]" />
-          </span>
-          Friday, October 23, 2026 · In-Person Hack Day · Bengaluru, India
-        </p>
+        {/* The four event colours, standing in for the old date eyebrow -
+            date, time and venue already live in the facts row below. */}
+        <div className="flex items-center justify-center gap-1.5 mb-5" aria-hidden="true">
+          <span className="w-2.5 h-2.5 bg-[#e53927]" />
+          <span className="w-2.5 h-2.5 bg-[#8bb2de]" />
+          <span className="w-2.5 h-2.5 bg-[#f5b726]" />
+          <span className="w-2.5 h-2.5 bg-[#e97b77]" />
+        </div>
 
         {/* Hero Heading */}
         <h1 className="hero-title font-display font-extrabold text-4xl sm:text-6xl lg:text-7xl text-[#f7f7f2] mb-6 uppercase">
@@ -120,12 +118,11 @@ export default function Hero() {
         {/* The haul: one loud yellow stamp so the goodies number is the
             first thing a scanner catches in the hero. */}
         <div className="hero-goodies">
-          <Gift className="w-4 h-4 shrink-0" aria-hidden="true" />
-          <span>
-            <strong>{EVENT_DETAILS.goodiesWorth}</strong> worth of goodies
+          <Gift className="hero-goodies-icon" aria-hidden="true" />
+          <span className="hero-goodies-copy">
+            <strong>{EVENT_DETAILS.goodiesWorth}</strong>
+            <span className="hero-goodies-sub">worth of prizes</span>
           </span>
-          <span className="hero-goodies-dots" aria-hidden="true" />
-          <span className="hero-goodies-note">{EVENT_DETAILS.goodiesNote}</span>
         </div>
 
         {/* Event Quick Facts Badges */}
@@ -137,7 +134,7 @@ export default function Hero() {
           <span className="text-white/40">·</span>
           <span className="flex items-center gap-1.5">
             <Clock className="w-4 h-4 text-[#8bb2de]" />
-            8:30 AM – 8:00 PM IST
+            8:30 AM onwards
           </span>
           <span className="text-white/40">·</span>
           <span className="flex items-center gap-1.5">
