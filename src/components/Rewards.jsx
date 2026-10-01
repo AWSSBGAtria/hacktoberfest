@@ -50,7 +50,7 @@ export default function Rewards() {
           eyebrow="TRACKS & RECOGNITION"
           title={<>What you walk away</>}
           accent="with on the day."
-          deck="Three challenge tracks plus our own club bonus. Prize details are confirmed closer to the day."
+          deck={<>Three challenge tracks plus our own club bonus, and a goody haul worth over {EVENT_DETAILS.goodiesWorth}. Prize details are confirmed closer to the day.</>}
         />
 
         {/* Badge wall - every reward as a stamped object, up front. */}

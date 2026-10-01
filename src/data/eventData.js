@@ -19,8 +19,10 @@ export const EVENT_DETAILS = {
   websiteUrl: "https://awsatria.tech/",
   mlhUrl: "https://mlh.com/",
   hacktoberfestUrl: "https://hacktoberfest.com/",
+  goodiesWorth: "₹1.4 Lakh+",
+  goodiesNote: "Tees · stickers · swag bags",
   promoText:
-    "I'm attending Hacktoberfest Hack Day Bengaluru 2026! A full day of open-source hacking with student builders - plus Google Gemma 4, AWS, mentors, food and good company.\n\nOctober 23, 2026 · Atria Institute of Technology, Bengaluru\n\nCome build with us - register here: https://hacktober.awsatria.tech/register\n\n#Hacktoberfest #Hacktoberfest2026 #OpenSource #AWS #StudentsAtAWS #GenAI #Bengaluru #BuildInPublic",
+    "I'm attending Hacktoberfest Hack Day Bengaluru 2026! A full day of open-source hacking with student builders - plus Google Gemma 4, AWS, mentors, food, good company and a goody haul worth ₹1.4 Lakh+.\n\nOctober 23, 2026 · Atria Institute of Technology, Bengaluru\n\nCome build with us - register here: https://hacktober.awsatria.tech/register\n\n#Hacktoberfest #Hacktoberfest2026 #OpenSource #AWS #StudentsAtAWS #GenAI #Bengaluru #BuildInPublic",
 };
 
 export const HIGHLIGHTS = [
@@ -38,8 +40,8 @@ export const HIGHLIGHTS = [
   },
   {
     icon: "Gift",
-    value: "Swag Bags & Prizes",
-    label: "Badges, Stickers, T-Shirts & Goodies",
+    value: "₹1.4 Lakh+",
+    label: "Goodies & Swag Haul for Attendees",
     badge: "Exclusive",
   },
   {

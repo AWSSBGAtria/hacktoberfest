@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import { EVENT_DETAILS } from '../data/eventData';
 import { triggerFestiveConfetti } from '../utils/confetti';
 import PacStrip from './PacStrip';
-import { ArrowRight, MapPin, Calendar, Clock, ExternalLink } from 'lucide-react';
+import { ArrowRight, MapPin, Calendar, Clock, Gift, ExternalLink } from 'lucide-react';
 
 export default function Hero() {
   const leftRef = useRef(null);
@@ -116,6 +116,17 @@ export default function Hero() {
         <p className="hero-deck text-base sm:text-xl text-[#f7f7f2] leading-relaxed mb-8 font-sans">
           Join the <strong className="font-bold underline decoration-[#f5b726] decoration-2 underline-offset-4">AWS Student Builder Group</strong> at <strong className="font-bold">Atria Institute of Technology</strong> for a full day of open-source building, Google Gemma 4 AI exploration, and hands-on cloud development.
         </p>
+
+        {/* The haul: one loud yellow stamp so the goodies number is the
+            first thing a scanner catches in the hero. */}
+        <div className="hero-goodies">
+          <Gift className="w-4 h-4 shrink-0" aria-hidden="true" />
+          <span>
+            <strong>{EVENT_DETAILS.goodiesWorth}</strong> worth of goodies
+          </span>
+          <span className="hero-goodies-dots" aria-hidden="true" />
+          <span className="hero-goodies-note">{EVENT_DETAILS.goodiesNote}</span>
+        </div>
 
         {/* Event Quick Facts Badges */}
         <div className="hero-facts inline-flex flex-wrap items-center justify-center gap-3 sm:gap-6 px-4 py-2.5 text-xs font-mono text-[#f7f7f2] mb-10">

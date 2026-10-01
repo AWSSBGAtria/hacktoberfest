@@ -516,3 +516,18 @@ scripts/screenshot.mjs  Playwright review shots (SHOTS_DIR, preview on :4173)
   title, subtitle, sponsors, then the venue pin row full-width along the
   bottom. Bottom-right club mark removed (it collided with the footer line).
 - Hero CTA row carries a third button, "Get your badge" -> /badge.
+
+## 27. Goodies worth callout
+
+- The real-world goody haul is worth over ₹1.4 Lakh, so it gets one loud
+  treatment instead of being buried in copy: a yellow neo-brutalist stamp
+  (black border, hard shadow, mono uppercase) sits between the hero deck and
+  the logistics facts - the only saturated block in a cream-on-navy hero, so
+  the number reads before the date does.
+- Single source of truth in `EVENT_DETAILS.goodiesWorth` / `goodiesNote`;
+  the same figure reaches the Highlights card (value "₹1.4 Lakh+"), the
+  About "Free Food, Swag & Kits" card, the Rewards deck on /build, the badge
+  share caption, and OG/Twitter descriptions.
+- Stamp is deliberately non-interactive (sells, does not ask for a click);
+  the tees/stickers/swag-bags note hides under 520px so the line stays one
+  row on phones.

@@ -27,7 +27,7 @@ export default function About() {
     {
       tag: '100% FREE',
       title: 'Free Food, Swag & Kits',
-      desc: 'Thanks to our organizers and partners, the entire day is free for university students. Enjoy lunch, snacks, stickers, and exclusive swag packs.',
+      desc: 'Thanks to our organizers and partners, the entire day is free for university students. Lunch, snacks, stickers and swag - a haul worth over ₹1.4 Lakh across the day.',
       accent: 'border-[#10201d]',
     },
   ];
