@@ -708,6 +708,31 @@
     }
     .badgestep p { font-size: 7.2pt; line-height: 1.42; color: rgba(16, 32, 29, 0.74); }
 
+    /* The badge maker is the one action on this page, so it gets a full-width
+       ink panel with a filled button rather than a link buried in the foot. */
+    .badgecta {
+      margin-top: 6.5mm;
+      border: 1.4pt solid var(--color-ink);
+      background: var(--color-ink);
+      color: var(--color-cream);
+      padding: 5mm 5.4mm;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 6mm;
+    }
+    .badgecta .icon { color: var(--color-yellow); flex: none; width: 11mm; height: 11mm; }
+    .badgecta h3 {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 15pt;
+      line-height: 1.06;
+      letter-spacing: -0.022em;
+      text-transform: uppercase;
+    }
+    .badgecta p { font-size: 7.8pt; line-height: 1.45; color: rgba(247, 247, 242, 0.84); margin-top: 1.8mm; max-width: 78ch; }
+    .badgecta .btn { flex: none; padding: 3.6mm 5mm; font-size: 8pt; }
+
     /* ================================================================
        P8 — FAQ + FOOD
        ================================================================ */
@@ -1046,8 +1071,9 @@
       <p><strong>New to open source?</strong> Start at page 03. You do not need
       experience — dedicated mentors will guide you through Git commands, finding
       good first issues, and submitting clean pull requests. Solo builders and
-      teams of up to four are equally welcome, and teams form at 10:15 AM on the
-      day. Full challenge briefs, including anything announced after this
+      teams of up to four are equally welcome. Put a team together beforehand, or
+      meet someone during the morning and join theirs. Full challenge briefs,
+      including anything announced after this
       handbook went to print, live on the MLH challenges page at
       <strong>page 09</strong>.</p>
     </div>
@@ -1404,8 +1430,8 @@
     </div>
 
     <p class="deck" style="margin-top: 5mm; font-size: 8.4pt;">
-      Teams form at 10:15 AM — solo builders are just as welcome. All experience
-      levels welcome.
+      Team up beforehand, or meet someone during the morning and join their
+      team. Solo builders are just as welcome. All experience levels welcome.
     </p>
   </div>
 
@@ -1477,7 +1503,7 @@
     </ul>
 
     <div style="display: flex; align-items: baseline; justify-content: space-between; margin-top: 6.5mm; padding-bottom: 2mm;">
-      <span class="eyebrow" style="margin: 0;">Make your attendee badge</span>
+      <span class="eyebrow" style="margin: 0;">How it works</span>
       <span class="mono mono--mute">Before, during, or after the day</span>
     </div>
 
@@ -1497,6 +1523,18 @@
         <h4>Take it with you</h4>
         <p>Download the PNG, then share it to LinkedIn or your apps of choice.</p>
       </div>
+    </div>
+
+    <div class="badgecta">
+      <div>
+        <h3>Make your badge now</h3>
+        <p>Three fields and a download — no account, no sign-up. Do it before you
+        arrive or between commits.</p>
+      </div>
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="square" aria-hidden="true">
+        <rect x="3" y="4.5" width="18" height="15" rx="1"/><path d="M3 9h18"/><path d="M7.5 13h5"/><path d="M7.5 16h8"/>
+      </svg>
+      <a class="btn btn--fill" href="https://hacktober.awsatria.tech/badge">Make your attendee badge</a>
     </div>
   </div>
 
