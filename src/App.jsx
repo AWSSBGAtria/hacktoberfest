@@ -9,6 +9,8 @@ import DayPage from './pages/DayPage';
 import VenuePage from './pages/VenuePage';
 import FaqPage from './pages/FaqPage';
 import BadgePage from './pages/BadgePage';
+import NotFoundPage from './pages/NotFoundPage';
+import ServerErrorPage from './pages/ServerErrorPage';
 import PacPlay from './components/PacPlay';
 import { EVENT_DETAILS } from './data/eventData';
 import { useEffect, useState } from 'react';
@@ -28,6 +30,8 @@ const REDIRECTS = {
 
 function RouteView({ path }) {
   switch (path) {
+    case '/':
+      return <HomePage />;
     case '/about':
       return <AboutPage />;
     case '/build':
@@ -41,6 +45,8 @@ function RouteView({ path }) {
       return <FaqPage />;
     case '/badge':
       return <BadgePage />;
+    case '/500':
+      return <ServerErrorPage />;
     case '/volunteer':
     case '/mentor':
     case '/register':
@@ -50,7 +56,7 @@ function RouteView({ path }) {
         </p>
       );
     default:
-      return <HomePage />;
+      return <NotFoundPage />;
   }
 }
 
@@ -68,6 +74,7 @@ const TITLES = {
   '/mentor': 'Mentor — Hack Day Bengaluru',
   '/badge': 'Get Your Badge — Hack Day Bengaluru',
   '/register': 'Register — Hack Day Bengaluru',
+  '/500': 'Server error — Hack Day Bengaluru',
 };
 
 export default function App() {
@@ -80,7 +87,26 @@ export default function App() {
   }, []);
 
   useEffect(() => {
-    document.title = TITLES[path] || TITLES['/'];
+    // An unknown path renders the 404 route, so the title and the noindex
+    // hint have to follow - a 404 that still calls itself the home page is
+    // worse than no title at all.
+    const known = TITLES[path];
+    document.title = known || 'Page not found — Hack Day Bengaluru';
+
+    // Error routes keep a real title but must never be indexed, same as an
+    // unknown path. Only the genuinely reachable pages stay indexable.
+    let meta = document.querySelector('meta[name="robots"]');
+    if (!known || path === '/500') {
+      if (!meta) {
+        meta = document.createElement('meta');
+        meta.setAttribute('name', 'robots');
+        document.head.appendChild(meta);
+      }
+      meta.setAttribute('content', 'noindex');
+    } else if (meta) {
+      meta.remove();
+    }
+
     const target = REDIRECTS[path];
     if (target) window.location.replace(target);
   }, [path]);
