@@ -460,33 +460,14 @@ export default function BadgeMaker() {
     typeof navigator !== 'undefined' &&
     typeof navigator.canShare === 'function';
 
-  // Whether the share sheet can actually take the PNG. Having navigator.share
-  // is not the same as being able to share files through it, and the helper
-  // text promises an already-attached image - so track the real answer rather
-  // than the presence of the API.
-  const [fileShareWorks, setFileShareWorks] = useState(false);
-
-  useEffect(() => {
-    if (!canNativeShare) return undefined;
-    let cancelled = false;
-    badgeFile().then((file) => {
-      if (cancelled || !file) return;
-      setFileShareWorks(navigator.canShare({ files: [file] }));
-    });
-    return () => {
-      cancelled = true;
-    };
-  }, [badgeFile, canNativeShare]);
-
-  // The share sheet takes both the caption and the PNG, so on a phone the
-  // post opens with the text already written and the image already attached -
-  // pick LinkedIn, press Post, done. Nothing to copy and nothing to paste.
+  // The share sheet takes the badge PNG and hands it to any app the visitor
+  // picks. It stays a separate opt-in button: LinkedIn's own share target
+  // drops the text payload, so this is for the apps that take both.
   const shareNative = useCallback(async () => {
     const file = await badgeFile();
     if (!file) return;
     try {
       if (canNativeShare && navigator.canShare({ files: [file] })) {
-        setFileShareWorks(true);
         await navigator.share({
           files: [file],
           title: 'Hacktoberfest Hack Day Bengaluru 2026',
@@ -498,39 +479,24 @@ export default function BadgeMaker() {
     }
   }, [badgeFile, canNativeShare, caption]);
 
-  // Desktop has no share sheet in most browsers and LinkedIn's share URL
-  // takes no text parameter, so there is nothing to prefill with. Fall back
-  // to the clipboard and open the composer on top of it, and say so plainly
-  // rather than implying it posts itself.
-  const shareLinkedInFallback = useCallback(async () => {
-    await copyCaption(caption);
-    window.open(
-      `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(window.location.origin)}`,
-      '_blank',
-      'noopener,width=640,height=640',
-    );
-  }, [copyCaption, caption]);
+  // LinkedIn's documented share endpoint (/sharing/share-offsite/) accepts a
+  // URL and nothing else - its title/summary/text parameters were stripped
+  // years ago, so it opens an empty composer and the caption has to be pasted
+  // by hand every single time.
+  //
+  // The feed composer endpoint does accept text, and `shareActive=true` is
+  // what tells LinkedIn to open the composer rather than the home feed. It is
+  // undocumented, but it is the only route that lands the post pre-written.
+  // LinkedIn allows 3000 characters; the caption is well under that.
+  const linkedInFeedUrl = `https://www.linkedin.com/feed/?shareActive=true&text=${encodeURIComponent(caption)}`;
 
-  // Same button, best available route: the share sheet when the browser has
-  // one, the clipboard when it does not.
-  const shareLinkedIn = useCallback(async () => {
-    if (canNativeShare) {
-      const file = await badgeFile();
-      if (file && navigator.canShare({ files: [file] })) {
-        try {
-          await navigator.share({
-            files: [file],
-            title: 'Hacktoberfest Hack Day Bengaluru 2026',
-            text: caption,
-          });
-          return;
-        } catch {
-          /* user cancelled or the sheet refused - fall through */
-        }
-      }
-    }
-    await shareLinkedInFallback();
-  }, [canNativeShare, badgeFile, caption, shareLinkedInFallback]);
+  // Always the feed composer, on every platform. The share sheet looks like
+  // the tidier option but LinkedIn's Android share target drops the text
+  // payload and hands over an empty "share to feed" box anyway - so routing
+  // through it bought a less reliable version of the same paste step.
+  const shareLinkedIn = useCallback(() => {
+    window.open(linkedInFeedUrl, '_blank', 'noopener,width=700,height=800');
+  }, [linkedInFeedUrl]);
 
   return (
     <section id="badge" className="theme-section py-20 sm:py-28 bg-[#f2f2eb] text-[#10201d] border-b-2 border-[#10201d]">
@@ -689,9 +655,8 @@ export default function BadgeMaker() {
               </button>
             )}
             <p className="font-mono text-[11px] text-[#5c665f] leading-relaxed">
-              {fileShareWorks
-                ? 'Your caption and badge go straight into the share sheet — pick LinkedIn and the post is already written and attached.'
-                : 'Your caption is copied — open LinkedIn, paste it with Ctrl+V, and attach the PNG.'}
+              LinkedIn opens with the caption already written in the post box —
+              nothing to copy, nothing to paste. Attach the badge PNG and post.
             </p>
           </div>
 
