@@ -430,6 +430,33 @@
     .freeband > div + div { border-left: 1.4pt solid var(--color-ink); padding-left: 4mm; }
     .freeband p { font-size: 7.8pt; line-height: 1.45; color: rgba(16, 32, 29, 0.78); margin-top: 1.6mm; }
 
+    /* Arrival, team check-in and the wristband. The wristband rule is strict
+       enough to earn its own banded treatment rather than a checklist row. */
+    .arriveband {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      margin: 6.5mm 0 0;
+      border: 1.4pt solid var(--color-ink);
+      background: var(--color-ink);
+      color: var(--color-cream);
+    }
+    .arriveband > div { padding: 4.2mm 4mm; }
+    .arriveband > div + div { border-left: 1.4pt solid rgba(247, 247, 242, 0.24); }
+    .arriveband .mono { color: var(--color-yellow); }
+    .arriveband p { font-size: 7.4pt; line-height: 1.42; color: rgba(247, 247, 242, 0.84); margin-top: 1.5mm; }
+    .arriveband strong { color: var(--color-cream); font-weight: 700; }
+
+    .strictnote {
+      margin-top: 5mm;
+      border: 1.4pt solid var(--red-ink);
+      border-left-width: 3mm;
+      background: var(--color-paper);
+      padding: 3.6mm 4.2mm;
+    }
+    .strictnote .mono { color: var(--red-ink); }
+    .strictnote p { font-size: 7.6pt; line-height: 1.45; color: rgba(16, 32, 29, 0.82); margin-top: 1.4mm; }
+    .strictnote strong { font-weight: 700; color: var(--color-ink); }
+
     .checklist { margin-top: 7mm; border: 1.4pt solid var(--color-ink); background: var(--color-paper); padding: 4.6mm 5mm 5mm; }
     .checklist li {
       display: flex;
@@ -450,22 +477,24 @@
       margin-top: 0.5mm;
     }
 
-    .aboutgrid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 3.6mm; margin-top: 7mm; }
+    /* Four across, not two-by-two: the arrival and wristband rules above needed
+       the vertical room, and these four cards read fine as a single row. */
+    .aboutgrid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 3mm; margin-top: 6mm; }
     .aboutgrid__item {
       border: 1.4pt solid var(--color-ink);
       background: var(--color-paper);
-      padding: 3.6mm 4mm 4mm;
+      padding: 3.2mm 3.2mm 3.4mm;
     }
-    .aboutgrid__item .icon { margin-bottom: 2.4mm; }
+    .aboutgrid__item .icon { margin-bottom: 2mm; width: 7mm; height: 7mm; }
     .aboutgrid__item h4 {
       font-family: var(--font-display);
       font-weight: 800;
-      font-size: 9.4pt;
+      font-size: 8.4pt;
       letter-spacing: -0.012em;
       text-transform: uppercase;
-      margin-bottom: 1.4mm;
+      margin-bottom: 1.2mm;
     }
-    .aboutgrid__item p { font-size: 7.6pt; line-height: 1.48; color: rgba(16, 32, 29, 0.76); }
+    .aboutgrid__item p { font-size: 6.9pt; line-height: 1.42; color: rgba(16, 32, 29, 0.76); }
 
     /* ================================================================
        P4 — GETTING THERE
@@ -497,6 +526,36 @@
     }
     .venueplate__links { display: flex; flex-direction: column; gap: 2.4mm; align-items: flex-start; }
     .venueplate__coord { font-family: var(--font-mono); font-size: 7.4pt; color: rgba(16, 32, 29, 0.62); }
+
+    /* Wi-Fi: the SSID and password are public, but each participant gets their
+       own portal login, so that part is described rather than printed. */
+    .wifi {
+      margin-top: 6.5mm;
+      border: 1.4pt solid var(--color-ink);
+      background: var(--color-ink);
+      color: var(--color-cream);
+      padding: 4.6mm 5mm;
+      display: flex;
+      align-items: center;
+      gap: 6mm;
+    }
+    .wifi .icon { color: var(--color-sky); flex: none; width: 10mm; height: 10mm; }
+    .wifi__body { flex: 1; }
+    .wifi__body .mono { color: var(--color-yellow); }
+    .wifi__body p { font-size: 7.6pt; line-height: 1.45; color: rgba(247, 247, 242, 0.84); margin-top: 1.4mm; }
+    .wifi__creds {
+      display: flex;
+      gap: 5mm;
+      margin-top: 2.4mm;
+      flex-wrap: wrap;
+    }
+    .wifi__cred {
+      border: 1.4pt solid rgba(247, 247, 242, 0.34);
+      padding: 1.6mm 2.4mm;
+      min-width: 42mm;
+    }
+    .wifi__cred span { display: block; font-size: 6.2pt; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(247, 247, 242, 0.66); }
+    .wifi__cred strong { display: block; font-family: var(--font-mono); font-size: 9.4pt; font-weight: 700; color: var(--color-cream); margin-top: 0.8mm; }
 
     .routes { margin-top: 6mm; border-top: 1.4pt solid var(--color-ink); }
     .route {
@@ -1023,28 +1082,28 @@
     <h2 class="title title--wide">Contents.</h2>
     <p class="deck" style="margin-top: 3.4mm;">
       Read it the night before, or keep it in your pocket on the day. Every page
-      stands on its own, so the one you need in a hurry still makes sense alone.
+      stands on its own.
     </p>
 
     <nav class="toc" aria-label="Table of contents">
       <a class="toc__row" href="#arrive">
         <span class="mono toc__idx">01</span>
         <span class="toc__name">Before you arrive
-          <span class="toc__note">Registration, the attendee checklist, and what the day is about.</span>
+          <span class="toc__note">Arrival time, team check-in, your wristband, and the attendee checklist.</span>
         </span>
         <span class="mono toc__pg">03</span>
       </a>
       <a class="toc__row" href="#getting-there">
         <span class="mono toc__idx">02</span>
         <span class="toc__name">Getting there
-          <span class="toc__note">The venue, five routes in from across Bengaluru, and what is on campus.</span>
+          <span class="toc__note">The venue, Wi-Fi access, and five routes in from across Bengaluru.</span>
         </span>
         <span class="mono toc__pg">04</span>
       </a>
       <a class="toc__row" href="#day">
         <span class="mono toc__idx">03</span>
         <span class="toc__name">The day itself
-          <span class="toc__note">Every slot from check-in at 8:30 AM to the awards at 7:00 PM.</span>
+          <span class="toc__note">Every slot from check-in to the awards, plus when submissions open.</span>
         </span>
         <span class="mono toc__pg">05</span>
       </a>
@@ -1065,19 +1124,18 @@
       <a class="toc__row" href="#faq">
         <span class="mono toc__idx">06</span>
         <span class="toc__name">Food &amp; FAQ
-          <span class="toc__note">Meal times, what is free, and the questions we get most.</span>
+          <span class="toc__note">Food coupons, meal times, and the questions we get most.</span>
         </span>
         <span class="mono toc__pg">08</span>
       </a>
       <a class="toc__row" href="#contacts">
         <span class="mono toc__idx">07</span>
-        <span class="toc__name">Contacts &amp; challenges
-          <span class="toc__note">Who to ask, where to ask, and the full challenge brief.</span>
+        <span class="toc__name">Contacts &amp; the day
+          <span class="toc__note">Who to ask, plus wristbands, food coupons, Wi-Fi and submissions.</span>
         </span>
         <span class="mono toc__pg">09</span>
       </a>
     </nav>
-
     <div class="toc__foot">
       <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="square" aria-hidden="true">
         <circle cx="12" cy="12" r="9"/><path d="M12 16.5v-5"/><path d="M12 7.8h.01"/>
@@ -1085,12 +1143,10 @@
       <p><strong>New to open source?</strong> Start at page 03. You do not need
       experience — dedicated mentors will guide you through Git commands, finding
       good first issues, and submitting clean pull requests. Solo builders and
-      teams of up to four are equally welcome. Put a team together beforehand, or
-      meet someone during the morning and join theirs. Full challenge briefs,
-      including anything announced after this
-      handbook went to print, live on the MLH challenges page at
-      <strong>page 09</strong>.</p>
+      teams of up to four are equally welcome. Full challenge briefs live on the
+      MLH challenges page at <strong>page 06</strong>.</p>
     </div>
+
   </div>
 
   <div class="run run--foot">
@@ -1134,6 +1190,34 @@
       </div>
     </div>
 
+    <div class="arriveband">
+      <div>
+        <span class="mono">Be there before 8:15 AM</span>
+        <p>Registration opens at <strong>8:30 AM</strong>, so arrive at the venue
+        <strong>before 8:15 AM</strong>. You need time to check in and be seated
+        before the inauguration at 9:30.</p>
+      </div>
+      <div>
+        <span class="mono">Teams check in together</span>
+        <p>If you are building as a team, <strong>every member must be present</strong>
+        at the desk at the same time. Check in as a group — we cannot admit a team
+        member-wise.</p>
+      </div>
+      <div>
+        <span class="mono">Your wristband</span>
+        <p>Every participant gets a wristband at check-in. It is the
+        <strong>only</strong> proof you are part of this Hack Day.</p>
+      </div>
+    </div>
+
+    <div class="strictnote">
+      <span class="mono">Keep your wristband on</span>
+      <p>Wear it for the entire day. It is how we identify participants, and
+      <strong>without it you will not be considered for any activity during the
+      Hack Day</strong> — no prizes, no food, no recognition. If it falls off or
+      breaks, get it replaced at the registration desk straight away.</p>
+    </div>
+
     <div class="checklist">
       <span class="mono" style="display: block; margin-bottom: 2.6mm;">Attendee checklist — tick these off</span>
       <ul>
@@ -1146,44 +1230,7 @@
       </ul>
     </div>
 
-    <div class="aboutgrid">
-      <div class="aboutgrid__item">
-        <svg class="icon icon--lg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="square" aria-hidden="true">
-          <path d="M8.5 7 4 12l4.5 5"/><path d="M15.5 7 20 12l-4.5 5"/>
-        </svg>
-        <h4>Built by community</h4>
-        <p>Hacktoberfest is all about celebrating the open source ecosystem.
-        Whether you are submitting your first bug fix or building an entire
-        package, every contribution matters.</p>
-      </div>
-      <div class="aboutgrid__item">
-        <svg class="icon icon--lg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="square" aria-hidden="true">
-          <path d="M7 18a4.5 4.5 0 0 1-.6-8.96A6 6 0 0 1 17.6 9.2 4.4 4.4 0 0 1 17 18Z"/>
-        </svg>
-        <h4>Open-weight models</h4>
-        <p>Explore Google Gemma 4 on Ollama, the open SKILL.md agent standard,
-        and Hermes Agent harnesses. Learn to deploy models locally and on AWS
-        cloud services.</p>
-      </div>
-      <div class="aboutgrid__item">
-        <svg class="icon icon--lg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="square" aria-hidden="true">
-          <path d="M4 7 12 3l8 4-8 4Z"/><path d="M4 7v10l8 4 8-4V7"/><path d="M12 11v10"/>
-        </svg>
-        <h4>Free food, swag &amp; kits</h4>
-        <p>Thanks to our organizers and partners, the entire day is free for
-        university students. Lunch, snacks, stickers and swag — a haul worth over
-        ₹1.4 Lakh across the day.</p>
-      </div>
-      <div class="aboutgrid__item">
-        <svg class="icon icon--lg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="square" aria-hidden="true">
-          <circle cx="12" cy="8" r="3.4"/><path d="M4.5 20a7.5 7.5 0 0 1 15 0"/>
-        </svg>
-        <h4>AWS Student Builder Group</h4>
-        <p>Our student-led user group at Atria Institute of Technology trains
-        students in cloud architecture, serverless systems, and generative AI
-        through hands-on builder hack days.</p>
-      </div>
-    </div>
+
   </div>
 
   <div class="run run--foot">
@@ -1217,6 +1264,29 @@
       <div class="venueplate__links">
         <a class="btn btn--fill" href="https://maps.app.goo.gl/v9oFjCVD5VbHUVC78">Google Maps directions</a>
         <a class="btn btn--ghost" href="https://www.google.com/calendar/render?action=TEMPLATE&amp;text=Hacktoberfest+Hack+Day+Bengaluru+x+AWS+Student+Builder+Group+at+Atria+Institute+of+Technology&amp;dates=20261023T030000Z/20261023T143000Z&amp;details=Hacktoberfest+Hack+Day+at+Atria+IT+Bengaluru.+Register:+https://events.mlh.com/events/15272-hacktoberfest-hack-day-bengaluru-x-aws-student-builder-group-at-atria-institute-of-technology&amp;location=Atria+Institute+of+Technology,+Bengaluru">Add to calendar</a>
+      </div>
+    </div>
+
+    <div class="wifi">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="square" aria-hidden="true">
+        <path d="M2.5 9.5a13 13 0 0 1 19 0"/><path d="M6 12.6a8.6 8.6 0 0 1 12 0"/><path d="M9.4 15.8a4.2 4.2 0 0 1 5.2 0"/><path d="M12 19.5h.01"/>
+      </svg>
+      <div class="wifi__body">
+        <span class="mono">Campus Wi-Fi — connect after the inauguration</span>
+        <p>Your network credentials are handed out individually after the opening
+        ceremony. Join <strong>AIT_Students</strong> with the password below, and you
+        will be redirected to a sign-in page — enter the personal credentials given
+        to you at the desk there to get online.</p>
+        <div class="wifi__creds">
+          <div class="wifi__cred">
+            <span>Network</span>
+            <strong>AIT_Students</strong>
+          </div>
+          <div class="wifi__cred">
+            <span>Password</span>
+            <strong>helloworld</strong>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -1295,7 +1365,7 @@
         <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="square" aria-hidden="true">
           <path d="M13 2 4.5 13.5H11L10 22l8.5-11.5H12Z"/>
         </svg>
-        <p>Aim to arrive by 8:30 AM — autos and cabs surge on event mornings, so leave early.</p>
+        <p>Aim to reach the venue by 8:15 AM — autos and cabs surge on event mornings, so leave early.</p>
       </div>
     </div>
   </div>
@@ -1317,15 +1387,15 @@
     <span class="eyebrow">Friday, 23 October 2026</span>
     <h2 class="title title--wide">The day itself.</h2>
     <p class="deck" style="margin-top: 3.4mm;">
-      Doors open at 8:30 AM for check-in and badge pickup, and the day runs through
-      the awards at 7:00 PM. Mentors and organizers will be on deck throughout to
-      support every builder.
+      Be at the venue before 8:15 AM. Registration opens at 8:30 AM for check-in,
+      and the day runs through the awards at 7:00 PM. Mentors and organizers will
+      be on deck throughout to support every builder.
     </p>
 
     <div class="schedule">
       <div class="slot">
         <span class="slot__time">08:30 – 09:30</span>
-        <span class="slot__title">Check-in &amp; Registration<span class="slot__desc">Arrive at Atria IT, collect your badge and sticker pack, and settle in before the kickoff.</span></span>
+        <span class="slot__title">Check-in &amp; Registration<span class="slot__desc">Arrive before 8:15 AM. Teams check in together at one desk, and every participant is issued a wristband — keep it on for the rest of the day.</span></span>
       </div>
       <div class="slot slot--key">
         <span class="slot__time">09:30 – 10:00</span>
@@ -1358,6 +1428,25 @@
       <div class="slot slot--key">
         <span class="slot__time">06:30 – 07:00</span>
         <span class="slot__title">Awards &amp; Closing Ceremony<span class="slot__desc">Winners announced, prizes and swags handed out, and a group photo before we wrap.</span></span>
+      </div>
+    </div>
+
+    <div class="arriveband">
+      <div>
+        <span class="mono">05:00 PM · Submissions open</span>
+        <p>Project submissions go through the <strong>MLH challenges page</strong>,
+        which opens at 5:00 PM. That is when teams start submitting — there is no
+        other way in.</p>
+      </div>
+      <div>
+        <span class="mono">05:30 PM · Judging starts</span>
+        <p>Judging begins at 5:30 PM sharp. A project that is not submitted by then
+        cannot be evaluated, so submit before the window closes.</p>
+      </div>
+      <div>
+        <span class="mono">Submitting well</span>
+        <p>Leave time for it: a public repo, a clear write-up, and a demo you can
+        actually run. Lifting the public repo is not a submission.</p>
       </div>
     </div>
   </div>
@@ -1584,35 +1673,37 @@
       <div class="meal">
         <span class="meal__time">12:45 – 01:30 PM</span>
         <h4>Lunch</h4>
-        <p>Lunch is provided on campus. Step away, refuel, and swap project ideas
-        with the room.</p>
+        <p>On campus. Hand in your <strong>food coupon</strong> at the counter to
+        collect it.</p>
       </div>
       <div class="meal">
         <span class="meal__time">05:00 – 05:30 PM</span>
         <h4>Snacks &amp; refreshments</h4>
-        <p>Tea, coffee, and snacks — plus open networking with mentors, peers, and
-        organizers before judging.</p>
+        <p>Tea, coffee, and snacks — hand in your <strong>snack coupon</strong> at
+        the counter.</p>
       </div>
-      <div class="meal">
-        <span class="meal__time">All day</span>
-        <h4>Free of charge</h4>
-        <p>Food and attendee kits are limited to registered participants, while
-        supplies last. Complete your registration via MLH.</p>
-      </div>
+          </div>
+
+    <div class="strictnote">
+      <span class="mono">One serving each. This is strict.</span>
+      <p>Each participant gets <strong>one food coupon and one snack coupon</strong>,
+      redeemable only at the matching break. Hand the coupon in at the counter —
+      and that is your serving. <strong>There are no second servings</strong>, and
+      asking for one will mean going without. Please do not queue twice.</p>
     </div>
 
     <div class="qa">
       <div class="qa__item">
         <p class="qa__q"><span class="mono">Q1</span>Who can attend this Hack Day?</p>
-        <p class="qa__a">This event is open to all university and college students, whether you are a beginner writing your first lines of code or an experienced open-source contributor.</p>
+        <p class="qa__a">All university and college students — beginners writing their first lines of code and experienced contributors alike.</p>
       </div>
       <div class="qa__item">
         <p class="qa__q"><span class="mono">Q2</span>Is there any registration fee?</p>
-        <p class="qa__a">No! The event is completely free of charge. You get access to the hack day, workshops, mentor guidance, refreshments/food, and swags for free.</p>
+        <p class="qa__a">No! The hack day, workshops, mentor guidance, food and swags are all free.</p>
       </div>
       <div class="qa__item">
         <p class="qa__q"><span class="mono">Q3</span>What should I bring to the event?</p>
-        <p class="qa__a">Bring your laptop, charger, student ID card, and have a valid GitHub account. We recommend having Git installed on your laptop beforehand.</p>
+        <p class="qa__a">Your laptop, charger, student ID, and a valid GitHub account. Install Git beforehand if you can.</p>
       </div>
       <div class="qa__item">
         <p class="qa__q"><span class="mono">Q4</span>Can I participate individually or do I need a team?</p>
@@ -1620,11 +1711,52 @@
       </div>
       <div class="qa__item">
         <p class="qa__q"><span class="mono">Q5</span>I am a complete beginner to Open Source. Can I still join?</p>
-        <p class="qa__a">Absolutely! Hacktoberfest is built to be welcoming to all levels. We will have dedicated mentors to guide you through Git commands, finding good first issues, and submitting clean pull requests.</p>
+        <p class="qa__a">Absolutely. Dedicated mentors will guide you through Git commands, finding good first issues, and submitting clean pull requests.</p>
       </div>
       <div class="qa__item">
         <p class="qa__q"><span class="mono">Q6</span>How does the MLH registration work?</p>
-        <p class="qa__a">Click any 'Register Now' button on the site to go to the official MLH event page. Log in or create an MLH account, answer the questions (like your college name &amp; phone number), and join the official WhatsApp group for live announcements.</p>
+        <p class="qa__a">Use any 'Register Now' button to reach the official MLH event page. Log in or create an account, answer the questions, and join the WhatsApp group for live announcements.</p>
+      </div>
+      <div class="qa__item">
+        <p class="qa__q"><span class="mono">Q7</span>When do I need to arrive, and how does check-in work?</p>
+        <p class="qa__a">Be at the venue before 8:15 AM; registration opens at 8:30 AM. If you are in a team, every member must be at the desk together — we cannot check people in one at a time.</p>
+      </div>
+    </div>
+
+
+
+    <div class="aboutgrid">
+      <div class="aboutgrid__item">
+        <svg class="icon icon--lg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="square" aria-hidden="true">
+          <path d="M8.5 7 4 12l4.5 5"/><path d="M15.5 7 20 12l-4.5 5"/>
+        </svg>
+        <h4>Built by community</h4>
+        <p>Every contribution matters, whether it is a first bug fix or an entire
+        package.</p>
+      </div>
+      <div class="aboutgrid__item">
+        <svg class="icon icon--lg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="square" aria-hidden="true">
+          <path d="M7 18a4.5 4.5 0 0 1-.6-8.96A6 6 0 0 1 17.6 9.2 4.4 4.4 0 0 1 17 18Z"/>
+        </svg>
+        <h4>Open-weight models</h4>
+        <p>Build with Gemma 4, the open SKILL.md agent standard, and model
+        harnesses.</p>
+      </div>
+      <div class="aboutgrid__item">
+        <svg class="icon icon--lg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="square" aria-hidden="true">
+          <path d="M4 7 12 3l8 4-8 4Z"/><path d="M4 7v10l8 4 8-4V7"/><path d="M12 11v10"/>
+        </svg>
+        <h4>Free food, swag &amp; kits</h4>
+        <p>The day is free for students. Lunch, snacks, stickers and swag worth over
+        ₹1.4 Lakh.</p>
+      </div>
+      <div class="aboutgrid__item">
+        <svg class="icon icon--lg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="square" aria-hidden="true">
+          <circle cx="12" cy="8" r="3.4"/><path d="M4.5 20a7.5 7.5 0 0 1 15 0"/>
+        </svg>
+        <h4>AWS Student Builder Group</h4>
+        <p>Our student-led group at Atria IT, running hands-on builder hack days in
+        cloud and AI.</p>
       </div>
     </div>
   </div>
@@ -1644,24 +1776,36 @@
 
   <div class="page__body" style="padding-top: 8mm;">
     <span class="eyebrow">Still stuck?</span>
-    <h2 class="title title--wide">Contacts &amp; challenges.</h2>
+    <h2 class="title title--wide">Contacts &amp; the day.</h2>
     <p class="deck" style="margin-top: 3.4mm;">
       Organisers and mentors answer in the WhatsApp group, usually within the
-      hour on event week. For registration issues, start with MLH.
+      hour on event week. For registration issues, start with MLH. Full challenge
+      briefs are on the MLH challenges page — see page 06.
     </p>
 
-    <div class="challenges">
-      <div>
-        <h3>Full challenge briefs</h3>
-        <p>Anything announced after this handbook went to print — updated briefs,
-        prize details, and judging notes — lives on the official MLH challenges
-        page for this event.</p>
-      </div>
-      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="square" aria-hidden="true">
-        <path d="M14 3.5H6.5a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2V9Z"/><path d="M14 3.5V9h5.5"/><path d="M9 13.5h6"/><path d="M9 17h4"/>
-      </svg>
-      <a class="btn btn--fill" href="https://www.mlh.com/events/hacktoberfest-hack-day-bengaluru-x-aws-student-builder-group-at-atria-institute-of-technology/challenges">Challenges on MLH</a>
+    <div style="display: flex; align-items: baseline; justify-content: space-between; margin-top: 6mm; padding-bottom: 2mm;">
+      <span class="eyebrow" style="margin: 0;">On the day</span>
+      <span class="mono mono--mute">Wristbands, food, Wi-Fi &amp; submissions</span>
     </div>
+    <div class="qa">
+      <div class="qa__item">
+        <p class="qa__q"><span class="mono">Q8</span>Why do I need a wristband?</p>
+        <p class="qa__a">It is how we identify you as a participant. Without it you will not be considered for any activity, including prizes and food. If it comes off, get a replacement at the desk.</p>
+      </div>
+      <div class="qa__item">
+        <p class="qa__q"><span class="mono">Q9</span>How does food work during the day?</p>
+        <p class="qa__a">You get one food coupon for lunch and one snack coupon for the evening break. Hand the matching coupon in at the counter to collect your serving. One serving each — there are no second servings, and this is strict.</p>
+      </div>
+      <div class="qa__item">
+        <p class="qa__q"><span class="mono">Q10</span>How and when do we submit our project?</p>
+        <p class="qa__a">Submissions go through the MLH challenges page, which opens at 5:00 PM. Judging starts at 5:30 PM, so submit before then — an unsubmitted project cannot be evaluated.</p>
+      </div>
+      <div class="qa__item">
+        <p class="qa__q"><span class="mono">Q11</span>How do I connect to the Wi-Fi?</p>
+        <p class="qa__a">After the inauguration you are given your credentials individually. Join the AIT_Students network with the password shown on page 04, then enter the personal sign-in details you were given at the desk.</p>
+      </div>
+
+
 
     <div class="people">
       <div class="person">
@@ -1731,6 +1875,9 @@
       Atria Institute of Technology, Hebbal.</p>
       <a class="btn btn--fill" href="https://events.mlh.com/events/15272-hacktoberfest-hack-day-bengaluru-x-aws-student-builder-group-at-atria-institute-of-technology">Register on MLH</a>
     </div>
+
+
+
   </div>
 
   <div class="run run--foot">
