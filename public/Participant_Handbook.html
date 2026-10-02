@@ -597,6 +597,31 @@
       margin-bottom: 1.8mm;
     }
     .track__desc { font-size: 7.4pt; line-height: 1.45; color: rgba(247, 247, 242, 0.76); }
+    .track__crit {
+      margin: 2.6mm 0 0;
+      padding: 0;
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5mm;
+    }
+    .track__crit li {
+      position: relative;
+      padding-left: 3.4mm;
+      font-size: 6.9pt;
+      line-height: 1.38;
+      color: rgba(247, 247, 242, 0.72);
+    }
+    .track__crit li::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 1.35mm;
+      width: 1.5mm;
+      height: 1.5mm;
+      background: var(--color-sky);
+    }
+    .track__crit strong { color: rgba(247, 247, 242, 0.94); font-weight: 700; }
     .track__foot {
       margin-top: auto;
       padding-top: 2.8mm;
@@ -697,9 +722,9 @@
     }
     .badgestep p { font-size: 7.2pt; line-height: 1.42; color: rgba(16, 32, 29, 0.74); }
 
-    /* The badge maker is the one action on this page, so it gets a full-width
-       ink panel with a filled button rather than a link buried in the foot. */
-    .badgecta {
+    /* A full-width ink panel with a filled button, for the one action on a page
+       that would otherwise sit behind a link in the running foot. */
+    .cta {
       margin-top: 6.5mm;
       border: 1.4pt solid var(--color-ink);
       background: var(--color-ink);
@@ -710,8 +735,8 @@
       justify-content: space-between;
       gap: 6mm;
     }
-    .badgecta .icon { color: var(--color-yellow); flex: none; width: 11mm; height: 11mm; }
-    .badgecta h3 {
+    .cta .icon { color: var(--color-yellow); flex: none; width: 11mm; height: 11mm; }
+    .cta h3 {
       font-family: var(--font-display);
       font-weight: 800;
       font-size: 15pt;
@@ -719,8 +744,8 @@
       letter-spacing: -0.022em;
       text-transform: uppercase;
     }
-    .badgecta p { font-size: 7.8pt; line-height: 1.45; color: rgba(247, 247, 242, 0.84); margin-top: 1.8mm; max-width: 78ch; }
-    .badgecta .btn { flex: none; padding: 3.6mm 5mm; font-size: 8pt; }
+    .cta p { font-size: 7.8pt; line-height: 1.45; color: rgba(247, 247, 242, 0.84); margin-top: 1.8mm; max-width: 78ch; }
+    .cta .btn { flex: none; padding: 3.6mm 5mm; font-size: 8pt; }
 
     /* ================================================================
        P8 — FAQ + FOOD
@@ -1383,20 +1408,36 @@
       <div class="track">
         <span class="track__tag" style="background: var(--red-ink); color: var(--color-cream);">Core Hacktoberfest Challenge</span>
         <h3>Best Open-Source AI Project</h3>
-        <p class="track__desc">The main Hacktoberfest track, run at every Hack Day. Build an original project where open-source or open-weight AI does real work: an agent skill, an open-weight model, or a model harness. Ship it to a public GitHub repo under an open-source license.</p>
+        <p class="track__desc">The main Hacktoberfest track, run at every Hack Day. Build an original project where open-source or open-weight AI does real work: an agent skill, an open-weight model, or a model harness. These are examples within one challenge, and you may combine them.</p>
+        <ul class="track__crit">
+          <li>Open-source or open-weight AI must be an important part of the project.</li>
+          <li>Published in a public GitHub repository, under an open-source license.</li>
+          <li>An agent skill must comply with the Agent Skill Open Standard.</li>
+          <li>A model-harness entry needs an original implementation, or meaningful changes to an existing open-source harness.</li>
+        </ul>
         <p class="track__foot">The winning team is announced on stage; prizes are confirmed closer to the day.</p>
       </div>
       <div class="track">
         <span class="track__tag" style="background: var(--color-indigo); color: var(--color-cream);">Google Partner Challenge</span>
         <h3>Best Use of Gemma 4</h3>
-        <p class="track__desc">Build with Gemma 4, Google's open-weight multimodal model, through the Gemini API. Use it to understand text and images together, or move quickly from an idea to a working prototype.</p>
+        <p class="track__desc">Build with Gemma 4, Google's lightweight open-weights multimodal model, through the Gemini API. Text and images together, or a focused tool, or a fast prototype — your call.</p>
+        <ul class="track__crit">
+          <li><strong>Multimodal experience</strong> — work with text and images to build an assistant that understands more of what users share.</li>
+          <li><strong>Focused AI tools</strong> — a tool for learning, creativity, productivity, or your community.</li>
+          <li><strong>Rapid prototyping</strong> — move quickly from an idea to a working prototype using an open model through the Gemini API.</li>
+        </ul>
         <p class="track__foot">The winning team is announced on stage; prizes are confirmed closer to the day.</p>
       </div>
       <div class="track">
         <span class="track__tag" style="background: var(--color-yellow); color: var(--color-ink);">AWS Student Builder Group Special</span>
         <h3>Best Use of AWS</h3>
-        <p class="track__desc">Our own bonus track for this Hack Day. Build or deploy your project on AWS — Lambda, S3, Bedrock, API Gateway; the strongest AWS-powered entry takes the track, on top of any Hacktoberfest challenge it also qualifies for.</p>
-        <p class="track__foot">The strongest AWS-powered build takes the track; prizes are confirmed closer to the day.</p>
+        <p class="track__desc">Our own bonus track for this Hack Day. Use the AWS ecosystem to turn an idea into something real and scalable. Any AWS service counts — pick whichever fits your project, and combining several is encouraged.</p>
+        <ul class="track__crit">
+          <li><strong>Cloud-powered solutions</strong> — applications that are scalable, reliable, and ready for real-world use.</li>
+          <li><strong>Innovative use of AWS</strong> — combine services creatively to solve a meaningful problem in your community, on campus, or beyond.</li>
+          <li><strong>Build and deploy</strong> — go beyond a prototype by deploying on AWS and showing how the cloud powers your solution.</li>
+        </ul>
+        <p class="track__foot">AWS services must be an important part of the project, with a clear explanation of how they contribute. The strongest AWS-powered build takes the track; prizes are confirmed closer to the day.</p>
       </div>
     </div>
 
@@ -1404,6 +1445,19 @@
       Team up beforehand, or meet someone during the morning and join their
       team. Solo builders are just as welcome. All experience levels welcome.
     </p>
+
+    <div class="cta">
+      <div>
+        <h3>Full challenge briefs</h3>
+        <p>Complete briefs, prize details, and judging notes live on the official
+        MLH challenges page — including anything announced after this handbook
+        went to print.</p>
+      </div>
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="square" aria-hidden="true">
+        <path d="M14 3.5H6.5a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2V9Z"/><path d="M14 3.5V9h5.5"/><path d="M9 13.5h6"/><path d="M9 17h4"/>
+      </svg>
+      <a class="btn btn--fill" href="https://www.mlh.com/events/hacktoberfest-hack-day-bengaluru-x-aws-student-builder-group-at-atria-institute-of-technology/challenges">Read the briefs on MLH</a>
+    </div>
   </div>
 
   <div class="run run--foot">
@@ -1496,7 +1550,7 @@
       </div>
     </div>
 
-    <div class="badgecta">
+    <div class="cta">
       <div>
         <h3>Make your badge now</h3>
         <p>Three fields and a download — no account, no sign-up. Do it before you
