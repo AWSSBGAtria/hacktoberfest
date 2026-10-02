@@ -112,13 +112,6 @@ export default function ErrorPage({
               className="font-bold text-[#5146d9] underline underline-offset-4 hover:text-[#10201d]"
             >
               Ask on the WhatsApp group
-            </a>{' '}
-            or email the organizers at{' '}
-            <a
-              href="mailto:hacktober@awsatria.tech"
-              className="font-bold text-[#5146d9] underline underline-offset-4 hover:text-[#10201d]"
-            >
-              hacktober@awsatria.tech
             </a>
             .
           </p>
