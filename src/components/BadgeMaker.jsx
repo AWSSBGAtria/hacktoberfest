@@ -426,54 +426,111 @@ export default function BadgeMaker() {
     }, 'image/png');
   }, [assets, photo, avatarImg, name]);
 
+  // The caption is the post copy and nothing else. No company page link is
+  // appended: LinkedIn only turns a URL into a @mention when it is attached
+  // to the post itself, so tagging from the caption never worked, and it just
+  // gave people a line to delete before posting.
+  const caption = EVENT_DETAILS.promoText;
+
+  // One badge render, shared by download and both share paths so the PNG
+  // they attach is always the one currently on screen.
+  const badgeFile = useCallback(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return null;
+    drawBadge(canvas, assets, photo || avatarImg, name);
+    return new Promise((resolve) => {
+      canvas.toBlob((blob) => {
+        if (!blob) return resolve(null);
+        resolve(new File([blob], 'hacktoberfest-hack-day-badge.png', { type: 'image/png' }));
+      }, 'image/png');
+    });
+  }, [assets, photo, avatarImg, name]);
+
   const copyCaption = useCallback(async (text) => {
     try {
-      await navigator.clipboard.writeText(text || `${EVENT_DETAILS.promoText}\n${window.location.origin}`);
+      await navigator.clipboard.writeText(text || caption);
       setCopied(true);
       setTimeout(() => setCopied(false), 2500);
     } catch {
       setCopied(false);
     }
-  }, []);
-
-  // LinkedIn only creates a company mention when the page URL is attached to
-  // the post, so the share window carries it and the caption names the page for
-  // people who paste manually.
-  const shareLinkedIn = useCallback(async () => {
-    await copyCaption(
-      `${EVENT_DETAILS.promoText}\n${EVENT_DETAILS.linkedinUrl}\n${window.location.origin}`,
-    );
-    window.open(
-      `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(EVENT_DETAILS.linkedinUrl)}`,
-      '_blank',
-      'noopener,width=640,height=640',
-    );
-  }, [copyCaption]);
+  }, [caption]);
 
   const canNativeShare =
     typeof navigator !== 'undefined' &&
     typeof navigator.canShare === 'function';
 
-  const shareNative = useCallback(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    drawBadge(canvas, assets, photo || avatarImg, name);
-    canvas.toBlob(async (blob) => {
-      if (!blob) return;
-      const file = new File([blob], 'hacktoberfest-hack-day-badge.png', { type: 'image/png' });
-      try {
-        if (navigator.canShare({ files: [file] })) {
+  // Whether the share sheet can actually take the PNG. Having navigator.share
+  // is not the same as being able to share files through it, and the helper
+  // text promises an already-attached image - so track the real answer rather
+  // than the presence of the API.
+  const [fileShareWorks, setFileShareWorks] = useState(false);
+
+  useEffect(() => {
+    if (!canNativeShare) return undefined;
+    let cancelled = false;
+    badgeFile().then((file) => {
+      if (cancelled || !file) return;
+      setFileShareWorks(navigator.canShare({ files: [file] }));
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, [badgeFile, canNativeShare]);
+
+  // The share sheet takes both the caption and the PNG, so on a phone the
+  // post opens with the text already written and the image already attached -
+  // pick LinkedIn, press Post, done. Nothing to copy and nothing to paste.
+  const shareNative = useCallback(async () => {
+    const file = await badgeFile();
+    if (!file) return;
+    try {
+      if (canNativeShare && navigator.canShare({ files: [file] })) {
+        setFileShareWorks(true);
+        await navigator.share({
+          files: [file],
+          title: 'Hacktoberfest Hack Day Bengaluru 2026',
+          text: caption,
+        });
+      }
+    } catch {
+      /* user cancelled - stay on the page */
+    }
+  }, [badgeFile, canNativeShare, caption]);
+
+  // Desktop has no share sheet in most browsers and LinkedIn's share URL
+  // takes no text parameter, so there is nothing to prefill with. Fall back
+  // to the clipboard and open the composer on top of it, and say so plainly
+  // rather than implying it posts itself.
+  const shareLinkedInFallback = useCallback(async () => {
+    await copyCaption(caption);
+    window.open(
+      `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(window.location.origin)}`,
+      '_blank',
+      'noopener,width=640,height=640',
+    );
+  }, [copyCaption, caption]);
+
+  // Same button, best available route: the share sheet when the browser has
+  // one, the clipboard when it does not.
+  const shareLinkedIn = useCallback(async () => {
+    if (canNativeShare) {
+      const file = await badgeFile();
+      if (file && navigator.canShare({ files: [file] })) {
+        try {
           await navigator.share({
             files: [file],
             title: 'Hacktoberfest Hack Day Bengaluru 2026',
-            text: EVENT_DETAILS.promoText,
+            text: caption,
           });
+          return;
+        } catch {
+          /* user cancelled or the sheet refused - fall through */
         }
-      } catch {
-        /* user cancelled - stay on the page */
       }
-    }, 'image/png');
-  }, [assets, photo, avatarImg, name]);
+    }
+    await shareLinkedInFallback();
+  }, [canNativeShare, badgeFile, caption, shareLinkedInFallback]);
 
   return (
     <section id="badge" className="theme-section py-20 sm:py-28 bg-[#f2f2eb] text-[#10201d] border-b-2 border-[#10201d]">
@@ -632,8 +689,9 @@ export default function BadgeMaker() {
               </button>
             )}
             <p className="font-mono text-[11px] text-[#5c665f] leading-relaxed">
-              LinkedIn opens ready to post with our company page tagged, and your
-              caption is copied — paste it and attach the PNG.
+              {fileShareWorks
+                ? 'Your caption and badge go straight into the share sheet — pick LinkedIn and the post is already written and attached.'
+                : 'Your caption is copied — open LinkedIn, paste it with Ctrl+V, and attach the PNG.'}
             </p>
           </div>
 
@@ -653,7 +711,7 @@ export default function BadgeMaker() {
               </button>
             </div>
             <p className="font-sans text-sm text-[#34433f] leading-relaxed whitespace-pre-line">
-              {EVENT_DETAILS.promoText}
+              {caption}
             </p>
           </div>
         </div>
