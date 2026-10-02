@@ -539,21 +539,6 @@
     .wifi__cred span { display: block; font-size: 6.2pt; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(247, 247, 242, 0.66); }
     .wifi__cred strong { display: block; font-family: var(--font-mono); font-size: 9.4pt; font-weight: 700; color: var(--color-cream); margin-top: 0.8mm; }
 
-    .routes { margin-top: 6mm; border-top: 1.4pt solid var(--color-ink); }
-    .route {
-      display: grid;
-      grid-template-columns: 42mm 1fr 20mm;
-      align-items: baseline;
-      gap: 0 4mm;
-      padding: 3mm 0;
-      border-bottom: 1.4pt dotted rgba(16, 32, 29, 0.24);
-    }
-    .route__name { display: flex; align-items: center; gap: 2mm; }
-    .route__name .icon { width: 4.4mm; height: 4.4mm; flex: none; color: var(--color-indigo); }
-    .route__body { font-size: 8pt; line-height: 1.45; color: rgba(16, 32, 29, 0.78); }
-    .route__time { text-align: right; white-space: nowrap; }
-    .route__link { color: var(--color-indigo); text-decoration: none; font-weight: 700; }
-    .route__link:hover { text-decoration: underline; }
 
     .amenities { display: grid; grid-template-columns: repeat(3, 1fr); gap: 3.4mm; margin-top: 6mm; }
     .amenities__item {
@@ -1037,7 +1022,7 @@
       <a class="toc__row" href="#getting-there">
         <span class="mono toc__idx">02</span>
         <span class="toc__name">Getting there
-          <span class="toc__note">The venue, Wi-Fi access, and five routes in from across Bengaluru.</span>
+          <span class="toc__note">The venue address, Wi-Fi access, and what is on campus.</span>
         </span>
         <span class="mono toc__pg">04</span>
       </a>
@@ -1235,64 +1220,6 @@
             <strong>helloworld</strong>
           </div>
         </div>
-      </div>
-    </div>
-
-    <div style="display: flex; align-items: baseline; justify-content: space-between; margin-top: 6.5mm; padding-bottom: 2mm;">
-      <span class="eyebrow" style="margin: 0;">Reach the venue · Bengaluru</span>
-      <span class="mono mono--mute">Coming from across the city</span>
-    </div>
-
-    <div class="routes">
-      <div class="route">
-        <span class="route__name">
-          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="square" aria-hidden="true">
-            <rect x="4" y="3" width="16" height="13"/><path d="M4 10h16"/><path d="M7 20l2-4"/><path d="M17 20l-2-4"/><path d="M7 16h10"/>
-          </svg>
-          <span class="mono">Nearest metro</span>
-        </span>
-        <p class="route__body">No metro station is open in Hebbal yet, so every trip ends on the road. Yeshwanthpur (Green Line), Sandal Soap Factory (Green Line) and Central / Majestic (Purple + Green) are each roughly 7 km out.</p>
-        <span class="mono route__time">~25–35 min</span>
-      </div>
-      <div class="route">
-        <span class="route__name">
-          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="square" aria-hidden="true">
-            <rect x="3" y="4" width="18" height="13"/><path d="M3 9h18"/><path d="M6 17v3"/><path d="M18 17v3"/>
-          </svg>
-          <span class="mono">From Majestic</span>
-        </span>
-        <p class="route__body">City station to Hebbal is roughly 12 km straight up Bellary Road. Board at Kempegowda Bus Station and get down at Hebbala.</p>
-        <span class="mono route__time">~30–45 min</span>
-      </div>
-      <div class="route">
-        <span class="route__name">
-          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="square" aria-hidden="true">
-            <path d="M12 21c4-3 7-6.4 7-10a7 7 0 1 0-14 0c0 3.6 3 7 7 10Z"/><circle cx="12" cy="11" r="2.4"/>
-          </svg>
-          <span class="mono">From the KR Puram side</span>
-        </span>
-        <p class="route__body">Come down via Hennur and Nagavara, about 15 km. It is the longest leg on this list, so leave early.</p>
-        <span class="mono route__time">~45–60 min</span>
-      </div>
-      <div class="route">
-        <span class="route__name">
-          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="square" aria-hidden="true">
-            <path d="M4 20 4 8l8-5 8 5v12"/><path d="M9 20v-6h6v6"/>
-          </svg>
-          <span class="mono">From Yelahanka</span>
-        </span>
-        <p class="route__body">Straight down Bellary Road toward the city, about 8–9 km. Watch for the Atria IT turn-off just before the Hebbal flyover.</p>
-        <span class="mono route__time">~20–30 min</span>
-      </div>
-      <div class="route">
-        <span class="route__name">
-          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="square" aria-hidden="true">
-            <circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/>
-          </svg>
-          <span class="mono">From BEL Circle</span>
-        </span>
-        <p class="route__body">Practically next door: about 2–3 km toward Hebbal. An auto takes under ten minutes.</p>
-        <span class="mono route__time">~10 min</span>
       </div>
     </div>
 
