@@ -119,12 +119,22 @@ export default function Tracks() {
             <span>Register on MLH</span>
             <ArrowRight className="w-4 h-4 ml-2" />
           </a>
+          <a
+            href={EVENT_DETAILS.challengesUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="ht-btn-secondary-dark text-sm"
+          >
+            <span>Read the full briefs</span>
+            <ArrowRight className="w-4 h-4 ml-2" />
+          </a>
           <a href="/badge" className="ht-btn-secondary-dark text-sm">
             <span>Get your badge</span>
             <ArrowRight className="w-4 h-4 ml-2" />
           </a>
           <p className="build-cta-note">
-            Teams form at 10:15 AM — solo builders are just as welcome.
+            Teams can form beforehand, or meet someone during the morning and join
+            theirs — solo builders are just as welcome.
           </p>
         </div>
       </div>

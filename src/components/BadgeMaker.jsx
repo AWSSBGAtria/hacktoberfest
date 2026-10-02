@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { EVENT_DETAILS } from '../data/eventData';
-import { Download, ArrowUpRight, Link2, ImagePlus, Share2 } from 'lucide-react';
+import { Download, ArrowUpRight, Link2, ImagePlus, Share2, ShieldCheck, Dices } from 'lucide-react';
 import SectionHead from './SectionHead';
 
 const W = 1600;
@@ -12,6 +12,9 @@ const NAVY = '#211f47';
 const YELLOW = '#f5b726';
 const CORAL = '#e97b77';
 const MUTED = '#aebcff';
+
+// Backgrounds the generated avatar can land on, drawn from the event palette.
+const AVATAR_BGS = ['f5b726', 'aebcff', '8bb2de', 'ee8b83', 'd1d4f9', 'ffd5dc'];
 
 function initialsOf(name) {
   const parts = name.trim().split(/\s+/).filter(Boolean);
@@ -70,13 +73,41 @@ function drawContain(ctx, img, x, y, w, h) {
   ctx.drawImage(img, x + (w - dw) / 2, y + (h - dh) / 2, dw, dh);
 }
 
-function loadImage(src) {
+// `crossOrigin` matters for the avatar: without it the browser taints the
+// canvas and canvas.toBlob() throws on download. DiceBear sends
+// access-control-allow-origin: *, so an anonymous CORS read succeeds.
+function loadImage(src, crossOrigin = false) {
   return new Promise((resolve) => {
     const img = new Image();
+    if (crossOrigin) img.crossOrigin = 'anonymous';
     img.onload = () => resolve(img);
     img.onerror = () => resolve(null);
     img.src = src;
   });
+}
+
+// DiceBear builds an avatar URL from a seed, so the same seed always yields the
+// same face and a re-render can't change it under the user. Voxel Bot on v10.x.
+// Two parameter details, both found by checking responses rather than assuming:
+//   - `size`, not `width`/`height` (those are silently ignored on this route)
+//   - SVG, not PNG: the PNG route caps at 256px, too soft for the 376px plate,
+//     and an SVG taints the canvas on export unless loaded via CORS.
+// The background is picked per-avatar from the event palette so a regenerated
+// face does not also change the plate colour out from under the user.
+function avatarUrl(seed) {
+  return `https://api.dicebear.com/10.x/voxel-bot/svg?seed=${encodeURIComponent(seed)}&size=376&backgroundColor=${avatarBackground(seed)}`;
+}
+
+// Deterministic: the colour is derived from the same seed as the face, so the
+// avatar is stable across reloads instead of flickering on every re-render.
+function avatarBackground(seed) {
+  let h = 0;
+  for (let i = 0; i < seed.length; i += 1) h = (h * 31 + seed.charCodeAt(i)) % 100000;
+  return AVATAR_BGS[h % AVATAR_BGS.length];
+}
+
+function randomSeed() {
+  return Math.random().toString(36).slice(2, 10);
 }
 
 // Landscape ticket, 2:1. Left: photo plate, name, attending chip. Right:
@@ -291,6 +322,37 @@ export default function BadgeMaker() {
   const [dragging, setDragging] = useState(false);
   const [copied, setCopied] = useState(false);
   const [fontsReady, setFontsReady] = useState(false);
+  // Photo upload is the default and the preferred path. With no photo chosen, the
+  // ticket shows a generated avatar instead; the "Generate random avatar" button
+  // rerolls that avatar without changing the form around it. `avatarSeed` keeps
+  // the face stable across re-renders, and the background colour is derived from
+  // the same seed, so face and plate colour always reroll together.
+  const [avatarSeed, setAvatarSeed] = useState(() => randomSeed());
+  const [avatarImg, setAvatarImg] = useState(null);
+  const [avatarError, setAvatarError] = useState('');
+
+  const useAvatar = photo === null;
+
+  useEffect(() => {
+    if (!useAvatar) {
+      setAvatarImg(null);
+      return undefined;
+    }
+    let live = true;
+    loadImage(avatarUrl(avatarSeed), true).then((img) => {
+      if (!live) return;
+      if (img) {
+        setAvatarImg(img);
+        setAvatarError('');
+      } else {
+        setAvatarImg(null);
+        setAvatarError('Could not load an avatar. Try again, or upload a photo.');
+      }
+    });
+    return () => {
+      live = false;
+    };
+  }, [useAvatar, avatarSeed]);
 
   useEffect(() => {
     let live = true;
@@ -318,9 +380,9 @@ export default function BadgeMaker() {
 
   useEffect(() => {
     if (fontsReady && canvasRef.current) {
-      drawBadge(canvasRef.current, assets, photo, name);
+      drawBadge(canvasRef.current, assets, photo || avatarImg, name);
     }
-  }, [fontsReady, assets, photo, name]);
+  }, [fontsReady, assets, photo, avatarImg, name]);
 
   const takeFile = useCallback((file) => {
     setPhotoError('');
@@ -350,7 +412,7 @@ export default function BadgeMaker() {
   const download = useCallback(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
-    drawBadge(canvas, assets, photo, name);
+    drawBadge(canvas, assets, photo || avatarImg, name);
     canvas.toBlob((blob) => {
       if (!blob) return;
       const url = URL.createObjectURL(blob);
@@ -362,11 +424,11 @@ export default function BadgeMaker() {
       a.remove();
       setTimeout(() => URL.revokeObjectURL(url), 4000);
     }, 'image/png');
-  }, [assets, photo, name]);
+  }, [assets, photo, avatarImg, name]);
 
-  const copyCaption = useCallback(async () => {
+  const copyCaption = useCallback(async (text) => {
     try {
-      await navigator.clipboard.writeText(`${EVENT_DETAILS.promoText}\n${window.location.origin}`);
+      await navigator.clipboard.writeText(text || `${EVENT_DETAILS.promoText}\n${window.location.origin}`);
       setCopied(true);
       setTimeout(() => setCopied(false), 2500);
     } catch {
@@ -374,10 +436,15 @@ export default function BadgeMaker() {
     }
   }, []);
 
+  // LinkedIn only creates a company mention when the page URL is attached to
+  // the post, so the share window carries it and the caption names the page for
+  // people who paste manually.
   const shareLinkedIn = useCallback(async () => {
-    await copyCaption();
+    await copyCaption(
+      `${EVENT_DETAILS.promoText}\n${EVENT_DETAILS.linkedinUrl}\n${window.location.origin}`,
+    );
     window.open(
-      `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(window.location.origin)}`,
+      `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(EVENT_DETAILS.linkedinUrl)}`,
       '_blank',
       'noopener,width=640,height=640',
     );
@@ -390,7 +457,7 @@ export default function BadgeMaker() {
   const shareNative = useCallback(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
-    drawBadge(canvas, assets, photo, name);
+    drawBadge(canvas, assets, photo || avatarImg, name);
     canvas.toBlob(async (blob) => {
       if (!blob) return;
       const file = new File([blob], 'hacktoberfest-hack-day-badge.png', { type: 'image/png' });
@@ -406,7 +473,7 @@ export default function BadgeMaker() {
         /* user cancelled - stay on the page */
       }
     }, 'image/png');
-  }, [assets, photo, name]);
+  }, [assets, photo, avatarImg, name]);
 
   return (
     <section id="badge" className="theme-section py-20 sm:py-28 bg-[#f2f2eb] text-[#10201d] border-b-2 border-[#10201d]">
@@ -416,8 +483,21 @@ export default function BadgeMaker() {
           title={<>Get your attendee</>}
           accent="badge."
           pacColor="#f5b726"
-          deck="Drop your photo, type your name, and take home a wide ticket badge made for LinkedIn and X timelines. Download the PNG, then post it with the caption below."
+          deck="Add your photo, type your name, and take home a wide ticket badge made for LinkedIn and X timelines. Prefer not to use your photo? Generate a Voxel Bot avatar instead. Download the PNG, then post it with the caption below."
         />
+
+        {/* Privacy, stated before the upload field rather than buried below it.
+            The badge maker is entirely client-side: no fetch, no upload, no
+            analytics, so this is a description of how it actually works. */}
+        <div className="flex items-start gap-3 border-2 border-[#10201d] bg-[#e4e5da] px-5 py-4 mb-6">
+          <ShieldCheck className="w-5 h-5 shrink-0 mt-0.5" aria-hidden="true" />
+          <p className="font-mono text-[12px] leading-relaxed text-[#10201d]">
+            <strong className="font-bold">Nothing is uploaded, nothing is stored.</strong>{' '}
+            Your photo and name are used only in your browser to draw this badge,
+            and they never leave your device — not to us, not to a server, not to
+            anyone. Close the tab and they are gone.
+          </p>
+        </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8 items-stretch">
           {/* Make it yours */}
@@ -429,31 +509,31 @@ export default function BadgeMaker() {
               <div
                 role="button"
                 tabIndex={0}
-                aria-label="Upload a photo for your badge"
-                onClick={() => fileRef.current && fileRef.current.click()}
-                onKeyDown={(e) => {
-                  if (e.key === 'Enter' || e.key === ' ') fileRef.current && fileRef.current.click();
-                }}
-                onDragOver={(e) => {
-                  e.preventDefault();
-                  setDragging(true);
-                }}
-                onDragLeave={() => setDragging(false)}
-                onDrop={(e) => {
-                  e.preventDefault();
-                  setDragging(false);
-                  takeFile(e.dataTransfer.files && e.dataTransfer.files[0]);
-                }}
-                className={`border-2 border-dashed border-[#10201d] p-6 text-center cursor-pointer transition-colors ${
-                  dragging ? 'bg-[#f5b726]' : 'bg-[#e4e5da] hover:bg-[#f5b726]/40'
-                }`}
-              >
-                <ImagePlus className="w-6 h-6 mx-auto mb-2" aria-hidden="true" />
-                <p className="font-mono text-xs font-bold">
-                  {photoName || 'Drop a photo here, or click to browse'}
-                </p>
-                <p className="font-mono text-[11px] text-[#34433f] mt-1">JPG or PNG, under 8 MB</p>
-              </div>
+                  aria-label="Upload a photo for your badge"
+                  onClick={() => fileRef.current && fileRef.current.click()}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') fileRef.current && fileRef.current.click();
+                  }}
+                  onDragOver={(e) => {
+                    e.preventDefault();
+                    setDragging(true);
+                  }}
+                  onDragLeave={() => setDragging(false)}
+                  onDrop={(e) => {
+                    e.preventDefault();
+                    setDragging(false);
+                    takeFile(e.dataTransfer.files && e.dataTransfer.files[0]);
+                  }}
+                  className={`border-2 border-dashed border-[#10201d] p-6 text-center cursor-pointer transition-colors ${
+                    dragging ? 'bg-[#f5b726]' : 'bg-[#e4e5da] hover:bg-[#f5b726]/40'
+                  }`}
+                >
+                  <ImagePlus className="w-6 h-6 mx-auto mb-2" aria-hidden="true" />
+                  <p className="font-mono text-xs font-bold">
+                    {photoName || 'Drop a photo here, or click to browse'}
+                  </p>
+                  <p className="font-mono text-[11px] text-[#34433f] mt-1">JPG or PNG, under 8 MB</p>
+                </div>
               <input
                 ref={fileRef}
                 type="file"
@@ -464,6 +544,22 @@ export default function BadgeMaker() {
               {photoError && (
                 <p className="font-mono text-xs font-bold text-[#a41612] mt-2" role="alert">
                   {photoError}
+                </p>
+              )}
+              <button
+                type="button"
+                onClick={() => {
+                  setAvatarSeed(randomSeed());
+                  setPhotoError('');
+                }}
+                className="w-full mt-3 inline-flex items-center justify-center gap-2 px-4 py-2.5 font-mono text-[11px] font-bold uppercase border-2 border-[#10201d] bg-[#f7f7f2] text-[#10201d] hover:bg-[#f5b726] shadow-[4px_4px_0_#10201d]"
+              >
+                <Dices className="w-3.5 h-3.5" aria-hidden="true" />
+                <span>Generate random avatar</span>
+              </button>
+              {useAvatar && avatarError && (
+                <p className="font-mono text-[11px] font-bold text-[#a41612] mt-2" role="alert">
+                  {avatarError}
                 </p>
               )}
             </div>
@@ -536,8 +632,8 @@ export default function BadgeMaker() {
               </button>
             )}
             <p className="font-mono text-[11px] text-[#5c665f] leading-relaxed">
-              LinkedIn opens ready to post with the event link attached, and
-              your caption is copied — paste it and attach the PNG.
+              LinkedIn opens ready to post with our company page tagged, and your
+              caption is copied — paste it and attach the PNG.
             </p>
           </div>
 

@@ -15,13 +15,16 @@ export const EVENT_DETAILS = {
     mapLink: "https://maps.app.goo.gl/v9oFjCVD5VbHUVC78",
   },
   registrationUrl: "https://events.mlh.com/events/15272-hacktoberfest-hack-day-bengaluru-x-aws-student-builder-group-at-atria-institute-of-technology",
+  challengesUrl:
+    "https://www.mlh.com/events/hacktoberfest-hack-day-bengaluru-x-aws-student-builder-group-at-atria-institute-of-technology/challenges",
   whatsappUrl: "https://chat.whatsapp.com/L8cxFucPgS6CpG3G5zbCbH",
   websiteUrl: "https://awsatria.tech/",
+  linkedinUrl: "https://www.linkedin.com/company/aws-sbg-at-at-atria-inst-of-tech/",
   mlhUrl: "https://mlh.com/",
   hacktoberfestUrl: "https://hacktoberfest.com/",
   goodiesWorth: "₹1.4 Lakh+",
   promoText:
-    "I'm attending Hacktoberfest Hack Day Bengaluru 2026! A full day of open-source hacking with student builders - plus Google Gemma 4, AWS, mentors, food, good company and a goody haul worth ₹1.4 Lakh+.\n\nOctober 23, 2026 · Atria Institute of Technology, Bengaluru\n\nCome build with us - register here: https://hacktober.awsatria.tech/register\n\n#Hacktoberfest #Hacktoberfest2026 #OpenSource #AWS #StudentsAtAWS #GenAI #Bengaluru #BuildInPublic",
+    "I'm attending Hacktoberfest Hack Day Bengaluru 2026! A full day of open-source hacking with student builders - plus Google Gemma 4, AWS, mentors, food, good company and a prize haul worth ₹1.4 Lakh+.\n\nOctober 23, 2026 · Atria Institute of Technology, Bengaluru\n\nCome build with us - register here: https://hacktober.awsatria.tech/register\n\n#Hacktoberfest #Hacktoberfest2026 #OpenSource #AWS #StudentsAtAWS #GenAI #Bengaluru #BuildInPublic",
 };
 
 export const HIGHLIGHTS = [
