@@ -198,7 +198,7 @@ export const SCHEDULE = [
     time: "05:00 PM – 05:30 PM",
     title: "Snacks, Refreshments & Networking",
     type: "Break",
-    description: "Tea, coffee, and snacks - plus open networking with mentors, peers, and organizers before judging.",
+    description: "Drinks and snacks - plus open networking with mentors, peers, and organizers before judging.",
     highlight: false,
   },
   {
