@@ -6,7 +6,8 @@ import { fileURLToPath, pathToFileURL } from 'node:url';
 import path from 'node:path';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-const url = pathToFileURL(path.join(root, 'public', 'Sponsorship_Brochure.html')).href;
+const DOC = process.env.DOC || 'Sponsorship_Brochure.html';
+const url = pathToFileURL(path.join(root, 'public', DOC)).href;
 const browser = await chromium.launch();
 let fail = 0;
 const check = (name, ok, detail = '') => {
@@ -19,7 +20,12 @@ console.log('\nContents navigation');
   const page = await browser.newPage({ viewport: { width: 1000, height: 900 } });
   await page.goto(url, { waitUntil: 'networkidle' });
   await page.waitForTimeout(800);
-  for (const label of ['#event', '#lanes', '#cash', '#food', '#goodies', '#experience', '#contact']) {
+  // Derive the contents targets from the document so each brochure is checked
+  // against its own pages rather than a hardcoded list.
+  const labels = await page.evaluate(() =>
+    [...new Set([...document.querySelectorAll('a[href^="#"]')].map((a) => a.getAttribute('href')))]);
+  check('contents links exist', labels.length > 0, `${labels.length} targets`);
+  for (const label of labels) {
     await page.locator(`a[href="${label}"]`).first().click();
     // Contents jumps cross up to seven full A4 sheets under smooth scrolling,
     // so wait for the scroll to actually settle rather than a fixed delay.

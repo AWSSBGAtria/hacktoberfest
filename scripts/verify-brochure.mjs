@@ -7,8 +7,9 @@ import path from 'node:path';
 import fs from 'node:fs';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-const target = pathToFileURL(path.join(root, 'public', 'Sponsorship_Brochure.html')).href;
-const out = path.join(root, '.impeccable', 'review');
+const DOC = process.env.DOC || 'Sponsorship_Brochure.html';
+const target = pathToFileURL(path.join(root, 'public', DOC)).href;
+const out = path.join(root, '.impeccable', 'review', path.basename(DOC, '.html'));
 fs.mkdirSync(out, { recursive: true });
 
 const A4 = { w: 210, h: 297 }; // mm

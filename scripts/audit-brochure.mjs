@@ -7,7 +7,8 @@ import { fileURLToPath, pathToFileURL } from 'node:url';
 import path from 'node:path';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-const target = pathToFileURL(path.join(root, 'public', 'Sponsorship_Brochure.html')).href;
+const DOC = process.env.DOC || 'Sponsorship_Brochure.html';
+const target = pathToFileURL(path.join(root, 'public', DOC)).href;
 
 const browser = await chromium.launch();
 const page = await browser.newPage({ viewport: { width: 1000, height: 1400 } });
@@ -75,6 +76,7 @@ const out = await page.evaluate(() => {
     return {
       page: i + 1,
       fill: +(used / usable * 100).toFixed(1),
+      topGapMm: isFinite(top) ? +((top - padT) / (96 / 25.4)).toFixed(1) : null,
       bottomGapMm: +((box.height - padB - bottom) / (96 / 25.4)).toFixed(1),
       clipped: [...new Set(clipped)],
       lowContrast: [...new Set(lowContrast)],
@@ -127,7 +129,7 @@ for (const s of out.sheets) {
   const tight = s.fill > 99;
   const loose = s.fill < 78;
   console.log(
-    `P${String(s.page).padStart(2)}  fill ${String(s.fill).padStart(5)}%   top gap ${String(s.topGapMm).padStart(5)}mm   bottom gap ${String(s.bottomGapMm).padStart(5)}mm` +
+    `P${String(s.page).padStart(2)}  fill ${String(s.fill).padStart(5)}%   top gap ${String(s.topGapMm ?? 'n/a').padStart(5)}mm   bottom gap ${String(s.bottomGapMm).padStart(5)}mm` +
     `  ${tight ? 'AT LIMIT' : loose ? 'loose' : 'ok'}`
   );
   if (s.clipped.length) console.log(`     clipped text : ${s.clipped.join(', ')}`);
