@@ -507,7 +507,7 @@ scripts/screenshot.mjs  Playwright review shots (SHOTS_DIR, preview on :4173)
   caption) instead of the lopsided two-column split.
 - LinkedIn share: share-offsite URL (LinkedIn accepts only a URL - text
   cannot be prefilled) plus auto-copied caption and a static 1200x630 OG
-  image (`public/og-share.png`) with full OG/Twitter meta so the composer
+  image (`public/banner.png`) with full OG/Twitter meta so the composer
   unfurls richly. Caption carries #StudentsAtAWS.
 
 ## 26. Ticket rhythm, hero badge entry, venue strip
