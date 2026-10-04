@@ -15,6 +15,18 @@ import mysql from 'mysql2/promise';
 
 export const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
+// Hard ceiling on score/time, used to refuse Burp'd submissions. Mirrors
+// MAX_REALISTIC_SCORE / MAX_REALISTIC_TIME in src/utils/awspac.js:
+//   dots:    440 x 10           = 4400
+//   powers:  4 x 50             =  200
+//   ghosts:  4 energizers x (200 + 400)   = 2400
+//   total                       = 7000
+// Inlined here so the datastore does not import the client bundle (Vite-
+// resolved extensionless imports in awspac.js/pacmaze.js are not portable to
+// the plain Node runtime Vercel serves api/* on).
+export const SCORE_CAP = 7000;
+export const TIME_CAP = 3600;
+
 // One pool per process: Express keeps it for the whole server lifetime, and a
 // Vercel function instance reuses it across warm invocations.
 let pool;
@@ -89,6 +101,14 @@ export async function createScore(raw) {
   const time = Math.max(0, Math.round((Number(raw?.time) || 0) * 10) / 10);
   if (!name || !EMAIL_RE.test(email) || !institution) {
     return { status: 400, body: { error: 'invalid' } };
+  }
+  // A browser PAC-MAN score is not server-verifiable (the whole game is
+  // client-side), so an intercepting proxy could otherwise POST any score.
+  // Refuse anything that could not have come from a real 3-life run on this
+  // maze instead of silently accepting an altered value - a cheater's 999999
+  // becomes an error, not a winning entry.
+  if (score > SCORE_CAP || time > TIME_CAP) {
+    return { status: 400, body: { error: 'invalid', reason: 'tampered' } };
   }
   try {
     const [existing] = await getPool().query(

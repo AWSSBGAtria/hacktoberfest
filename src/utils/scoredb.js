@@ -160,6 +160,19 @@ async function saveEntryRemote(entry) {
     }
     throw new Error(reason === 'person' ? 'duplicate-person' : 'duplicate-email');
   }
+  if (res.status === 400) {
+    // Server-side ceiling rejected an impossible score/time: this is the
+    // Burp/intercept guard firing, not a transient failure, so do NOT degrade
+    // to a local save - that would silently keep a tampered entry on the device.
+    let reason = 'tampered';
+    try {
+      const data = await res.json();
+      if (data && data.reason) reason = data.reason;
+    } catch {
+      /* keep default */
+    }
+    throw new Error(reason);
+  }
   if (!res.ok) {
     // Server reachable but failing (404 on a static host, 5xx, ...):
     // degrade to the local store so the player's run still counts here.

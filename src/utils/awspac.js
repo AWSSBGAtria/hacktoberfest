@@ -14,6 +14,20 @@ export const GHOST_SPEED = 5.1;
 export const FRIGHT_SPEED = 3.6;
 export const EYES_SPEED = 11;
 export const FRIGHT_TIME = 6;
+
+// Scoring caps, used to reject Burp'd submissions on the server. These are the
+// hard physical ceiling of a single 3-life run on this maze, not a "good" score:
+//   dots:    440 dots  x 10      = 4400
+//   powers:    4 x 50             =  200
+//   ghosts:  4 energizers x (200 + 400)  [only Blinky + Pinky exist, so the
+//            3rd+ ghost in a chain falls back to GHOST_SCORES ?? 800]
+//   total                       = 7000
+// A submission whose score or time exceeds these is mathematically impossible
+// for a real run and is refused at POST, not silently clamped.
+export const MAX_REALISTIC_SCORE = 7000;
+// No clock stops at 10 minutes in a 3-life run that clears the board; anything
+// past an hour is clearly a tampered time field.
+export const MAX_REALISTIC_TIME = 3600;
 export const DOT_SCORE = 10;
 export const POWER_SCORE = 50;
 export const GHOST_SCORES = [200, 400];

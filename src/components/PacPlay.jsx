@@ -400,6 +400,11 @@ export default function PacPlay() {
         setFormError('This email already has an entry - one entry per person.');
       } else if (err && err.message === 'remote') {
         setFormError('Could not reach the scoreboard - please try again.');
+      } else if (err && err.message === 'tampered') {
+        // Server refused score/time above the maze's hard ceiling. This is
+        // the anti-interception guard firing, surfaced plainly instead of
+        // silently saving a tampered entry to localStorage.
+        setFormError('That score or time was flagged as tampered with - refresh the page and play through again.');
       } else {
         setFormError('This browser refused to save - please try another one.');
       }
