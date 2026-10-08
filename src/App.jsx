@@ -26,6 +26,7 @@ const REDIRECTS = {
   '/volunteer': 'https://binary.so/EnumX2Q',
   '/mentor': 'https://binary.so/eGuTA0x',
   '/register': EVENT_DETAILS.registrationUrl,
+  '/challenges': EVENT_DETAILS.challengesUrl,
 };
 
 function RouteView({ path }) {
@@ -50,6 +51,7 @@ function RouteView({ path }) {
     case '/volunteer':
     case '/mentor':
     case '/register':
+    case '/challenges':
       return (
         <p className="shell py-20 sm:py-28 font-mono text-sm tracking-wide">
           Redirecting you onward…
@@ -74,6 +76,7 @@ const TITLES = {
   '/mentor': 'Mentor — Hack Day Bengaluru',
   '/badge': 'Get Your Badge — Hack Day Bengaluru',
   '/register': 'Register — Hack Day Bengaluru',
+  '/challenges': 'Challenges — Hack Day Bengaluru',
   '/500': 'Server error — Hack Day Bengaluru',
 };
 

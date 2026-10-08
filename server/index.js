@@ -56,6 +56,8 @@ const REDIRECTS = {
   '/mentor': 'https://binary.so/eGuTA0x',
   '/register':
     'https://events.mlh.com/events/15272-hacktoberfest-hack-day-bengaluru-x-aws-student-builder-group-at-atria-institute-of-technology',
+  '/challenges':
+    'https://www.mlh.com/events/hacktoberfest-hack-day-bengaluru-x-aws-student-builder-group-at-atria-institute-of-technology/challenges',
 };
 for (const [from, to] of Object.entries(REDIRECTS)) {
   app.get(from, (req, res) => res.redirect(302, to));

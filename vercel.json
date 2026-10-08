@@ -14,6 +14,11 @@
       "source": "/register",
       "destination": "https://events.mlh.com/events/15272-hacktoberfest-hack-day-bengaluru-x-aws-student-builder-group-at-atria-institute-of-technology",
       "permanent": false
+    },
+    {
+      "source": "/challenges",
+      "destination": "https://www.mlh.com/events/hacktoberfest-hack-day-bengaluru-x-aws-student-builder-group-at-atria-institute-of-technology/challenges",
+      "permanent": false
     }
   ],
   "rewrites": [
