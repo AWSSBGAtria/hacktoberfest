@@ -4,7 +4,7 @@ import { triggerFestiveConfetti } from '../utils/confetti';
 import { ArrowRight, MessageCircle, Search, ChevronDown, LifeBuoy } from 'lucide-react';
 import SectionHead from './SectionHead';
 
-const CATS = ['All', 'Attending', 'Teams', 'First-timers', 'Registration'];
+const CATS = ['All', 'Attending', 'Teams', 'First-timers', 'Registration', 'Rewards'];
 
 export default function FAQ() {
   const [query, setQuery] = useState('');

@@ -259,7 +259,7 @@ export const FAQS = [
     a: "No. There are no preliminary rounds. Once registered, you simply attend on the day of the event.",
   },
   {
-    category: "Registration",
+    category: "Rewards",
     q: "Is the ₹1.4 Lakh prize pool a cash award?",
     a: "The prize pool of ₹1.4 Lakh refers to the total value of prizes (goodies, swag, and other rewards) awarded to winners across all tracks. It is not a cash prize.",
   },
