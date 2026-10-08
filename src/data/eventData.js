@@ -248,6 +248,36 @@ export const FAQS = [
     q: "How does the MLH registration work?",
     a: "Click any 'Register Now' button on this site to go to the official MLH event page. Log in or create an MLH account, answer the questions (like your college name & phone number), and join the official WhatsApp group for live announcements.",
   },
+  {
+    category: "Registration",
+    q: "I registered individually but wasn't asked for a team name. Is that okay?",
+    a: "Yes, that is fine. Team names are only required when registering as a group so that all members can be matched together. Solo participants do not need to provide a team name.",
+  },
+  {
+    category: "Registration",
+    q: "Are there any preliminary or qualifying rounds before the event?",
+    a: "No. There are no preliminary rounds. Once registered, you simply attend on the day of the event.",
+  },
+  {
+    category: "Registration",
+    q: "Is the ₹1.4 Lakh prize pool a cash award?",
+    a: "The prize pool of ₹1.4 Lakh refers to the total value of prizes (goodies, swag, and other rewards) awarded to winners across all tracks. It is not a cash prize.",
+  },
+  {
+    category: "Attending",
+    q: "Is this event only for Atria Institute of Technology students?",
+    a: "The event is open to students from all universities and colleges. You may also form teams with friends from different institutions.",
+  },
+  {
+    category: "Attending",
+    q: "Are first-year students allowed to participate?",
+    a: "Yes, absolutely. The event is open to all students aged 18 and above, regardless of year of study.",
+  },
+  {
+    category: "Rewards",
+    q: "What do I receive if I don't win a track prize?",
+    a: "All participants who attend and build on the day receive exclusive Hacktoberfest 2026 goodies, a digital DEV participation badge, and a certificate of participation.",
+  },
 ];
 
 export const PARTNERS = [
