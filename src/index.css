@@ -711,8 +711,7 @@ button:active, a:active {
 /* Venue map - the site's one real-world surface. It is tinted into the    */
 /* indigo chrome so it reads as part of the same world, and carries the    */
 /* site's hard ink frame + stamp shadow instead of a soft floating card.   */
-/* The venue marker is OSM's own (see the embed URL), so it pans with the  */
-/* map instead of floating over its centre.                                */
+/* OpenLayers + OSM raster tiles: no key, no consent wall.                 */
 /* ---------------------------------------------------------------------- */
 
 .venue-map {
@@ -726,7 +725,7 @@ button:active, a:active {
   isolation: isolate;
 }
 
-.venue-map .venue-leaflet {
+.venue-map .venue-ol {
   position: relative;
   z-index: 0;
   height: 420px;
@@ -735,16 +734,18 @@ button:active, a:active {
 }
 
 @media (max-width: 640px) {
-  .venue-map .venue-leaflet {
+  .venue-map .venue-ol {
     height: 340px;
   }
 }
 
-/* Our red pin rides inside the map, so it pans and zooms with the tiles.
-   Leaflet's default divIcon chrome (white box) is stripped off. */
+/* Our red pin rides inside the map as an OpenLayers overlay, so it pans
+   and zooms with the tiles. It must not eat pointer events from the map. */
 .venue-pin-icon {
+  display: block;
   background: none;
   border: 0;
+  pointer-events: none;
 }
 
 .venue-pin-icon svg {
@@ -752,16 +753,45 @@ button:active, a:active {
   filter: drop-shadow(3px 4px 0 rgba(9, 8, 24, .55));
 }
 
-.venue-map-fallback {
+/* OpenLayers chrome, restamped: square ink-bordered zoom buttons with the
+   site's hard shadow, and the OSM credit set in the site's mono voice. */
+.venue-map .ol-zoom {
+  top: 0.6rem;
+  left: 0.6rem;
+  gap: 4px;
   display: grid;
-  gap: 1rem;
-  justify-items: center;
-  align-content: center;
-  min-height: 340px;
-  padding: 2rem;
-  text-align: center;
+}
+
+.venue-map .ol-zoom button {
+  width: 28px;
+  height: 28px;
+  border: 2px solid #10201d;
+  border-radius: 0;
+  background: #f7f7f2;
+  color: #10201d;
   font-family: var(--font-mono);
-  font-size: 0.85rem;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 1;
+  box-shadow: 3px 3px 0 #10201d;
+  opacity: 1;
+}
+
+.venue-map .ol-zoom button:hover {
+  background: #f5b726;
+}
+
+.venue-map .ol-zoom button:active {
+  transform: translate(2px, 2px);
+  box-shadow: 1px 1px 0 #10201d;
+}
+
+.venue-map .ol-attribution {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  background: rgba(247, 247, 242, 0.85);
+  color: #10201d;
+  border-radius: 0;
 }
 
 /* Light indigo wash over the live map: cools the tiles toward the site
@@ -1023,7 +1053,7 @@ button:active, a:active {
   }
 
   .venue-map,
-  .venue-map .venue-leaflet {
+  .venue-map .venue-ol {
     min-height: 280px;
   }
 }

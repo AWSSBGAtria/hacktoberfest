@@ -1,9 +1,13 @@
-import React from 'react';
+import React, { lazy, Suspense } from 'react';
 import { EVENT_DETAILS } from '../data/eventData';
 import { MapPin, Navigation, Calendar, CheckCircle, Wifi, TrainFront, Landmark, CarFront, CircleDot, ArrowUpRight } from 'lucide-react';
 import Reveal from './Reveal';
 import SectionHead from './SectionHead';
-import VenueMap from './VenueMap';
+
+// OpenLayers is ~180 kB gzip; keep it out of the entry chunk since the
+// map sits far below the fold. The fallback mirrors .venue-ol's box so
+// nothing shifts when the chunk lands.
+const VenueMap = lazy(() => import('./VenueMap'));
 
 export default function Venue() {
   const checklist = [
@@ -129,9 +133,11 @@ export default function Venue() {
               <span className="map-ribbon-dot" aria-hidden="true" />
               Atria Institute of Technology · Hebbal
             </div>*/}
-            {/* Leaflet on OSM tiles with our own red pin: pans and zooms with
-                the map, no keys or consent walls. */}
-            <VenueMap />
+            {/* OpenLayers on OSM tiles with our own red pin: pans and zooms
+                with the map, no keys or consent walls. */}
+            <Suspense fallback={<div className="venue-ol" aria-hidden="true" />}>
+              <VenueMap />
+            </Suspense>
           </Reveal>
 
           {/* Card 2: Attendee Checklist */}
