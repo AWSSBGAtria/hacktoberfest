@@ -5,7 +5,7 @@
 // Blinky/Pinky targeting. One run ends when every pellet is cleared (score +
 // time count) or all 3 lives are lost.
 
-import { WALL, DOT, EMPTY, POWER, DIRS } from './pacmaze';
+import { WALL, DOT, EMPTY, POWER, DIRS, makeRng } from './pacmaze.js';
 
 export const TILE = 14;
 export const LIVES_PER_ATTEMPT = 3;
@@ -15,15 +15,25 @@ export const FRIGHT_SPEED = 3.6;
 export const EYES_SPEED = 11;
 export const FRIGHT_TIME = 6;
 
-// Scoring caps, used to reject Burp'd submissions on the server. These are the
-// hard physical ceiling of a single 3-life run on this maze, not a "good" score:
-//   dots:    440 dots  x 10      = 4400
-//   powers:    4 x 50             =  200
-//   ghosts:  4 energizers x (200 + 400)  [only Blinky + Pinky exist, so the
-//            3rd+ ghost in a chain falls back to GHOST_SCORES ?? 800]
+// Fixed-timestep simulation rate. Both the browser render loop and the
+// server-side replay step the physics at exactly this dt so a recorded
+// input log reproduces bit-for-bit on any machine.
+export const TICK_RATE = 60;
+export const FIXED_DT = 1 / TICK_RATE;
+// Hard ceiling on replay length: matches MAX_REALISTIC_TIME (1 hour).
+export const MAX_TICKS = 3600 * TICK_RATE;
+// Sanity cap on input-log size (direction changes per run). A human never
+// comes close; a fuzzer trying to blow up the server sim gets rejected.
+export const MAX_INPUTS = 10000;
+
+// Scoring caps, used as a first-line sanity filter. The authoritative check
+// is server-side replay verification (see simulateReplay + store.js): the
+// server re-runs the whole game from the input log and only trusts its own
+// computed score/time, so a forged score never reaches the database.
+//   dots:    440 x 10           = 4400
+//   powers:  4 x 50             =  200
+//   ghosts:  4 energizers x (200 + 400)   = 2400
 //   total                       = 7000
-// A submission whose score or time exceeds these is mathematically impossible
-// for a real run and is refused at POST, not silently clamped.
 export const MAX_REALISTIC_SCORE = 7000;
 // No clock stops at 10 minutes in a 3-life run that clears the board; anything
 // past an hour is clearly a tampered time field.
@@ -263,7 +273,7 @@ function chooseGhostDir(game, ghost) {
     return isWalkable(game, nx, ny) ? back : ghost.dir;
   }
   if (game.frightT > 0 && ghost.state !== 'eyes') {
-    return options[Math.floor(Math.random() * options.length)];
+    return options[Math.floor(game.rand() * options.length)];
   }
 
   // Confinement breaker: greedy no-reverse steering cannot leave a loop,
@@ -439,7 +449,18 @@ function resetPositions(game) {
   game.frightT = 0;
 }
 
-export function createChallenge() {
+// Default seed for a local play session. crypto.getRandomValues is available
+// in every modern browser; fall back to Math.random only for exotic runtimes.
+export function defaultSeed() {
+  if (typeof crypto !== 'undefined' && crypto.getRandomValues) {
+    return crypto.getRandomValues(new Uint32Array(1))[0] >>> 0;
+  }
+  return (Math.random() * 0x100000000) >>> 0;
+}
+
+export function createChallenge(seed) {
+  const rngSeed = seed === undefined || seed === null ? defaultSeed() : seed >>> 0;
+  const rand = makeRng(rngSeed);
   const { grid, rows, cols } = buildLetterGrid();
 
   // Fixed stage marks (word-gap house sits at columns 26-30, rows 5-8):
@@ -509,6 +530,14 @@ export function createChallenge() {
     time: 0,
     deadT: 0,
     status: 'playing',
+    // Anti-cheat replay state: the seed makes the ghost RNG reproducible,
+    // and every player turn is logged as [tick, dir] so the server can
+    // re-simulate the exact same run and independently compute the score.
+    seed: rngSeed,
+    rand,
+    tick: 0,
+    inputLog: [],
+    inputIdx: 0,
   };
   const roles = ['blinky', 'pinky'];
   const colors = ['#e53927', '#e97b77'];
@@ -597,4 +626,52 @@ export function updateChallenge(game, dt) {
     }
   }
   collide(game);
+}
+
+// Validate a raw input log coming off the wire. Accepts the compact
+// [[tick, dir], ...] form the client records. Returns a clean array or
+// null when the payload is malformed / oversized / out of range.
+export function validateInputs(raw) {
+  if (!Array.isArray(raw) || raw.length > MAX_INPUTS) return null;
+  const cleaned = [];
+  let lastTick = -1;
+  for (const entry of raw) {
+    if (!Array.isArray(entry) || entry.length !== 2) return null;
+    const [tick, dir] = entry;
+    if (!Number.isInteger(tick) || tick < 0 || tick > MAX_TICKS) return null;
+    if (tick < lastTick) return null; // must be non-decreasing
+    if (!Number.isInteger(dir) || dir < 0 || dir > 3) return null;
+    cleaned.push([tick, dir]);
+    lastTick = tick;
+  }
+  return cleaned;
+}
+
+// Deterministic replay of a full run. Given the same seed and input log,
+// this reproduces the browser's simulation exactly (fixed timestep + seeded
+// RNG), letting the server independently compute the authoritative
+// score/time. Used by server/store.js to refuse any forged submission.
+export function simulateReplay(seed, inputLog) {
+  const game = createChallenge(seed);
+  const inputs = inputLog || [];
+  let idx = 0;
+  // Safety valve: never step more than MAX_TICKS even if the game somehow
+  // fails to reach a terminal state (should not happen - ghosts always
+  // eventually catch a stuck Pac-Man).
+  while (game.status !== 'won' && game.status !== 'lost' && game.tick < MAX_TICKS) {
+    // Apply every input scheduled for this tick (or earlier, as a safety
+    // for logs that got slightly out of order at the boundary).
+    while (idx < inputs.length && inputs[idx][0] <= game.tick) {
+      setWant(game, inputs[idx][1]);
+      idx += 1;
+    }
+    updateChallenge(game, FIXED_DT);
+    game.tick += 1;
+  }
+  return {
+    score: game.score,
+    time: Math.round(game.time * 10) / 10,
+    status: game.status,
+    ticks: game.tick,
+  };
 }

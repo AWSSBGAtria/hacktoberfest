@@ -24,7 +24,11 @@ const here = path.dirname(fileURLToPath(import.meta.url));
 const PORT = Number(process.env.PORT) || 3001;
 
 const app = express();
-app.use(express.json({ limit: '8kb' }));
+// Input logs for replay verification can be a few KB for a long run, so the
+// body limit is larger than a plain JSON API would need. 256kb comfortably
+// fits MAX_INPUTS (10000) direction changes without letting a fuzzer blow
+// up memory.
+app.use(express.json({ limit: '256kb' }));
 
 app.get('/api/scores', async (req, res) => {
   // Same split as api/scores.js: ?email= for one's own row, bare for the list.

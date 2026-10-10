@@ -12,18 +12,20 @@
 // DB_HOST (localhost) DB_USER (root) DB_PASSWORD DB_NAME (hacktober2026).
 
 import mysql from 'mysql2/promise';
+import { simulateReplay, validateInputs } from '../src/utils/awspac.js';
 
 export const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-// Hard ceiling on score/time, used to refuse Burp'd submissions. Mirrors
-// MAX_REALISTIC_SCORE / MAX_REALISTIC_TIME in src/utils/awspac.js:
+// First-line sanity ceiling on score/time (mirrors MAX_REALISTIC_SCORE /
+// MAX_REALISTIC_TIME in src/utils/awspac.js). The authoritative check is
+// server-side replay verification below: the server re-runs the whole game
+// from the recorded input log and only trusts its own computed score/time,
+// so a forged score never reaches the database even if this ceiling is
+// somehow bypassed.
 //   dots:    440 x 10           = 4400
 //   powers:  4 x 50             =  200
 //   ghosts:  4 energizers x (200 + 400)   = 2400
 //   total                       = 7000
-// Inlined here so the datastore does not import the client bundle (Vite-
-// resolved extensionless imports in awspac.js/pacmaze.js are not portable to
-// the plain Node runtime Vercel serves api/* on).
 export const SCORE_CAP = 7000;
 export const TIME_CAP = 3600;
 
@@ -91,25 +93,58 @@ export async function findScore(rawEmail) {
   }
 }
 
-// POST /api/scores - validates input, enforces one entry per person (same
-// email, or same name plus institution, case-insensitive) before inserting.
+// POST /api/scores - validates input, verifies the run via server-side
+// replay, and enforces one entry per person (same email, or same name plus
+// institution, case-insensitive) before inserting.
+//
+// Anti-cheat design: the whole PAC-MAN game is client-side, so an
+// intercepting proxy could otherwise POST any score. Instead of trusting the
+// client's score/time fields, the server re-simulates the entire run from
+// the recorded [tick, dir] input log + RNG seed and only stores the score
+// / time that its own simulation produces. A forged score never matches the
+// replay, so it is refused rather than silently accepted.
 export async function createScore(raw) {
   const name = String(raw?.name || '').trim().slice(0, 120);
   const email = String(raw?.email || '').trim().toLowerCase().slice(0, 160);
   const institution = String(raw?.institution || '').trim().slice(0, 160);
-  const score = Math.max(0, Math.floor(Number(raw?.score) || 0));
-  const time = Math.max(0, Math.round((Number(raw?.time) || 0) * 10) / 10);
+  const seed = raw?.seed;
+  const inputs = validateInputs(raw?.inputs);
   if (!name || !EMAIL_RE.test(email) || !institution) {
     return { status: 400, body: { error: 'invalid' } };
   }
-  // A browser PAC-MAN score is not server-verifiable (the whole game is
-  // client-side), so an intercepting proxy could otherwise POST any score.
-  // Refuse anything that could not have come from a real 3-life run on this
-  // maze instead of silently accepting an altered value - a cheater's 999999
-  // becomes an error, not a winning entry.
+  // Reject entries that carry no replay proof (old clients / direct curls)
+  // or carry a malformed one - without a verifiable run there is no way to
+  // know the score was actually earned.
+  if (!Number.isInteger(seed) || seed < 0 || seed > 0xffffffff || inputs === null) {
+    return { status: 400, body: { error: 'invalid', reason: 'replay' } };
+  }
+
+  // Re-simulate the run on the server. This is the authoritative source of
+  // score/time - the client's claimed values are only cross-checked below.
+  let sim;
+  try {
+    sim = simulateReplay(seed, inputs);
+  } catch (err) {
+    console.error('POST /api/scores replay error:', err?.message || err);
+    return { status: 400, body: { error: 'invalid', reason: 'replay' } };
+  }
+
+  const score = sim.score;
+  const time = sim.time;
+  // Defense-in-depth: even a "successful" replay that somehow exceeds the
+  // physical ceiling is refused (should be impossible for a real 3-life run).
   if (score > SCORE_CAP || time > TIME_CAP) {
     return { status: 400, body: { error: 'invalid', reason: 'tampered' } };
   }
+  // Cross-check the client's display values against the replay. A mismatch
+  // means the browser tampered with game.score / game.time after the fact
+  // (or the input log was lost), so refuse rather than trust either side.
+  const claimedScore = Math.max(0, Math.floor(Number(raw?.score) || 0));
+  const claimedTime = Math.max(0, Math.round((Number(raw?.time) || 0) * 10) / 10);
+  if (claimedScore !== score || Math.abs(claimedTime - time) > 0.1) {
+    return { status: 400, body: { error: 'invalid', reason: 'replay' } };
+  }
+
   try {
     const [existing] = await getPool().query(
       'SELECT email, name, institution FROM scores WHERE LOWER(email) = LOWER(?) OR (LOWER(name) = LOWER(?) AND LOWER(institution) = LOWER(?)) LIMIT 1',
@@ -125,7 +160,7 @@ export async function createScore(raw) {
       'INSERT INTO scores (name, email, institution, score, time) VALUES (?, ?, ?, ?, ?)',
       [name, email, institution, score, time],
     );
-    return { status: 201, body: { ok: true } };
+    return { status: 201, body: { ok: true, score, time } };
   } catch (err) {
     if (err && err.code === 'ER_DUP_ENTRY') {
       return { status: 409, body: { error: 'duplicate', reason: 'email' } };

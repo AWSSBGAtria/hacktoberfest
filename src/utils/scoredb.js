@@ -161,9 +161,10 @@ async function saveEntryRemote(entry) {
     throw new Error(reason === 'person' ? 'duplicate-person' : 'duplicate-email');
   }
   if (res.status === 400) {
-    // Server-side ceiling rejected an impossible score/time: this is the
-    // Burp/intercept guard firing, not a transient failure, so do NOT degrade
-    // to a local save - that would silently keep a tampered entry on the device.
+    // Server-side ceiling or replay verification rejected an impossible /
+    // unverifiable run: this is the Burp/intercept guard firing, not a
+    // transient failure, so do NOT degrade to a local save - that would
+    // silently keep a tampered entry on the device.
     let reason = 'tampered';
     try {
       const data = await res.json();

@@ -3,11 +3,17 @@
 // Vercel Node runtime would, then checks GET/POST/409/400/405/health
 // semantics against the configured database (DATABASE_URL or local MySQL).
 //
+// The POST tests exercise server-side replay verification: every honest
+// submission carries a seed + input log that the server re-simulates, and
+// the harness proves that a forged score (no replay, or a replay that does
+// not produce the claimed score) is refused rather than stored.
+//
 //   npm run api:verify            # local MySQL fallback
 //   set -a; . ./.env; set +a      # or TiDB, the Vercel path
 //   npm run api:verify
 const scoresHandler = (await import('../api/scores.js')).default;
 const healthHandler = (await import('../api/health.js')).default;
+const { simulateReplay } = await import('../src/utils/awspac.js');
 
 function mockRes() {
   const res = {
@@ -37,6 +43,23 @@ async function call(handler, { method = 'GET', body, query } = {}) {
 // name/institution pairs would 409 on the second run.
 const RUN = Date.now().toString(36);
 
+// Build an honest submission the way the browser does: pick a seed, pick an
+// input log, let the (deterministic) engine compute the true score/time.
+// The server will re-simulate the exact same run and only accept if its
+// own result matches what the client claims.
+function honestEntry(overrides = {}) {
+  const seed = (Math.random() * 0x100000000) >>> 0;
+  const inputs = []; // no steering: Pac walks into a wall and eventually loses
+  const sim = simulateReplay(seed, inputs);
+  return {
+    seed,
+    inputs,
+    score: sim.score,
+    time: sim.time,
+    ...overrides,
+  };
+}
+
 const results = [];
 function check(label, cond, detail = '') {
   results.push({ label, ok: !!cond, detail });
@@ -50,17 +73,15 @@ function check(label, cond, detail = '') {
   check('GET scores 200 array', r.status === 200 && Array.isArray(r.json) && r.ct?.includes('application/json'), `status=${r.status}`);
   check('GET list never exposes email', noEmails, `rows=${Array.isArray(r.json) ? r.json.length : '?'}`);
 }
-// POST valid entry
+// POST valid entry (with honest replay proof)
 {
   const email = `vercel-test-${Date.now()}@example.com`;
-  const r = await call(scoresHandler, {
-    method: 'POST',
-    body: { name: `Vercel Harness ${RUN}`, email, institution: `Test Inst ${RUN}`, score: 42, time: 12.3 },
-  });
-  check('POST valid -> 201', r.status === 201 && r.json?.ok === true, `status=${r.status} ${JSON.stringify(r.json)}`);
+  const entry = honestEntry({ name: `Vercel Harness ${RUN}`, email, institution: `Test Inst ${RUN}` });
+  const r = await call(scoresHandler, { method: 'POST', body: entry });
+  check('POST valid+replay -> 201', r.status === 201 && r.json?.ok === true, `status=${r.status} ${JSON.stringify(r.json)}`);
   // own-row lookup by email
   const mine = await call(scoresHandler, { query: { email } });
-  check('GET ?email= own row -> 200', mine.status === 200 && mine.json?.email === email && mine.json?.score === 42, `status=${mine.status} ${JSON.stringify(mine.json)}`);
+  check('GET ?email= own row -> 200', mine.status === 200 && mine.json?.email === email && mine.json?.score === entry.score, `status=${mine.status} ${JSON.stringify(mine.json)}`);
   // unknown email
   const missing = await call(scoresHandler, { query: { email: `nobody-${Date.now()}@example.com` } });
   check('GET ?email= unknown -> 404', missing.status === 404, `status=${missing.status}`);
@@ -70,15 +91,48 @@ function check(label, cond, detail = '') {
   // duplicate by email
   const d = await call(scoresHandler, {
     method: 'POST',
-    body: { name: `Vercel Harness ${RUN}`, email, institution: `Test Inst ${RUN}`, score: 1, time: 1 },
+    body: honestEntry({ name: `Vercel Harness ${RUN}`, email, institution: `Test Inst ${RUN}` }),
   });
   check('POST dup email -> 409 reason=email', d.status === 409 && d.json?.reason === 'email', `status=${d.status} ${JSON.stringify(d.json)}`);
   // duplicate by name+institution
   const d2 = await call(scoresHandler, {
     method: 'POST',
-    body: { name: `vercel harness ${RUN}`, email: `other-${email}`, institution: `test inst ${RUN}`, score: 1, time: 1 },
+    body: honestEntry({ name: `vercel harness ${RUN}`, email: `other-${email}`, institution: `test inst ${RUN}` }),
   });
   check('POST dup person -> 409 reason=person', d2.status === 409 && d2.json?.reason === 'person', `status=${d2.status} ${JSON.stringify(d2.json)}`);
+}
+// Anti-cheat: forged submissions must be refused, not stored.
+{
+  // (a) No replay proof at all - the pre-fix attack (curl a raw score).
+  const forged = await call(scoresHandler, {
+    method: 'POST',
+    body: { name: `Forger ${RUN}`, email: `forger-${Date.now()}@evil.com`, institution: `Evil ${RUN}`, score: 6000, time: 221 },
+  });
+  check('POST forged no-replay -> 400 reason=replay', forged.status === 400 && forged.json?.reason === 'replay', `status=${forged.status} ${JSON.stringify(forged.json)}`);
+
+  // (b) Real input log, but claimed score tampered upward.
+  const seed = 12345;
+  const inputs = [];
+  const real = simulateReplay(seed, inputs);
+  const mismatch = await call(scoresHandler, {
+    method: 'POST',
+    body: { name: `Tamperer ${RUN}`, email: `tamperer-${Date.now()}@evil.com`, institution: `Evil ${RUN}`, score: 6000, time: 221, seed, inputs },
+  });
+  check('POST forged score w/ replay -> 400 reason=replay', mismatch.status === 400 && mismatch.json?.reason === 'replay', `status=${mismatch.status} real=${real.score} ${JSON.stringify(mismatch.json)}`);
+
+  // (c) Malformed input log.
+  const badInputs = await call(scoresHandler, {
+    method: 'POST',
+    body: { name: `BadLog ${RUN}`, email: `badlog-${Date.now()}@evil.com`, institution: `Evil ${RUN}`, score: 100, time: 10, seed: 1, inputs: [[0, 9]] },
+  });
+  check('POST bad input dir -> 400 reason=replay', badInputs.status === 400 && badInputs.json?.reason === 'replay', `status=${badInputs.status} ${JSON.stringify(badInputs.json)}`);
+
+  // (d) Out-of-range seed.
+  const badSeed = await call(scoresHandler, {
+    method: 'POST',
+    body: { name: `BadSeed ${RUN}`, email: `badseed-${Date.now()}@evil.com`, institution: `Evil ${RUN}`, score: 100, time: 10, seed: -1, inputs: [] },
+  });
+  check('POST bad seed -> 400 reason=replay', badSeed.status === 400 && badSeed.json?.reason === 'replay', `status=${badSeed.status} ${JSON.stringify(badSeed.json)}`);
 }
 // POST invalid
 {
@@ -88,10 +142,8 @@ function check(label, cond, detail = '') {
 // POST with string body (Vercel can hand raw string)
 {
   const email = `vercel-str-${Date.now()}@example.com`;
-  const r = await call(scoresHandler, {
-    method: 'POST',
-    body: JSON.stringify({ name: `Str Body ${RUN}`, email, institution: `Inst ${RUN}`, score: 7, time: 3.2 }),
-  });
+  const entry = honestEntry({ name: `Str Body ${RUN}`, email, institution: `Inst ${RUN}` });
+  const r = await call(scoresHandler, { method: 'POST', body: JSON.stringify(entry) });
   check('POST string body -> 201', r.status === 201, `status=${r.status} ${JSON.stringify(r.json)}`);
 }
 // POST with no body (stream fallback path)

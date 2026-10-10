@@ -45,7 +45,7 @@ const POPUP_LIFE = 0.9;
 
 const mod = (n, m) => ((n % m) + m) % m;
 
-function makeRng(seed) {
+export function makeRng(seed) {
   let s = seed >>> 0 || 1;
   return () => {
     s ^= s << 13;

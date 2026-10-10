@@ -5,6 +5,8 @@ import {
   updateChallenge,
   TILE,
   LIVES_PER_ATTEMPT,
+  FIXED_DT,
+  defaultSeed,
 } from '../utils/awspac';
 import { ghostDisplayState, WALL, DOT, POWER } from '../utils/pacmaze';
 import { loadMine, saveEntry, getLock } from '../utils/scoredb';
@@ -231,6 +233,10 @@ export default function PacPlay() {
   const [formError, setFormError] = useState('');
   const [saving, setSaving] = useState(false);
   const [entry, setEntry] = useState(null);
+  // Anti-cheat proof for the finished run: the RNG seed plus the full
+  // [tick, dir] input log. The server re-simulates this to independently
+  // compute score/time, so a forged score never reaches the database.
+  const [endProof, setEndProof] = useState(null);
 
   const gameRef = useRef(null);
   const canvasRef = useRef(null);
@@ -264,7 +270,9 @@ export default function PacPlay() {
   };
 
   const startRun = () => {
-    gameRef.current = createChallenge();
+    const seed = defaultSeed();
+    gameRef.current = createChallenge(seed);
+    setEndProof(null);
     setScreen('playing');
   };
 
@@ -283,6 +291,7 @@ export default function PacPlay() {
 
     let raf = 0;
     let last = performance.now();
+    let acc = 0;
     let alive = true;
     const frame = (t) => {
       if (!alive) return;
@@ -290,8 +299,21 @@ export default function PacPlay() {
       const dt = Math.min(0.05, Math.max(0, (t - last) / 1000));
       last = t;
       const g = gameRef.current;
-      if (!g || !dt) return;
-      updateChallenge(g, dt);
+      if (!g) return;
+      // Fixed-timestep accumulator: step the physics at exactly FIXED_DT so
+      // a recorded input log reproduces bit-for-bit during server replay.
+      acc += dt;
+      while (acc >= FIXED_DT) {
+        acc -= FIXED_DT;
+        // Apply every input scheduled for this tick before stepping.
+        while (g.inputIdx < g.inputLog.length && g.inputLog[g.inputIdx][0] <= g.tick) {
+          setWant(g, g.inputLog[g.inputIdx][1]);
+          g.inputIdx += 1;
+        }
+        updateChallenge(g, FIXED_DT);
+        g.tick += 1;
+        if (g.status === 'won' || g.status === 'lost') break;
+      }
       if (scoreRef.current) scoreRef.current.textContent = String(g.score);
       if (timeRef.current) timeRef.current.textContent = formatTime(g.time);
       if (livesRef.current) {
@@ -305,6 +327,7 @@ export default function PacPlay() {
         setWon(g.status === 'won');
         setEndScore(g.score);
         setEndTime(g.time);
+        setEndProof({ seed: g.seed, inputs: g.inputLog });
         setScreen('result');
       }
     };
@@ -327,7 +350,7 @@ export default function PacPlay() {
       if (dir === undefined) return;
       if (screen !== 'playing') return;
       event.preventDefault();
-      setWant(gameRef.current, dir);
+      steer(dir);
     };
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
@@ -344,7 +367,17 @@ export default function PacPlay() {
     };
   }, [open ]);
 
-  const steer = (dir) => setWant(gameRef.current, dir);
+  // Record the turn in the input log (for server-side replay verification)
+  // and apply it immediately for responsive feel. The log entry uses the
+  // current tick so the server's fixed-timestep replay lands it on the
+  // exact same frame.
+  const steer = (dir) => {
+    const g = gameRef.current;
+    if (!g || (g.status !== 'playing' && g.status !== 'dying')) return;
+    if (g.inputLog.length >= 10000) return; // sanity cap, matches server MAX_INPUTS
+    g.inputLog.push([g.tick, dir]);
+    setWant(g, dir);
+  };
 
   const onTouchStart = (event) => {
     const touch = event.touches[0];
@@ -379,12 +412,21 @@ export default function PacPlay() {
       setFormError('That email does not look right - please check it once.');
       return;
     }
+    if (!endProof) {
+      setFormError('Run data was lost - please play through again.');
+      return;
+    }
     const record = {
       name,
       email,
       institution,
+      // The server re-simulates this run from seed+inputs and independently
+      // computes score/time; the values below are for display only and are
+      // ignored if they disagree with the replay.
       score: endScore,
       time: Math.round(endTime * 10) / 10,
+      seed: endProof.seed,
+      inputs: endProof.inputs,
       at: new Date().toISOString(),
     };
     setSaving(true);
@@ -405,6 +447,10 @@ export default function PacPlay() {
         // the anti-interception guard firing, surfaced plainly instead of
         // silently saving a tampered entry to localStorage.
         setFormError('That score or time was flagged as tampered with - refresh the page and play through again.');
+      } else if (err && err.message === 'replay') {
+        // Server-side replay could not reproduce the claimed score/time from
+        // the input log - the run was tampered with (or the log was lost).
+        setFormError('The server could not verify your run - please play through again and submit normally.');
       } else {
         setFormError('This browser refused to save - please try another one.');
       }
