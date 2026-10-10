@@ -1,4 +1,5 @@
 import React from 'react';
+import { BookOpen, ArrowRight } from 'lucide-react';
 import { SCHEDULE } from '../data/eventData';
 import Reveal from './Reveal';
 import SectionHead from './SectionHead';
@@ -71,6 +72,34 @@ export default function Schedule() {
             );
           })}
         </div>
+
+        {/* Participant Handbook callout - the day's rulebook, right where
+            participants finish reading the day itself. */}
+        <Reveal className="mt-12 sm:mt-16">
+          <div className="theme-cta p-8 sm:p-12 bg-[#f7f7f2] text-[#10201d] border-2 border-[#10201d] shadow-[7px_7px_0_#e53927] hover:shadow-[4px_4px_0_#e53927] hover:translate-x-[3px] hover:translate-y-[3px] flex flex-col md:flex-row items-center justify-between gap-6">
+            <div className="max-w-xl text-center md:text-left">
+              <span className="ht-tag mb-3 inline-block">BEFORE YOU BUILD</span>
+              <h3 className="font-display font-extrabold text-2xl sm:text-4xl uppercase tracking-tight text-[#10201d] mb-2">
+                Read the Participant Handbook
+              </h3>
+              <p className="text-sm sm:text-base text-[#34433f] font-sans">
+                Rules, team sizes, judging criteria, code of conduct, and the
+                day-of checklist - everything you need for October 23, in one PDF.
+              </p>
+            </div>
+
+            <a
+              href="/docs/Participant_Handbook.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="ht-btn-primary whitespace-nowrap text-sm"
+            >
+              <BookOpen className="w-4 h-4 mr-2" />
+              <span>View Handbook</span>
+              <ArrowRight className="w-4 h-4 ml-2" />
+            </a>
+          </div>
+        </Reveal>
       </div>
     </section>
   );
