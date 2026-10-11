@@ -28,7 +28,7 @@ export default function Footer() {
               Navigation
             </div>
             <ul className="space-y-2.5 text-slate-300">
-              <li><a href="/about" className="hover:text-white hover:underline">About Hack Day</a></li>
+              <li><a href="/" className="hover:text-white hover:underline">Home</a></li>
               <li><a href="/build" className="hover:text-white hover:underline">Tracks & Themes</a></li>
               <li><a href="/day" className="hover:text-white hover:underline">Schedule</a></li>
               <li><a href="/venue" className="hover:text-white hover:underline">Venue & Checklist</a></li>
@@ -86,12 +86,12 @@ export default function Footer() {
           </div>
 
           {/* CTA Box */}
-          <Reveal className="theme-cta p-6 bg-[#33306b] border-2 border-[#10201d] shadow-[4px_4px_0_#10201d] hover:shadow-[2px_2px_0_#10201d] hover:translate-x-[2px] hover:translate-y-[2px]">
-            <div className="font-display font-bold text-lg text-white uppercase mb-2">
-              Ready to Hack?
+          <Reveal className="theme-cta p-6 border border-white/20">
+            <div className="font-display font-bold text-lg text-white mb-2">
+              Ready to hack?
             </div>
-            <p className="font-sans text-xs text-[#f6c4c1] mb-4">
-              Join us on October 23 at Atria Institute of Technology campus.
+            <p className="font-sans text-xs text-slate-300 mb-4">
+              Join us on October 23 at Atria Institute of Technology.
             </p>
             <a
               href={EVENT_DETAILS.registrationUrl}
@@ -112,7 +112,7 @@ export default function Footer() {
             © 2026 AWS Student Builder Group at Atria Institute of Technology.
           </div>
           <div className="text-slate-400">
-            Official Hacktoberfest 2026 Community Event · Powered by MLH
+            Official Hacktoberfest 2026 Hack Day
           </div>
         </div>
       </div>

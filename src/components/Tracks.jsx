@@ -8,52 +8,17 @@ import Seal from './BadgeArt';
 
 const ICONS = { GitPullRequest, Sparkles, Cloud };
 
-const STEPS = [
-  {
-    n: '01',
-    title: 'Pick a track',
-    body: 'Core Hacktoberfest, Gemma 4, or AWS. One project can qualify for more than one.',
-  },
-  {
-    n: '02',
-    title: 'Build all day',
-    body: 'Mentors from AWS Student Builder Group and open source roam the room from 10:15 AM.',
-  },
-  {
-    n: '03',
-    title: 'Demo and submit',
-    body: 'Push your repo, open your PR, and get your project on stage.',
-  },
-];
-
 export default function Tracks() {
   return (
     <section id="tracks" className="theme-section py-20 sm:py-28 bg-[#f2f2eb] text-[#10201d] border-b-2 border-[#10201d]">
       <div className="shell">
         {/* Intro */}
         <SectionHead
-          eyebrow="CHALLENGE TRACKS"
           title={<>Three ways to build</>}
           accent="and three ways to win."
           pacColor="#aebcff"
-          deck="Every project can qualify for the core Hacktoberfest challenge, and any project that also uses Gemma 4 or AWS can qualify for those too. Mentors are on-site to help."
+          deck="Every project qualifies for the core Hacktoberfest challenge; anything using Gemma 4 or AWS can qualify for those too. Mentors are on site."
         />
-
-        {/* How the day pays out - handbook-backed, so the tracks read as a
-            process rather than three isolated posters. */}
-        <div className="build-steps">
-          {STEPS.map((s) => (
-            <div key={s.n} className="build-step">
-              <span className="build-step-num" aria-hidden="true">
-                {s.n}
-              </span>
-              <div>
-                <p className="build-step-title">{s.title}</p>
-                <p className="build-step-body">{s.body}</p>
-              </div>
-            </div>
-          ))}
-        </div>
 
         {/* Tracks Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
@@ -71,7 +36,7 @@ export default function Tracks() {
 
                 <div className="track-body">
                   <span className="track-medallion" aria-hidden="true">
-                    <Icon size={24} strokeWidth={2.4} />
+                    <Icon size={24} strokeWidth={2} />
                   </span>
 
                   <p className="track-tag">{t.tag}</p>
@@ -93,15 +58,11 @@ export default function Tracks() {
                 </div>
 
                 <div className="track-prize">
-                  <Seal code={t.prizeSeal} color={t.accent} size={58} />
+                  <Seal code={t.prizeSeal} color={t.accent} size={52} />
                   <div>
                     <p className="track-prize-label">Recognition</p>
                     <p className="track-prize-body">{t.prize}</p>
                   </div>
-                </div>
-
-                <div className="track-foot">
-                  <span>All experience levels welcome</span>
                 </div>
               </Reveal>
             );
@@ -128,13 +89,8 @@ export default function Tracks() {
             <span>Read the full briefs</span>
             <ArrowRight className="w-4 h-4 ml-2" />
           </a>
-          <a href="/badge" className="ht-btn-secondary-dark text-sm">
-            <span>Get your badge</span>
-            <ArrowRight className="w-4 h-4 ml-2" />
-          </a>
           <p className="build-cta-note">
-            Teams can form beforehand, or meet someone during the morning and join
-            theirs — solo builders are just as welcome.
+            Teams can form beforehand, or meet someone in the morning — solo builders are just as welcome.
           </p>
         </div>
       </div>

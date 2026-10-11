@@ -33,11 +33,10 @@ export default function FAQ() {
       <div className="shell">
         {/* Intro */}
         <SectionHead
-          eyebrow="FREQUENTLY ASKED QUESTIONS"
           title={<>Got questions?</>}
           accent="we have answers."
           pacColor="#8bb2de"
-          deck="Everything you need to know about attending Hacktoberfest Hack Day Bengaluru as a university student."
+          deck="How to attend Hacktoberfest Hack Day Bengaluru as a university student."
         />
 
         {/* Toolbar: live search + category chips */}
@@ -149,10 +148,10 @@ export default function FAQ() {
               target="_blank"
               rel="noopener noreferrer"
               onClick={triggerFestiveConfetti}
-              className="px-6 py-3.5 font-mono text-xs font-bold border-2 border-[#10201d] bg-[#f7f7f2] text-[#10201d] hover:bg-[#e4e5da] shadow-[4px_4px_0_#10201d] flex items-center justify-center gap-2 whitespace-nowrap"
+              className="ht-btn-secondary-dark whitespace-nowrap text-sm"
             >
               <span>Register on MLH</span>
-              <ArrowRight className="w-4 h-4 ml-1" />
+              <ArrowRight className="w-4 h-4 ml-2" />
             </a>
           </div>
         </div>

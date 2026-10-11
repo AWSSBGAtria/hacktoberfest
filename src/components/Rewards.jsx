@@ -47,21 +47,10 @@ export default function Rewards() {
       <div className="shell">
         {/* Intro */}
         <SectionHead
-          eyebrow="TRACKS & RECOGNITION"
           title={<>What you walk away</>}
           accent="with on the day."
-          deck={<>Three challenge tracks plus our own club bonus, and a goody haul worth over {EVENT_DETAILS.goodiesWorth}. Prize details are confirmed closer to the day.</>}
+          deck={<>Three challenge tracks plus our own club bonus, and a goody haul worth over {EVENT_DETAILS.goodiesWorth}. Prize details land closer to the day.</>}
         />
-
-        {/* Badge wall - every reward as a stamped object, up front. */}
-        <div className="badge-wall">
-          {REWARDS.map((r) => (
-            <div key={r.title} className="badge-item">
-              <Seal code={r.seal} color={r.sealColor} size={92} label={r.title} />
-              <p className="badge-name">{r.title}</p>
-            </div>
-          ))}
-        </div>
 
         {/* Grouped Rewards */}
         <div className="space-y-14 mb-14">
@@ -130,15 +119,16 @@ export default function Rewards() {
           })}
         </div>
 
-        {/* Bottom Banner Call to Action */}
-        <div className="theme-cta p-8 sm:p-12 bg-[#f7f7f2] text-[#10201d] border-2 border-[#10201d] shadow-[7px_7px_0_#e53927] hover:shadow-[4px_4px_0_#e53927] hover:translate-x-[3px] hover:translate-y-[3px] flex flex-col md:flex-row items-center justify-between gap-6">
+        {/* Bottom banner: one quiet line and the register button - the card
+            grid above already makes the case. Sits on the section's dark
+            navy, so the type stays light. */}
+        <div className="theme-cta mt-2 pt-8 border-t-2 border-white/20 flex flex-col md:flex-row items-center justify-between gap-6">
           <div className="max-w-xl text-center md:text-left">
-              <h3 className="font-display font-extrabold text-2xl sm:text-4xl uppercase tracking-tight text-[#10201d] mb-2">
+              <h3 className="font-display font-bold text-xl sm:text-2xl text-[#f7f7f2] mb-2">
                 Ready to build on Oct 23?
               </h3>
-              <p className="text-sm sm:text-base text-[#34433f] font-sans">
-                Food and attendee kits are limited to registered participants, while supplies
-                last. Make sure to complete your registration via MLH.
+              <p className="text-sm text-[#c6caf0] font-sans">
+                Food and attendee kits go to registered participants, while supplies last.
               </p>
           </div>
 
@@ -149,7 +139,7 @@ export default function Rewards() {
             onClick={handleRegisterClick}
             className="ht-btn-primary whitespace-nowrap text-sm"
           >
-            <span>Register for Free</span>
+            <span>Register for free</span>
             <ArrowRight className="w-4 h-4 ml-2" />
           </a>
         </div>

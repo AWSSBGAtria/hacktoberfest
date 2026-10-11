@@ -32,7 +32,9 @@ Single source of truth for all copy and facts: `src/data/eventData.js`
 Five rules the whole system is built on.
 
 1. **Stamp, don't float.** Depth is a hard, zero-blur offset shadow behind a
-   2px ink border — a printed sticker, never a soft material elevation.
+   2px ink border — a printed sticker, never a soft material elevation. One
+   scale for the whole site (`--stamp-offset: 4px`, press `2px`); no surface
+   shouts louder than the content it holds.
 2. **Square everything.** `border-radius: 0` across the site. The only curves
    are deliberate: pill tags, the hexagon trail, the badge seal.
 3. **Mono is the voice.** IBM Plex Mono uppercase with wide tracking carries
@@ -43,6 +45,9 @@ Five rules the whole system is built on.
 5. **Motion explains, never decorates.** Every animation uses the shared
    easing curve and one of three duration tiers. If it can't be justified as
    feedback or hierarchy, it's removed.
+6. **Quiet by default.** Copy is trimmed to what a first-time student needs;
+   decoration, stamps and eyebrows are spent, not sprinkled. Pac-Man stays as
+   identity, never as noise.
 
 ---
 
@@ -109,15 +114,19 @@ Google Fonts, with `preconnect`, plus **Bricolage Grotesque** variable
 Scale anchors:
 
 - Hero title: Bricolage 800, `clamp(3.35rem, 7.4vw, 7.1rem)`, line-height `.92`,
-  tracking `-0.045em`, `.hero-title-line` masked reveal per line. Event colour
-  squares ride on the eyebrow line; manifesto tracking `.1em`.
-- Section title: `.section-title`, with `em` as the accent phrase.
+  tracking `-0.045em`, `.hero-title-line` masked reveal per line (mobile floor
+  `clamp(2.35rem, 11.8vw, 5.4rem)`).
+- Section title: `.section-title`, Manrope 700, **sentence case** (no
+  `text-transform`), with `em` as the accent phrase;
+  `main section h2` caps at `clamp(1.75rem, 3.1vw, 2.6rem)`.
 - Deck / answer measure: capped near **65–75ch** (`.section-deck`,
   `.faq-answer`), never wider.
 - Body: `1rem` / `line-height: 1.55`.
 - Mono label: `0.6rem`–`0.72rem`.
 
-`.section-eyebrow` is red mono uppercase; `.section-deck` is the muted lead.
+`.section-eyebrow` is red mono uppercase, but **eyebrows are optional and
+rare** — `SectionHead` takes the prop and omits the line when it isn't
+passed. Whole pages ship without one; `.section-deck` is the muted lead.
 
 ---
 
@@ -135,11 +144,15 @@ Scale anchors:
   Implemented by `src/components/SectionHead.jsx` (`pacColor` prop).
 - **Header:** `.site-header`, sticky, `h-20` (80px) + 2px border = **82px**
   of chrome. Mobile menu is an inline panel, not an overlay.
-- **Hero:** `.hero-shell` is `min-height: max(620px, calc(100svh - 82px))`,
-  content centred with block auto margins. Two full-height ambient Pac-Man
-  side mazes (`.pac-side`, desktop only) run behind the copy; the two pixel
-  staircases are decorative (`aria-hidden`) and parallax away from the
-  pointer.
+- **Hero:** `.hero-shell` is `min-height: max(560px, calc(100svh - 82px))`
+  (`620px` at `sm+`), content centred with block auto margins. Copy is the
+  whole hero: four event-colour squares (`aria-hidden`, the quiet stand-in for
+  an eyebrow), masked title, one-line deck (date inside it), a two-button CTA
+  pair, and the sponsor lockup — nothing else. Two full-height ambient
+  Pac-Man side mazes (`.pac-side`, desktop only) run behind the copy; the two
+  pixel staircases are decorative (`aria-hidden`) and parallax away from the
+  pointer at a gentle amplitude. On phones the sponsor plates stay on **one
+  row**, scaled down rather than stacked.
 - **Footer:** dark chrome band, sitemap + MLH/code-of-conduct links + CTA.
 - **Body:** `overflow-x: clip` (not `hidden` — `hidden` turns `<body>` into a
   scroll container and leaves a phantom screenful below the footer).
@@ -151,18 +164,18 @@ Scale anchors:
 ```css
 border: 2px solid #10201d;
 border-radius: 0;
-box-shadow: 5px 5px 0 #671912;   /* stamp */
+box-shadow: 4px 4px 0 #671912;   /* stamp — --stamp-offset */
 /* hover: */
-transform: translate(3px, 3px);
-box-shadow: 2px 2px 0 #671912;
+transform: translate(2px, 2px);
+box-shadow: 2px 2px 0 #671912;   /* --stamp-offset-press */
 ```
 
 - Interactive `.theme-card` lifts by translating *into* its shadow, which
   shrinks by the same amount — the card sits down onto the page.
 - `.brutal-static` is the same language without lift, for containers holding
   their own click targets (FAQ accordion).
-- Global `body::after` lays a fixed dot-matrix texture at `opacity: 0.075`
-  with `mix-blend-mode: multiply` — print grain, not a UI surface.
+- Global `body::after` lays a fixed dot texture at `opacity: 0.03` with
+  `mix-blend-mode: multiply` — print grain, not a UI surface.
 
 ---
 
@@ -174,12 +187,12 @@ All in `src/components/`; shared styles in `src/index.css`.
 | --- | --- |
 | `Navbar.jsx` | Sticky header, mono nav, coral underline sweep, mobile panel, WhatsApp + MLH CTAs, `aria-current="page"` |
 | `Footer.jsx` | Dark sitemap, external links, final CTA |
-| `Hero.jsx` | Eyebrow (event colours inline), masked Bricolage title, manifesto, deck, `.hero-facts` pills, CTA pair, sponsor lockup, side mazes |
-| `SectionHead.jsx` | Eyebrow + title + accent + deck + optional Pac-Man spot box, staggered reveal |
+| `Hero.jsx` | Masked Bricolage title, one-line deck (date inside), two-button CTA pair, sponsor lockup (one row on mobile), side mazes |
+| `SectionHead.jsx` | Optional eyebrow + title + accent + deck + optional Pac-Man spot box, staggered reveal |
 | `SplitWords.jsx` | Per-word mask reveal for section titles |
-| `Highlights.jsx` | 4 stat cards (HIGHLIGHTS) |
-| `Tracks.jsx` | 3 tracks: SVG medallion, stepper, recognition strip, neutral star seal, `.track-foot` meta line |
-| `Rewards.jsx` | Dark reward tiers + `BadgeArt.jsx` seal; vague recognition copy only |
+| `Highlights.jsx` | Quiet 4-up stat rail (value over label, hairline rule each), no cards/icons/badges |
+| `Tracks.jsx` | 3 tracks: accent band, medallion, chips, recognition seal + `.build-cta` pair |
+| `Rewards.jsx` | Dark reward tiers + `BadgeArt.jsx` seal; vague recognition copy only; quiet closing banner (light type on navy) |
 | `BadgeArt.jsx` | Procedural SVG octagonal badge/seal |
 | `Schedule.jsx` | Timeline, **no filters**, per-event color via `TYPE_COLORS` → `--event` / `--event-ink` CSS vars |
 | `FAQ.jsx` | Search + topic chips + single-open rows with accent-bar answers + support card; closed answers measure 0px |
@@ -187,17 +200,19 @@ All in `src/components/`; shared styles in `src/index.css`.
 | `VenueMap.jsx` | Leaflet 1.9.4 (CDN) on OSM tiles, custom red divIcon pin, scroll-wheel zoom off |
 | `PacStrip.jsx` | Ambient chase canvas (`mini` header spots, `side` hero panels), self-healing rAF guard |
 | `PacPlay.jsx` | Modal single-run game: guide/playing/result/done, async submit, private scores |
-| `About.jsx`, `Partners.jsx` | Story + partner wall |
+| `About.jsx` | Story cards on the home page (no standalone `/about` route; `Partners.jsx` is unused) |
 | `Countdown.jsx` | Live countdown to `EVENT_DETAILS.eventTargetDate` |
 | `Reveal.jsx`, `useReveal.js` | One-shot IntersectionObserver entrance (threshold `.18`, fires once) |
-| `ScrollProgress.jsx` | 3px orange→yellow hairline pinned above the header |
+| `ScrollProgress.jsx` | 3px coral hairline pinned above the header |
 | `Cursor.jsx` | Custom arrow + hexagon fairy-dust trail (see §8) |
 
 Primitives (all CSS in `src/index.css`):
 
-- `.ht-btn-primary` — periwinkle `#aebaff` fill, `0 8px 0 #5146d9` shadow,
+- `.ht-btn-primary` — periwinkle `#aebaff` fill, `0 5px 0 #5146d9` shadow,
   mono uppercase, magnetic `--mx/--my` offset on hover. The only primary CTA.
 - `.ht-btn-secondary` — transparent, 2px ink border, same metrics.
+- `.ht-btn-secondary-dark` — cream fill, ink border, `3px 3px 0` shadow; the
+  quiet alternative for second actions.
 - `.ht-tag` — pill, mono, `#292b65` default; schedule tags override the fill
   from `--event`.
 - `.theme-card` — the standard bordered surface with stamp shadow.
@@ -207,11 +222,11 @@ Primitives (all CSS in `src/index.css`):
 ## 8. Motion
 
 Tokens: `--ease-brand: cubic-bezier(.16, 1, .3, 1)`,
-`--dur-fast: 220ms`, `--dur-base: 420ms`, `--dur-slow: 680ms`.
+`--dur-fast: 180ms`, `--dur-base: 340ms`, `--dur-slow: 520ms`.
 
 | Effect | Where | Behavior |
 | --- | --- | --- |
-| Reveal | `.reveal` + `useReveal` | `opacity 0 → 1`, `translate 22px → 0`, `scale .97 → 1`, once per element |
+| Reveal | `.reveal` + `useReveal` | `opacity 0 → 1`, `translate 12px → 0`, `scale .985 → 1`, once per element |
 | Split words | `SplitWords.jsx` | Per-word mask, left→right |
 | Section head | `.section-head.is-visible` | Eyebrow at 40ms, deck at 380ms |
 | Hero deck | `.hero-content > *` | Staggered `hero-deck-reveal`; sponsor lockup at 640ms |
@@ -235,7 +250,7 @@ intercepted anchor clicks, `popstate`, `TITLES` for `document.title`.
 | Path | Page | Title |
 | --- | --- | --- |
 | `/` | `HomePage` | Hacktoberfest Hack Day Bengaluru 2026 |
-| `/about` | `AboutPage` | About — Hack Day Bengaluru |
+| `/about` | `HomePage` alias → scrolls to `#about` | About — Hack Day Bengaluru |
 | `/build` | `BuildPage` | Tracks — Hack Day Bengaluru |
 | `/day` | `DayPage` | Schedule — Hack Day Bengaluru |
 | `/venue` | `VenuePage` | Venue & Map — Hack Day Bengaluru |
@@ -243,7 +258,8 @@ intercepted anchor clicks, `popstate`, `TITLES` for `document.title`.
 | `/volunteer` | redirect | Volunteer — Hack Day Bengaluru → binary.so/EnumX2Q |
 | `/mentor` | redirect | Mentor — Hack Day Bengaluru → binary.so/eGuTA0x |
 
-Nav order: About · Build · Day plan · Venue · FAQ.
+Nav order: Build · Day plan · Venue · FAQ (About lives on the home page, so
+there is no `/about` nav item; the path stays as an alias for old links).
 
 ---
 
@@ -256,7 +272,10 @@ Nav order: About · Build · Day plan · Venue · FAQ.
   copy never quotes a closing hour — it reads **8:30 AM onwards**.
 - Marketing copy does not restate operational deadlines as hype; the schedule
   is the single place timing lives.
-- Eyebrows are 2–3 words, uppercase, mono: `ABOUT THE DAY`, `CHALLENGE TRACKS`.
+- Eyebrows are 2–3 words, uppercase, mono, and **rare**: a page ships with at
+  most one, and most ship with none (`ABOUT THE DAY`, `CHALLENGE TRACKS`).
+- Closing banners (Rewards, Schedule handbook) are quiet: a rule, a
+  sentence-case line, one button — no filled panel, no red type.
 - No keyword-stuffed titles — page titles are "what it is, then event name".
 
 ---
@@ -531,3 +550,52 @@ scripts/screenshot.mjs  Playwright review shots (SHOTS_DIR, preview on :4173)
 - Stamp is deliberately non-interactive (sells, it does not ask for a click).
   It carries nothing but the number: the haul in display face at ~2.1x the
   stamp body, gift glyph scaling alongside, so one line owns the block.
+
+## 28. Quiet revamp (variance 5, motion 3, density 2)
+
+The site was re-read as overwhelm: too many accents, too many stamps, too
+much copy per viewport. This pass keeps the Pac-Man identity and the stamp
+system but spends them, section by section.
+
+- **One stamp scale.** `--stamp-offset: 4px` / press `2px` tokens replace the
+  scattered 7px and 8px offsets; `.ht-card`, `.ht-btn-*`, countdown blocks,
+  venue and badge surfaces all sit on it. Primary button shadow `0 5px 0`.
+- **Type calmed.** `.section-title` is sentence case at 700; `main section h2`
+  caps at `clamp(1.75rem, 3.1vw, 2.6rem)`. Closing-banner headings dropped
+  from uppercase 800 display to sentence-case 700.
+- **Copy cut.** Hero lost the colour squares, manifesto, goodies stamp, facts
+  row and third CTA — the deck now carries the date. Tracks lost the
+  three-step strip (and its CSS); Rewards lost the badge wall (it duplicated
+  the reward cards); About lost its eyebrow, navy tag pills and footer rows;
+  Schedule, FAQ and Venue lost eyebrows and shortened decks/travel bodies.
+  Highlights became a quiet stat rail instead of four icon cards.
+- **Motion dialled down.** Duration tiers 180/340/520ms; `.reveal` travels
+  12px at `.985`; hero parallax amplitude roughly halved; scroll progress is
+  flat coral; the countdown lost its pulsing dot.
+- **Texture.** Body grain 0.075 → 0.03, one layer.
+- **Eyebrows** are now optional and rare — most pages ship with none.
+
+Follow-up corrections in the same spirit:
+
+- **No standalone `/about`.** `AboutPage.jsx` deleted; the path is an alias
+  of `HomePage` that scrolls to `#about`, and the nav/footer links are gone.
+- **/build closing banner contrast.** The Rewards CTA had ink type on the
+  section's navy field; it now uses light type on a white/20 rule.
+- **Mobile hero.** Title floor raised to `clamp(2.35rem, 11.8vw, 5.4rem)`,
+  deck to `1.06rem`, hero CTAs dropped to compact metrics, and the sponsor
+  lockup holds one row at reduced plate/logo sizes.
+- **Certificate attribution.** The Participation Certificate is issued by the
+  official Hacktoberfest team, not the AWS Student Builder Group — fixed in
+  the reward card and the FAQ answer.
+- **Attendance figure.** Highlights reads `100+ Builders`.
+- **Hero colour squares returned.** The four event-colour squares above the
+  title are back as decorative (`aria-hidden`) accents — one small stamp in
+  an otherwise plain hero, in place of the old eyebrow line.
+- **SEO pass.** `index.html` now carries a canonical URL, `theme-color`,
+  `og:locale`, and a `schema.org/Event` JSON-LD block (name, start/end,
+  `EventScheduled`, `OfflineEventAttendanceMode`, Place address, organizer,
+  free `Offer` pointing at MLH). OG/Twitter `url`/`title` point at the site
+  root instead of `/badge` — this is one static shell for every route, so
+  the social preview describes the event, not one page of it.
+  `public/robots.txt` and `public/sitemap.xml` (all seven indexable routes,
+  priorities reflecting importance) ship with the build.

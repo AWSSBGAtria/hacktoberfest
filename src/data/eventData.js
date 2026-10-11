@@ -36,7 +36,7 @@ export const HIGHLIGHTS = [
   },
   {
     icon: "Users",
-    value: "50+ Builders",
+    value: "100+ Builders",
     label: "Developers, Students & Creators",
     badge: "In-Person",
   },
@@ -143,9 +143,9 @@ export const REWARDS = [
   {
     group: "Recognition",
     title: "Certificate of Participation",
-    category: "Host Recognition",
-    description: "A digital certificate of participation issued by AWS Student Builder Group at Atria Institute of Technology for every builder who completes the day.",
-    tag: "From Your Hosts",
+    category: "Official Recognition",
+    description: "A digital certificate of participation issued by the official Hacktoberfest team for every builder who completes the day.",
+    tag: "From Hacktoberfest",
     seal: "CERT",
     sealColor: "#8bb2de",
   },
@@ -276,7 +276,7 @@ export const FAQS = [
   {
     category: "Rewards",
     q: "What do I receive if I don't win a track prize?",
-    a: "All participants who attend and build on the day receive exclusive Hacktoberfest 2026 goodies, a digital DEV participation badge, and a certificate of participation.",
+    a: "All participants who attend and build on the day receive exclusive Hacktoberfest 2026 goodies, a digital DEV participation badge, and a certificate of participation issued by the official Hacktoberfest team.",
   },
 ];
 

@@ -2,7 +2,6 @@ import React from 'react';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import ScrollProgress from './components/ScrollProgress';
-import AboutPage from './pages/AboutPage';
 import HomePage from './pages/HomePage';
 import BuildPage from './pages/BuildPage';
 import DayPage from './pages/DayPage';
@@ -33,8 +32,10 @@ function RouteView({ path }) {
   switch (path) {
     case '/':
       return <HomePage />;
+    // No standalone about page any more: the About section lives on the home
+    // page, so old /about links land there and settle on the section itself.
     case '/about':
-      return <AboutPage />;
+      return <HomePage />;
     case '/build':
       return <BuildPage />;
     case '/day':
@@ -112,6 +113,12 @@ export default function App() {
 
     const target = REDIRECTS[path];
     if (target) window.location.replace(target);
+
+    // /about is an alias of the home page's About section, so land on it
+    // rather than at the top of the hero.
+    if (path === '/about') {
+      requestAnimationFrame(() => document.getElementById('about')?.scrollIntoView());
+    }
   }, [path]);
 
   // Swap the route through the View Transitions API so the header and footer

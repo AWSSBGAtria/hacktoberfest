@@ -11,7 +11,6 @@ export default function Navbar({ path = '/' }) {
   };
 
   const navLinks = [
-    { name: 'About', href: '/about' },
     { name: 'Build', href: '/build' },
     { name: 'Day plan', href: '/day' },
     { name: 'Venue', href: '/venue' },

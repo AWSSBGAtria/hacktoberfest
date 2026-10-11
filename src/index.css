@@ -27,9 +27,14 @@
 
     /* Motion tokens: one easing curve, three duration tiers, used everywhere instead of ad hoc values. */
     --ease-brand: cubic-bezier(.16, 1, .3, 1);
-    --dur-fast: 220ms;
-    --dur-base: 420ms;
-    --dur-slow: 680ms;
+    --dur-fast: 180ms;
+    --dur-base: 340ms;
+    --dur-slow: 520ms;
+
+    /* Stamp scale: one small offset everywhere. Depth stays hard-edged and
+       print-like, but it no longer shouts from every surface. */
+    --stamp-offset: 4px;
+    --stamp-offset-press: 2px;
 
     /* Shadow tokens: the site's signature "stamp" shadow, reused instead of scattered hex values. */
     --stamp: #671912;
@@ -52,18 +57,17 @@ body {
   overflow-x: clip;
 }
 
-/* Authentic Hacktoberfest dot-matrix subtle texture overlay */
+/* Print grain: present, barely there - a whisper of texture, not a screen door. */
 body::after {
   position: fixed;
   z-index: 1000;
   inset: 0;
   background-image:
-    radial-gradient(circle, rgba(24, 37, 34, 0.6) 0 0.45px, transparent 0.65px),
-    radial-gradient(circle, rgba(247, 247, 242, 0.6) 0 0.35px, transparent 0.55px);
-  background-position: 0 0, 4px 5px;
-  background-size: 7px 7px, 11px 11px;
+    radial-gradient(circle, rgba(24, 37, 34, 0.6) 0 0.45px, transparent 0.65px);
+  background-position: 0 0;
+  background-size: 9px 9px;
   content: '';
-  opacity: 0.075;
+  opacity: 0.03;
   pointer-events: none;
   mix-blend-mode: multiply;
 }
@@ -99,7 +103,7 @@ body::after {
   border: 2px solid #10201d;
   border-radius: 0;
   background: #aebaff;
-  box-shadow: 0 8px 0 #5146d9;
+  box-shadow: 0 5px 0 #5146d9;
   cursor: var(--cursor-hand);
   font-family: var(--font-mono);
   font-size: 0.85rem;
@@ -113,8 +117,8 @@ body::after {
 
 .ht-btn-primary:hover {
   background: #c3caff;
-  transform: translate(calc(var(--mx, 0px) + 3px), calc(var(--my, 0px) + 3px));
-  box-shadow: 0 3px 0 #5146d9;
+  transform: translate(calc(var(--mx, 0px) + 2px), calc(var(--my, 0px) + 2px));
+  box-shadow: 0 2px 0 #5146d9;
 }
 
 .ht-btn-secondary {
@@ -129,7 +133,7 @@ body::after {
   border: 2px solid rgba(255, 255, 255, 0.72);
   border-radius: 0;
   background: transparent;
-  box-shadow: 0 8px 0 rgba(81, 70, 217, .55);
+  box-shadow: 0 5px 0 rgba(81, 70, 217, .4);
   cursor: var(--cursor-hand);
   font-family: var(--font-mono);
   font-size: 0.85rem;
@@ -144,8 +148,8 @@ body::after {
 .ht-btn-secondary:hover {
   color: #10201d;
   background: #f7f7f2;
-  transform: translate(calc(var(--mx, 0px) + 3px), calc(var(--my, 0px) + 3px));
-  box-shadow: 0 3px 0 rgba(81, 70, 217, .55);
+  transform: translate(calc(var(--mx, 0px) + 2px), calc(var(--my, 0px) + 2px));
+  box-shadow: 0 2px 0 rgba(81, 70, 217, .4);
 }
 
 .ht-btn-primary.is-compact,
@@ -153,21 +157,21 @@ body::after {
   min-height: 42px;
   padding: 9px 16px;
   font-size: 0.72rem;
-  box-shadow: 0 5px 0 #5146d9;
+  box-shadow: 0 3px 0 #5146d9;
 }
 
 .ht-btn-secondary.is-compact {
-  box-shadow: 0 5px 0 rgba(81, 70, 217, .55);
+  box-shadow: 0 3px 0 rgba(81, 70, 217, .4);
 }
 
 .ht-btn-primary.is-compact:hover,
 .ht-btn-secondary.is-compact:hover {
   transform: translate(calc(var(--mx, 0px) + 2px), calc(var(--my, 0px) + 2px));
-  box-shadow: 0 2px 0 #5146d9;
+  box-shadow: 0 1px 0 #5146d9;
 }
 
 .ht-btn-secondary.is-compact:hover {
-  box-shadow: 0 2px 0 rgba(81, 70, 217, .55);
+  box-shadow: 0 1px 0 rgba(81, 70, 217, .4);
 }
 
 /* Secondary button for light surfaces (the base secondary is cream text for
@@ -184,7 +188,7 @@ body::after {
   border: 2px solid #10201d;
   border-radius: 0;
   background: #f7f7f2;
-  box-shadow: 4px 4px 0 #10201d;
+  box-shadow: 3px 3px 0 #10201d;
   cursor: var(--cursor-hand);
   font-family: var(--font-mono);
   font-size: 0.85rem;
@@ -197,14 +201,14 @@ body::after {
 }
 
 .ht-btn-secondary-dark:hover {
-  background: #f5b726;
-  transform: translate(-2px, -2px);
-  box-shadow: 6px 6px 0 #10201d;
+  background: #e4e5da;
+  transform: translate(-1px, -1px);
+  box-shadow: 4px 4px 0 #10201d;
 }
 
 .ht-btn-secondary-dark:active {
   transform: translate(2px, 2px);
-  box-shadow: 2px 2px 0 #10201d;
+  box-shadow: 1px 1px 0 #10201d;
 }
 
 button:disabled,
@@ -225,13 +229,13 @@ a[aria-disabled="true"] {
   border: 2px solid #10201d;
   border-radius: 0;
   background: #f7f7f2;
-  box-shadow: 7px 7px 0 var(--stamp);
+  box-shadow: var(--stamp-offset) var(--stamp-offset) 0 var(--stamp);
   transition: transform var(--dur-fast) var(--ease-brand), box-shadow var(--dur-fast) var(--ease-brand);
 }
 
 .ht-card:hover {
-  transform: translate(3px, 3px);
-  box-shadow: 4px 4px 0 var(--stamp);
+  transform: translate(var(--stamp-offset-press), var(--stamp-offset-press));
+  box-shadow: var(--stamp-offset-press) var(--stamp-offset-press) 0 var(--stamp);
 }
 
 .ht-tag {
@@ -258,7 +262,7 @@ a[aria-disabled="true"] {
 
 .theme-card:hover,
 .theme-card:focus-within {
-  transform: translate(3px, 3px);
+  transform: translate(var(--stamp-offset-press), var(--stamp-offset-press));
 }
 
 /* Static surface: same border/shadow language, but no lift (containers   */
@@ -278,8 +282,8 @@ main > section:not(.hero-shell) {
 }
 
 main section h2 {
-  font-size: clamp(2rem, 3.8vw, 3.2rem) !important;
-  line-height: 0.98 !important;
+  font-size: clamp(1.75rem, 3.1vw, 2.6rem) !important;
+  line-height: 1.04 !important;
   text-wrap: balance;
 }
 
@@ -372,9 +376,9 @@ main section h3 {
 .section-title {
   margin: 0;
   font-family: var(--font-heading);
-  font-weight: 800;
-  letter-spacing: -0.02em;
-  text-transform: uppercase;
+  font-weight: 700;
+  letter-spacing: -0.015em;
+  text-transform: none;
 }
 
 .section-title em {
@@ -452,83 +456,12 @@ main section h3 {
   font-style: normal;
 }
 
-.hero-manifesto {
-  margin: -0.4rem auto 1.55rem;
-  color: #c6caf0;
-  font-family: var(--font-mono);
-  font-size: clamp(.78rem, 1.2vw, .95rem);
-  letter-spacing: .1em;
-  text-transform: uppercase;
-  animation: hero-manifesto-reveal var(--dur-slow) var(--ease-brand) 260ms both;
-}
-
 .hero-deck {
   max-width: 610px !important;
   margin-left: auto !important;
   margin-right: auto !important;
-  font-size: clamp(1rem, 1.5vw, 1.25rem) !important;
-  animation: hero-deck-reveal var(--dur-slow) var(--ease-brand) 340ms both;
-}
-
-.hero-facts {
-  margin-inline: auto;
-  border-color: rgba(255, 255, 255, .35) !important;
-  background: rgba(24, 22, 58, .48) !important;
-  box-shadow: 4px 4px 0 rgba(13, 12, 35, .7) !important;
-  animation: hero-deck-reveal var(--dur-slow) var(--ease-brand) 420ms both;
-}
-
-/* The goodies stamp: one saturated yellow block in an otherwise cream-on-navy
-   hero, so the haul reads before the logistics do. The number carries the
-   whole line - display face at roughly twice the stamp body - and the block
-   stays non-interactive on purpose: it sells, it does not ask for a click. */
-.hero-goodies {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.7rem;
-  width: fit-content;
-  max-width: 100%;
-  margin: 0 auto 1.35rem;
-  padding: 0.55rem 1.5rem 0.7rem;
-  background: #f5b726;
-  color: #10201d;
-  border: 2px solid #10201d;
-  box-shadow: 6px 6px 0 #10201d;
-  font-family: var(--font-mono);
-  font-size: clamp(1rem, 1.7vw, 1.3rem);
-  font-weight: 700;
-  letter-spacing: .04em;
-  text-transform: uppercase;
-  animation: hero-deck-reveal var(--dur-slow) var(--ease-brand) 380ms both;
-}
-
-.hero-goodies-copy {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  justify-content: center;
-  gap: 0.15em 0.45em;
-}
-
-/* Keeps the claim intact when the stamp wraps: the number owns line one,
-   "worth of prizes" drops as a whole unit rather than breaking mid-phrase. */
-.hero-goodies-sub {
-  white-space: nowrap;
-}
-
-.hero-goodies strong {
-  font-family: 'Bricolage Grotesque', 'Manrope', ui-sans-serif, system-ui, sans-serif;
-  font-size: 2.1em;
-  font-weight: 800;
-  letter-spacing: -0.03em;
-  line-height: 1;
-}
-
-.hero-goodies-icon {
-  flex-shrink: 0;
-  width: clamp(1.15rem, 2vw, 1.6rem);
-  height: clamp(1.15rem, 2vw, 1.6rem);
+  font-size: clamp(1rem, 1.5vw, 1.15rem) !important;
+  animation: hero-deck-reveal var(--dur-slow) var(--ease-brand) 240ms both;
 }
 
 .hero-partners {
@@ -536,11 +469,11 @@ main section h3 {
 }
 
 .hero-content > .flex {
-  animation: hero-deck-reveal var(--dur-slow) var(--ease-brand) 500ms both;
+  animation: hero-deck-reveal var(--dur-slow) var(--ease-brand) 360ms both;
 }
 
 .hero-content > .hero-partners {
-  animation: hero-deck-reveal var(--dur-slow) var(--ease-brand) 640ms both;
+  animation: hero-deck-reveal var(--dur-slow) var(--ease-brand) 460ms both;
 }
 
 .hero-decoration {
@@ -553,13 +486,8 @@ main section h3 {
   to { clip-path: inset(0 0 0 0); transform: translateY(0); }
 }
 
-@keyframes hero-manifesto-reveal {
-  from { opacity: 0; letter-spacing: .3em; transform: translateY(.6rem); }
-  to { opacity: 1; letter-spacing: .1em; transform: translateY(0); }
-}
-
 @keyframes hero-deck-reveal {
-  from { opacity: 0; transform: translateY(1rem); }
+  from { opacity: 0; transform: translateY(.6rem); }
   to { opacity: 1; transform: translateY(0); }
 }
 
@@ -962,13 +890,6 @@ button:active, a:active {
   min-width: 0;
 }
 
-.schedule-index {
-  color: rgba(52, 67, 63, .75);
-  font-family: var(--font-mono);
-  font-size: .68rem;
-  letter-spacing: .06em;
-}
-
 .schedule-range {
   color: #34433f;
   font-family: var(--font-mono);
@@ -1044,13 +965,49 @@ button:active, a:active {
     max-width: 100%;
     /* Sized so the single unbreakable word "HACKTOBERFEST" always fits the
        viewport: 15vw clipped it at 390px, so the floor is clamped too. */
-    font-size: clamp(2.1rem, 10.5vw, 5.4rem) !important;
+    font-size: clamp(2.35rem, 11.8vw, 5.4rem) !important;
   }
 
-  .hero-manifesto {
-    max-width: 22rem;
-    line-height: 1.5;
+  /* The deck is the only body copy in the hero; give it a little more
+     presence on a small screen instead of leaving it at desktop-floor size. */
+  .hero-deck {
+    font-size: 1.06rem !important;
+    max-width: 26rem !important;
   }
+
+  /* Phones don't need desktop-weight CTAs: drop the hero pair to compact. */
+  .hero-content > .flex > .ht-btn-primary,
+  .hero-content > .flex > .ht-btn-secondary {
+    min-height: 44px;
+    padding: 10px 18px;
+    font-size: 0.75rem;
+  }
+
+  /* Sponsor lockup stays on one row: two plates and their labels side by
+     side, scaled down rather than wrapped into a stack. Specificity is
+     bumped because the base lockup rules sit later in this file. */
+  .hero-content > .hero-partners {
+    flex-wrap: nowrap;
+    gap: .6rem .75rem;
+  }
+
+  .hero-partners .hero-sponsor-divider {
+    height: 38px;
+  }
+
+  .hero-partners .hero-sponsor-label {
+    font-size: .52rem;
+  }
+
+  .hero-partners .hero-sponsor-plate {
+    gap: .5rem;
+    padding: .4rem .55rem;
+    box-shadow: 3px 3px 0 rgba(13, 12, 35, .7);
+  }
+
+  .hero-partners .hero-logo-mlh { height: 24px; }
+  .hero-partners .hero-logo-dev { height: 20px; width: 20px; }
+  .hero-partners .hero-logo-do  { height: 18px; }
 
   .venue-map,
   .venue-map .venue-ol {
@@ -1412,55 +1369,6 @@ button:active, a:active {
   color: #10201d;
 }
 
-/* Hand-bookmarked "how the day pays out" strip above the track grid. */
-.build-steps {
-  display: grid;
-  grid-template-columns: 1fr;
-  margin-bottom: clamp(2.5rem, 4vw, 3.5rem);
-  background: #f7f7f2;
-  border: 2px solid #10201d;
-  box-shadow: 7px 7px 0 #671912;
-}
-
-.build-step {
-  display: flex;
-  gap: .95rem;
-  align-items: flex-start;
-  padding: 1.15rem 1.25rem;
-  border-bottom: 2px solid #10201d;
-}
-
-.build-step:last-child {
-  border-bottom: 0;
-}
-
-.build-step-num {
-  flex: none;
-  padding: .3rem .45rem;
-  background: #e53927;
-  color: #f7f7f2;
-  border: 2px solid #10201d;
-  font-family: var(--font-mono);
-  font-size: .7rem;
-  font-weight: 700;
-  line-height: 1;
-}
-
-.build-step-title {
-  margin: 0 0 .25rem;
-  font-family: var(--font-heading);
-  font-size: .95rem;
-  font-weight: 800;
-  letter-spacing: -.01em;
-}
-
-.build-step-body {
-  margin: 0;
-  font-size: .82rem;
-  line-height: 1.55;
-  color: #34433f;
-}
-
 .build-cta {
   display: flex;
   flex-wrap: wrap;
@@ -1474,21 +1382,6 @@ button:active, a:active {
   font-family: var(--font-mono);
   font-size: .75rem;
   color: #34433f;
-}
-
-@media (min-width: 768px) {
-  .build-steps {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
-
-  .build-step {
-    border-bottom: 0;
-    border-right: 2px solid #10201d;
-  }
-
-  .build-step:last-child {
-    border-right: 0;
-  }
 }
 
 /* ---- Track card: accent band, watermark number, medallion, prize strip -- */
@@ -1641,58 +1534,7 @@ button:active, a:active {
   color: #10201d;
 }
 
-.track-foot {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: .35rem 1rem;
-  padding: .85rem 1.6rem;
-  background: #e4e5da;
-  border-top: 2px solid #10201d;
-  font-family: var(--font-mono);
-  font-size: .66rem;
-  letter-spacing: .04em;
-  color: #34433f;
-}
-
 /* ---- Rewards: dark vault, tier rails, seal-stamped prize cards ---------- */
-
-.badge-wall {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 1.5rem 1rem;
-  margin-bottom: clamp(2.75rem, 5vw, 4.5rem);
-  padding: 1.75rem 1.25rem;
-  background: #191745;
-  border: 2px solid #0d0c24;
-  box-shadow: 7px 7px 0 #0d0c24;
-}
-
-.badge-item {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: .75rem;
-  text-align: center;
-}
-
-.badge-name {
-  margin: 0;
-  color: #c6caf0;
-  font-family: var(--font-mono);
-  font-size: .66rem;
-  font-weight: 700;
-  letter-spacing: .06em;
-  line-height: 1.4;
-  text-transform: uppercase;
-}
-
-@media (min-width: 1024px) {
-  .badge-wall {
-    grid-template-columns: repeat(6, minmax(0, 1fr));
-    padding: 2rem 1.5rem;
-  }
-}
 
 .reward-tier {
   display: flex;
@@ -1709,10 +1551,9 @@ button:active, a:active {
   margin: 0;
   color: #f7f7f2;
   font-family: var(--font-heading);
-  font-size: 1.15rem;
-  font-weight: 800;
+  font-size: 1.1rem;
+  font-weight: 700;
   letter-spacing: -.01em;
-  text-transform: uppercase;
 }
 
 .reward-tier-note {
@@ -1838,8 +1679,8 @@ button:active, a:active {
 
 .reveal {
   opacity: 0;
-  translate: 0 22px;
-  scale: .97;
+  translate: 0 12px;
+  scale: .985;
   transition:
     opacity var(--dur-slow) var(--ease-brand) var(--reveal-delay, 0ms),
     translate var(--dur-slow) var(--ease-brand) var(--reveal-delay, 0ms),
@@ -1908,7 +1749,7 @@ button:active, a:active {
   z-index: 60;
   width: 100%;
   height: 3px;
-  background: linear-gradient(90deg, #ff7a1a, #f5b726);
+  background: #e97b77;
   transform: scaleX(0);
   transform-origin: 0 50%;
   pointer-events: none;

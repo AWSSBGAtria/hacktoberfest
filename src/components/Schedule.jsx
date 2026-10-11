@@ -1,5 +1,5 @@
 import React from 'react';
-import { BookOpen, ArrowRight } from 'lucide-react';
+import { BookOpen } from 'lucide-react';
 import { SCHEDULE } from '../data/eventData';
 import Reveal from './Reveal';
 import SectionHead from './SectionHead';
@@ -23,22 +23,15 @@ export default function Schedule() {
       <div className="shell">
         {/* Intro */}
         <SectionHead
-          eyebrow="TIMELINE · OCTOBER 23, 2026"
           title={<>The Hack Day Schedule</>}
           accent="from morning kickoff to awards."
           pacColor="#e53927"
-          deck={
-            <>
-              <p>
-                Doors open at 8:30 AM for check-in and badge pickup, and the day runs through the awards at 7:00 PM. Mentors and organizers will be on deck throughout to support every builder.
-              </p>
-            </>
-          }
+          deck="Doors open at 8:30 AM for check-in; the day runs through awards at 7:00 PM, with mentors on deck throughout."
         />
 
         {/* Continuous event flow */}
         <div className="schedule-flow">
-          {SCHEDULE.map((item, index) => {
+          {SCHEDULE.map((item) => {
             const [event, eventInk] = TYPE_COLORS[item.type] || ['#10201d', '#f7f7f2'];
             return (
               <Reveal
@@ -56,7 +49,6 @@ export default function Schedule() {
 
                   <div className="schedule-aside">
                     <time className="schedule-range" dateTime={item.time}>{item.time}</time>
-                    <span className="schedule-index">{String(index + 1).padStart(2, '0')}</span>
                   </div>
 
                   <div className="schedule-main">
@@ -73,18 +65,16 @@ export default function Schedule() {
           })}
         </div>
 
-        {/* Participant Handbook callout - the day's rulebook, right where
-            participants finish reading the day itself. */}
+        {/* Participant Handbook callout, kept to the same quiet register as
+            every other closing banner on the site. */}
         <Reveal className="mt-12 sm:mt-16">
-          <div className="theme-cta p-8 sm:p-12 bg-[#f7f7f2] text-[#10201d] border-2 border-[#10201d] shadow-[7px_7px_0_#e53927] hover:shadow-[4px_4px_0_#e53927] hover:translate-x-[3px] hover:translate-y-[3px] flex flex-col md:flex-row items-center justify-between gap-6">
+          <div className="theme-cta pt-8 border-t-2 border-[#10201d] flex flex-col md:flex-row items-center justify-between gap-6">
             <div className="max-w-xl text-center md:text-left">
-              <span className="ht-tag mb-3 inline-block">BEFORE YOU BUILD</span>
-              <h3 className="font-display font-extrabold text-2xl sm:text-4xl uppercase tracking-tight text-[#10201d] mb-2">
-                Read the Participant Handbook
+              <h3 className="font-display font-bold text-xl sm:text-2xl text-[#10201d] mb-2">
+                Read the participant handbook
               </h3>
-              <p className="text-sm sm:text-base text-[#34433f] font-sans">
-                Rules, team sizes, judging criteria, code of conduct, and the
-                day-of checklist - everything you need for October 23, in one PDF.
+              <p className="text-sm text-[#34433f] font-sans">
+                Rules, team sizes, judging criteria and the day-of checklist, in one PDF.
               </p>
             </div>
 
@@ -92,11 +82,10 @@ export default function Schedule() {
               href="/docs/Participant_Handbook.pdf"
               target="_blank"
               rel="noopener noreferrer"
-              className="ht-btn-primary whitespace-nowrap text-sm"
+              className="ht-btn-secondary-dark whitespace-nowrap text-sm"
             >
               <BookOpen className="w-4 h-4 mr-2" />
-              <span>View Handbook</span>
-              <ArrowRight className="w-4 h-4 ml-2" />
+              <span>View handbook</span>
             </a>
           </div>
         </Reveal>

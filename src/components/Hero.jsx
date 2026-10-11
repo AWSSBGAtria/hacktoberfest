@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import { EVENT_DETAILS } from '../data/eventData';
 import { triggerFestiveConfetti } from '../utils/confetti';
 import PacStrip from './PacStrip';
-import { ArrowRight, MapPin, Calendar, Clock, Gift, ExternalLink } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 
 export default function Hero() {
   const leftRef = useRef(null);
@@ -27,11 +27,11 @@ export default function Hero() {
       if (scroll > window.innerHeight * 1.2) return;
       if (leftRef.current) {
         leftRef.current.style.transform =
-          `translate3d(${(-mx * 18).toFixed(1)}px, ${(scroll * 0.22 - my * 14).toFixed(1)}px, 0)`;
+          `translate3d(${(-mx * 8).toFixed(1)}px, ${(scroll * 0.12 - my * 6).toFixed(1)}px, 0)`;
       }
       if (rightRef.current) {
         rightRef.current.style.transform =
-          `translate3d(${(mx * 18).toFixed(1)}px, ${(scroll * 0.34 + my * 14).toFixed(1)}px, 0)`;
+          `translate3d(${(mx * 8).toFixed(1)}px, ${(scroll * 0.18 + my * 6).toFixed(1)}px, 0)`;
       }
     };
     const request = () => {
@@ -92,9 +92,8 @@ export default function Hero() {
       <PacStrip variant="side" salt="left" className="pac-side pac-side-left" />
       <PacStrip variant="side" salt="right" className="pac-side pac-side-right" />
 
-      <div className="hero-content relative z-10 mx-auto px-4 sm:px-8 lg:px-12 pb-20 sm:pb-28">
-        {/* The four event colours, standing in for the old date eyebrow -
-            date, time and venue already live in the facts row below. */}
+      <div className="hero-content relative z-10 mx-auto px-4 sm:px-8 lg:px-12 pb-16 sm:pb-24">
+        {/* The four event colours — a quiet stand-in for an eyebrow. Decorative. */}
         <div className="flex items-center justify-center gap-1.5 mb-5" aria-hidden="true">
           <span className="w-2.5 h-2.5 bg-[#e53927]" />
           <span className="w-2.5 h-2.5 bg-[#8bb2de]" />
@@ -108,40 +107,12 @@ export default function Hero() {
           <span className="hero-title-line hero-title-subline">Hack Day <em>Bengaluru</em></span>
         </h1>
 
-        <p className="hero-manifesto">AI and open source belong to everyone.</p>
-
-        {/* Subtitle / Deck */}
+        {/* One line of context: what it is, who runs it, when. */}
         <p className="hero-deck text-base sm:text-xl text-[#f7f7f2] leading-relaxed mb-8 font-sans">
-          Join the <strong className="font-bold underline decoration-[#f5b726] decoration-2 underline-offset-4">AWS Student Builder Group</strong> at <strong className="font-bold">Atria Institute of Technology</strong> for a full day of open-source building, Google Gemma 4 AI exploration, and hands-on cloud development.
+          A full day of open-source building at{' '}
+          <strong className="font-bold">Atria Institute of Technology</strong>, with
+          the AWS Student Builder Group. October 23, 2026.
         </p>
-
-        {/* The haul: one loud yellow stamp so the goodies number is the
-            first thing a scanner catches in the hero. */}
-        <div className="hero-goodies">
-          <Gift className="hero-goodies-icon" aria-hidden="true" />
-          <span className="hero-goodies-copy">
-            <strong>{EVENT_DETAILS.goodiesWorth}</strong>
-            <span className="hero-goodies-sub">worth of prizes</span>
-          </span>
-        </div>
-
-        {/* Event Quick Facts Badges */}
-        <div className="hero-facts inline-flex flex-wrap items-center justify-center gap-3 sm:gap-6 px-4 py-2.5 text-xs font-mono text-[#f7f7f2] mb-10">
-          <span className="flex items-center gap-1.5">
-            <Calendar className="w-4 h-4 text-[#f5b726]" />
-            October 23, 2026
-          </span>
-          <span className="text-white/40">·</span>
-          <span className="flex items-center gap-1.5">
-            <Clock className="w-4 h-4 text-[#8bb2de]" />
-            8:30 AM onwards
-          </span>
-          <span className="text-white/40">·</span>
-          <span className="flex items-center gap-1.5">
-            <MapPin className="w-4 h-4 text-[#e97b77]" />
-            Atria IT, Hebbal, Bengaluru
-          </span>
-        </div>
 
         {/* Hero Actions */}
         <div className="flex flex-col sm:flex-row flex-wrap items-center justify-center gap-4 max-w-2xl mx-auto mb-10">
@@ -163,11 +134,6 @@ export default function Hero() {
             className="ht-btn-secondary w-full sm:w-auto text-sm"
           >
             Join WhatsApp Group
-          </a>
-
-          <a href="/badge" className="ht-btn-secondary w-full sm:w-auto text-sm">
-            <span>Get your badge</span>
-            <ArrowRight className="w-4 h-4 ml-2" />
           </a>
         </div>
 

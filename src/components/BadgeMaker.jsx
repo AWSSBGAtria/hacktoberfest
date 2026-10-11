@@ -524,7 +524,7 @@ export default function BadgeMaker() {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8 items-stretch">
           {/* Make it yours */}
-          <div className="border-2 border-[#10201d] bg-[#f7f7f2] shadow-[7px_7px_0_#671912] p-6 sm:p-7 grid gap-5 content-start">
+          <div className="border-2 border-[#10201d] bg-[#f7f7f2] shadow-[4px_4px_0_#671912] p-6 sm:p-7 grid gap-5 content-start">
             <div>
               <p className="font-mono text-xs font-bold uppercase tracking-[0.08em] mb-2">
                 1 · Your photo
@@ -575,7 +575,7 @@ export default function BadgeMaker() {
                   setAvatarSeed(randomSeed());
                   setPhotoError('');
                 }}
-                className="w-full mt-3 inline-flex items-center justify-center gap-2 px-4 py-2.5 font-mono text-[11px] font-bold uppercase border-2 border-[#10201d] bg-[#f7f7f2] text-[#10201d] hover:bg-[#f5b726] shadow-[4px_4px_0_#10201d]"
+                className="w-full mt-3 inline-flex items-center justify-center gap-2 px-4 py-2.5 font-mono text-[11px] font-bold uppercase border-2 border-[#10201d] bg-[#f7f7f2] text-[#10201d] hover:bg-[#e4e5da] shadow-[3px_3px_0_#10201d]"
               >
                 <Dices className="w-3.5 h-3.5" aria-hidden="true" />
                 <span>Generate random avatar</span>
@@ -617,7 +617,7 @@ export default function BadgeMaker() {
           </div>
 
           {/* Live preview */}
-          <div className="border-2 border-[#10201d] bg-[#211f47] shadow-[7px_7px_0_#671912] p-4 sm:p-6 grid content-center">
+          <div className="border-2 border-[#10201d] bg-[#211f47] shadow-[4px_4px_0_#671912] p-4 sm:p-6 grid content-center">
             <canvas
               ref={canvasRef}
               width={W}
@@ -628,7 +628,7 @@ export default function BadgeMaker() {
           </div>
 
           {/* Take it with you */}
-          <div className="border-2 border-[#10201d] bg-[#f7f7f2] shadow-[7px_7px_0_#671912] p-6 sm:p-7 grid gap-3 content-start">
+          <div className="border-2 border-[#10201d] bg-[#f7f7f2] shadow-[4px_4px_0_#671912] p-6 sm:p-7 grid gap-3 content-start">
             <p className="font-mono text-xs font-bold uppercase tracking-[0.08em]">
               3 · Take it with you
             </p>
@@ -639,7 +639,7 @@ export default function BadgeMaker() {
             <button
               type="button"
               onClick={shareLinkedIn}
-              className="px-6 py-3.5 font-mono text-xs font-bold border-2 border-[#10201d] bg-[#f7f7f2] text-[#10201d] hover:bg-[#e4e5da] shadow-[4px_4px_0_#10201d] flex items-center justify-center gap-2 w-full"
+              className="px-6 py-3.5 font-mono text-xs font-bold border-2 border-[#10201d] bg-[#f7f7f2] text-[#10201d] hover:bg-[#e4e5da] shadow-[3px_3px_0_#10201d] flex items-center justify-center gap-2 w-full"
             >
               <ArrowUpRight className="w-4 h-4 text-[#e53927]" />
               <span>Share on LinkedIn</span>
@@ -648,7 +648,7 @@ export default function BadgeMaker() {
               <button
                 type="button"
                 onClick={shareNative}
-                className="px-6 py-3.5 font-mono text-xs font-bold border-2 border-[#10201d] bg-[#f7f7f2] text-[#10201d] hover:bg-[#e4e5da] shadow-[4px_4px_0_#10201d] flex items-center justify-center gap-2 w-full"
+                className="px-6 py-3.5 font-mono text-xs font-bold border-2 border-[#10201d] bg-[#f7f7f2] text-[#10201d] hover:bg-[#e4e5da] shadow-[3px_3px_0_#10201d] flex items-center justify-center gap-2 w-full"
               >
                 <Share2 className="w-4 h-4 text-[#e53927]" />
                 <span>Share image to apps</span>
@@ -661,7 +661,7 @@ export default function BadgeMaker() {
           </div>
 
           {/* Caption */}
-          <div className="border-2 border-[#10201d] bg-[#f7f7f2] shadow-[7px_7px_0_#671912] p-6 sm:p-7">
+          <div className="border-2 border-[#10201d] bg-[#f7f7f2] shadow-[4px_4px_0_#671912] p-6 sm:p-7">
             <div className="flex items-center justify-between gap-3 mb-3">
               <p className="font-mono text-xs font-bold uppercase tracking-[0.08em]">
                 Post caption

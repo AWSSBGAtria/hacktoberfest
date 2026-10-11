@@ -35,22 +35,22 @@ export default function Countdown() {
   }, []);
 
   const timeBlocks = [
-    { label: 'Days', value: timeLeft.days, color: 'text-[#e53927]' },
-    { label: 'Hours', value: timeLeft.hours, color: 'text-[#10201d]' },
-    { label: 'Minutes', value: timeLeft.minutes, color: 'text-[#10201d]' },
-    { label: 'Seconds', value: timeLeft.seconds, color: 'text-[#e53927]' },
+    { label: 'Days', value: timeLeft.days },
+    { label: 'Hours', value: timeLeft.hours },
+    { label: 'Minutes', value: timeLeft.minutes },
+    { label: 'Seconds', value: timeLeft.seconds },
   ];
 
   return (
-    <div className="countdown-strip bg-[#e4e5da] border-b-2 border-[#10201d] py-8">
+    <div className="countdown-strip bg-[#e4e5da] border-b-2 border-[#10201d] py-7">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex flex-col md:flex-row items-center justify-between gap-6">
+        <div className="flex flex-col md:flex-row items-center justify-between gap-5">
           <div className="text-center md:text-left">
-            <div className="font-mono text-xs text-[#34433f] uppercase font-bold tracking-wider mb-1 flex items-center justify-center md:justify-start gap-2">
-              <span className="w-2.5 h-2.5 bg-[#e53927] inline-block animate-pulse" />
-              Event Starts In
+            <div className="font-mono text-[11px] text-[#34433f] uppercase font-bold tracking-[0.12em] mb-1 flex items-center justify-center md:justify-start gap-2">
+              <span className="w-2 h-2 bg-[#e53927] inline-block" aria-hidden="true" />
+              Event starts in
             </div>
-            <div className="font-display font-bold text-2xl text-[#10201d]">
+            <div className="font-display font-bold text-lg sm:text-xl text-[#10201d]">
               October 23, 2026 · 8:30 AM IST
             </div>
           </div>
@@ -59,12 +59,12 @@ export default function Countdown() {
             {timeBlocks.map((block) => (
               <div
                 key={block.label}
-                className="bg-[#f7f7f2] border-2 border-[#10201d] shadow-[4px_4px_0_#671912] p-2.5 sm:p-4 text-center min-w-[70px] sm:min-w-[95px]"
+                className="bg-[#f7f7f2] border-2 border-[#10201d] shadow-[3px_3px_0_#671912] p-2.5 sm:p-3.5 text-center min-w-[64px] sm:min-w-[88px]"
               >
-                <div className={`font-display font-extrabold text-2xl sm:text-4xl ${block.color} leading-none tracking-tight`}>
+                <div className="font-display font-bold text-xl sm:text-3xl text-[#10201d] leading-none tracking-tight">
                   {String(block.value).padStart(2, '0')}
                 </div>
-                <div className="font-mono text-[10px] sm:text-xs text-[#34433f] uppercase font-bold mt-1">
+                <div className="font-mono text-[10px] sm:text-[11px] text-[#34433f] uppercase font-bold mt-1.5">
                   {block.label}
                 </div>
               </div>

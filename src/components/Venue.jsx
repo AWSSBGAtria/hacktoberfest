@@ -20,12 +20,12 @@ export default function Venue() {
   // Grounded October 2026: no metro station is open in Hebbal yet (the Blue
   // Line stop is still under construction). Bus numbers below are BMTC routes
   // verified against current timetables - reconfirm on the BMTC app before
-  // leaving, since numbers and frequency change.
+  // leaving, since numbers and frequency change. Bodies stay to two lines.
   const travel = [
     {
       icon: TrainFront,
       title: 'Nearest metro',
-      body: 'No metro station is open in Hebbal yet, so every trip ends on the road. Yeshwanthpur (Green Line), Sandal Soap Factory (Green Line) and Central / Majestic (Purple + Green) are each roughly 7 km out.',
+      body: 'No metro is open in Hebbal yet. Yeshwanthpur, Sandal Soap Factory and Majestic are each about 7 km out.',
       links: [
         { label: 'Yeshwanthpur Metro', href: 'https://maps.app.goo.gl/PT4UXFqZFFbF9GAZA' },
         { label: 'Central Metro', href: 'https://maps.app.goo.gl/okchxJTCUtviSbhR6' },
@@ -35,28 +35,28 @@ export default function Venue() {
     {
       icon: Landmark,
       title: 'From Majestic',
-      body: 'City station to Hebbal is roughly 12 km straight up Bellary Road. Board at Kempegowda Bus Station and get down at Hebbala.',
+      body: 'About 12 km straight up Bellary Road. Board at Kempegowda Bus Station, get down at Hebbala.',
       links: [{ label: 'Get directions', href: 'https://maps.app.goo.gl/mTL1R8SWty4VFPMdA' }],
       time: '~30–45 min',
     },
     {
       icon: CarFront,
       title: 'From the KR Puram side',
-      body: 'Come down via Hennur and Nagavara, about 15 km. It is the longest leg on this list, so leave early.',
+      body: 'About 15 km via Hennur and Nagavara — the longest leg on this list, so leave early.',
       links: [{ label: 'Get directions', href: 'https://maps.app.goo.gl/RuDkyECueMx6v2qK9' }],
       time: '~45–60 min',
     },
     {
       icon: Navigation,
       title: 'From the Yelahanka side',
-      body: 'Straight down Bellary Road toward the city, about 8–9 km. Watch for the Atria IT turn-off just before the Hebbal flyover.',
+      body: 'About 8–9 km down Bellary Road. The Atria turn-off is just before the Hebbal flyover.',
       links: [{ label: 'Get directions', href: 'https://maps.app.goo.gl/5iKqqMtaFAjTTJf5A' }],
       time: '~20–30 min',
     },
     {
       icon: CircleDot,
       title: 'From BEL Circle',
-      body: 'Practically next door: about 2–3 km toward Hebbal. An auto takes under ten minutes.',
+      body: 'Practically next door: 2–3 km toward Hebbal. An auto takes under ten minutes.',
       links: [{ label: 'Get directions', href: 'https://maps.app.goo.gl/gxcrSv1wf2BCAV7D9' }],
       time: '~10 min',
     },
@@ -67,17 +67,16 @@ export default function Venue() {
       <div className="shell">
         {/* Intro */}
         <SectionHead
-          eyebrow="VENUE & ATTENDEE LOGISTICS"
           title={<>Location &amp;</>}
           accent="what you should bring."
           pacColor="#ff7a1a"
-          deck="The event will take place on campus at Atria Institute of Technology in Hebbal, Bengaluru. High-speed Wi-Fi, power ports, lunch, and refreshments are provided."
+          deck="Campus at Atria Institute of Technology in Hebbal, Bengaluru. Wi-Fi, power, lunch and refreshments are provided."
         />
 
         {/* Map-led venue layout */}
         <div className="grid grid-cols-1 lg:grid-cols-[1.05fr_.95fr] gap-8 items-stretch">
           {/* Card 1: Venue Info */}
-          <Reveal className="theme-card lg:col-span-1 p-8 bg-[#f7f7f2] text-[#10201d] border-2 border-[#10201d] shadow-[7px_7px_0_#671912] hover:shadow-[4px_4px_0_#671912] flex flex-col justify-between">
+          <Reveal className="theme-card lg:col-span-1 p-8 bg-[#f7f7f2] text-[#10201d] border-2 border-[#10201d] shadow-[4px_4px_0_#671912] hover:shadow-[2px_2px_0_#671912] flex flex-col justify-between">
             <div>
               <span className="ht-tag mb-4 inline-block">
                 HOST CAMPUS
@@ -95,12 +94,12 @@ export default function Venue() {
 
               <div className="space-y-3 text-sm text-[#34433f] font-sans mb-8">
                 <div className="flex items-center gap-2.5">
-                  <Wifi className="w-4 h-4 text-[#e53927]" />
-                  <span>High-speed campus Wi-Fi network available throughout the venue</span>
+                  <Wifi className="w-4 h-4 text-[#34433f] shrink-0" />
+                  <span>High-speed campus Wi-Fi throughout the venue</span>
                 </div>
                 <div className="flex items-center gap-2.5">
-                  <MapPin className="w-4 h-4 text-[#e53927]" />
-                  <span>Centrally located in Anandnagar, Hebbal with convenient bus and transit connectivity</span>
+                  <MapPin className="w-4 h-4 text-[#34433f] shrink-0" />
+                  <span>Anandnagar, Hebbal, with bus and transit nearby</span>
                 </div>
               </div>
             </div>
@@ -113,17 +112,17 @@ export default function Venue() {
                 className="ht-btn-primary text-xs py-2 px-4 min-h-[42px]"
               >
                 <Navigation className="w-3.5 h-3.5 mr-1.5" />
-                Google Maps Directions
+                Google Maps directions
               </a>
 
               <a
                 href="https://www.google.com/calendar/render?action=TEMPLATE&text=Hacktoberfest+Hack+Day+Bengaluru+x+AWS+Student+Builder+Group+at+Atria+Institute+of+Technology&dates=20261023T030000Z/20261023T143000Z&details=Hacktoberfest+Hack+Day+at+Atria+IT+Bengaluru.+Register:+https://events.mlh.com/events/15272-hacktoberfest-hack-day-bengaluru-x-aws-student-builder-group-at-atria-institute-of-technology&location=Atria+Institute+of+Technology,+Bengaluru"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="px-4 py-2 font-mono text-xs font-bold border-2 border-[#10201d] bg-[#f7f7f2] text-[#10201d] hover:bg-[#e4e5da] shadow-[3px_3px_0_#10201d] flex items-center gap-1.5"
+                className="ht-btn-secondary-dark text-xs py-2 px-4 min-h-[42px]"
               >
-                <Calendar className="w-3.5 h-3.5 text-[#e53927]" />
-                Add to Calendar
+                <Calendar className="w-3.5 h-3.5 text-[#34433f]" />
+                Add to calendar
               </a>
             </div>
           </Reveal>
@@ -140,41 +139,36 @@ export default function Venue() {
             </Suspense>
           </Reveal>
 
-          {/* Card 2: Attendee Checklist */}
-          <Reveal delay={140} className="theme-card lg:col-span-2 p-8 bg-[#f7f7f2] text-[#10201d] border-2 border-[#10201d] shadow-[7px_7px_0_#671912] hover:shadow-[4px_4px_0_#671912] flex flex-col justify-between">
-            <div>
-              <span className="ht-tag mb-4 inline-block">
-                WHAT TO BRING
-              </span>
+          {/* Card 2: Attendee Checklist - one plain list, not four more boxes. */}
+          <Reveal delay={140} className="theme-card lg:col-span-2 p-8 bg-[#f7f7f2] text-[#10201d] border-2 border-[#10201d] shadow-[4px_4px_0_#671912] hover:shadow-[2px_2px_0_#671912]">
+            <span className="ht-tag mb-4 inline-block">
+              WHAT TO BRING
+            </span>
 
-              <h3 className="font-display font-bold text-2xl sm:text-3xl text-[#10201d] mb-4">
-                Attendee Checklist
-              </h3>
+            <h3 className="font-display font-bold text-2xl text-[#10201d] mb-5">
+              Attendee checklist
+            </h3>
 
-              <div className="space-y-4 mb-6">
-                {checklist.map((item, idx) => (
-                  <div
-                    key={idx}
-                    className="p-3.5 bg-[#e4e5da] border border-[#10201d] flex items-start gap-3 text-xs sm:text-sm font-mono text-[#10201d]"
-                  >
-                    <CheckCircle className="w-4 h-4 text-[#e53927] shrink-0 mt-0.5" />
-                    <span>{item}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
+            <ul className="space-y-0">
+              {checklist.map((item, idx) => (
+                <li
+                  key={idx}
+                  className="flex items-center gap-3 py-3 text-sm font-mono text-[#10201d] border-t border-[#10201d]/15 last:border-b last:border-[#10201d]/15"
+                >
+                  <CheckCircle className="w-4 h-4 text-[#34433f] shrink-0" />
+                  <span>{item}</span>
+                </li>
+              ))}
+            </ul>
           </Reveal>
         </div>
 
         {/* Getting here from across Bengaluru */}
         <div className="mt-12 sm:mt-16">
-          <p className="font-mono text-xs font-bold tracking-[0.08em] uppercase text-[#8bb2de] mb-2">
-            Reach the venue · Bengaluru
-          </p>
-          <h3 className="font-display font-extrabold uppercase tracking-tight text-2xl sm:text-4xl text-[#f7f7f2] mb-3">
+          <h3 className="font-display font-bold text-2xl sm:text-3xl text-[#f7f7f2] mb-3">
             Coming from across the city
           </h3>
-          <p className="text-sm sm:text-base text-[#c6caf0] font-sans max-w-[70ch] mb-8">
+          <p className="text-sm text-[#c6caf0] font-sans max-w-[70ch] mb-8">
             Atria IT sits in Anandnagar, Hebbal, right off Bellary Road. Aim to arrive
             by 8:30 AM — autos and cabs surge on event mornings, so leave early.
           </p>
@@ -186,10 +180,10 @@ export default function Venue() {
                 <Reveal
                   key={t.title}
                   delay={(idx % 3) * 90}
-                  className="theme-card p-6 bg-[#f7f7f2] text-[#10201d] border-2 border-[#10201d] shadow-[7px_7px_0_#671912] hover:shadow-[4px_4px_0_#671912] flex flex-col gap-3"
+                  className="theme-card p-6 bg-[#f7f7f2] text-[#10201d] border-2 border-[#10201d] shadow-[4px_4px_0_#671912] hover:shadow-[2px_2px_0_#671912] flex flex-col gap-3"
                 >
-                  <span className="w-11 h-11 inline-flex items-center justify-center bg-[#211f47] text-[#f5b726] border-2 border-[#10201d] shadow-[3px_3px_0_#10201d]" aria-hidden="true">
-                    <Icon className="w-5 h-5" />
+                  <span className="w-9 h-9 inline-flex items-center justify-center bg-[#e4e5da] text-[#10201d] border border-[#10201d]" aria-hidden="true">
+                    <Icon className="w-4 h-4" />
                   </span>
                   <h4 className="font-display font-bold text-lg text-[#10201d] leading-snug">
                     {t.title}
@@ -197,23 +191,23 @@ export default function Venue() {
                   <p className="text-sm text-[#34433f] font-sans leading-relaxed flex-grow">
                     {t.body}
                   </p>
-                  <div className="flex flex-wrap gap-2">
+                  <div className="flex flex-wrap items-center gap-2">
                     {t.links.map((l) => (
                       <a
                         key={l.href}
                         href={l.href}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex items-center gap-1.5 px-3 py-2 font-mono text-[11px] font-bold uppercase tracking-wide border-2 border-[#10201d] bg-[#e4e5da] text-[#10201d] hover:bg-[#f5b726] shadow-[3px_3px_0_#10201d] hover:shadow-[1px_1px_0_#10201d] hover:translate-x-[2px] hover:translate-y-[2px]"
+                        className="inline-flex items-center gap-1.5 px-2.5 py-1.5 font-mono text-[11px] font-bold border-2 border-[#10201d] bg-[#e4e5da] text-[#10201d] hover:bg-[#f2f2eb]"
                       >
                         {l.label}
                         <ArrowUpRight className="w-3.5 h-3.5" aria-hidden="true" />
                       </a>
                     ))}
+                    <span className="ml-auto font-mono text-[11px] text-[#34433f]">
+                      {t.time}
+                    </span>
                   </div>
-                  <span className="self-start font-mono text-[11px] font-bold px-2 py-1 bg-[#e4e5da] text-[#10201d] border-2 border-[#10201d]">
-                    {t.time}
-                  </span>
                 </Reveal>
               );
             })}
