@@ -11,7 +11,7 @@ const TYPE_COLORS = {
   Registration: ['#ee8b83', '#10201d'],
   Opening: ['#8bb2de', '#10201d'],
   Hacking: ['#f5b726', '#10201d'],
-  Quiz: ['#e53927', '#f7f7f2'],
+  Trivia: ['#e53927', '#f7f7f2'],
   Break: ['#34433f', '#f2f2eb'],
   Judging: ['#211f47', '#8bb2de'],
   Ceremony: ['#671912', '#f5b726'],

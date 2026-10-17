@@ -508,7 +508,7 @@ scripts/screenshot.mjs  Playwright review shots (SHOTS_DIR, preview on :4173)
 
 - Hero title uses Bricolage Grotesque 800 (hero-only voice; measured 11%
   narrower than Manrope at the same size); everything else stays Manrope.
-- Schedule: Quiz 1 11:30–11:45 AM, Lunch 12:45–1:30 PM, Quiz 2 3:00–3:15 PM,
+- Schedule: Trivia 1 11:30–11:45 AM, Lunch 12:45–1:30 PM, Trivia 2 3:00–3:15 PM,
   evening slot is "Snacks, Refreshments & Networking".
 - Done screen uses a dedicated light-panel `.pac-btn-secondary` (the shared
   secondary button is cream-on-transparent and vanished on paper).
