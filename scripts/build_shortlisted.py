@@ -1,22 +1,28 @@
 #!/usr/bin/env python3
-"""Generate src/data/shortlisted.js from the teamwise registration workbook.
+"""Generate src/data/shortlisted.js from the final shortlist sheet.
+
+Source: hacktoberfest_teams_final.xlsx
+- "Teams" tab: the shortlist itself - one row per team where Team Size,
+  Members and Emails must agree. The row named "Individual" is not a team;
+  it groups the solo sign-ups and is split into one solo entry per person.
+- "All Members" tab: per-person college (matched by email) and the Has Team
+  flag, which must agree with the Teams tab.
 
 - Keeps team / member / college only.
-- Drops members who did not answer the last 3 questions on the MLH export
-  (Do you have a team? / What is your team name? / Join our WhatsApp group).
 - Normalises college strings to one canonical name per institution.
-- Groups members under one team row, teams in workbook order, solos last.
+- Teams and solos sorted case-insensitively, solos last.
 """
 import csv
 import json
+import re
 import openpyxl
 
-XLSX = '/home/darshan/Downloads/temp/hf26/hacktoberfest_teamwise_registrations_normalized.xlsx'
-CSV = ('/home/darshan/Downloads/temp/hf26/'
-       '2026-10-18-hacktoberfest-hack-day-bengaluru-x-aws-student-builder-group-'
-       'at-atria-institute-of-technology-registrations-export.csv')
+XLSX = '/home/darshan/Downloads/temp/hf26/hacktoberfest_teams_final.xlsx'
 OUT = 'src/data/shortlisted.js'
 OUT_CSV = 'public/shortlisted.csv'
+
+# Teams-tab row name that groups the solo sign-ups (Has Team = false).
+SOLO_GROUP = 'individual'
 
 # --- canonical college names -------------------------------------------------
 NOT_SPECIFIED = 'Not specified'
@@ -105,8 +111,6 @@ CANONICAL = {
     'individual': NOT_SPECIFIED,
 }
 
-import re
-
 
 def key(raw):
     return re.sub(r'[^a-z0-9]+', '', (raw or '').strip().lower())
@@ -144,145 +148,74 @@ RULES = [
 ]
 
 
-# --- last-3-question filter --------------------------------------------------
-def active(row):
-    """MLH status check: anyone still marked 'invited' stays off the shortlist."""
-    return (row['status'] or '').strip().lower() != 'invited'
-
-
-def answered(row):
-    if not active(row):
-        return False
-    team = (row['Do you have a team?'] or '').strip()
-    team_name = (row['What is your team name?'] or '').strip()
-    whatsapp = (row['Join our WhatsApp group'] or '').strip()
-    if not team and not team_name and not whatsapp:
-        return False
-    if not team or not whatsapp:
-        return False
-    return team.lower() == 'no' or bool(team_name)
-
-
 def main():
-    # Registrations that must never appear on the shortlist:
-    #  - the organiser's own test sign-up (team literally "Team Name")
-    #  - duplicate sign-ups (same person registered twice)
-    # Anyone whose MLH status is still 'invited' is filtered out by active().
-    EXCLUDE_EMAILS = {
-        'darshan.gcp.jam.atria@gmail.com',
-        'sumit.kumarchotu.5@gmail.com',
-    }
+    wb = openpyxl.load_workbook(XLSX, data_only=True)
 
-    with open(CSV, newline='', encoding='utf-8-sig') as f:
-        csv_rows = list(csv.DictReader(f))
-    by_email = {}
-    for row in csv_rows:
-        by_email.setdefault((row['email'] or '').strip().lower(), []).append(row)
-
-    wb = openpyxl.load_workbook(XLSX)
-    ws = wb['Teamwise Roster']
-    roster = [r for r in ws.iter_rows(min_row=5, values_only=True) if any(r)]
-
-    groups, order = {}, []
-    dropped = 0
-    excluded = 0
-    excluded_keys = set()
-    unmapped = set()
-    current_key = None
-    team_names = {}
-    for row in roster:
-        team = (row[0] or '').strip()
-        member = (row[1] or '').strip()
-        college_raw = (row[4] or '').strip()
+    # Per-person facts from the All Members tab, keyed by email.
+    people = {}
+    for row in wb['All Members'].iter_rows(min_row=2, values_only=True):
+        if not any(row):
+            continue
         email = (row[2] or '').strip().lower()
+        people[email] = {
+            'college': (row[6] or '').strip(),
+            'has_team': bool(row[4]),
+        }
 
-        # The team cell is only filled on the first row of a group; blank means
-        # "same team as the row above".
-        if team:
-            if team.lower().startswith('solo:'):
-                current_key = ('solo', member.lower())
-            else:
-                current_key = ('team', team.lower())
-            team_names[current_key] = team
-
-        if email in EXCLUDE_EMAILS:
-            excluded_keys.add(current_key)
-            excluded += 1
+    teams, solos, unmapped, used = [], [], set(), set()
+    for row in wb['Teams'].iter_rows(min_row=2, values_only=True):
+        if not any(row):
             continue
-        if current_key in excluded_keys:
-            excluded += 1
-            continue
+        team = (row[0] or '').strip()
+        size = int(row[1])
+        names = [n.strip() for n in (row[4] or '').split(';') if n.strip()]
+        emails = [e.strip().lower() for e in (row[5] or '').split(';') if e.strip()]
+        if not len(names) == len(emails) == size:
+            raise SystemExit(
+                f'{team}: Team Size {size} but {len(names)} names / {len(emails)} emails')
 
-        rows = by_email.get(email, [])
-        if not rows or not any(answered(r) for r in rows):
-            dropped += 1
-            continue
+        solo_row = team.lower() == SOLO_GROUP
+        members = []
+        for name, email in zip(names, emails):
+            person = people.get(email)
+            if person is None:
+                raise SystemExit(f'{team}: {email} not on the All Members tab')
+            if person['has_team'] == solo_row:
+                raise SystemExit(
+                    f'{team}: {email} has Has Team={person["has_team"]}, '
+                    f'contradicts the Teams tab')
+            used.add(email)
+            college = canonical(person['college'])
+            if college is None:
+                unmapped.add(person['college'])
+                college = person['college']
+            members.append({'name': name, 'college': college})
 
-        canon = canonical(college_raw)
-        if canon is None:
-            unmapped.add(college_raw)
-            canon = college_raw
-
-        if current_key not in groups:
-            groups[current_key] = {
-                'team': team_names.get(current_key, ''),
-                'solo': current_key[0] == 'solo',
-                'members': [],
-            }
-            order.append(current_key)
-        groups[current_key]['members'].append({'name': member, 'college': canon})
-
-    if unmapped:
-        raise SystemExit('UNMAPPED COLLEGES:\n' + '\n'.join(sorted(unmapped)))
-
-    # Backfill: registrations that exist on MLH (and answered the last 3
-    # questions) but never made it into the workbook roster.
-    roster_emails = {(r[2] or '').strip().lower() for r in roster}
-    extra_teams, extra_solos = [], []
-    for row in csv_rows:
-        email = (row['email'] or '').strip().lower()
-        if row['status'] != 'registered' or email in roster_emails:
-            continue
-        if email in EXCLUDE_EMAILS or not answered(row):
-            continue
-        name = ' '.join(p for p in [row['first_name'], row['last_name']] if p).strip()
-        college_raw = (row['College / University / Organization'] or '').strip()
-        college = canonical(college_raw)
-        if college is None:
-            unmapped.add(college_raw)
-            college = college_raw
-        team = (row['What is your team name?'] or '').strip()
-        member = {'name': name, 'college': college}
-        if team and not team.lower().startswith('solo:'):
-            extra_teams.append({'team': team, 'solo': False, 'members': [member]})
+        if solo_row:
+            # The "Individual" row is the solo bucket: one entry per person.
+            solos.extend(
+                {'team': f'Solo: {m["name"]}', 'solo': True, 'members': [m]}
+                for m in members
+            )
         else:
-            extra_solos.append({'team': f'Solo: {name}', 'solo': True, 'members': [member]})
+            teams.append({'team': team, 'solo': False, 'members': members})
 
+    if used != set(people):
+        missing = sorted(set(people) - used)
+        raise SystemExit('All Members rows not on the Teams tab: ' + ', '.join(missing))
     if unmapped:
         raise SystemExit('UNMAPPED COLLEGES:\n' + '\n'.join(sorted(unmapped)))
 
-    teams = [groups[k] for k in order if not groups[k]['solo']]
-    solos = [groups[k] for k in order if groups[k]['solo']]
-
-    # The roster is alphabetised case-insensitively; keep that order while
-    # splicing backfilled entries into place.
-    by_name = lambda g: g['team'].lower()  # noqa: E731
-    if [g['team'] for g in sorted(teams, key=by_name)] != [g['team'] for g in teams]:
-        raise SystemExit('roster team order is not alphabetical - splice backfill manually')
-    teams = sorted(teams + extra_teams, key=by_name)
-    if extra_solos:
-        if [g['team'] for g in sorted(solos, key=by_name)] != [g['team'] for g in solos]:
-            raise SystemExit('roster solo order is not alphabetical - splice backfill manually')
-        solos = sorted(solos + extra_solos, key=by_name)
-
+    by_name = lambda g: g['team'].casefold()
+    teams.sort(key=by_name)
+    solos.sort(key=by_name)
     payload = teams + solos
-
-    members = sum(len(g['members']) for g in payload)
+    members_total = sum(len(g['members']) for g in payload)
 
     # Stats are derived from the roster at runtime, so they can never drift
     # out of sync with the data the generator writes above.
     js = ('// Generated by scripts/build_shortlisted.py - do not edit by hand.\n'
-          f'// Source: teamwise workbook, filtered against the MLH export (last 3 questions).\n'
+          '// Source: hacktoberfest_teams_final.xlsx (final shortlist sheet).\n'
           'export const SHORTLISTED_TEAMS = '
           + json.dumps(payload, ensure_ascii=False, indent=2) + ';\n\n'
           'export const SHORTLISTED_STATS = SHORTLISTED_TEAMS.reduce(\n'
@@ -308,9 +241,8 @@ def main():
                     team_cell = group['team'] if i == 0 else ''
                 w.writerow([team_cell, member['name'], member['college']])
 
-    print(f'wrote {OUT}: {len(teams)} teams, {len(solos)} solos, '
-          f'{members} members, dropped {dropped}, excluded {excluded}')
-    print(f'wrote {OUT_CSV}: {members} rows')
+    print(f'wrote {OUT}: {len(teams)} teams, {len(solos)} solos, {members_total} members')
+    print(f'wrote {OUT_CSV}: {members_total} rows')
 
 
 if __name__ == '__main__':

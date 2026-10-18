@@ -213,8 +213,8 @@ export default function Shortlisted() {
         <p className="flex items-start gap-2 mt-6 font-mono text-xs text-[#10201d]/70">
           <Users className="w-4 h-4 mt-px shrink-0" aria-hidden="true" />
           <span>
-            Registrations who skipped the last three questions on the sign-up
-            form are not listed. Spot something wrong? Write to{' '}
+            The roster follows the final shortlist sheet, one row per sign-up.
+            Spot something wrong? Write to{' '}
             <a href="mailto:hacktoberfest@awsatria.tech" className="underline hover:text-[#10201d]">
               hacktoberfest@awsatria.tech
             </a>
