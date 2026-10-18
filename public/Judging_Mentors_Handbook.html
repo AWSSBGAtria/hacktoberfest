@@ -1,0 +1,2142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Judging &amp; Mentors Handbook — Hacktoberfest Hack Day Bengaluru 2026</title>
+  <meta name="description" content="Judging &amp; mentors handbook for Hacktoberfest Hack Day Bengaluru 2026: what the event is, your role, the tracks, how judging works, and day-of logistics for judges, mentors, and industry guests.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&family=Bricolage+Grotesque:opsz,wght@12..96,200..800&display=swap" rel="stylesheet">
+  <style>
+    /* ================================================================
+       TOKENS — same system as the participant handbook and
+       src/index.css. Text-grade variants included: the brand red is a
+       3.78:1 accent on cream, so anything carrying words uses --red-ink.
+       ================================================================ */
+    :root {
+      --color-cream: #f2f2eb;
+      --color-paper: #f7f7f2;
+      --color-paper-alt: #e4e5da;
+      --color-ink: #10201d;
+      --color-chrome: #211f47;
+      --color-chrome-deep: #1a1839;
+
+      --color-indigo: #5146d9;
+      --color-sky: #8bb2de;
+      --color-red: #e53927;
+      --color-yellow: #f5b726;
+      --color-coral: #ee8b83;
+      --color-moss: #2f6b4f;
+
+      --red-ink: #b3261e;
+      --sky-ink: #34628c;
+
+      --stamp-ink: #10201d;
+      --stamp-red: #671912;
+      --stamp-amber: #8a5d13;
+
+      --font-display: 'Bricolage Grotesque', 'Manrope', ui-sans-serif, system-ui, sans-serif;
+      --font-sans: 'Manrope', ui-sans-serif, system-ui, sans-serif;
+      --font-mono: 'IBM Plex Mono', ui-monospace, 'SFMono-Regular', monospace;
+
+      --pw: 210mm;
+      --ph: 297mm;
+      --pad-x: 15mm;
+      --pad-top: 14mm;
+      --pad-bot: 12mm;
+      --sheet-scale: 1;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { background: #deded4; scroll-behavior: smooth; }
+
+    body {
+      background: #deded4;
+      color: var(--color-ink);
+      font-family: var(--font-sans);
+      font-size: 9pt;
+      line-height: 1.5;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .page::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 3;
+      pointer-events: none;
+      opacity: 0.06;
+      mix-blend-mode: multiply;
+      background-image:
+        radial-gradient(circle, rgba(16, 32, 29, 0.7) 0 0.45px, transparent 0.6px),
+        radial-gradient(circle, rgba(255, 255, 255, 0.9) 0 0.35px, transparent 0.55px);
+      background-position: 0 0, 4px 5px;
+      background-size: 7px 7px, 11px 11px;
+    }
+    .page--ink::after {
+      mix-blend-mode: normal;
+      opacity: 0.10;
+      background-image:
+        radial-gradient(circle, rgba(247, 247, 242, 0.85) 0 0.45px, transparent 0.65px);
+      background-size: 7px 7px;
+    }
+
+    /* ================================================================
+       THE SHEET
+       ================================================================ */
+    .doc {
+      width: calc(var(--pw) * var(--sheet-scale));
+      margin: 0 auto;
+      overflow-x: clip;
+    }
+
+    .page {
+      position: relative;
+      width: var(--pw);
+      height: var(--ph);
+      padding: var(--pad-top) var(--pad-x) var(--pad-bot);
+      margin: 0 auto calc(9mm * var(--sheet-scale));
+      background: var(--color-cream);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transform: scale(var(--sheet-scale));
+      transform-origin: top center;
+      box-shadow: 0 2px 6px rgba(16, 32, 29, 0.18), 0 18px 44px rgba(16, 32, 29, 0.14);
+      break-after: page;
+      page-break-after: always;
+      break-inside: avoid;
+      scroll-margin-top: 16px;
+    }
+    .page:last-child { break-after: auto; page-break-after: auto; }
+
+    .page--ink { background: var(--color-chrome); color: var(--color-cream); }
+    .page--paper { background: var(--color-paper); }
+
+    .page__body { flex: 1 1 auto; min-height: 0; display: flex; flex-direction: column; }
+
+    .run {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 6mm;
+      font-family: var(--font-mono);
+      font-size: 6.2pt;
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+    }
+    .run--head {
+      padding-bottom: 2.4mm;
+      border-bottom: 1.4pt solid var(--color-ink);
+      color: var(--color-ink);
+    }
+    .page--ink .run--head { border-bottom-color: rgba(247, 247, 242, 0.35); color: rgba(247, 247, 242, 0.72); }
+    .run--foot {
+      margin-top: auto;
+      padding-top: 2.4mm;
+      border-top: 1.4pt solid var(--color-ink);
+      color: rgba(16, 32, 29, 0.68);
+    }
+    .page--ink .run--foot { border-top-color: rgba(247, 247, 242, 0.35); color: rgba(247, 247, 242, 0.66); }
+    .run__num { font-weight: 700; }
+    .run__num::before { content: "P"; opacity: 0.55; }
+    .run a { color: inherit; text-decoration: none; }
+    .run a:hover { text-decoration: underline; }
+
+    /* ================================================================
+       TYPE
+       ================================================================ */
+    .eyebrow {
+      display: block;
+      font-family: var(--font-mono);
+      font-size: 6.4pt;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--red-ink);
+      margin-bottom: 2.6mm;
+    }
+    .page--ink .eyebrow { color: var(--color-yellow); }
+
+    .display {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 40pt;
+      line-height: 0.9;
+      letter-spacing: -0.035em;
+      text-transform: uppercase;
+      text-wrap: balance;
+    }
+    .title {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 26pt;
+      line-height: 1.02;
+      letter-spacing: -0.028em;
+      text-transform: uppercase;
+      text-wrap: balance;
+      max-width: 26ch;
+    }
+    .title--wide { max-width: 34ch; }
+    .deck {
+      font-size: 10pt;
+      line-height: 1.6;
+      color: rgba(16, 32, 29, 0.78);
+      max-width: 68ch;
+    }
+    .page--ink .deck { color: rgba(247, 247, 242, 0.76); }
+    .deck--lead { font-size: 11pt; line-height: 1.56; color: var(--color-ink); }
+    .page--ink .deck--lead { color: var(--color-cream); }
+
+    .mono {
+      font-family: var(--font-mono);
+      font-size: 6.4pt;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+    .mono--red { color: var(--red-ink); }
+    .mono--indigo { color: var(--color-indigo); }
+    .mono--moss { color: var(--color-moss); }
+    .mono--amber { color: var(--stamp-amber); }
+    .mono--sky { color: var(--sky-ink); }
+    .mono--mute { color: rgba(16, 32, 29, 0.68); }
+    .page--ink .mono--sky { color: var(--color-sky); }
+    .page--ink .mono--mute { color: rgba(247, 247, 242, 0.66); }
+
+    .lede { font-weight: 700; }
+    .tnum { font-variant-numeric: tabular-nums; font-feature-settings: "tnum" 1; }
+
+    /* ================================================================
+       PRIMITIVES
+       ================================================================ */
+    .tick { list-style: none; }
+    .tick li {
+      position: relative;
+      padding-left: 5.6mm;
+      font-size: 8.7pt;
+      line-height: 1.45;
+      margin-bottom: 2.4mm;
+    }
+    .tick li:last-child { margin-bottom: 0; }
+    .tick li::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0.42em;
+      width: 2.6mm;
+      height: 1.6pt;
+      background: var(--red-ink);
+    }
+    .page--ink .tick li::before { background: var(--color-yellow); }
+    .tick strong { font-weight: 800; }
+
+    .icon { width: 5.4mm; height: 5.4mm; display: block; }
+    .icon--lg { width: 7mm; height: 7mm; }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 2mm;
+      padding: 2.6mm 4mm;
+      border: 1.4pt solid currentColor;
+      font-family: var(--font-mono);
+      font-size: 7pt;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      text-decoration: none;
+      color: inherit;
+    }
+    .btn--fill { background: var(--color-sky); color: var(--color-ink); border-color: var(--color-ink); }
+    .btn--ghost { background: transparent; }
+
+    .card {
+      border: 1.4pt solid var(--color-ink);
+      background: var(--color-paper);
+      box-shadow: 2.4mm 2.4mm 0 var(--stamp-ink);
+    }
+
+    /* ================================================================
+       P1 — COVER
+       ================================================================ */
+    .cover {
+      padding: 20mm var(--pad-x) 12mm;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+    .cover__center {
+      flex: 1;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    .cover__kicker {
+      font-size: 12pt;
+      font-weight: 700;
+      letter-spacing: 0.3em;
+      text-indent: 0.3em;
+      color: var(--color-cream);
+    }
+    .cover__title { margin-top: 9mm; }
+    .cover__title .display { color: var(--color-cream); }
+    .cover__title .display em { font-style: normal; color: var(--color-yellow); }
+    .cover__rule {
+      width: 26mm;
+      height: 1.4pt;
+      background: var(--color-yellow);
+      margin: 8mm 0;
+    }
+    .cover__mark {
+      display: inline-flex;
+      align-items: center;
+      gap: 2.6mm;
+      padding: 2mm 3.4mm 2mm 2.2mm;
+      background: var(--color-paper);
+      color: var(--color-ink);
+      margin-top: 7mm;
+    }
+    .cover__mark img { height: 5mm; display: block; }
+
+    .cover__facts { margin-top: 9mm; }
+    .cover__fact + .cover__fact { margin-top: 5mm; }
+    .cover__fact .mono { color: var(--color-sky); letter-spacing: 0.18em; }
+    .cover__fact p { font-size: 11pt; font-weight: 700; line-height: 1.3; margin-top: 1.4mm; }
+    .cover__fact p + p { font-weight: 500; font-size: 8.4pt; color: rgba(247, 247, 242, 0.72); }
+
+    .cover__foot {
+      margin-top: auto;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7mm;
+      padding-top: 10mm;
+    }
+    .lockup {
+      border: 1.4pt solid rgba(247, 247, 242, 0.45);
+      background: var(--color-paper);
+      padding: 2.6mm 3.4mm;
+      display: inline-flex;
+      align-items: center;
+      gap: 2.8mm;
+    }
+    .lockup img { height: 7.6mm; display: block; }
+    .lockup img:nth-of-type(2) { height: 6.6mm; }
+    .lockup__x {
+      flex: none;
+      width: 3mm;
+      height: 3mm;
+      color: var(--color-ink);
+      opacity: 0.75;
+    }
+    .lockup-group { display: flex; flex-direction: column; align-items: center; gap: 2.8mm; }
+    .lockup-group > .mono { color: rgba(247, 247, 242, 0.6); font-size: 7.8pt; letter-spacing: 0.16em; }
+
+    /* ================================================================
+       P2 — CONTENTS
+       ================================================================ */
+    .toc { margin-top: 8mm; }
+    .toc__row {
+      display: grid;
+      grid-template-columns: 11mm 1fr 12mm;
+      align-items: baseline;
+      gap: 0 3mm;
+      padding: 5.2mm 0;
+      border-bottom: 1.4pt solid rgba(16, 32, 29, 0.18);
+      text-decoration: none;
+      color: inherit;
+    }
+    .toc__row:first-child { border-top: 1.4pt solid var(--color-ink); }
+    .toc__row:hover .toc__name { text-decoration: underline; text-underline-offset: 0.18em; }
+    .toc__idx { color: var(--red-ink); }
+    .toc__name {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 13.5pt;
+      letter-spacing: -0.015em;
+      text-transform: uppercase;
+      line-height: 1.1;
+    }
+    .toc__note {
+      display: block;
+      font-family: var(--font-sans);
+      font-size: 8pt;
+      font-weight: 500;
+      letter-spacing: 0;
+      text-transform: none;
+      color: rgba(16, 32, 29, 0.72);
+      margin-top: 1.4mm;
+    }
+    .toc__pg { text-align: right; color: var(--color-ink); }
+    .toc__foot {
+      margin-top: 6mm;
+      border: 1.4pt solid var(--color-ink);
+      background: var(--color-paper);
+      padding: 4mm 4.8mm;
+      display: flex;
+      align-items: flex-start;
+      gap: 3mm;
+    }
+    .toc__foot .icon { color: var(--color-indigo); flex: none; margin-top: 0.4mm; }
+    .toc__foot p { font-size: 7.8pt; line-height: 1.5; color: rgba(16, 32, 29, 0.78); }
+    .toc__foot strong { font-weight: 800; }
+
+    /* ================================================================
+       BANDS & NOTES (shared)
+       ================================================================ */
+    .freeband {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      margin: 7mm 0 0;
+      border-top: 1.4pt solid var(--color-ink);
+      border-bottom: 1.4pt solid var(--color-ink);
+    }
+    .freeband > div { padding: 4.6mm 4mm 4.6mm 0; }
+    .freeband > div + div { border-left: 1.4pt solid var(--color-ink); padding-left: 4mm; }
+    .freeband p { font-size: 7.8pt; line-height: 1.45; color: rgba(16, 32, 29, 0.78); margin-top: 1.6mm; }
+
+    .arriveband {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      margin: 6.5mm 0 0;
+      border: 1.4pt solid var(--color-ink);
+      background: var(--color-ink);
+      color: var(--color-cream);
+    }
+    .arriveband > div { padding: 4.2mm 4mm; }
+    .arriveband > div + div { border-left: 1.4pt solid rgba(247, 247, 242, 0.24); }
+    .arriveband .mono { color: var(--color-yellow); }
+    .arriveband p { font-size: 7.4pt; line-height: 1.42; color: rgba(247, 247, 242, 0.84); margin-top: 1.5mm; }
+    .arriveband strong { color: var(--color-cream); font-weight: 700; }
+
+    .strictnote {
+      margin-top: 5mm;
+      border: 1.4pt solid var(--red-ink);
+      border-left-width: 3mm;
+      background: var(--color-paper);
+      padding: 3.6mm 4.2mm;
+    }
+    .strictnote .mono { color: var(--red-ink); }
+    .strictnote p { font-size: 7.6pt; line-height: 1.45; color: rgba(16, 32, 29, 0.82); margin-top: 1.4mm; }
+    .strictnote strong { font-weight: 700; color: var(--color-ink); }
+
+    /* draft / confirm note — amber, for items pending organizer sign-off */
+    .draftnote {
+      margin-top: 5mm;
+      border: 1.4pt solid var(--stamp-amber);
+      border-left-width: 3mm;
+      background: var(--color-paper);
+      padding: 3.6mm 4.2mm;
+    }
+    .draftnote .mono { color: var(--stamp-amber); }
+    .draftnote p { font-size: 7.6pt; line-height: 1.45; color: rgba(16, 32, 29, 0.82); margin-top: 1.4mm; }
+    .draftnote strong { font-weight: 700; color: var(--color-ink); }
+
+    .checklist { margin-top: 7mm; border: 1.4pt solid var(--color-ink); background: var(--color-paper); padding: 4.6mm 5mm 5mm; }
+    .checklist li {
+      display: flex;
+      align-items: flex-start;
+      gap: 3.4mm;
+      padding: 2.6mm 0;
+      border-bottom: 1.4pt dotted rgba(16, 32, 29, 0.24);
+      font-size: 8.8pt;
+      line-height: 1.4;
+    }
+    .checklist li:last-child { border-bottom: 0; }
+    .checklist .box {
+      flex: none;
+      width: 4mm;
+      height: 4mm;
+      border: 1.4pt solid var(--color-ink);
+      margin-top: 0.5mm;
+    }
+
+    /* ================================================================
+       ROLE CARDS — mentor vs judge
+       ================================================================ */
+    .roles { display: grid; grid-template-columns: 1fr 1fr; gap: 4.4mm; margin-top: 6.5mm; }
+    .role {
+      border: 1.4pt solid var(--color-ink);
+      background: var(--color-paper);
+      box-shadow: 2.4mm 2.4mm 0 var(--stamp-ink);
+      padding: 4.4mm 5mm 5mm;
+      display: flex;
+      flex-direction: column;
+    }
+    .role__tag {
+      display: inline-block;
+      align-self: flex-start;
+      font-family: var(--font-mono);
+      font-size: 6.2pt;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 1mm 1.8mm;
+      margin-bottom: 2.6mm;
+    }
+    .role h3 {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 15pt;
+      line-height: 1.06;
+      letter-spacing: -0.02em;
+      text-transform: uppercase;
+    }
+    .role__when {
+      font-family: var(--font-mono);
+      font-size: 6.8pt;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      color: var(--red-ink);
+      margin: 1.8mm 0 2.4mm;
+    }
+    .role p { font-size: 7.6pt; line-height: 1.45; color: rgba(16, 32, 29, 0.78); }
+    .role ul {
+      list-style: none;
+      margin-top: 3mm;
+      padding-top: 2.8mm;
+      border-top: 1.4pt solid var(--color-ink);
+      display: flex;
+      flex-direction: column;
+      gap: 1.8mm;
+    }
+    .role li {
+      position: relative;
+      padding-left: 3.6mm;
+      font-size: 7.4pt;
+      line-height: 1.4;
+      color: rgba(16, 32, 29, 0.76);
+    }
+    .role li::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 1.4mm;
+      width: 1.6mm;
+      height: 1.6mm;
+      background: var(--color-ink);
+    }
+    .role li strong { color: var(--color-ink); font-weight: 700; }
+
+    /* ================================================================
+       SCHEDULE (dark pages)
+       ================================================================ */
+    .schedule { margin-top: 6.5mm; border-top: 1.4pt solid rgba(247, 247, 242, 0.35); }
+    .slot {
+      display: grid;
+      grid-template-columns: 36mm 1fr;
+      align-items: baseline;
+      gap: 4mm;
+      padding: 2.8mm 0;
+      border-bottom: 1.4pt dotted rgba(247, 247, 242, 0.2);
+    }
+    .slot__time {
+      font-family: var(--font-mono);
+      font-size: 7.2pt;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      color: var(--color-sky);
+      font-variant-numeric: tabular-nums;
+    }
+    .slot__title { font-size: 8.6pt; font-weight: 800; letter-spacing: -0.005em; }
+    .slot__desc { display: block; font-size: 7.6pt; font-weight: 500; line-height: 1.42; color: rgba(247, 247, 242, 0.72); margin-top: 0.8mm; }
+    .slot--key { background: rgba(247, 247, 242, 0.05); }
+    .slot--key .slot__time { color: var(--color-yellow); }
+    .slot--key .slot__title { color: var(--color-yellow); }
+    .slot__role {
+      display: inline-block;
+      font-family: var(--font-mono);
+      font-size: 5.8pt;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 0.6mm 1.4mm;
+      margin-left: 2mm;
+      border: 1pt solid rgba(247, 247, 242, 0.4);
+      color: rgba(247, 247, 242, 0.8);
+      vertical-align: 1px;
+    }
+
+    /* light schedule variant */
+    .schedule--light { border-top-color: rgba(16, 32, 29, 0.28); }
+    .schedule--light .slot { border-bottom-color: rgba(16, 32, 29, 0.16); }
+    .schedule--light .slot__time { color: var(--sky-ink); }
+    .schedule--light .slot__desc { color: rgba(16, 32, 29, 0.7); }
+    .schedule--light .slot--key { background: rgba(16, 32, 29, 0.045); }
+    .schedule--light .slot--key .slot__time,
+    .schedule--light .slot--key .slot__title { color: var(--red-ink); }
+    .schedule--light .slot__role { border-color: rgba(16, 32, 29, 0.35); color: rgba(16, 32, 29, 0.7); }
+
+    /* ================================================================
+       TRACKS
+       ================================================================ */
+    .tracks { display: grid; grid-template-columns: repeat(3, 1fr); gap: 3.4mm; margin-top: 6mm; }
+    .track {
+      border: 1.4pt solid rgba(247, 247, 242, 0.4);
+      background: rgba(247, 247, 242, 0.06);
+      padding: 3.6mm 4mm 4mm;
+      display: flex;
+      flex-direction: column;
+    }
+    .track__tag {
+      display: inline-block;
+      align-self: flex-start;
+      font-family: var(--font-mono);
+      font-size: 6.2pt;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 1mm 1.8mm;
+      margin-bottom: 2.4mm;
+    }
+    .track h3 {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 11pt;
+      line-height: 1.12;
+      letter-spacing: -0.012em;
+      text-transform: uppercase;
+      margin-bottom: 1.8mm;
+    }
+    .track__desc { font-size: 7.4pt; line-height: 1.45; color: rgba(247, 247, 242, 0.76); }
+    .track__crit {
+      margin: 2.6mm 0 0;
+      padding: 0;
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5mm;
+    }
+    .track__crit li {
+      position: relative;
+      padding-left: 3.4mm;
+      font-size: 6.9pt;
+      line-height: 1.38;
+      color: rgba(247, 247, 242, 0.72);
+    }
+    .track__crit li::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 1.35mm;
+      width: 1.5mm;
+      height: 1.5mm;
+      background: var(--color-sky);
+    }
+    .track__crit strong { color: rgba(247, 247, 242, 0.94); font-weight: 700; }
+    .track__foot {
+      margin-top: auto;
+      padding-top: 2.8mm;
+      font-size: 6.8pt;
+      line-height: 1.4;
+      color: rgba(247, 247, 242, 0.6);
+      border-top: 1.4pt dotted rgba(247, 247, 242, 0.22);
+    }
+
+    /* ================================================================
+       RUBRIC TABLE
+       ================================================================ */
+    .rubric { margin-top: 6mm; border: 1.4pt solid var(--color-ink); background: var(--color-paper); }
+    .rubric__row {
+      display: grid;
+      grid-template-columns: 34mm 16mm 1fr;
+      gap: 3.6mm;
+      padding: 1.9mm 4.4mm;
+      align-items: baseline;
+      border-bottom: 1.4pt solid rgba(16, 32, 29, 0.16);
+    }
+    .rubric__row:last-child { border-bottom: 0; }
+    .rubric__row--head {
+      background: var(--color-ink);
+      color: var(--color-cream);
+      border-bottom: 0;
+    }
+    .rubric__row--head .mono { color: var(--color-yellow); }
+    .rubric__crit { font-size: 8.4pt; font-weight: 800; letter-spacing: -0.005em; }
+    .rubric__wt {
+      font-family: var(--font-mono);
+      font-size: 8.6pt;
+      font-weight: 700;
+      color: var(--red-ink);
+      font-variant-numeric: tabular-nums;
+    }
+    .rubric__row--head .rubric__wt { color: var(--color-yellow); }
+    .rubric__note { font-size: 7.4pt; line-height: 1.42; color: rgba(16, 32, 29, 0.74); }
+    .rubric__row--head .rubric__note { color: rgba(247, 247, 242, 0.78); }
+
+    /* two-column paired lists (do / don't) */
+    .dodont { display: grid; grid-template-columns: 1fr 1fr; gap: 4mm; margin-top: 6mm; }
+    .dodont__col {
+      border: 1.4pt solid var(--color-ink);
+      background: var(--color-paper);
+      padding: 3.8mm 4.2mm 4.2mm;
+    }
+    .dodont__col .mono { display: block; margin-bottom: 2.6mm; }
+    .dodont__col ul { list-style: none; display: flex; flex-direction: column; gap: 2mm; }
+    .dodont__col li {
+      position: relative;
+      padding-left: 4.4mm;
+      font-size: 7.8pt;
+      line-height: 1.42;
+      color: rgba(16, 32, 29, 0.78);
+    }
+    .dodont__col--do li::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 1.5mm;
+      width: 1.8mm;
+      height: 1.8mm;
+      background: var(--color-moss);
+    }
+    .dodont__col--dont li::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 1.5mm;
+      width: 1.8mm;
+      height: 1.8mm;
+      background: var(--red-ink);
+    }
+    .dodont__col li strong { font-weight: 700; color: var(--color-ink); }
+
+    /* glossary — two-column definition list */
+    .glossary {
+      margin-top: 6mm;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0 6mm;
+    }
+    .gterm {
+      padding: 2.6mm 0;
+      border-bottom: 1.4pt dotted rgba(16, 32, 29, 0.22);
+      break-inside: avoid;
+    }
+    .gterm dt {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 8.6pt;
+      letter-spacing: -0.01em;
+      text-transform: uppercase;
+      line-height: 1.15;
+    }
+    .gterm dd { font-size: 7.4pt; line-height: 1.42; color: rgba(16, 32, 29, 0.74); margin-top: 0.8mm; }
+
+    /* ================================================================
+       VENUE / WIFI / PEOPLE / CHANNELS (same as participant handbook)
+       ================================================================ */
+    .venueplate {
+      display: grid;
+      grid-template-columns: 1.3fr 1fr;
+      gap: 6mm;
+      margin-top: 6.5mm;
+      border: 1.4pt solid var(--color-ink);
+      background: var(--color-paper);
+      padding: 4.4mm 5mm;
+      align-items: center;
+    }
+    .venueplate h3 {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 13pt;
+      line-height: 1.06;
+      letter-spacing: -0.02em;
+      text-transform: uppercase;
+    }
+    .venueplate address {
+      font-style: normal;
+      font-size: 8.2pt;
+      line-height: 1.5;
+      color: rgba(16, 32, 29, 0.78);
+      margin-top: 2mm;
+    }
+    .venueplate__links { display: flex; flex-direction: column; gap: 2.4mm; align-items: flex-start; }
+    .venueplate__coord { font-family: var(--font-mono); font-size: 7.4pt; color: rgba(16, 32, 29, 0.62); }
+
+    .wifi {
+      margin-top: 6.5mm;
+      border: 1.4pt solid var(--color-ink);
+      background: var(--color-ink);
+      color: var(--color-cream);
+      padding: 4.6mm 5mm;
+      display: flex;
+      align-items: center;
+      gap: 6mm;
+    }
+    .wifi .icon { color: var(--color-sky); flex: none; width: 10mm; height: 10mm; }
+    .wifi__body { flex: 1; }
+    .wifi__body .mono { color: var(--color-yellow); }
+    .wifi__body p { font-size: 7.6pt; line-height: 1.45; color: rgba(247, 247, 242, 0.84); margin-top: 1.4mm; }
+    .wifi__creds { display: flex; gap: 5mm; margin-top: 2.4mm; flex-wrap: wrap; }
+    .wifi__cred {
+      border: 1.4pt solid rgba(247, 247, 242, 0.34);
+      padding: 1.6mm 2.4mm;
+      min-width: 42mm;
+    }
+    .wifi__cred span { display: block; font-size: 6.2pt; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(247, 247, 242, 0.66); }
+    .wifi__cred strong { display: block; font-family: var(--font-mono); font-size: 9.4pt; font-weight: 700; color: var(--color-cream); margin-top: 0.8mm; }
+
+    .people { display: grid; grid-template-columns: 1fr 1fr; gap: 4.6mm; margin-top: 6.5mm; }
+    .people > .person:only-child { grid-column: 1 / -1; }
+    .person {
+      border: 1.4pt solid var(--color-ink);
+      background: var(--color-paper);
+      box-shadow: 2.4mm 2.4mm 0 var(--stamp-ink);
+      padding: 4.4mm 5mm 5mm;
+    }
+    .person__name {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 19pt;
+      line-height: 1;
+      letter-spacing: -0.028em;
+      margin-top: 2.2mm;
+    }
+    .person__role { font-size: 8pt; font-weight: 700; color: var(--red-ink); margin-top: 1.6mm; }
+    .person__org { font-size: 7.4pt; color: rgba(16, 32, 29, 0.68); margin-top: 0.8mm; }
+    .person__lines {
+      margin-top: 3.4mm;
+      padding-top: 3mm;
+      border-top: 1.4pt solid var(--color-ink);
+      display: flex;
+      flex-direction: column;
+      gap: 2mm;
+    }
+    .person__line { display: flex; align-items: baseline; gap: 2.4mm; }
+    .person__line .mono { color: var(--color-indigo); flex: none; width: 15mm; }
+    .person__line a,
+    .person__line span.val {
+      font-family: var(--font-mono);
+      font-size: 8.6pt;
+      font-weight: 500;
+      color: var(--color-ink);
+      text-decoration: none;
+      word-break: break-word;
+    }
+    .person__line a:hover { text-decoration: underline; }
+
+    .channels { margin-top: 6.5mm; }
+    .channels__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 3.6mm; margin-top: 3.4mm; }
+    .channels__item {
+      border: 1.4pt solid var(--color-ink);
+      background: var(--color-paper);
+      padding: 3.4mm 3.8mm 3.8mm;
+      text-decoration: none;
+      color: inherit;
+      display: block;
+    }
+    .channels__item:hover { background: var(--color-paper-alt); }
+    .channels__item .icon { color: var(--color-indigo); margin-bottom: 2.2mm; }
+    .channels__item p {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 8.8pt;
+      letter-spacing: -0.01em;
+      text-transform: uppercase;
+    }
+    .channels__item span { display: block; font-size: 6.8pt; line-height: 1.4; color: rgba(16, 32, 29, 0.66); margin-top: 1mm; }
+
+    .closing {
+      margin-top: 6.5mm;
+      border: 1.4pt solid var(--color-ink);
+      background: var(--color-cream);
+      padding: 4.4mm 5mm;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 6mm;
+    }
+    .closing p { font-size: 7.8pt; line-height: 1.45; max-width: 74ch; color: rgba(16, 32, 29, 0.78); }
+
+    .cta {
+      margin-top: 6.5mm;
+      border: 1.4pt solid var(--color-ink);
+      background: var(--color-ink);
+      color: var(--color-cream);
+      padding: 5mm 5.4mm;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 6mm;
+    }
+    .cta .icon { color: var(--color-yellow); flex: none; width: 11mm; height: 11mm; }
+    .cta h3 {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 15pt;
+      line-height: 1.06;
+      letter-spacing: -0.022em;
+      text-transform: uppercase;
+    }
+    .cta p { font-size: 7.8pt; line-height: 1.45; color: rgba(247, 247, 242, 0.84); margin-top: 1.8mm; max-width: 78ch; }
+    .cta .btn { flex: none; padding: 3.6mm 5mm; font-size: 8pt; }
+
+    .aboutgrid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 3mm; margin-top: 6mm; }
+    .aboutgrid__item {
+      border: 1.4pt solid var(--color-ink);
+      background: var(--color-paper);
+      padding: 3.2mm 3.2mm 3.4mm;
+    }
+    .aboutgrid__item .icon { margin-bottom: 2mm; width: 7mm; height: 7mm; }
+    .aboutgrid__item h4 {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 8.4pt;
+      letter-spacing: -0.012em;
+      text-transform: uppercase;
+      margin-bottom: 1.2mm;
+    }
+    .aboutgrid__item p { font-size: 6.9pt; line-height: 1.42; color: rgba(16, 32, 29, 0.76); }
+
+    /* step flow */
+    .flow { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4mm; margin-top: 6.5mm; }
+    .flow__step {
+      border: 1.4pt solid rgba(247, 247, 242, 0.4);
+      background: rgba(247, 247, 242, 0.06);
+      padding: 3.6mm 4mm 4mm;
+    }
+    .flow__step h4 {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 10pt;
+      letter-spacing: -0.012em;
+      text-transform: uppercase;
+      margin: 2mm 0 1.4mm;
+    }
+    .flow__step p { font-size: 7.4pt; line-height: 1.45; color: rgba(247, 247, 242, 0.74); }
+
+    /* cover subtitle */
+    .cover__sub {
+      margin-top: -4.6mm;
+      font-size: 7.4pt;
+      letter-spacing: 0.26em;
+      text-indent: 0.26em;
+      color: var(--color-sky);
+    }
+
+    /* sponsor plate (track pages) */
+    .spplate {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 5mm;
+      align-items: center;
+      margin-top: 6mm;
+      border: 1.4pt solid var(--color-ink);
+      background: var(--color-paper);
+      padding: 4mm 4.6mm;
+    }
+    .spplate__logo {
+      display: flex;
+      align-items: center;
+      gap: 3mm;
+      padding-right: 5mm;
+      border-right: 1.4pt solid rgba(16, 32, 29, 0.18);
+      align-self: stretch;
+    }
+    .spplate__logo img { height: 10mm; width: auto; display: block; }
+    .spplate__who .mono { display: block; color: var(--red-ink); margin-bottom: 1.4mm; }
+    .spplate__who h3 {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 13pt;
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+      text-transform: uppercase;
+    }
+    .spplate__who p { font-size: 7.6pt; line-height: 1.45; color: rgba(16, 32, 29, 0.78); margin-top: 1.6mm; }
+    .spplate__who a {
+      display: inline-block;
+      margin-top: 2mm;
+      font-family: var(--font-mono);
+      font-size: 7.4pt;
+      color: var(--color-indigo);
+      text-decoration: none;
+      border-bottom: 1pt solid currentColor;
+    }
+    .spplate__links { display: flex; flex-wrap: wrap; gap: 2mm 6mm; margin-top: 2mm; }
+    .spplate__links a { margin-top: 0; }
+
+    /* track focus table */
+    .focus { margin-top: 5.6mm; border: 1.4pt solid var(--color-ink); background: var(--color-paper); }
+    .focus__row {
+      display: grid;
+      grid-template-columns: 44mm 1fr;
+      gap: 3.6mm;
+      padding: 3mm 4.4mm;
+      align-items: baseline;
+      border-bottom: 1.4pt solid rgba(16, 32, 29, 0.16);
+    }
+    .focus__row:last-child { border-bottom: 0; }
+    .focus__row--head { background: var(--color-ink); border-bottom: 0; }
+    .focus__row--head .mono { color: var(--color-yellow); }
+    .focus__k { font-size: 7.9pt; font-weight: 800; letter-spacing: -0.005em; line-height: 1.3; }
+    .focus__v { font-size: 7.3pt; line-height: 1.42; color: rgba(16, 32, 29, 0.74); }
+
+    /* scoring scale band */
+    .scaleband { display: grid; grid-template-columns: repeat(5, 1fr); gap: 2.6mm; margin-top: 5.6mm; }
+    .scaleband__cell {
+      border: 1.4pt solid var(--color-ink);
+      background: var(--color-paper);
+      padding: 2.6mm 2.6mm 3mm;
+    }
+    .scaleband__cell .mono {
+      display: block;
+      font-size: 9pt;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      color: var(--red-ink);
+      font-variant-numeric: tabular-nums;
+    }
+    .scaleband__cell p { font-size: 6.7pt; line-height: 1.35; color: rgba(16, 32, 29, 0.74); margin-top: 1.2mm; }
+    .scaleband__cell--top { background: var(--color-ink); }
+    .scaleband__cell--top .mono { color: var(--color-yellow); }
+    .scaleband__cell--top p { color: rgba(247, 247, 242, 0.8); }
+
+    /* four pillar cards (AWS track) */
+    .pillars { display: grid; grid-template-columns: repeat(4, 1fr); gap: 3mm; margin-top: 5.6mm; }
+    .pillar {
+      border: 1.4pt solid var(--color-ink);
+      background: var(--color-paper);
+      padding: 3.2mm 3.2mm 3.6mm;
+    }
+    .pillar .mono { display: block; color: var(--red-ink); margin-bottom: 1.6mm; }
+    .pillar h4 {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 8.4pt;
+      line-height: 1.12;
+      letter-spacing: -0.012em;
+      text-transform: uppercase;
+    }
+    .pillar p { font-size: 6.8pt; line-height: 1.4; color: rgba(16, 32, 29, 0.76); margin-top: 1.4mm; }
+
+    /* ================================================================
+       PRINT
+       ================================================================ */
+    @page { size: A4 portrait; margin: 0; }
+
+    @media print {
+      html, body { background: #fff; margin: 0; padding: 0; scroll-behavior: auto; }
+      :root { --sheet-scale: 1 !important; }
+      .doc { width: var(--pw); }
+      .page {
+        margin: 0;
+        transform: none;
+        box-shadow: none;
+        width: var(--pw);
+        height: var(--ph);
+      }
+      a { color: inherit; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="doc">
+
+<!-- ============================ P1 · COVER ============================ -->
+<section class="page page--ink cover" id="cover">
+  <div class="cover__center">
+    <span class="mono cover__kicker">Judging &amp; Mentors Handbook</span>
+
+    <div class="cover__title">
+      <h1 class="display">Hacktoberfest<br>Hack Day<br><em>Bengaluru</em></h1>
+    </div>
+
+    <div class="cover__rule" aria-hidden="true"></div>
+
+    <p class="mono cover__sub">For judges, mentors &amp; industry guests</p>
+
+    <div class="cover__mark">
+      <img src="aws-sbg-dark.png" alt="AWS Student Builder Group">
+      <span class="mono" style="color: var(--color-ink);">AWS Student Builder Group at Atria Institute of Technology</span>
+    </div>
+
+    <div class="cover__facts">
+      <div class="cover__fact">
+        <span class="mono">Date</span>
+        <p>Friday, October 23, 2026</p>
+        <p>Full day in-person &middot; judging 5:30&ndash;6:30&nbsp;PM IST</p>
+      </div>
+      <div class="cover__fact">
+        <span class="mono">Venue</span>
+        <p>Atria Institute of Technology</p>
+        <p>1st Main Road, AGS Colony, Anandnagar, Hebbal, Bengaluru 560024</p>
+      </div>
+      <div class="cover__fact">
+        <span class="mono">Tracks</span>
+        <p>Three challenges, one scorecard</p>
+        <p>Open-Source AI with DeepAgentLabs &middot; Gemma&nbsp;4 with Great Data Labs &middot; Best Use of AWS</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="cover__foot">
+    <div class="lockup-group">
+      <span class="mono">Powered by</span>
+      <span class="lockup">
+        <img src="MLH.png" alt="Major League Hacking">
+        <svg class="lockup__x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="square" aria-hidden="true"><path d="M5 5 19 19"/><path d="M19 5 5 19"/></svg>
+        <img src="Dev.png" alt="DEV">
+      </span>
+    </div>
+    <div class="lockup-group">
+      <span class="mono">Presenting Partner</span>
+      <span class="lockup">
+        <img src="DigitalOcean.png" alt="DigitalOcean">
+      </span>
+    </div>
+    <div class="lockup-group">
+      <span class="mono">Track Sponsors</span>
+      <span class="lockup">
+        <img src="sponsors/2026/DAL%20logo.png" alt="DeepAgentLabs" style="height: 6.2mm;">
+        <img src="sponsors/2026/GreatDataLabs.png" alt="Great Data Labs" style="height: 5.4mm;">
+      </span>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ P2 · CONTENTS ============================ -->
+<section class="page" id="contents">
+  <div class="run run--head">
+    <span>AWS Student Builder Group &middot; Atria Institute of Technology</span>
+    <span>Judging &amp; Mentors Handbook</span>
+  </div>
+
+  <div class="page__body" style="padding-top: 8mm;">
+    <span class="eyebrow">Inside this handbook</span>
+    <h2 class="title title--wide">Contents.</h2>
+    <p class="deck" style="margin-top: 3.4mm;">
+      New to hackathons, or it has been a while? Start at page 03. Short on time?
+      Pages 05 and 10 are the two you cannot skip — your role, and how judging works.
+    </p>
+
+    <nav class="toc" aria-label="Table of contents">
+      <a class="toc__row" href="#start">
+        <span class="mono toc__idx">01</span>
+        <span class="toc__name">Start here
+          <span class="toc__note">What this event is, who is in the room, and why you are needed.</span>
+        </span>
+        <span class="mono toc__pg">03</span>
+      </a>
+      <a class="toc__row" href="#glossary">
+        <span class="mono toc__idx">02</span>
+        <span class="toc__name">Hackathon field guide
+          <span class="toc__note">A plain-language glossary of Hacktoberfest, tracks, and the day's vocabulary.</span>
+        </span>
+        <span class="mono toc__pg">04</span>
+      </a>
+      <a class="toc__row" href="#role">
+        <span class="mono toc__idx">03</span>
+        <span class="toc__name">Your role
+          <span class="mono toc__note">Mentor or judge — what each role means, and when you are needed.</span>
+        </span>
+        <span class="mono toc__pg">05</span>
+      </a>
+      <a class="toc__row" href="#day">
+        <span class="mono toc__idx">04</span>
+        <span class="toc__name">The day, from your chair
+          <span class="toc__note">The full schedule with your windows marked — mentoring and judging.</span>
+        </span>
+        <span class="mono toc__pg">06</span>
+      </a>
+      <a class="toc__row" href="#track-1">
+        <span class="mono toc__idx">05</span>
+        <span class="toc__name">The three tracks
+          <span class="toc__note">One page each — Open-Source AI with DeepAgentLabs, Gemma&nbsp;4 with Great Data Labs, and AWS (pages 07–09).</span>
+        </span>
+        <span class="mono toc__pg">07</span>
+      </a>
+      <a class="toc__row" href="#judging">
+        <span class="mono toc__idx">06</span>
+        <span class="toc__name">How judging works
+          <span class="toc__note">The six criteria, the three-minute pitch, and the rules of the sheet.</span>
+        </span>
+        <span class="mono toc__pg">10</span>
+      </a>
+      <a class="toc__row" href="#mentoring">
+        <span class="mono toc__idx">07</span>
+        <span class="toc__name">Mentoring on the floor
+          <span class="toc__note">How to help without taking over — especially with beginners.</span>
+        </span>
+        <span class="mono toc__pg">11</span>
+      </a>
+      <a class="toc__row" href="#logistics">
+        <span class="mono toc__idx">08</span>
+        <span class="toc__name">Logistics &amp; contacts
+          <span class="toc__note">Venue, Wi-Fi, food, and who to call when something is off.</span>
+        </span>
+        <span class="mono toc__pg">12</span>
+      </a>
+    </nav>
+    <div class="toc__foot">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="square" aria-hidden="true">
+        <circle cx="12" cy="12" r="9"/><path d="M12 16.5v-5"/><path d="M12 7.8h.01"/>
+      </svg>
+      <p><strong>This is a working draft.</strong> The six judging criteria, their weights,
+      and the pitch format are confirmed — they come straight from the judging workbook.
+      Anything still marked with an amber note (mentor headcount, food arrangements,
+      station rotation) is pending confirmation by the organizing team. Expect a revised
+      edition before the day.</p>
+    </div>
+
+  </div>
+
+  <div class="run run--foot">
+    <a href="https://hacktober.awsatria.tech">hacktober.awsatria.tech</a>
+    <span class="run__num">02</span>
+  </div>
+</section>
+
+<!-- ============================ P3 · START HERE ============================ -->
+<section class="page" id="start">
+  <div class="run run--head">
+    <span>Judging &amp; Mentors Handbook</span>
+    <span>Start here</span>
+  </div>
+
+  <div class="page__body" style="padding-top: 7mm;">
+    <span class="eyebrow">For working professionals</span>
+    <h2 class="title title--wide">Start here.</h2>
+    <p class="deck" style="margin-top: 3.4mm;">
+      You are joining a one-day, in-person open-source hack day for college students —
+      part of the global Hacktoberfest celebration, run with Major League Hacking.
+      Expect a room of 100+ student builders, many of them contributing to open source
+      for the first time, building for seven hours straight. Your presence — a question
+      answered, a Git command unblocked, a fair score sheet — is the difference between
+      a project that ships and one that stalls at 2&nbsp;PM.
+    </p>
+
+    <div class="freeband">
+      <div>
+        <span class="mono mono--red">What it is</span>
+        <p>A free, full-day Hacktoberfest Hack Day: students build open-source AI
+        projects in solo teams or teams of up to four, then demo for prizes.</p>
+      </div>
+      <div>
+        <span class="mono mono--red">Who is here</span>
+        <p>100+ college students, from first-year beginners to seasoned contributors,
+        plus mentors, judges, volunteers, and faculty.</p>
+      </div>
+      <div>
+        <span class="mono mono--red">Your part</span>
+        <p>Mentors keep builders unblocked all day. Judges score the pitches in a single
+        hour at 5:30&nbsp;PM. Many of you will do both.</p>
+      </div>
+    </div>
+
+    <div style="display: flex; align-items: baseline; justify-content: space-between; margin-top: 7mm; padding-bottom: 2mm;">
+      <span class="eyebrow" style="margin: 0;">Why this day matters</span>
+      <span class="mono mono--mute">Two minutes of context</span>
+    </div>
+
+    <ul class="tick">
+      <li><strong>Hacktoberfest</strong> is DigitalOcean's month-long global celebration of
+      open source. A Hack Day is its in-person form: one room, one day, real pull requests.</li>
+      <li><strong>Many builders are beginners.</strong> Their first-ever commit, branch, or
+      pull request may happen at this event — often with you standing there. Patience tends
+      to help more than speed; the technical answers are usually easy by comparison.</li>
+      <li><strong>Come as a person, not a brand.</strong> A light mention of where you work
+      is natural; what students need is genuine curiosity about what they are building.
+      The MLH code of conduct applies to everyone — including us.</li>
+      <li><strong>What students take home.</strong> Beyond the swag, it is a fair, well-run
+      judging round and a thoughtful conversation with someone who does this for a living —
+      that is the part they remember.</li>
+    </ul>
+
+    <div class="draftnote">
+      <span class="mono">Draft — confirm with organizers</span>
+      <p>Judge and mentor headcounts, exact check-in instructions for industry guests,
+      and whether pros receive food coupons are <strong>to be confirmed</strong>. If your
+      name is on the roster, you will get a final briefing note closer to the day.</p>
+    </div>
+
+  </div>
+
+  <div class="run run--foot">
+    <a href="https://hacktober.awsatria.tech">hacktober.awsatria.tech</a>
+    <span class="run__num">03</span>
+  </div>
+</section>
+
+<!-- ============================ P4 · FIELD GUIDE / GLOSSARY ============================ -->
+<section class="page" id="glossary">
+  <div class="run run--head">
+    <span>Judging &amp; Mentors Handbook</span>
+    <span>Field guide</span>
+  </div>
+
+  <div class="page__body" style="padding-top: 7mm;">
+    <span class="eyebrow">Shared vocabulary</span>
+    <h2 class="title title--wide">Hackathon field guide.</h2>
+    <p class="deck" style="margin-top: 3.4mm;">
+      The words you will hear on the floor today, in plain language. If a student uses
+      one of these and you draw a blank, this page has your back — no one expects you
+      to memorize it.
+    </p>
+
+    <dl class="glossary">
+      <div class="gterm">
+        <dt>Hack Day</dt>
+        <dd>A one-day, in-person hackathon. Teams build a working project from scratch in a few hours, then demo it.</dd>
+      </div>
+      <div class="gterm">
+        <dt>Hacktoberfest</dt>
+        <dd>DigitalOcean's annual global open-source celebration. This event is an official Hacktoberfest Hack Day.</dd>
+      </div>
+      <div class="gterm">
+        <dt>MLH</dt>
+        <dd>Major League Hacking — the student hackathon league partnering this event. Registration, submissions, and the code of conduct run through MLH.</dd>
+      </div>
+      <div class="gterm">
+        <dt>Repo</dt>
+        <dd>A project's repository on GitHub — its code, history, and home. Every submission must live in a public repo.</dd>
+      </div>
+      <div class="gterm">
+        <dt>Issue</dt>
+        <dd>A task or bug logged on a repo. "Good first issues" are beginner-friendly tasks mentors help teams find.</dd>
+      </div>
+      <div class="gterm">
+        <dt>Pull request (PR)</dt>
+        <dd>A proposed change to a repo, sent for review. The core currency of open source — and of Hacktoberfest.</dd>
+      </div>
+      <div class="gterm">
+        <dt>Open-source license</dt>
+        <dd>The legal terms that let others use and build on code (MIT, Apache-2.0, GPL...). Required for the core track.</dd>
+      </div>
+      <div class="gterm">
+        <dt>Open-weight model</dt>
+        <dd>An AI model whose weights are publicly available — like Gemma. Distinct from open-source, though often used together.</dd>
+      </div>
+      <div class="gterm">
+        <dt>Agent skill (SKILL.md)</dt>
+        <dd>A capability package for AI agents, written to the open Agent Skill Standard — typically a SKILL.md file plus supporting resources.</dd>
+      </div>
+      <div class="gterm">
+        <dt>Model harness</dt>
+        <dd>Software that runs and orchestrates a model — loading it, feeding it input, handling output. Original harnesses are a valid core-track entry.</dd>
+      </div>
+      <div class="gterm">
+        <dt>Gemma 4 / Gemini API</dt>
+        <dd>Google's open-weight multimodal model, accessed for this event through the Gemini API or hosted locally. The basis of the Gemma&nbsp;4 track.</dd>
+      </div>
+      <div class="gterm">
+        <dt>Track</dt>
+        <dd>The challenge category a project competes in. Three today — and while one project can qualify for more than one, teams submit and are judged in exactly one.</dd>
+      </div>
+      <div class="gterm">
+        <dt>Submission</dt>
+        <dd>The team's entry on the MLH challenges page: repo link, write-up, demo notes. Opens 5:00&nbsp;PM; locks at 5:30&nbsp;PM — and it names the single track the team is judged in.</dd>
+      </div>
+      <div class="gterm">
+        <dt>Pitch</dt>
+        <dd>The three minutes a team has to show what they built, followed by one to two minutes of questions. A volunteer at the table keeps the time.</dd>
+      </div>
+      <div class="gterm">
+        <dt>Judging workbook</dt>
+        <dd>The shared scorecard judges work in on the day: six criteria, scores 0–10, everything else calculated. Access opens at 5:00&nbsp;PM — thirty minutes before judging.</dd>
+      </div>
+      <div class="gterm">
+        <dt>DeepAgentLabs</dt>
+        <dd>Sponsor and governing partner of the Best Open-Source AI Project track — open-source tools for operating agentic AI. Featured projects are showcased on deepagentlabs.io.</dd>
+      </div>
+      <div class="gterm">
+        <dt>Great Data Labs</dt>
+        <dd>Sponsor of the Best Use of Gemma&nbsp;4 track. Their open-source <em>great-generator</em> makes synthetic datasets — optional to use, with plus points when paired with locally hosted Gemma&nbsp;4.</dd>
+      </div>
+    </dl>
+
+  </div>
+
+  <div class="run run--foot">
+    <span>Shared vocabulary — keep this page open on your phone if it helps.</span>
+    <span class="run__num">04</span>
+  </div>
+</section>
+
+<!-- ============================ P5 · YOUR ROLE ============================ -->
+<section class="page" id="role">
+  <div class="run run--head">
+    <span>Judging &amp; Mentors Handbook</span>
+    <span>Your role</span>
+  </div>
+
+  <div class="page__body" style="padding-top: 7mm;">
+    <span class="eyebrow">Mentors &amp; judges</span>
+    <h2 class="title title--wide">Your role.</h2>
+    <p class="deck" style="margin-top: 3.4mm;">
+      Two hats, one room. Mentors keep teams moving all day; judges evaluate the final
+      pitches in one focused hour. Most industry guests wear both — mentor in the day,
+      judge in the evening. If you are only judging, arriving at 5:00&nbsp;PM is right:
+      that is when your judging workbook access opens.
+    </p>
+
+    <div class="roles">
+      <div class="role">
+        <span class="role__tag" style="background: var(--color-moss); color: var(--color-cream);">On the floor</span>
+        <h3>Mentor</h3>
+        <p class="role__when">10:15 AM – 5:00 PM &middot; roaming</p>
+        <p>You circulate the room, answer questions, unblock stuck teams, and give
+        feedback on ideas before they become 4&nbsp;PM regrets. You are a guide, not a
+        pair-programmer — the code stays with the students.</p>
+        <ul>
+          <li><strong>Unblock, then step back.</strong> Get them past the wall, then let them drive again.</li>
+          <li><strong>Questions you will hear:</strong> Git commands, finding good first issues, "does this idea fit a track?", API keys, where to start with Gemma or AWS.</li>
+          <li><strong>Roam rather than nest.</strong> Split the room with fellow mentors so no table goes unanswered for long.</li>
+          <li><strong>If something serious comes up</strong> — conduct, safety, a dispute — bring it to the organizer desk and let us take it from there.</li>
+        </ul>
+      </div>
+      <div class="role">
+        <span class="role__tag" style="background: var(--red-ink); color: var(--color-cream);">At the desk</span>
+        <h3>Judge</h3>
+        <p class="role__when">5:30 PM – 6:30 PM &middot; judging stations</p>
+        <p>You watch each team's three-minute pitch, take one to two minutes of questions —
+        a volunteer at your table keeps the time — then score six criteria in the judging
+        workbook. Your access opens at 5:00&nbsp;PM; the 5:15&nbsp;PM briefing walks you
+        through it before the first team arrives.</p>
+        <ul>
+          <li><strong>Submissions close at 5:30&nbsp;PM.</strong> Only submitted projects can be judged.</li>
+          <li><strong>Score, don't coach.</strong> Mentoring ends when judging begins.</li>
+          <li><strong>One project, one track.</strong> A project may qualify for several tracks, but it is submitted and judged in exactly one — no switching during judging; flag requests to an organizer.</li>
+          <li><strong>Flag conflicts</strong> — teams you mentored closely, your own organization, or anyone you know personally.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="strictnote">
+      <span class="mono">One standard, all day</span>
+      <p>MLH's code of conduct applies to every minute you are at this event, in every
+      interaction. Please be kind, be inclusive, keep it professional.
+      <strong>Worth a read before you arrive:</strong> static.mlh.io/docs/mlh-code-of-conduct.pdf.
+      If anything ever concerns you, the lead organizer is on page 12 — we would rather
+      hear from you early than not at all.</p>
+    </div>
+
+  </div>
+
+  <div class="run run--foot">
+    <span>Mentor from 10:15 &middot; judge from 5:30 &middot; conduct applies all day</span>
+    <span class="run__num">05</span>
+  </div>
+</section>
+
+<!-- ============================ P6 · THE DAY ============================ -->
+<section class="page page--ink" id="day">
+  <div class="run run--head">
+    <span>Judging &amp; Mentors Handbook</span>
+    <span>The day</span>
+  </div>
+
+  <div class="page__body" style="padding-top: 7mm;">
+    <span class="eyebrow">Friday, 23 October 2026</span>
+    <h2 class="title title--wide">The day, from your chair.</h2>
+    <p class="deck" style="margin-top: 3.4mm;">
+      The full schedule, with your windows tagged. Mentors: be on the floor by
+      10:15&nbsp;AM. Judges: the briefing is at 5:15&nbsp;PM and scoring starts sharp
+      at 5:30&nbsp;PM.
+    </p>
+
+    <div class="schedule">
+      <div class="slot">
+        <span class="slot__time">08:30 – 09:30</span>
+        <span class="slot__title">Check-in &amp; Registration<span class="slot__desc">Participants arrive and collect wristbands. Industry guests check in at the organizer desk.</span></span>
+      </div>
+      <div class="slot slot--key">
+        <span class="slot__time">09:30 – 10:00</span>
+        <span class="slot__title">Inauguration &amp; Briefing<span class="slot__desc">Welcome, tracks, rules, and judging criteria. Worth being in the room — it is the shared script for the day.</span><span class="slot__role">Both</span></span>
+      </div>
+      <div class="slot slot--key">
+        <span class="slot__time">10:00 – 05:00</span>
+        <span class="slot__title">Hacking &amp; Building<span class="slot__desc">The main build window. Mentors roam from 10:15. Trivia and meal breaks fall inside it — feel free to step out.</span><span class="slot__role">Mentors</span></span>
+      </div>
+      <div class="slot">
+        <span class="slot__time">11:30 – 11:45</span>
+        <span class="slot__title">Trivia 1<span class="slot__desc">Optional light break for the room. A good moment to circulate while tables pause.</span></span>
+      </div>
+      <div class="slot">
+        <span class="slot__time">12:45 – 01:30</span>
+        <span class="slot__title">Lunch Break<span class="slot__desc">On campus, coupons at the counter. Mentors and guests: confirm your meal arrangement at the desk.</span></span>
+      </div>
+      <div class="slot">
+        <span class="slot__time">03:00 – 03:15</span>
+        <span class="slot__title">Trivia 2<span class="slot__desc">Second round. Late-afternoon is when teams stall — a good time for a mentor lap.</span></span>
+      </div>
+      <div class="slot">
+        <span class="slot__time">05:00 – 05:30</span>
+        <span class="slot__title">Snacks &amp; Networking<span class="slot__desc">Submissions open at 5:00 PM on the MLH challenges page. Last call for mentor questions. Judges check in — your judging workbook access opens now.</span></span>
+      </div>
+      <div class="slot slot--key">
+        <span class="slot__time">05:15</span>
+        <span class="slot__title">Judge briefing<span class="slot__desc">Fifteen minutes: the six criteria, the three-minute pitch format, and a walk through the scoring workbook.</span><span class="slot__role">Judges</span></span>
+      </div>
+      <div class="slot slot--key">
+        <span class="slot__time">05:30 – 06:30</span>
+        <span class="slot__title">Judging &amp; Project Evaluation<span class="slot__desc">Each team pitches for three minutes, then answers questions for one to two — a volunteer at your table keeps time. Projects not submitted by 5:30 cannot be evaluated.</span><span class="slot__role">Judges</span></span>
+      </div>
+      <div class="slot slot--key">
+        <span class="slot__time">06:30 – 07:00</span>
+        <span class="slot__title">Awards &amp; Closing<span class="slot__desc">Winners on stage, prizes handed out, group photo. Judges: all six scores filed before you head for the stage.</span></span>
+      </div>
+    </div>
+
+    <div class="arriveband">
+      <div>
+        <span class="mono">Mentors — by 10:00 AM</span>
+        <p>Check in at the organizer desk, collect your <strong>mentor badge</strong>,
+        do a lap of the room before the first questions land.</p>
+      </div>
+      <div>
+        <span class="mono">Judges — by 5:00 PM</span>
+        <p>Check in, open your <strong>judging workbook</strong> at 5:00, join the
+        <strong>5:15 briefing</strong>, and take your station.</p>
+      </div>
+      <div>
+        <span class="mono">Anything unclear</span>
+        <p>Find the organizer desk — or Darshan directly (page 12). If the schedule
+        changes, we will say so; please just ask rather than guess.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="run run--foot">
+    <a href="https://hacktober.awsatria.tech/day">hacktober.awsatria.tech/day</a>
+    <span class="run__num">06</span>
+  </div>
+</section>
+
+<!-- ============================ P7 · TRACK 1 — OPEN-SOURCE AI (DEEPAGENTLABS) ============================ -->
+<section class="page" id="track-1">
+  <div class="run run--head">
+    <span>Judging &amp; Mentors Handbook</span>
+    <span>Track 1 · Open-Source AI</span>
+  </div>
+
+  <div class="page__body" style="padding-top: 7mm;">
+    <span class="eyebrow">Track 1 of 3 · Core Hacktoberfest Challenge</span>
+    <h2 class="title title--wide">Best open-source AI project.</h2>
+    <p class="deck" style="margin-top: 3.4mm;">
+      The core Hacktoberfest challenge: open-source AI doing real work — a new project,
+      or a meaningful extension, integration, evaluation, policy pack or operational
+      feature. DeepAgentLabs governs this track and showcases featured entries on
+      deepagentlabs.io. Scores come from the same six criteria as every other track.
+    </p>
+
+    <div class="spplate">
+      <div class="spplate__logo"><img src="sponsors/2026/DAL%20logo.png" alt="DeepAgentLabs"></div>
+      <div class="spplate__who">
+        <span class="mono">Track sponsor &amp; governing partner</span>
+        <h3>DeepAgentLabs</h3>
+        <p>Open tools for operating agentic AI — observability, runtime supervision,
+        evaluation, reliability testing and MCP connectivity. Six PyPI packages,
+        ~402K+ downloads, 10+ contributors; projects using them are featured on the site.</p>
+        <span class="spplate__links">
+          <a href="https://deepagentlabs.io">deepagentlabs.io</a>
+          <a href="https://github.com/DeepAgentLabs">github.com/DeepAgentLabs</a>
+        </span>
+      </div>
+    </div>
+
+    <div style="display: flex; align-items: baseline; justify-content: space-between; margin-top: 6.5mm; padding-bottom: 2mm;">
+      <span class="eyebrow" style="margin: 0;">What teams are building</span>
+      <span class="mono mono--mute">Eligibility gate</span>
+    </div>
+
+    <ul class="tick">
+      <li><strong>Open-source or open-weight AI is an important part of the project</strong> — a new project or a meaningful extension, integration, example, evaluation, policy pack or operational feature.</li>
+      <li><strong>A public GitHub repo under an open-source license.</strong> Using DeepAgentLabs packages is one path, not a requirement — stand-alone open-source work qualifies, and strong entries get showcased on deepagentlabs.io.</li>
+      <li>An <strong>agent skill</strong> must comply with the Agent Skill Open Standard (SKILL.md).</li>
+      <li>A <strong>model-harness</strong> entry needs an original implementation, or meaningful changes to an existing open-source harness.</li>
+    </ul>
+
+    <div style="display: flex; align-items: baseline; justify-content: space-between; margin-top: 6.5mm; padding-bottom: 2mm;">
+      <span class="eyebrow" style="margin: 0;">Track focus</span>
+      <span class="mono mono--mute">Shapes the six criteria — no separate weight</span>
+    </div>
+
+    <div class="focus">
+      <div class="focus__row focus__row--head">
+        <span class="mono">What judges look for</span>
+        <span class="mono">What good looks like</span>
+      </div>
+      <div class="focus__row">
+        <span class="focus__k">Meaningful open-source AI use</span>
+        <span class="focus__v">The core capability comes from openly licensed, self-hostable models or tooling — not a proprietary API behind a curtain.</span>
+      </div>
+      <div class="focus__row">
+        <span class="focus__k">Technical depth &amp; implementation</span>
+        <span class="focus__v">Architecture, training and inference pipelines, evaluation rigour, reproducibility — evidence the hard problems were actually solved.</span>
+      </div>
+      <div class="focus__row">
+        <span class="focus__k">Quality of the contribution</span>
+        <span class="focus__v">A repo a stranger can pick up tomorrow: commit and issue hygiene, reusable modules, real value for the community.</span>
+      </div>
+      <div class="focus__row">
+        <span class="focus__k">Docs, structure &amp; licence</span>
+        <span class="focus__v">README, setup instructions, architecture diagrams, model and dataset cards, a correct LICENSE and third-party attribution.</span>
+      </div>
+      <div class="focus__row">
+        <span class="focus__k">Clear demonstration</span>
+        <span class="focus__v">A judge can run it — or watch it run — and reproduce the claimed result from the documented steps alone.</span>
+      </div>
+    </div>
+
+    <div class="strictnote" style="margin-top: 5.6mm;">
+      <span class="mono">Before you score this track</span>
+      <p>Start with the repo: confirm it is public and carries a real license file, then
+      judge the build as presented today — not the idea it might become.</p>
+    </div>
+  </div>
+
+  <div class="run run--foot">
+    <a href="https://deepagentlabs.io">deepagentlabs.io &middot; briefs on the MLH challenges page</a>
+    <span class="run__num">07</span>
+  </div>
+</section>
+
+<!-- ============================ P8 · TRACK 2 — GEMMA 4 (GREAT DATA LABS) ============================ -->
+<section class="page" id="track-2">
+  <div class="run run--head">
+    <span>Judging &amp; Mentors Handbook</span>
+    <span>Track 2 · Gemma 4</span>
+  </div>
+
+  <div class="page__body" style="padding-top: 7mm;">
+    <span class="eyebrow">Track 2 of 3 · Sponsored challenge</span>
+    <h2 class="title title--wide">Best use of Gemma 4.</h2>
+    <p class="deck" style="margin-top: 3.4mm;">
+      Build with Gemma&nbsp;4 — Google's open-weight multimodal model — through the
+      Gemini API or hosted locally: text and images together, a focused tool, or a fast
+      prototype. Sponsored by Great Data Labs, whose open-source
+      <strong>great-generator</strong> teams may use — optional, with plus points when
+      paired with locally hosted Gemma&nbsp;4.
+    </p>
+
+    <div class="spplate">
+      <div class="spplate__logo"><img src="sponsors/2026/GreatDataLabs.png" alt="Great Data Labs"></div>
+      <div class="spplate__who">
+        <span class="mono">Track sponsor</span>
+        <h3>Great Data Labs</h3>
+        <p>Practical tools for modern data and AI engineering. Their flagship project,
+        <strong>great-generator</strong>, is a Python library for schema-driven synthetic
+        data — relational datasets, Pandas and Spark workflows, CSV/Parquet/Delta output.
+        Use it or not; pair it with locally hosted Gemma&nbsp;4 for the plus points.</p>
+        <span class="spplate__links">
+          <a href="https://github.com/ravikiranpagidi/great-generator">github.com/ravikiranpagidi/great-generator</a>
+          <a href="mailto:greatdatalabs@proton.me">greatdatalabs@proton.me</a>
+        </span>
+      </div>
+    </div>
+
+    <div style="display: flex; align-items: baseline; justify-content: space-between; margin-top: 6.5mm; padding-bottom: 2mm;">
+      <span class="eyebrow" style="margin: 0;">What teams are building</span>
+      <span class="mono mono--mute">Challenge framing</span>
+    </div>
+
+    <ul class="tick">
+      <li><strong>Multimodal experiences</strong> — understanding text and images together, where the problem calls for it.</li>
+      <li><strong>Focused AI tools</strong> — for learning, creativity, productivity, or community.</li>
+      <li><strong>Rapid prototyping</strong> — idea to working prototype, quickly, through the Gemini API or a local model.</li>
+    </ul>
+
+    <div style="display: flex; align-items: baseline; justify-content: space-between; margin-top: 6.5mm; padding-bottom: 2mm;">
+      <span class="eyebrow" style="margin: 0;">Track focus</span>
+      <span class="mono mono--mute">Shapes the six criteria — no separate weight</span>
+    </div>
+
+    <div class="focus">
+      <div class="focus__row focus__row--head">
+        <span class="mono">What judges look for</span>
+        <span class="mono">What good looks like</span>
+      </div>
+      <div class="focus__row">
+        <span class="focus__k">Effective, meaningful Gemma&nbsp;4 use</span>
+        <span class="focus__v">The model does real work at the heart of the product — you can point at exactly where Gemma&nbsp;4 changes the outcome, rather than it being bolted on.</span>
+      </div>
+      <div class="focus__row">
+        <span class="focus__k">Multimodal where relevant</span>
+        <span class="focus__v">Genuine text-and-image use where the problem needs it; for text-only projects, judge the depth of prompting or tuning instead.</span>
+      </div>
+      <div class="focus__row">
+        <span class="focus__k">Quality of AI integration</span>
+        <span class="focus__v">Prompt design, context handling, fine-tuning, evals, guardrails, latency and cost, fallbacks — output validated before it is trusted.</span>
+      </div>
+      <div class="focus__row">
+        <span class="focus__k">Originality</span>
+        <span class="focus__v">A fresh application of the model, not a wrapper around the obvious demo — novel task framing, clever data pipelines, unexpected use-cases.</span>
+      </div>
+      <div class="focus__row">
+        <span class="focus__k">The demo shows the model's work</span>
+        <span class="focus__v">Gemma&nbsp;4's contribution is self-evident in the pitch — an A/B against a no-AI baseline is the strongest possible proof.</span>
+      </div>
+    </div>
+
+    <div class="strictnote" style="margin-top: 5.6mm;">
+      <span class="mono">Two questions worth asking</span>
+      <p>"Where does Gemma&nbsp;4 actually change the result — and not just any LLM?"
+      and, when the team used <em>great-generator</em>, "was the model hosted locally,
+      and what did the data pipeline look like?"</p>
+    </div>
+  </div>
+
+  <div class="run run--foot">
+    <a href="https://www.mlh.com/events/hacktoberfest-hack-day-bengaluru-x-aws-student-builder-group-at-atria-institute-of-technology/challenges">Full briefs on the MLH challenges page</a>
+    <span class="run__num">08</span>
+  </div>
+</section>
+
+<!-- ============================ P9 · TRACK 3 — AWS ============================ -->
+<section class="page" id="track-3">
+  <div class="run run--head">
+    <span>Judging &amp; Mentors Handbook</span>
+    <span>Track 3 · Best Use of AWS</span>
+  </div>
+
+  <div class="page__body" style="padding-top: 7mm;">
+    <span class="eyebrow">Track 3 of 3 · AWS Student Builder Group Special</span>
+    <h2 class="title title--wide">Best use of AWS.</h2>
+    <p class="deck" style="margin-top: 3.4mm;">
+      Use the AWS ecosystem to turn an idea into something real and scalable. Any AWS
+      service counts and combining several is encouraged — but AWS must be an important
+      part of the project, with a clear explanation of how it contributes. This track
+      scores four specific things on top of the six shared criteria.
+    </p>
+
+    <div class="spplate">
+      <div class="spplate__logo"><img src="aws-sbg-dark.png" alt="AWS Student Builder Group" style="height: 9mm;"></div>
+      <div class="spplate__who">
+        <span class="mono">Host &amp; track owner</span>
+        <h3>AWS Student Builder Group</h3>
+        <p>Run by our own AWS Student Builder Group at Atria — the club hosting the day.
+        The strongest AWS-powered entry takes the track.</p>
+      </div>
+    </div>
+
+    <div style="display: flex; align-items: baseline; justify-content: space-between; margin-top: 6.5mm; padding-bottom: 2mm;">
+      <span class="eyebrow" style="margin: 0;">How this track is judged</span>
+      <span class="mono mono--mute">Four questions on top of the six criteria</span>
+    </div>
+
+    <div class="pillars">
+      <div class="pillar">
+        <span class="mono">01</span>
+        <h4>Resource efficiency</h4>
+        <p>How efficiently are the resources used — right-sized services, no idle waste, no over-provisioned "just in case".</p>
+      </div>
+      <div class="pillar">
+        <span class="mono">02</span>
+        <h4>Measured usage</h4>
+        <p>Can the team show how they measured it? Real numbers — CloudWatch, cost dashboards, load tests — beat guesses.</p>
+      </div>
+      <div class="pillar">
+        <span class="mono">03</span>
+        <h4>Services together</h4>
+        <p>How well do the services work together as one system — rather than several services sitting side by side.</p>
+      </div>
+      <div class="pillar">
+        <span class="mono">04</span>
+        <h4>Fit at scale</h4>
+        <p>Are these the right services for this project at scale — what happens at ten times the users, without a rebuild?</p>
+      </div>
+    </div>
+
+    <div style="display: flex; align-items: baseline; justify-content: space-between; margin-top: 6.5mm; padding-bottom: 2mm;">
+      <span class="eyebrow" style="margin: 0;">Track focus</span>
+      <span class="mono mono--mute">Shapes the six criteria — no separate weight</span>
+    </div>
+
+    <div class="focus">
+      <div class="focus__row focus__row--head">
+        <span class="mono">What judges look for</span>
+        <span class="mono">What good looks like</span>
+      </div>
+      <div class="focus__row">
+        <span class="focus__k">Meaningful, effective AWS use</span>
+        <span class="focus__v">Beyond EC2-plus-a-bucket: services chosen because they are the right tool, with reasoning that holds up.</span>
+      </div>
+      <div class="focus__row">
+        <span class="focus__k">Architecture &amp; implementation</span>
+        <span class="focus__v">Clear diagrams, separation of concerns, IAM design, infrastructure as code, a deployment story anyone could reproduce.</span>
+      </div>
+      <div class="focus__row">
+        <span class="focus__k">Scalability, reliability, cost</span>
+        <span class="focus__v">Well-Architected thinking: autoscaling, observability, cost-awareness, graceful failure handling — this is where efficiency and fit at scale show up.</span>
+      </div>
+      <div class="focus__row">
+        <span class="focus__k">Creative combinations</span>
+        <span class="focus__v">Unexpected but sensible pairings — Bedrock with Step Functions and EventBridge, serverless pipelines, event-driven choreography.</span>
+      </div>
+      <div class="focus__row">
+        <span class="focus__k">The demo traces the cloud</span>
+        <span class="focus__v">Follow the request through the real architecture, ideally with CloudWatch logs, traces or metrics shown live.</span>
+      </div>
+    </div>
+
+    <div class="strictnote" style="margin-top: 5.6mm;">
+      <span class="mono">Before you score this track</span>
+      <p>"It runs on my laptop, but it could be on AWS" does not clear the bar — and when
+      you ask what they measured, the numbers should be real.</p>
+    </div>
+  </div>
+
+  <div class="run run--foot">
+    <a href="https://www.mlh.com/events/hacktoberfest-hack-day-bengaluru-x-aws-student-builder-group-at-atria-institute-of-technology/challenges">Full briefs on the MLH challenges page</a>
+    <span class="run__num">09</span>
+  </div>
+</section>
+
+<!-- ============================ P10 · HOW JUDGING WORKS ============================ -->
+<section class="page" id="judging">
+  <div class="run run--head">
+    <span>Judging &amp; Mentors Handbook</span>
+    <span>How judging works</span>
+  </div>
+
+  <div class="page__body" style="padding-top: 7mm;">
+    <span class="eyebrow">One hour, six criteria</span>
+    <h2 class="title title--wide">How judging works.</h2>
+    <p class="deck" style="margin-top: 3.4mm;">
+      Your judging workbook opens at 5:00&nbsp;PM. Each team gets three minutes to pitch and one
+      to two of questions — timed by a volunteer at your table. Then you score six
+      criteria, 0&ndash;10 each; the weighted total calculates itself. Not submitted by 5:30? Not evaluated.
+    </p>
+
+    <div class="flow" style="margin-top: 6mm;">
+      <div class="flow__step" style="border-color: var(--color-ink); background: var(--color-paper);">
+        <span class="mono mono--red">Step 01</span>
+        <h4 style="color: var(--color-ink);">Briefing</h4>
+        <p style="color: rgba(16, 32, 29, 0.74);">5:15 PM — criteria, pitch format, and a
+        walk through the workbook. Questions here, not at the tables.</p>
+      </div>
+      <div class="flow__step" style="border-color: var(--color-ink); background: var(--color-paper);">
+        <span class="mono mono--red">Step 02</span>
+        <h4 style="color: var(--color-ink);">Pitch &amp; questions</h4>
+        <p style="color: rgba(16, 32, 29, 0.74);">Three minutes, then one to two — the
+        volunteer keeps the time. Then the next team.</p>
+      </div>
+      <div class="flow__step" style="border-color: var(--color-ink); background: var(--color-paper);">
+        <span class="mono mono--red">Step 03</span>
+        <h4 style="color: var(--color-ink);">Scores in</h4>
+        <p style="color: rgba(16, 32, 29, 0.74);">All six filed before 6:30. A team's
+        score is the average of every judge on it.</p>
+      </div>
+    </div>
+
+    <div style="display: flex; align-items: baseline; justify-content: space-between; margin-top: 4.8mm; padding-bottom: 2mm;">
+      <span class="eyebrow" style="margin: 0;">The six criteria</span>
+      <span class="mono mono--mute">Weights from the judging workbook</span>
+    </div>
+
+    <div class="rubric">
+      <div class="rubric__row rubric__row--head">
+        <span class="mono">Criterion</span>
+        <span class="mono">Weight</span>
+        <span class="mono">What a strong answer looks like</span>
+      </div>
+      <div class="rubric__row">
+        <span class="rubric__crit">Technical implementation</span>
+        <span class="rubric__wt">25%</span>
+        <span class="rubric__note">Architecture does what it claims; the hard parts are genuinely solved.</span>
+      </div>
+      <div class="rubric__row">
+        <span class="rubric__crit">Innovation &amp; creativity</span>
+        <span class="rubric__wt">20%</span>
+        <span class="rubric__note">A fresh angle on the problem, not a re-skinned tutorial.</span>
+      </div>
+      <div class="rubric__row">
+        <span class="rubric__crit">Problem &amp; impact</span>
+        <span class="rubric__wt">15%</span>
+        <span class="rubric__note">A real problem, for real people, with a path to matter.</span>
+      </div>
+      <div class="rubric__row">
+        <span class="rubric__crit">Execution &amp; functionality</span>
+        <span class="rubric__wt">15%</span>
+        <span class="rubric__note">It works in front of you — or fails honestly, with a reason why.</span>
+      </div>
+      <div class="rubric__row">
+        <span class="rubric__crit">Presentation &amp; demo</span>
+        <span class="rubric__wt">15%</span>
+        <span class="rubric__note">Clear story, confident demo, questions handled, impact clear.</span>
+      </div>
+      <div class="rubric__row">
+        <span class="rubric__crit">Documentation &amp; code quality</span>
+        <span class="rubric__wt">10%</span>
+        <span class="rubric__note">A stranger could clone it, run it and understand it.</span>
+      </div>
+    </div>
+
+    <div style="display: flex; align-items: baseline; justify-content: space-between; margin-top: 4.6mm; padding-bottom: 2mm;">
+      <span class="eyebrow" style="margin: 0;">The 0–10 scale</span>
+      <span class="mono mono--mute">Whole numbers · all six required</span>
+    </div>
+
+    <div class="scaleband">
+      <div class="scaleband__cell scaleband__cell--top">
+        <span class="mono">9–10</span>
+        <p>Outstanding — does everything at a high level.</p>
+      </div>
+      <div class="scaleband__cell">
+        <span class="mono">7–8</span>
+        <p>Strong and complete.</p>
+      </div>
+      <div class="scaleband__cell">
+        <span class="mono">5–6</span>
+        <p>Solid but unremarkable.</p>
+      </div>
+      <div class="scaleband__cell">
+        <span class="mono">3–4</span>
+        <p>Major gaps.</p>
+      </div>
+      <div class="scaleband__cell">
+        <span class="mono">0–2</span>
+        <p>Barely working.</p>
+      </div>
+    </div>
+
+    <div style="display: flex; align-items: baseline; justify-content: space-between; margin-top: 4.6mm; padding-bottom: 2mm;">
+      <span class="eyebrow" style="margin: 0;">Rules of the sheet</span>
+      <span class="mono mono--mute">Non-negotiables</span>
+    </div>
+
+    <ul class="tick">
+      <li><strong>One project, one track.</strong> A project may qualify for several, but it is submitted and judged in exactly one. Asked to switch mid-round? Note the team name and tell an organizer.</li>
+      <li><strong>Score what is presented.</strong> Judge the build as it stands today, not the idea it might become — and file all six scores before closing the row.</li>
+      <li><strong>Scores stay yours until filing.</strong> No score-talk with other judges beforehand; declare conflicts (teams you mentored, your organization, anyone you know) and hand that team over.</li>
+      <li><strong>Amend, don't argue.</strong> To correct a score, fix the scorecard cell — the standings recalculate themselves. Disputes go to the lead organizer, not the team.</li>
+    </ul>
+
+  </div>
+
+  <div class="run run--foot">
+    <span>Sheet access 5:00 &middot; briefing 5:15 &middot; judging 5:30–6:30</span>
+    <span class="run__num">10</span>
+  </div>
+</section>
+
+<!-- ============================ P11 · MENTORING ON THE FLOOR ============================ -->
+<section class="page" id="mentoring">
+  <div class="run run--head">
+    <span>Judging &amp; Mentors Handbook</span>
+    <span>Mentoring</span>
+  </div>
+
+  <div class="page__body" style="padding-top: 7mm;">
+    <span class="eyebrow">Seven hours on the floor</span>
+    <h2 class="title title--wide">Mentoring on the floor.</h2>
+    <p class="deck" style="margin-top: 3.4mm;">
+      Most of your day is conversations at tables: "how do I push this?", "is this a
+      good idea?", "where do I even start?". You will not remember every answer you
+      gave — the students will remember how it felt to ask.
+    </p>
+
+    <div class="dodont">
+      <div class="dodont__col dodont__col--do">
+        <span class="mono mono--moss">Do</span>
+        <ul>
+          <li><strong>Start with the team, not the code.</strong> What are you building, and why this? Thirty seconds of context saves a wrong direction.</li>
+          <li><strong>Teach the command, not just the fix.</strong> "Here is <em>git rebase</em>" beats typing it on their laptop for them.</li>
+          <li><strong>Point at good first issues</strong> and beginner-safe repos when a team wants an open-source starting point.</li>
+          <li><strong>Encourage scope cuts.</strong> A small thing that works beats a big thing that never runs. 4&nbsp;PM is coming.</li>
+          <li><strong>Check back once.</strong> A two-minute follow-up lap separates a good mentor from a great one.</li>
+          <li><strong>Send food-and-water signals.</strong> If a table has not moved in hours, ask if they have eaten.</li>
+        </ul>
+      </div>
+      <div class="dodont__col dodont__col--dont">
+        <span class="mono mono--red">Don't</span>
+        <ul>
+          <li><strong>The code and the submission stay the students'.</strong> Writing it for them sits outside both the spirit of the day and the rules.</li>
+          <li><strong>Let them keep the keyboard</strong> — even when someone is truly stuck, narrating a fix tends to teach more than typing it does.</li>
+          <li><strong>Keep employer talk light.</strong> A mention of where you work is natural; a recruiting pitch at every table gets tiring fast.</li>
+          <li><strong>Prizes, referrals and jobs are not ours to promise</strong> — and a promise students remember turns into one they chase.</li>
+          <li><strong>The afternoon stall, 3&ndash;5&nbsp;PM</strong>, tends to be when mentors are needed most — worth being around for.</li>
+          <li><strong>Opinions before 5:30 are coaching; after 5:30 they are scores.</strong> When judging starts, mentoring stops.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div style="display: flex; align-items: baseline; justify-content: space-between; margin-top: 6.5mm; padding-bottom: 2mm;">
+      <span class="eyebrow" style="margin: 0;">If you only remember one thing</span>
+      <span class="mono mono--mute">The 3-minute rule</span>
+    </div>
+
+    <div class="arriveband">
+      <div>
+        <span class="mono">Listen for one minute</span>
+        <p>Let the team explain, even badly. Most "stuck" teams have already said the
+        answer out loud — they just did not hear it.</p>
+      </div>
+      <div>
+        <span class="mono">Unblock for two</span>
+        <p>Give the smallest next step — a command, a doc link, a name to search.
+        Not the full architecture of the finished project.</p>
+      </div>
+      <div>
+        <span class="mono">Then walk away</span>
+        <p>Hand the keyboard back. Come back later if they wave you down. Their hands
+        should be on the keys more than yours.</p>
+      </div>
+    </div>
+
+    <div class="strictnote">
+      <span class="mono">Anything serious goes up, not out</span>
+      <p>Conduct concerns, safety issues, harassment, or disputes about rules:
+      <strong>stop, find the organizer desk, hand it over.</strong> Do not improvise a
+      resolution, and do not post about it publicly. The lead organizer's number is on page 12.</p>
+    </div>
+
+  </div>
+
+  <div class="run run--foot">
+    <span>Guide, do not build &middot; the code stays with the students.</span>
+    <span class="run__num">11</span>
+  </div>
+</section>
+
+<!-- ============================ P12 · LOGISTICS & CONTACTS ============================ -->
+<section class="page" id="logistics">
+  <div class="run run--head">
+    <span>Judging &amp; Mentors Handbook</span>
+    <a href="https://hacktober.awsatria.tech">hacktober.awsatria.tech</a>
+  </div>
+
+  <div class="page__body" style="padding-top: 8mm;">
+    <span class="eyebrow">Getting through the day</span>
+    <h2 class="title title--wide">Logistics &amp; contacts.</h2>
+    <p class="deck" style="margin-top: 3.4mm;">
+      The practical layer: where to be, how to get online, and who to call. Everything
+      else — updates, changes, emergencies — routes through the WhatsApp group and the
+      lead organizer.
+    </p>
+
+    <div class="venueplate">
+      <div>
+        <h3>Atria Institute<br>of Technology</h3>
+        <address>1st Main Road, AGS Colony, Anandnagar, Hebbal<br>Bengaluru, Karnataka 560024, India</address>
+        <p class="venueplate__coord">13.032716&deg; N, 77.591430&deg; E</p>
+      </div>
+      <div class="venueplate__links">
+        <a class="btn btn--fill" href="https://maps.app.goo.gl/v9oFjCVD5VbHUVC78">Google Maps directions</a>
+        <span class="venueplate__coord">Cabs and autos surge on event mornings — leave early.</span>
+      </div>
+    </div>
+
+    <div class="wifi">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="square" aria-hidden="true">
+        <path d="M2.5 9.5a13 13 0 0 1 19 0"/><path d="M6 12.6a8.6 8.6 0 0 1 12 0"/><path d="M9.4 15.8a4.2 4.2 0 0 1 5.2 0"/><path d="M12 19.5h.01"/>
+      </svg>
+      <div class="wifi__body">
+        <span class="mono">Campus Wi-Fi — credentials after the inauguration</span>
+        <p>Everyone — including mentors and judges — is given personal sign-in credentials
+        individually after the opening ceremony. Join <strong>AIT_Students</strong> with the
+        password below, then enter your credentials on the sign-in page. Need help? Ask at
+        the organizer desk.</p>
+        <div class="wifi__creds">
+          <div class="wifi__cred">
+            <span>Network</span>
+            <strong>AIT_Students</strong>
+          </div>
+          <div class="wifi__cred">
+            <span>Password</span>
+            <strong>helloworld</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="people">
+      <div class="person">
+        <span class="mono mono--red">First call</span>
+        <p class="person__name">Darshan B</p>
+        <p class="person__role">Event Host &amp; Lead Organizer</p>
+        <p class="person__org">AWS Student Builder Group &middot; Atria Institute of Technology</p>
+        <div class="person__lines">
+          <div class="person__line">
+            <span class="mono">Phone</span>
+            <a href="tel:+919964541002">+91 99645 41002</a>
+          </div>
+          <div class="person__line">
+            <span class="mono">Email</span>
+            <a href="mailto:leader@awsatria.tech">leader@awsatria.tech</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="channels">
+      <span class="mono">Where to ask</span>
+      <div class="channels__grid">
+        <a class="channels__item" href="https://chat.whatsapp.com/L8cxFucPgS6CpG3G5zbCbH">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="square" aria-hidden="true">
+            <path d="M20.5 11.5a8.5 8.5 0 0 1-12.3 7.6L3.5 20.5l1.4-4.6A8.5 8.5 0 1 1 20.5 11.5Z"/>
+          </svg>
+          <p>WhatsApp group</p>
+          <span>Live event updates and the fastest human reply on the day.</span>
+        </a>
+        <a class="channels__item" href="https://www.mlh.com/events/hacktoberfest-hack-day-bengaluru-x-aws-student-builder-group-at-atria-institute-of-technology/challenges">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="square" aria-hidden="true">
+            <path d="M14 3.5H6.5a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2V9Z"/><path d="M14 3.5V9h5.5"/><path d="M9 13.5h6"/><path d="M9 17h4"/>
+          </svg>
+          <p>MLH challenges page</p>
+          <span>Full briefs, submissions, and any late changes to the tracks.</span>
+        </a>
+        <a class="channels__item" href="https://static.mlh.io/docs/mlh-code-of-conduct.pdf">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="square" aria-hidden="true">
+            <path d="M12 3 4 6.5v5c0 5 3.4 8.6 8 9.5 4.6-.9 8-4.5 8-9.5v-5Z"/><path d="m9 12 2.2 2.2L15.5 10"/>
+          </svg>
+          <p>MLH code of conduct</p>
+          <span>What everyone at the event — including us — agrees to.</span>
+        </a>
+      </div>
+    </div>
+
+    <div class="closing">
+      <p>Judging &amp; Mentors Handbook &middot; Draft v1 &middot; Hacktoberfest Hack Day
+      Bengaluru 2026 &middot; Friday, 23 October 2026 &middot; Atria Institute of
+      Technology, Hebbal.</p>
+      <a class="btn btn--fill" href="https://hacktober.awsatria.tech">Event site</a>
+    </div>
+
+  </div>
+
+  <div class="run run--foot">
+    <span>Bring patience, bring curiosity. The rest is on campus.</span>
+    <span class="run__num">12</span>
+  </div>
+</section>
+
+</div>
+
+<script>
+  // Fit-to-width preview. The pages are real A4 sheets (210 x 297 mm); on a
+  // narrower viewport we scale the whole document down rather than letting the
+  // sheet reflow, so what you see on screen is what the PDF will be. Print
+  // always resets the scale to 1 (see the @media print block).
+  (function () {
+    var doc = document.documentElement;
+    var page = document.querySelector('.page');
+    function fit() {
+      if (!page) return;
+      var sheetWidth = page.offsetWidth;
+      var available = window.innerWidth - 32;
+      var scale = Math.min(1, available / sheetWidth);
+      doc.style.setProperty('--sheet-scale', scale.toFixed(4));
+    }
+    window.addEventListener('resize', fit);
+    window.addEventListener('beforeprint', function () {
+      doc.style.setProperty('--sheet-scale', '1');
+    });
+    fit();
+  })();
+</script>
+
+</body>
+</html>
