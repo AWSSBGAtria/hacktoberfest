@@ -18,6 +18,7 @@ export const EVENT_DETAILS = {
   challengesUrl:
     "https://www.mlh.com/events/hacktoberfest-hack-day-bengaluru-x-aws-student-builder-group-at-atria-institute-of-technology/challenges",
   whatsappUrl: "https://chat.whatsapp.com/L8cxFucPgS6CpG3G5zbCbH",
+  queriesEmail: "hacktoberfest@awsatria.tech",
   websiteUrl: "https://awsatria.tech/",
   linkedinUrl: "https://www.linkedin.com/company/aws-sbg-at-at-atria-inst-of-tech/",
   mlhUrl: "https://mlh.com/",
@@ -277,6 +278,11 @@ export const FAQS = [
     category: "Rewards",
     q: "What do I receive if I don't win a track prize?",
     a: "All participants who attend and build on the day receive exclusive Hacktoberfest 2026 goodies, a digital DEV participation badge, and a certificate of participation issued by the official Hacktoberfest team.",
+  },
+  {
+    category: "Contact",
+    q: "How do I reach the organisers?",
+    a: "For quick questions during event week, the WhatsApp group is fastest - organisers and mentors answer there. If you need email for anything formal (registration issues, sponsorship, media), write to hacktoberfest@awsatria.tech and we will get back to you.",
   },
 ];
 

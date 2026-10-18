@@ -64,6 +64,14 @@ export default function Footer() {
               </li>
               <li>
                 <a
+                  href={`mailto:${EVENT_DETAILS.queriesEmail}`}
+                  className="hover:text-white hover:underline flex items-center gap-1"
+                >
+                  {EVENT_DETAILS.queriesEmail}
+                </a>
+              </li>
+              <li>
+                <a
                   href={EVENT_DETAILS.websiteUrl}
                   target="_blank"
                   rel="noopener noreferrer"

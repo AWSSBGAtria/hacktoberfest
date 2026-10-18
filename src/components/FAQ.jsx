@@ -4,7 +4,7 @@ import { triggerFestiveConfetti } from '../utils/confetti';
 import { ArrowRight, MessageCircle, Search, ChevronDown, LifeBuoy } from 'lucide-react';
 import SectionHead from './SectionHead';
 
-const CATS = ['All', 'Attending', 'Teams', 'First-timers', 'Registration', 'Rewards'];
+const CATS = ['All', 'Attending', 'Teams', 'First-timers', 'Registration', 'Rewards', 'Contact'];
 
 export default function FAQ() {
   const [query, setQuery] = useState('');
@@ -130,7 +130,14 @@ export default function FAQ() {
             <p className="faq-support-title">Still stuck?</p>
             <p className="faq-support-body">
               Organisers and mentors answer in the WhatsApp group, usually within
-              the hour on event week. For registration issues, start with MLH.
+              the hour on event week. For anything else, email{' '}
+              <a
+                href={`mailto:${EVENT_DETAILS.queriesEmail}`}
+                className="underline hover:text-white"
+              >
+                {EVENT_DETAILS.queriesEmail}
+              </a>
+              . For registration issues, start with MLH.
             </p>
           </div>
           <div className="faq-support-actions">
