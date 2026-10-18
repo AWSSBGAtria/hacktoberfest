@@ -96,12 +96,12 @@ export default function Shortlisted() {
           </div>
 
           <div className="overflow-x-auto">
-            <table className="w-full border-collapse text-left">
+            <table className="w-full table-fixed border-collapse text-left">
               <thead>
                 <tr className="bg-[#10201d] text-[#f7f7f2] font-mono text-[11px] uppercase tracking-widest">
-                  <th scope="col" className="px-3 sm:px-4 py-3 w-28 sm:w-44">Team</th>
-                  <th scope="col" className="px-3 sm:px-4 py-3 w-32 sm:w-56">Member</th>
-                  <th scope="col" className="px-3 sm:px-4 py-3">College / Organization</th>
+                  <th scope="col" className="px-3 sm:px-4 py-3 w-[30%] sm:w-44">Team</th>
+                  <th scope="col" className="px-3 sm:px-4 py-3 w-[30%] sm:w-56">Member</th>
+                  <th scope="col" className="px-3 sm:px-4 py-3 w-[40%]">College / Organization</th>
                 </tr>
               </thead>
               <tbody>
@@ -133,10 +133,10 @@ export default function Shortlisted() {
                             )}
                           </td>
                         ) : null}
-                        <td className="px-3 sm:px-4 py-3 border-b border-[#10201d]/15 font-sans text-sm">
+                        <td className="px-3 sm:px-4 py-3 border-b border-[#10201d]/15 font-sans text-sm break-words">
                           {member.name}
                         </td>
-                        <td className="px-3 sm:px-4 py-3 border-b border-[#10201d]/15 font-sans text-sm text-[#10201d]/80">
+                        <td className="px-3 sm:px-4 py-3 border-b border-[#10201d]/15 font-sans text-sm text-[#10201d]/80 break-words">
                           {member.college}
                         </td>
                       </tr>
