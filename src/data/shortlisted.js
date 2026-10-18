@@ -44,16 +44,6 @@ export const SHORTLISTED_TEAMS = [
     ]
   },
   {
-    "team": "Black triad",
-    "solo": false,
-    "members": [
-      {
-        "name": "Bhavani shankar Karnick",
-        "college": "Atria Institute of Technology"
-      }
-    ]
-  },
-  {
     "team": "Build for Bharat",
     "solo": false,
     "members": [
@@ -201,6 +191,10 @@ export const SHORTLISTED_TEAMS = [
       },
       {
         "name": "KARTHIKEYA A",
+        "college": "Atria Institute of Technology"
+      },
+      {
+        "name": "Bhavani shankar Karnick",
         "college": "Atria Institute of Technology"
       }
     ]

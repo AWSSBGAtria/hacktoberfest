@@ -10,6 +10,7 @@ Source: hacktoberfest_teams_final.xlsx
 
 - Keeps team / member / college only.
 - Normalises college strings to one canonical name per institution.
+- Folds teams signed up twice under two names (see TEAM_MERGES).
 - Teams and solos sorted case-insensitively, solos last.
 """
 import csv
@@ -17,12 +18,20 @@ import json
 import re
 import openpyxl
 
-XLSX = '/home/darshan/Downloads/temp/hf26/hacktoberfest_teams_final.xlsx'
+XLSX = '/home/darshan/Downloads/temp/hf26/FINAL/hacktoberfest_teams_final.xlsx'
 OUT = 'src/data/shortlisted.js'
 OUT_CSV = 'public/shortlisted.csv'
 
 # Teams-tab row name that groups the solo sign-ups (Has Team = false).
 SOLO_GROUP = 'individual'
+
+# Same team registered twice under two names -> fold the first into the
+# second. Black triad (Bhavani shankar Karnick, registered solo-ish on
+# Oct 18) is member 3 of Dark triad on the attendance form (team size 3,
+# github.com/Bhavani-Shankar2006), so everything folds into "Dark triad".
+TEAM_MERGES = {
+    'black triad': 'dark triad',
+}
 
 # --- canonical college names -------------------------------------------------
 NOT_SPECIFIED = 'Not specified'
@@ -199,6 +208,22 @@ def main():
             )
         else:
             teams.append({'team': team, 'solo': False, 'members': members})
+
+    # Fold duplicate sign-ups of the same team into one entry.
+    for source_key, target_key in TEAM_MERGES.items():
+        source = next((g for g in teams if g['team'].casefold() == source_key), None)
+        if source is None:
+            continue  # already absent from a future revision of the sheet
+        target = next((g for g in teams if g['team'].casefold() == target_key), None)
+        if target is None:
+            raise SystemExit(f'merge target {target_key!r} missing for {source["team"]!r}')
+        seen = {m['name'].casefold() for m in target['members']}
+        for m in source['members']:
+            if m['name'].casefold() in seen:
+                raise SystemExit(f'{target["team"]}: {m["name"]} listed twice after merge')
+            seen.add(m['name'].casefold())
+            target['members'].append(m)
+        teams.remove(source)
 
     if used != set(people):
         missing = sorted(set(people) - used)
