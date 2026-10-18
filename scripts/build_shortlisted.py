@@ -145,7 +145,14 @@ RULES = [
 
 
 # --- last-3-question filter --------------------------------------------------
+def active(row):
+    """MLH status check: anyone still marked 'invited' stays off the shortlist."""
+    return (row['status'] or '').strip().lower() != 'invited'
+
+
 def answered(row):
+    if not active(row):
+        return False
     team = (row['Do you have a team?'] or '').strip()
     team_name = (row['What is your team name?'] or '').strip()
     whatsapp = (row['Join our WhatsApp group'] or '').strip()
@@ -160,6 +167,7 @@ def main():
     # Registrations that must never appear on the shortlist:
     #  - the organiser's own test sign-up (team literally "Team Name")
     #  - duplicate sign-ups (same person registered twice)
+    # Anyone whose MLH status is still 'invited' is filtered out by active().
     EXCLUDE_EMAILS = {
         'darshan.gcp.jam.atria@gmail.com',
         'sumit.kumarchotu.5@gmail.com',
