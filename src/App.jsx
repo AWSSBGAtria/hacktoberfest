@@ -1,6 +1,7 @@
 import React from 'react';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
+import AlertRibbon from './components/AlertRibbon';
 import ScrollProgress from './components/ScrollProgress';
 import HomePage from './pages/HomePage';
 import BuildPage from './pages/BuildPage';
@@ -8,6 +9,7 @@ import DayPage from './pages/DayPage';
 import VenuePage from './pages/VenuePage';
 import FaqPage from './pages/FaqPage';
 import BadgePage from './pages/BadgePage';
+import ShortlistedPage from './pages/ShortlistedPage';
 import NotFoundPage from './pages/NotFoundPage';
 import ServerErrorPage from './pages/ServerErrorPage';
 import PacPlay from './components/PacPlay';
@@ -47,6 +49,8 @@ function RouteView({ path }) {
       return <FaqPage />;
     case '/badge':
       return <BadgePage />;
+    case '/shortlisted':
+      return <ShortlistedPage />;
     case '/500':
       return <ServerErrorPage />;
     case '/volunteer':
@@ -76,6 +80,7 @@ const TITLES = {
   '/volunteer': 'Volunteer — Hack Day Bengaluru',
   '/mentor': 'Mentor — Hack Day Bengaluru',
   '/badge': 'Get Your Badge — Hack Day Bengaluru',
+  '/shortlisted': 'Shortlisted Teams — Hack Day Bengaluru',
   '/register': 'Register — Hack Day Bengaluru',
   '/challenges': 'Challenges — Hack Day Bengaluru',
   '/500': 'Server error — Hack Day Bengaluru',
@@ -201,6 +206,7 @@ export default function App() {
   return (
     <div className="min-h-screen bg-[#f2f2eb] text-[#10201d] flex flex-col font-sans selection:bg-[#e97b77] selection:text-[#10201d]">
       <ScrollProgress />
+      <AlertRibbon />
       <Navbar path={path} />
       <main className="route-view flex-grow" key={path}>
         <RouteView path={path} />
