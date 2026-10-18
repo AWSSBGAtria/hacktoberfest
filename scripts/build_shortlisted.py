@@ -157,6 +157,14 @@ def answered(row):
 
 
 def main():
+    # Registrations that must never appear on the shortlist:
+    #  - the organiser's own test sign-up (team literally "Team Name")
+    #  - duplicate sign-ups (same person registered twice)
+    EXCLUDE_EMAILS = {
+        'darshan.gcp.jam.atria@gmail.com',
+        'sumit.kumarchotu.5@gmail.com',
+    }
+
     with open(CSV, newline='', encoding='utf-8-sig') as f:
         csv_rows = list(csv.DictReader(f))
     by_email = {}
@@ -169,6 +177,8 @@ def main():
 
     groups, order = {}, []
     dropped = 0
+    excluded = 0
+    excluded_keys = set()
     unmapped = set()
     current_key = None
     team_names = {}
@@ -186,6 +196,14 @@ def main():
             else:
                 current_key = ('team', team.lower())
             team_names[current_key] = team
+
+        if email in EXCLUDE_EMAILS:
+            excluded_keys.add(current_key)
+            excluded += 1
+            continue
+        if current_key in excluded_keys:
+            excluded += 1
+            continue
 
         rows = by_email.get(email, [])
         if not rows or not any(answered(r) for r in rows):
@@ -210,18 +228,14 @@ def main():
         raise SystemExit('UNMAPPED COLLEGES:\n' + '\n'.join(sorted(unmapped)))
 
     # Backfill: registrations that exist on MLH (and answered the last 3
-    # questions) but never made it into the workbook roster. Duplicates that
-    # were signed up twice are skipped by hand.
-    BACKFILL_EXCLUDE = {
-        'sumit.kumarchotu.5@gmail.com',  # duplicate of an existing sign-up
-    }
+    # questions) but never made it into the workbook roster.
     roster_emails = {(r[2] or '').strip().lower() for r in roster}
     extra_teams, extra_solos = [], []
     for row in csv_rows:
         email = (row['email'] or '').strip().lower()
         if row['status'] != 'registered' or email in roster_emails:
             continue
-        if email in BACKFILL_EXCLUDE or not answered(row):
+        if email in EXCLUDE_EMAILS or not answered(row):
             continue
         name = ' '.join(p for p in [row['first_name'], row['last_name']] if p).strip()
         college_raw = (row['College / University / Organization'] or '').strip()
@@ -287,7 +301,7 @@ def main():
                 w.writerow([team_cell, member['name'], member['college']])
 
     print(f'wrote {OUT}: {len(teams)} teams, {len(solos)} solos, '
-          f'{members} members, dropped {dropped}')
+          f'{members} members, dropped {dropped}, excluded {excluded}')
     print(f'wrote {OUT_CSV}: {members} rows')
 
 

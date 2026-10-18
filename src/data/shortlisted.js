@@ -1172,16 +1172,6 @@ export const SHORTLISTED_TEAMS = [
     ]
   },
   {
-    "team": "Team Name",
-    "solo": false,
-    "members": [
-      {
-        "name": "Darshan B",
-        "college": "Atria Institute of Technology"
-      }
-    ]
-  },
-  {
     "team": "Team phoenix",
     "solo": false,
     "members": [
