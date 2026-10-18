@@ -52,7 +52,6 @@ export default function Shortlisted() {
           title={<>The shortlisted teams</>}
           accent="every member, every college."
           pacColor="#e53927"
-          deck={`Updated from the registration sheet: ${SHORTLISTED_STATS.teams} teams and ${SHORTLISTED_STATS.solo} solo entries, ${SHORTLISTED_STATS.members} builders in all. Teams first, solos last.`}
         />
 
         {/* Stat strip */}

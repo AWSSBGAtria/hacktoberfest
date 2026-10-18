@@ -16,6 +16,7 @@ CSV = ('/home/darshan/Downloads/temp/hf26/'
        '2026-10-18-hacktoberfest-hack-day-bengaluru-x-aws-student-builder-group-'
        'at-atria-institute-of-technology-registrations-export.csv')
 OUT = 'src/data/shortlisted.js'
+OUT_CSV = 'public/shortlisted.csv'
 
 # --- canonical college names -------------------------------------------------
 NOT_SPECIFIED = 'Not specified'
@@ -208,8 +209,50 @@ def main():
     if unmapped:
         raise SystemExit('UNMAPPED COLLEGES:\n' + '\n'.join(sorted(unmapped)))
 
+    # Backfill: registrations that exist on MLH (and answered the last 3
+    # questions) but never made it into the workbook roster. Duplicates that
+    # were signed up twice are skipped by hand.
+    BACKFILL_EXCLUDE = {
+        'sumit.kumarchotu.5@gmail.com',  # duplicate of an existing sign-up
+    }
+    roster_emails = {(r[2] or '').strip().lower() for r in roster}
+    extra_teams, extra_solos = [], []
+    for row in csv_rows:
+        email = (row['email'] or '').strip().lower()
+        if row['status'] != 'registered' or email in roster_emails:
+            continue
+        if email in BACKFILL_EXCLUDE or not answered(row):
+            continue
+        name = ' '.join(p for p in [row['first_name'], row['last_name']] if p).strip()
+        college_raw = (row['College / University / Organization'] or '').strip()
+        college = canonical(college_raw)
+        if college is None:
+            unmapped.add(college_raw)
+            college = college_raw
+        team = (row['What is your team name?'] or '').strip()
+        member = {'name': name, 'college': college}
+        if team and not team.lower().startswith('solo:'):
+            extra_teams.append({'team': team, 'solo': False, 'members': [member]})
+        else:
+            extra_solos.append({'team': f'Solo: {name}', 'solo': True, 'members': [member]})
+
+    if unmapped:
+        raise SystemExit('UNMAPPED COLLEGES:\n' + '\n'.join(sorted(unmapped)))
+
     teams = [groups[k] for k in order if not groups[k]['solo']]
     solos = [groups[k] for k in order if groups[k]['solo']]
+
+    # The roster is alphabetised case-insensitively; keep that order while
+    # splicing backfilled entries into place.
+    by_name = lambda g: g['team'].lower()  # noqa: E731
+    if [g['team'] for g in sorted(teams, key=by_name)] != [g['team'] for g in teams]:
+        raise SystemExit('roster team order is not alphabetical - splice backfill manually')
+    teams = sorted(teams + extra_teams, key=by_name)
+    if extra_solos:
+        if [g['team'] for g in sorted(solos, key=by_name)] != [g['team'] for g in solos]:
+            raise SystemExit('roster solo order is not alphabetical - splice backfill manually')
+        solos = sorted(solos + extra_solos, key=by_name)
+
     payload = teams + solos
 
     members = sum(len(g['members']) for g in payload)
@@ -227,8 +270,22 @@ def main():
           + json.dumps(payload, ensure_ascii=False, indent=2) + ';\n')
     with open(OUT, 'w', encoding='utf-8') as f:
         f.write(js)
+
+    # Same roster as a spreadsheet: team name once per group, solos last.
+    with open(OUT_CSV, 'w', newline='', encoding='utf-8-sig') as f:
+        w = csv.writer(f)
+        w.writerow(['Team Name', 'Member Name', 'College / Organization'])
+        for group in payload:
+            for i, member in enumerate(group['members']):
+                if group['solo']:
+                    team_cell = 'Solo'
+                else:
+                    team_cell = group['team'] if i == 0 else ''
+                w.writerow([team_cell, member['name'], member['college']])
+
     print(f'wrote {OUT}: {len(teams)} teams, {len(solos)} solos, '
           f'{members} members, dropped {dropped}')
+    print(f'wrote {OUT_CSV}: {members} rows')
 
 
 if __name__ == '__main__':
