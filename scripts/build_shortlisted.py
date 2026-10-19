@@ -23,6 +23,7 @@ import re
 import openpyxl
 
 XLSX = '/home/darshan/Downloads/temp/hf26/FINAL/hacktoberfest_teams_final.xlsx'
+FORMATTED = '/home/darshan/Downloads/temp/hf26/FINAL/hacktoberfest_teams_final_formatted.xlsx'
 OUT = 'src/data/shortlisted.js'
 OUT_CSV = 'public/shortlisted.csv'
 
@@ -78,6 +79,7 @@ CANONICAL = {
     'jainuniversity': 'JAIN University',
     'cmruniversity': 'CMR University',
     'bmsit': 'BMS Institute of Technology',
+    'bmsinstituteoftechnologyandmanagement': 'BMS Institute of Technology and Management',
     'bmstcollegeofengineering': 'BMS College of Engineering',
     'ksinsituteoftechnology': 'K.S. Institute of Technology',
     'tochinstituteoftechnology': 'Toc H Institute of Technology',
@@ -140,6 +142,9 @@ def canonical(raw):
     k = key(raw)
     if k in CANONICAL:
         return CANONICAL[k]
+    # Already a canonical value (e.g. a hand correction) - keep it as-is.
+    if raw and raw in set(CANONICAL.values()):
+        return raw
     # Common infix variants (case, "of/of the", city suffixes) fall back here.
     for pattern, name in RULES:
         if pattern.search(k):
@@ -161,11 +166,34 @@ RULES = [
     (re.compile(r'^vijayavittala'), 'Vijaya Vittala Institute of Technology'),
     (re.compile(r'^donbosco'), 'Don Bosco Institute of Technology'),
     (re.compile(r'^d?r\.?ambedkarinstitute'), 'Dr. Ambedkar Institute of Technology'),
+    (re.compile(r'^bmsinstituteoftechnologyandmanagement'), 'BMS Institute of Technology and Management'),
     (re.compile(r'^eastpoint'), 'East Point College of Engineering and Technology'),
     (re.compile(r'^k\.?ramakrishnancollege'), 'K. Ramakrishnan College of Engineering'),
     (re.compile(r'^sirm?visvesvaraya.*institute'), 'Sir M. Visvesvaraya Institute of Technology'),
     (re.compile(r'^karavali'), 'Karavali Institute of Technology, Mangalore'),
 ]
+
+
+def load_formatted_colleges():
+    """Read per-email college corrections from the formatted workbook.
+
+    Only non-empty college cells are honoured, so the file can be hand-edited
+    to override the main sheet's college for a given person.
+    """
+    corrections = {}
+    try:
+        wb = openpyxl.load_workbook(FORMATTED, data_only=True)
+    except FileNotFoundError:
+        return corrections
+    ws = wb['Attendees']
+    for row in ws.iter_rows(min_row=2, values_only=True):
+        if not any(row):
+            continue
+        email = (row[2] or '').strip().lower()
+        college = (row[3] or '').strip()
+        if email and college:
+            corrections[email] = college
+    return corrections
 
 
 def load_roster():
@@ -182,7 +210,10 @@ def load_roster():
             continue
         people[(row[2] or '').strip().lower()] = (row[6] or '').strip()
 
-    teams, solo_people, notes = [], [], []
+    notes = []
+    formatted = load_formatted_colleges()
+
+    teams, solo_people = [], []
     for row in wb['Teams'].iter_rows(min_row=2, values_only=True):
         if not any(row):
             continue
@@ -201,10 +232,16 @@ def load_roster():
             if email in COLLEGE_OVERRIDES:
                 college = COLLEGE_OVERRIDES[email]
             else:
-                raw = colleges[i] if i < len(colleges) else people.get(email, '')
+                # Order of trust: formatted (hand-corrected) > Teams tab > All Members.
+                base = colleges[i] if i < len(colleges) else ''
+                raw = formatted.get(email) or base or people.get(email, '')
                 college = canonical(raw)
                 if college is None:
                     raise SystemExit(f'unmapped college {raw!r} ({name}, {team})')
+                # Only report when the correction actually changes the college
+                # (not just its string form - the formatter writes canonical).
+                if email in formatted and canonical(base) != college and base.strip() != college:
+                    notes.append(f'{name}: college set from formatted file -> {college}')
             members.append({'name': name, 'email': email, 'college': college})
 
         if team.lower() == SOLO_GROUP:

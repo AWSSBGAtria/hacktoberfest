@@ -163,11 +163,11 @@ export const SHORTLISTED_TEAMS = [
       },
       {
         "name": "shourya singh",
-        "college": "Not specified"
+        "college": "Atria Institute of Technology"
       },
       {
         "name": "Khushi N Aradhya",
-        "college": "Not specified"
+        "college": "Atria Institute of Technology"
       }
     ]
   },
@@ -293,7 +293,7 @@ export const SHORTLISTED_TEAMS = [
       },
       {
         "name": "Lakshmi",
-        "college": "Not specified"
+        "college": "BMS Institute of Technology and Management"
       }
     ]
   },
@@ -711,7 +711,7 @@ export const SHORTLISTED_TEAMS = [
       },
       {
         "name": "Shalini",
-        "college": "Not specified"
+        "college": "Atria Institute of Technology"
       }
     ]
   },
