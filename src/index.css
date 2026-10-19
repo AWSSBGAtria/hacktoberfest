@@ -1669,6 +1669,667 @@ button:active, a:active {
 }
 
 /* ---------------------------------------------------------------------- */
+/* /tracks/* - full-length track briefs. The masthead is the dark chrome   */
+/* band (same indigo frame as the hero, auto height); the sections below   */
+/* reuse the paper surface and the site's stamp language. Block classes    */
+/* are prefixed tb-* and driven by src/data/trackDetails.js.               */
+/* ---------------------------------------------------------------------- */
+
+.track-hero {
+  color: #f7f7f2;
+  border-bottom: 2px solid #10201d;
+  background: var(--chrome-base);
+  background-image:
+    radial-gradient(circle at 16% -10%, rgba(75, 70, 168, .5), transparent 46%),
+    linear-gradient(180deg, var(--chrome-deep) 0%, #2c2a5e 100%);
+  /* The shared section rhythm pads every section generously; the masthead
+     wants a tighter bottom so the first paper section feels close by. */
+  padding-bottom: clamp(3.25rem, 5vw, 4.75rem) !important;
+}
+
+.track-back {
+  display: inline-flex;
+  align-items: center;
+  gap: .45rem;
+  margin-bottom: 1.6rem;
+  color: #aebcff;
+  font-family: var(--font-mono);
+  font-size: .72rem;
+  font-weight: 700;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  text-decoration: none;
+}
+
+.track-back:hover {
+  color: #f5b726;
+}
+
+.track-hero-tag {
+  display: flex;
+  align-items: center;
+  gap: .55rem;
+  margin: 0 0 1rem;
+  color: #8bb2de;
+  font-family: var(--font-mono);
+  font-size: .72rem;
+  font-weight: 700;
+  letter-spacing: .13em;
+  text-transform: uppercase;
+}
+
+.track-hero-tag::before {
+  content: '';
+  flex: none;
+  width: .6rem;
+  height: .6rem;
+  background: var(--acc);
+  border: 1px solid #10201d;
+}
+
+.track-hero-title {
+  margin: 0;
+  max-width: 22rem;
+  font-family: 'Bricolage Grotesque', 'Manrope', ui-sans-serif, system-ui, sans-serif;
+  font-size: clamp(2.4rem, 5.6vw, 4.5rem);
+  font-weight: 700;
+  line-height: .96;
+  letter-spacing: -.035em;
+  text-wrap: balance;
+}
+
+.track-hero-deck {
+  max-width: 62ch;
+  margin: 1.25rem 0 0;
+  color: #c6caf0;
+  font-size: clamp(1rem, 1.4vw, 1.1rem);
+  line-height: 1.65;
+}
+
+.track-partner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: .7rem 1rem;
+  margin-top: 1.75rem;
+}
+
+.track-partner-label {
+  color: #8bb2de;
+  font-family: var(--font-mono);
+  font-size: .6rem;
+  font-weight: 700;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+}
+
+.track-partner-plate {
+  display: inline-flex;
+  flex-direction: column;
+  gap: .1rem;
+  padding: .5rem .85rem;
+  background: #f7f7f2;
+  border: 2px solid #10201d;
+  box-shadow: 4px 4px 0 rgba(13, 12, 35, .7);
+  color: #10201d;
+}
+
+.track-partner-name {
+  font-family: var(--font-heading);
+  font-size: .95rem;
+  font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: -.01em;
+}
+
+.track-partner-line {
+  color: #34433f;
+  font-family: var(--font-mono);
+  font-size: .64rem;
+  line-height: 1.3;
+}
+
+.track-partner-links {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: .35rem .9rem;
+}
+
+.track-partner-links a {
+  display: inline-flex;
+  align-items: center;
+  gap: .35rem;
+  color: #aebcff;
+  font-family: var(--font-mono);
+  font-size: .7rem;
+  font-weight: 700;
+  letter-spacing: .04em;
+  text-decoration: none;
+}
+
+.track-partner-links a:hover {
+  color: #f5b726;
+}
+
+.track-facts {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: .9rem 1.5rem;
+  margin: 2rem 0 0;
+}
+
+@media (min-width: 768px) {
+  .track-facts {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+.track-fact {
+  padding-left: .9rem;
+  border-left: 2px solid rgba(174, 188, 255, .4);
+}
+
+.track-fact dt {
+  color: #8bb2de;
+  font-family: var(--font-mono);
+  font-size: .6rem;
+  font-weight: 700;
+  letter-spacing: .14em;
+  line-height: 1.4;
+  text-transform: uppercase;
+}
+
+.track-fact dd {
+  margin: .25rem 0 0;
+  color: #f7f7f2;
+  font-family: var(--font-mono);
+  font-size: .82rem;
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+.track-hero-cta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: 2.1rem;
+}
+
+/* ---- Block rhythm: every block in a brief section stacks on this grid --- */
+
+.tb-block + .tb-block {
+  margin-top: clamp(1.75rem, 3vw, 2.5rem);
+}
+
+.tb-caption {
+  margin: 0 0 .7rem;
+  color: #5c665f;
+  font-family: var(--font-mono);
+  font-size: .68rem;
+  font-weight: 700;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+
+/* ---- Prose ------------------------------------------------------------ */
+
+.tb-prose {
+  max-width: 72ch;
+}
+
+.tb-prose p {
+  margin: 0 0 1rem;
+  color: #34433f;
+  font-size: .98rem;
+  line-height: 1.7;
+}
+
+.tb-prose p:last-child {
+  margin-bottom: 0;
+}
+
+.tb-lead {
+  color: #10201d !important;
+  font-family: var(--font-mono);
+  font-size: .74rem !important;
+  font-weight: 700;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+}
+
+.tb-bullets {
+  margin: .25rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.tb-bullets li {
+  position: relative;
+  padding: .35rem 0 .35rem 1.4rem;
+  color: #34433f;
+  font-size: .95rem;
+  line-height: 1.65;
+}
+
+.tb-bullets li::before {
+  content: '';
+  position: absolute;
+  top: .82rem;
+  left: 0;
+  width: .55rem;
+  height: .55rem;
+  background: #e53927;
+  border: 1px solid #10201d;
+}
+
+/* ---- Cards ------------------------------------------------------------ */
+
+.tb-cards {
+  display: grid;
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+  gap: 1.25rem;
+}
+
+@media (min-width: 640px) {
+  .tb-cards {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1024px) {
+  .tb-cards {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.tb-card {
+  position: relative;
+  padding: 1.35rem 1.4rem;
+}
+
+.tb-card-dot {
+  display: block;
+  width: .7rem;
+  height: .7rem;
+  margin-bottom: .9rem;
+  border: 1px solid #10201d;
+}
+
+.tb-card-title {
+  margin: 0 0 .5rem;
+  font-family: var(--font-heading);
+  font-size: 1.08rem;
+  font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: -.015em;
+}
+
+.tb-card-body {
+  margin: 0;
+  color: #34433f;
+  font-size: .88rem;
+  line-height: 1.65;
+}
+
+/* ---- Table ------------------------------------------------------------ */
+
+.tb-table-scroll {
+  overflow-x: auto;
+  border: 2px solid #10201d;
+  background: #f7f7f2;
+  box-shadow: 5px 5px 0 var(--stamp);
+}
+
+.tb-table {
+  width: 100%;
+  min-width: 640px;
+  border-collapse: collapse;
+}
+
+.tb-table th {
+  padding: .7rem .95rem;
+  background: #10201d;
+  color: #f7f7f2;
+  font-family: var(--font-mono);
+  font-size: .66rem;
+  font-weight: 700;
+  letter-spacing: .12em;
+  text-align: left;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.tb-table td {
+  padding: .8rem .95rem;
+  border-top: 1px solid rgba(16, 32, 29, .22);
+  color: #34433f;
+  font-size: .87rem;
+  line-height: 1.55;
+  vertical-align: top;
+}
+
+.tb-table td:first-child {
+  color: #10201d;
+  font-family: var(--font-mono);
+  font-size: .76rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.tb-table tbody tr:hover td {
+  background: #ececdf;
+}
+
+/* Small screens scroll the table sideways; say so once, quietly. */
+.tb-table-hint {
+  display: none;
+  margin: .55rem 0 0;
+  color: #5c665f;
+  font-family: var(--font-mono);
+  font-size: .64rem;
+  font-weight: 700;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+}
+
+@media (max-width: 720px) {
+  .tb-table-hint {
+    display: block;
+  }
+}
+
+/* ---- Chips ------------------------------------------------------------ */
+
+.tb-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .45rem;
+}
+
+.tb-chip {
+  padding: 5px 10px;
+  background: color-mix(in srgb, var(--acc, #e53927) 16%, #f7f7f2);
+  border: 1px solid #10201d;
+  font-family: var(--font-mono);
+  font-size: .72rem;
+  font-weight: 600;
+  line-height: 1.35;
+  color: #10201d;
+}
+
+/* ---- Stats ------------------------------------------------------------ */
+
+.tb-stats {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.1rem;
+}
+
+@media (min-width: 900px) {
+  .tb-stats {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+.tb-stat {
+  padding: 1.1rem 1.2rem;
+}
+
+.tb-stat-value {
+  margin: 0;
+  font-family: var(--font-heading);
+  font-size: 1.55rem;
+  font-weight: 800;
+  line-height: 1.05;
+  letter-spacing: -.02em;
+  color: #10201d;
+}
+
+.tb-stat-label {
+  margin: .4rem 0 0;
+  color: #5c665f;
+  font-family: var(--font-mono);
+  font-size: .64rem;
+  font-weight: 700;
+  letter-spacing: .08em;
+  line-height: 1.45;
+  text-transform: uppercase;
+}
+
+/* ---- Links ------------------------------------------------------------ */
+
+.tb-links {
+  display: grid;
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+  gap: 1.1rem;
+}
+
+@media (min-width: 640px) {
+  .tb-links {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1024px) {
+  .tb-links {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.tb-link {
+  display: block;
+  height: 100%;
+  padding: 1.1rem 1.2rem;
+  color: #10201d;
+  text-decoration: none;
+}
+
+.tb-link-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: .4rem;
+}
+
+.tb-link-label {
+  font-family: var(--font-heading);
+  font-size: .98rem;
+  font-weight: 800;
+  line-height: 1.25;
+  letter-spacing: -.01em;
+}
+
+.tb-link-icon {
+  flex: none;
+  color: #5146d9;
+}
+
+.tb-link-desc {
+  display: block;
+  color: #34433f;
+  font-size: .84rem;
+  line-height: 1.6;
+}
+
+/* ---- Steps ------------------------------------------------------------ */
+
+.tb-steps {
+  display: grid;
+  gap: .9rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.tb-step {
+  display: flex;
+  align-items: flex-start;
+  gap: 1.1rem;
+  padding: 1.1rem 1.25rem;
+}
+
+.tb-step-num {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 2.4rem;
+  height: 2.4rem;
+  border: 2px solid #10201d;
+  font-family: var(--font-mono);
+  font-size: .8rem;
+  font-weight: 700;
+}
+
+.tb-step-title {
+  margin: 0 0 .3rem;
+  font-family: var(--font-heading);
+  font-size: 1.05rem;
+  font-weight: 800;
+  letter-spacing: -.015em;
+}
+
+.tb-step-body {
+  margin: 0;
+  color: #34433f;
+  font-size: .88rem;
+  line-height: 1.65;
+}
+
+/* ---- Callout: the one dark surface inside a paper section -------------- */
+
+.tb-callout {
+  padding: 1.4rem 1.5rem;
+  background: #211f47;
+  border: 2px solid #10201d;
+  box-shadow: 7px 7px 0 #0d0c24;
+  color: #f7f7f2;
+}
+
+.tb-callout-title {
+  margin: 0 0 .5rem;
+  font-family: var(--font-heading);
+  font-size: 1.12rem;
+  font-weight: 800;
+  letter-spacing: -.015em;
+  color: #f5b726;
+}
+
+.tb-callout-body {
+  margin: 0;
+  max-width: 76ch;
+  color: #c6caf0;
+  font-size: .92rem;
+  line-height: 1.7;
+}
+
+.tb-callout-note {
+  margin: .85rem 0 0;
+  padding-top: .75rem;
+  border-top: 1px solid rgba(255, 255, 255, .22);
+  color: #8bb2de;
+  font-family: var(--font-mono);
+  font-size: .7rem;
+  line-height: 1.6;
+}
+
+/* ---- Closing: the other two tracks ------------------------------------- */
+
+.tb-next {
+  display: grid;
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+  gap: 1.25rem;
+}
+
+@media (min-width: 768px) {
+  .tb-next {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.tb-next-card {
+  overflow: hidden;
+  padding: 0;
+}
+
+.tb-next-band {
+  display: block;
+  height: 10px;
+  border-bottom: 2px solid #10201d;
+}
+
+.tb-next-card > :not(.tb-next-band) {
+  margin-left: 1.4rem;
+  margin-right: 1.4rem;
+}
+
+.tb-next-tag {
+  margin-top: 1.25rem;
+  color: #34433f;
+  font-family: var(--font-mono);
+  font-size: .66rem;
+  font-weight: 700;
+  letter-spacing: .13em;
+  text-transform: uppercase;
+}
+
+.tb-next-title {
+  margin: .5rem 0;
+  font-family: var(--font-heading);
+  font-size: 1.35rem;
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -.02em;
+}
+
+.tb-next-deck {
+  margin: 0 0 1.1rem;
+  color: #34433f;
+  font-size: .88rem;
+  line-height: 1.65;
+}
+
+.tb-next-link {
+  display: inline-flex;
+  align-items: center;
+  gap: .45rem;
+  margin-bottom: 1.35rem;
+  color: #5146d9;
+  font-family: var(--font-mono);
+  font-size: .74rem;
+  font-weight: 700;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  text-decoration: none;
+}
+
+.tb-next-link:hover {
+  color: #e53927;
+}
+
+/* ---- /build card -> full brief link: sits under the chips, same mono      */
+/* voice as the track tags, so the card reads as a summary of its route.     */
+
+.track-brief-link {
+  display: inline-flex;
+  align-items: center;
+  gap: .45rem;
+  align-self: flex-start;
+  padding-top: .9rem;
+  color: #5146d9;
+  font-family: var(--font-mono);
+  font-size: .7rem;
+  font-weight: 700;
+  letter-spacing: .07em;
+  text-transform: uppercase;
+  text-decoration: none;
+}
+
+.track-brief-link:hover {
+  color: #e53927;
+}
+
+/* ---------------------------------------------------------------------- */
 /* Scroll reveal - the single restrained recipe used by every card grid,   */
 /* timeline row and content block. It lives at the very bottom of the      */
 /* file so its transition list wins over the card-specific ones above      */

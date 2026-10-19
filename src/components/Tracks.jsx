@@ -55,6 +55,13 @@ export default function Tracks() {
                       ))}
                     </div>
                   </div>
+
+                  {t.href ? (
+                    <a className="track-brief-link" href={t.href}>
+                      <span>Read the full track brief</span>
+                      <ArrowRight className="w-3.5 h-3.5" />
+                    </a>
+                  ) : null}
                 </div>
 
                 <div className="track-prize">

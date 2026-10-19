@@ -58,6 +58,7 @@ export const HIGHLIGHTS = [
 export const TRACKS = [
   {
     id: "open-source-ai",
+    href: "/tracks/open-source-ai",
     title: "Best Open-Source AI Project",
     tag: "Core Hacktoberfest Challenge",
     description: "The main Hacktoberfest track, run at every Hack Day. Build an original project where open-source or open-weight AI does real work: an agent skill, an open-weight model, or a model harness. Ship it to a public GitHub repo under an open-source license.",
@@ -70,6 +71,7 @@ export const TRACKS = [
   },
   {
     id: "gemma-4",
+    href: "/tracks/gemma-4",
     title: "Best Use of Gemma 4",
     tag: "Google Partner Challenge",
     description: "Build with Gemma 4, Google's open-weight multimodal model, through the Gemini API. Use it to understand text and images together, or move quickly from an idea to a working prototype.",
@@ -82,6 +84,7 @@ export const TRACKS = [
   },
   {
     id: "best-use-aws",
+    href: "/tracks/aws",
     title: "Best Use of AWS",
     tag: "AWS Student Builder Group Special",
     description: "Our own bonus track for this Hack Day. Use the AWS ecosystem to turn an idea into something real and scalable; any AWS service counts, and combining several is encouraged. The strongest AWS-powered entry takes the track, on top of any Hacktoberfest challenge it also qualifies for.",

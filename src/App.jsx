@@ -5,6 +5,9 @@ import AlertRibbon from './components/AlertRibbon';
 import ScrollProgress from './components/ScrollProgress';
 import HomePage from './pages/HomePage';
 import BuildPage from './pages/BuildPage';
+import OpenSourceAiTrackPage from './pages/OpenSourceAiTrackPage';
+import GemmaTrackPage from './pages/GemmaTrackPage';
+import AwsTrackPage from './pages/AwsTrackPage';
 import DayPage from './pages/DayPage';
 import VenuePage from './pages/VenuePage';
 import FaqPage from './pages/FaqPage';
@@ -40,6 +43,14 @@ function RouteView({ path }) {
       return <HomePage />;
     case '/build':
       return <BuildPage />;
+    // Full-length track briefs: /build keeps the three-card overview, these
+    // routes carry the complete requirements, judging and resources.
+    case '/tracks/open-source-ai':
+      return <OpenSourceAiTrackPage />;
+    case '/tracks/gemma-4':
+      return <GemmaTrackPage />;
+    case '/tracks/aws':
+      return <AwsTrackPage />;
     case '/day':
       return <DayPage />;
     case '/venue':
@@ -73,6 +84,9 @@ const TITLES = {
   '/': 'Hacktoberfest Hack Day Bengaluru 2026',
   '/about': 'About — Hack Day Bengaluru',
   '/build': 'Tracks — Hack Day Bengaluru',
+  '/tracks/open-source-ai': 'Open-Source AI Track — Hack Day Bengaluru',
+  '/tracks/gemma-4': 'Gemma 4 Track — Hack Day Bengaluru',
+  '/tracks/aws': 'AWS Track — Hack Day Bengaluru',
   '/day': 'Schedule — Hack Day Bengaluru',
   '/venue': 'Venue & Map — Hack Day Bengaluru',
   '/community': 'FAQ — Hack Day Bengaluru',
