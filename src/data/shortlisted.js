@@ -54,6 +54,10 @@ export const SHORTLISTED_TEAMS = [
       {
         "name": "Sushant Shetty",
         "college": "Atria Institute of Technology"
+      },
+      {
+        "name": "Suyash Kumar Mishra",
+        "college": "Atria Institute of Technology"
       }
     ]
   },
@@ -155,11 +159,15 @@ export const SHORTLISTED_TEAMS = [
       },
       {
         "name": "Safa Asmi",
-        "college": "Not specified"
+        "college": "Atria Institute of Technology"
       },
       {
         "name": "shourya singh",
-        "college": "Atria Institute of Technology"
+        "college": "Not specified"
+      },
+      {
+        "name": "Khushi N Aradhya",
+        "college": "Not specified"
       }
     ]
   },
@@ -273,7 +281,7 @@ export const SHORTLISTED_TEAMS = [
     "members": [
       {
         "name": "Deepak Gowda P",
-        "college": "New Horizon College of Engineering"
+        "college": "CMR University"
       },
       {
         "name": "Poorva J",
@@ -281,7 +289,11 @@ export const SHORTLISTED_TEAMS = [
       },
       {
         "name": "Ruchitha RN",
-        "college": "CMR University"
+        "college": "New Horizon College of Engineering"
+      },
+      {
+        "name": "Lakshmi",
+        "college": "Not specified"
       }
     ]
   },
@@ -395,7 +407,7 @@ export const SHORTLISTED_TEAMS = [
     "members": [
       {
         "name": "Anushree R",
-        "college": "Atria Institute of Technology"
+        "college": "Amity University, Bengaluru"
       },
       {
         "name": "Manasa R",
@@ -403,7 +415,7 @@ export const SHORTLISTED_TEAMS = [
       },
       {
         "name": "Manoj V",
-        "college": "Amity University, Bengaluru"
+        "college": "Bangalore Institute of Technology"
       },
       {
         "name": "Nandan Babu",
@@ -605,11 +617,11 @@ export const SHORTLISTED_TEAMS = [
       },
       {
         "name": "Mohammed Zayan Zaheer",
-        "college": "T. John Institute of Technology"
+        "college": "Presidency University"
       },
       {
         "name": "Mohammed Maaz",
-        "college": "Presidency University"
+        "college": "T. John Institute of Technology"
       }
     ]
   },
@@ -672,6 +684,20 @@ export const SHORTLISTED_TEAMS = [
     ]
   },
   {
+    "team": "StarBugs",
+    "solo": false,
+    "members": [
+      {
+        "name": "Naomi Pereira",
+        "college": "Ramaiah Institute of Technology"
+      },
+      {
+        "name": "Harshendra M",
+        "college": "Ramaiah Institute of Technology"
+      }
+    ]
+  },
+  {
     "team": "SudoCoders",
     "solo": false,
     "members": [
@@ -682,6 +708,10 @@ export const SHORTLISTED_TEAMS = [
       {
         "name": "Lakshya Srivastava",
         "college": "Atria Institute of Technology"
+      },
+      {
+        "name": "Shalini",
+        "college": "Not specified"
       }
     ]
   },
@@ -712,7 +742,7 @@ export const SHORTLISTED_TEAMS = [
         "college": "Atria Institute of Technology"
       },
       {
-        "name": "Prajwal M S",
+        "name": "Vikash S",
         "college": "Atria Institute of Technology"
       },
       {
@@ -812,16 +842,6 @@ export const SHORTLISTED_TEAMS = [
     ]
   },
   {
-    "team": "Veltrix",
-    "solo": false,
-    "members": [
-      {
-        "name": "Vikash S",
-        "college": "Atria Institute of Technology"
-      }
-    ]
-  },
-  {
     "team": "Visioneers",
     "solo": false,
     "members": [
@@ -889,7 +909,7 @@ export const SHORTLISTED_TEAMS = [
     "members": [
       {
         "name": "Abhishek Bagi",
-        "college": "Don Bosco Institute of Technology"
+        "college": "Atria Institute of Technology"
       }
     ]
   },
@@ -899,7 +919,7 @@ export const SHORTLISTED_TEAMS = [
     "members": [
       {
         "name": "Anushree R",
-        "college": "Nitte Meenakshi Institute of Technology"
+        "college": "Don Bosco Institute of Technology"
       }
     ]
   },
@@ -929,17 +949,7 @@ export const SHORTLISTED_TEAMS = [
     "members": [
       {
         "name": "Mujawar Zaid Siraj",
-        "college": "BMS Institute of Technology"
-      }
-    ]
-  },
-  {
-    "team": "Solo: Naomi Pereira",
-    "solo": true,
-    "members": [
-      {
-        "name": "Naomi Pereira",
-        "college": "Ramaiah Institute of Technology"
+        "college": "Atria Institute of Technology"
       }
     ]
   },
@@ -949,7 +959,7 @@ export const SHORTLISTED_TEAMS = [
     "members": [
       {
         "name": "Navya N",
-        "college": "Atria Institute of Technology"
+        "college": "Bangalore Institute of Technology"
       }
     ]
   },
@@ -959,7 +969,7 @@ export const SHORTLISTED_TEAMS = [
     "members": [
       {
         "name": "Sanchita S R",
-        "college": "Atria Institute of Technology"
+        "college": "Nitte Meenakshi Institute of Technology"
       }
     ]
   },
@@ -989,7 +999,7 @@ export const SHORTLISTED_TEAMS = [
     "members": [
       {
         "name": "Suraj Ghadage",
-        "college": "Atria Institute of Technology"
+        "college": "Kalaignar Karunanidhi Institute of Technology"
       }
     ]
   },
@@ -1009,7 +1019,7 @@ export const SHORTLISTED_TEAMS = [
     "members": [
       {
         "name": "Tejash Raju K V",
-        "college": "Atria University"
+        "college": "Ramaiah Institute of Technology"
       }
     ]
   },
@@ -1029,7 +1039,7 @@ export const SHORTLISTED_TEAMS = [
     "members": [
       {
         "name": "Vedang Jaiswal",
-        "college": "Bangalore Institute of Technology"
+        "college": "Atria University"
       }
     ]
   },
@@ -1039,7 +1049,7 @@ export const SHORTLISTED_TEAMS = [
     "members": [
       {
         "name": "Vidushi Singh",
-        "college": "Bangalore Institute of Technology"
+        "college": "BMS Institute of Technology"
       }
     ]
   }

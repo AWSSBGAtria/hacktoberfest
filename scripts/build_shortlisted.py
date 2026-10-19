@@ -1,17 +1,21 @@
 #!/usr/bin/env python3
-"""Generate src/data/shortlisted.js from the final shortlist sheet.
+"""Shared roster logic + generator for src/data/shortlisted.js.
 
-Source: hacktoberfest_teams_final.xlsx
-- "Teams" tab: the shortlist itself - one row per team where Team Size,
-  Members and Emails must agree. The row named "Individual" is not a team;
-  it groups the solo sign-ups and is split into one solo entry per person.
-- "All Members" tab: per-person college (matched by email) and the Has Team
-  flag, which must agree with the Teams tab.
+Source: hacktoberfest_teams_final.xlsx (FINAL folder)
+- "Teams" tab is the source of truth: one row per team (Members and Emails
+  are semicolon lists; Colleges, when present, align positionally). The row
+  named "Individual" is not a team - it groups the solo sign-ups.
+- "All Members" tab only fills colleges the Teams tab left blank.
 
-- Keeps team / member / college only.
-- Normalises college strings to one canonical name per institution.
-- Folds teams signed up twice under two names (see TEAM_MERGES).
-- Teams and solos sorted case-insensitively, solos last.
+Cleanup the sheet does not do by itself (reported as notes):
+- TEAM_MERGES: same team signed up twice under two names.
+- Solos who also appear on a team row are dropped from the solos.
+- Team Size / name-count mismatches trust the names.
+
+Colleges are canonicalised to one name per institution. Site output keeps
+"Not specified" when nothing is known; consumers that want blanks (the
+formatted Excel) check for it themselves. Teams and solos sorted
+case-insensitively, solos last.
 """
 import csv
 import json
@@ -157,21 +161,21 @@ RULES = [
 ]
 
 
-def main():
+def load_roster():
+    """Read the final sheet -> (teams, solos, notes) in sheet order.
+
+    Groups look like {'team', 'solo', 'members: [{'name', 'email', 'college'}]}.
+    """
     wb = openpyxl.load_workbook(XLSX, data_only=True)
 
-    # Per-person facts from the All Members tab, keyed by email.
+    # College per email from the All Members tab (fallback only).
     people = {}
     for row in wb['All Members'].iter_rows(min_row=2, values_only=True):
         if not any(row):
             continue
-        email = (row[2] or '').strip().lower()
-        people[email] = {
-            'college': (row[6] or '').strip(),
-            'has_team': bool(row[4]),
-        }
+        people[(row[2] or '').strip().lower()] = (row[6] or '').strip()
 
-    teams, solos, unmapped, used = [], [], set(), set()
+    teams, solo_people, notes = [], [], []
     for row in wb['Teams'].iter_rows(min_row=2, values_only=True):
         if not any(row):
             continue
@@ -179,33 +183,22 @@ def main():
         size = int(row[1])
         names = [n.strip() for n in (row[4] or '').split(';') if n.strip()]
         emails = [e.strip().lower() for e in (row[5] or '').split(';') if e.strip()]
-        if not len(names) == len(emails) == size:
-            raise SystemExit(
-                f'{team}: Team Size {size} but {len(names)} names / {len(emails)} emails')
+        colleges = [c.strip() for c in (row[6] or '').split(';') if c.strip()]
+        if len(names) != len(emails):
+            raise SystemExit(f'{team}: {len(names)} names but {len(emails)} emails')
+        if size != len(names):
+            notes.append(f'{team}: Team Size column says {size}, trusting {len(names)} names')
 
-        solo_row = team.lower() == SOLO_GROUP
         members = []
-        for name, email in zip(names, emails):
-            person = people.get(email)
-            if person is None:
-                raise SystemExit(f'{team}: {email} not on the All Members tab')
-            if person['has_team'] == solo_row:
-                raise SystemExit(
-                    f'{team}: {email} has Has Team={person["has_team"]}, '
-                    f'contradicts the Teams tab')
-            used.add(email)
-            college = canonical(person['college'])
+        for i, (name, email) in enumerate(zip(names, emails)):
+            raw = colleges[i] if i < len(colleges) else people.get(email, '')
+            college = canonical(raw)
             if college is None:
-                unmapped.add(person['college'])
-                college = person['college']
-            members.append({'name': name, 'college': college})
+                raise SystemExit(f'unmapped college {raw!r} ({name}, {team})')
+            members.append({'name': name, 'email': email, 'college': college})
 
-        if solo_row:
-            # The "Individual" row is the solo bucket: one entry per person.
-            solos.extend(
-                {'team': f'Solo: {m["name"]}', 'solo': True, 'members': [m]}
-                for m in members
-            )
+        if team.lower() == SOLO_GROUP:
+            solo_people.extend(members)
         else:
             teams.append({'team': team, 'solo': False, 'members': members})
 
@@ -217,24 +210,41 @@ def main():
         target = next((g for g in teams if g['team'].casefold() == target_key), None)
         if target is None:
             raise SystemExit(f'merge target {target_key!r} missing for {source["team"]!r}')
-        seen = {m['name'].casefold() for m in target['members']}
+        seen = {m['email'] for m in target['members']}
         for m in source['members']:
-            if m['name'].casefold() in seen:
-                raise SystemExit(f'{target["team"]}: {m["name"]} listed twice after merge')
-            seen.add(m['name'].casefold())
+            if m['email'] in seen:
+                notes.append(f'{target["team"]}: {m["name"]} already on the team after merge')
+                continue
             target['members'].append(m)
+            notes.append(f'{target["team"]}: absorbed {m["name"]} from {source["team"]}')
         teams.remove(source)
 
-    if used != set(people):
-        missing = sorted(set(people) - used)
-        raise SystemExit('All Members rows not on the Teams tab: ' + ', '.join(missing))
-    if unmapped:
-        raise SystemExit('UNMAPPED COLLEGES:\n' + '\n'.join(sorted(unmapped)))
+    # A solo who is also listed on a team row belongs to the team.
+    on_team = {m['email'] for g in teams for m in g['members']}
+    kept = [p for p in solo_people if p['email'] not in on_team]
+    for p in solo_people:
+        if p['email'] in on_team:
+            notes.append(f'{p["name"]}: dropped from solos - listed on a team')
+    solos = [{'team': f'Solo: {p["name"]}', 'solo': True, 'members': [p]} for p in kept]
+    return teams, solos, notes
+
+
+def main():
+    teams, solos, notes = load_roster()
+    for note in notes:
+        print('note:', note)
 
     by_name = lambda g: g['team'].casefold()
     teams.sort(key=by_name)
     solos.sort(key=by_name)
-    payload = teams + solos
+    payload = [
+        {
+            'team': g['team'],
+            'solo': g['solo'],
+            'members': [{'name': m['name'], 'college': m['college']} for m in g['members']],
+        }
+        for g in teams + solos
+    ]
     members_total = sum(len(g['members']) for g in payload)
 
     # Stats are derived from the roster at runtime, so they can never drift
