@@ -37,6 +37,13 @@ TEAM_MERGES = {
     'black triad': 'dark triad',
 }
 
+# Corrections where the Teams tab college is wrong but the All Members tab
+# agrees with reality. Keyed by email -> canonical name.
+COLLEGE_OVERRIDES = {
+    # Abhishek Bagi: Teams tab says Atria, All Members (and he) say Don Bosco.
+    'abhishekbagi262@gmail.com': 'Don Bosco Institute of Technology',
+}
+
 # --- canonical college names -------------------------------------------------
 NOT_SPECIFIED = 'Not specified'
 CANONICAL = {
@@ -191,10 +198,13 @@ def load_roster():
 
         members = []
         for i, (name, email) in enumerate(zip(names, emails)):
-            raw = colleges[i] if i < len(colleges) else people.get(email, '')
-            college = canonical(raw)
-            if college is None:
-                raise SystemExit(f'unmapped college {raw!r} ({name}, {team})')
+            if email in COLLEGE_OVERRIDES:
+                college = COLLEGE_OVERRIDES[email]
+            else:
+                raw = colleges[i] if i < len(colleges) else people.get(email, '')
+                college = canonical(raw)
+                if college is None:
+                    raise SystemExit(f'unmapped college {raw!r} ({name}, {team})')
             members.append({'name': name, 'email': email, 'college': college})
 
         if team.lower() == SOLO_GROUP:
@@ -274,7 +284,8 @@ def main():
                     team_cell = 'Solo'
                 else:
                     team_cell = group['team'] if i == 0 else ''
-                w.writerow([team_cell, member['name'], member['college']])
+                college = None if member['college'] == NOT_SPECIFIED else member['college']
+                w.writerow([team_cell, member['name'], college])
 
     print(f'wrote {OUT}: {len(teams)} teams, {len(solos)} solos, {members_total} members')
     print(f'wrote {OUT_CSV}: {members_total} rows')
