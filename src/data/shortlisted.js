@@ -959,7 +959,7 @@ export const SHORTLISTED_TEAMS = [
     "members": [
       {
         "name": "Navya N",
-        "college": "Bangalore Institute of Technology"
+        "college": "Atria Institute of Technology"
       }
     ]
   },
