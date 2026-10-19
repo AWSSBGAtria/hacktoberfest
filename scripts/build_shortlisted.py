@@ -38,13 +38,6 @@ TEAM_MERGES = {
     'black triad': 'dark triad',
 }
 
-# Corrections where the Teams tab college is wrong but the All Members tab
-# agrees with reality. Keyed by email -> canonical name.
-COLLEGE_OVERRIDES = {
-    # Abhishek Bagi: Teams tab says Atria, All Members (and he) say Don Bosco.
-    'abhishekbagi262@gmail.com': 'Don Bosco Institute of Technology',
-}
-
 # --- canonical college names -------------------------------------------------
 NOT_SPECIFIED = 'Not specified'
 CANONICAL = {
@@ -229,19 +222,16 @@ def load_roster():
 
         members = []
         for i, (name, email) in enumerate(zip(names, emails)):
-            if email in COLLEGE_OVERRIDES:
-                college = COLLEGE_OVERRIDES[email]
-            else:
-                # Order of trust: formatted (hand-corrected) > Teams tab > All Members.
-                base = colleges[i] if i < len(colleges) else ''
-                raw = formatted.get(email) or base or people.get(email, '')
-                college = canonical(raw)
-                if college is None:
-                    raise SystemExit(f'unmapped college {raw!r} ({name}, {team})')
-                # Only report when the correction actually changes the college
-                # (not just its string form - the formatter writes canonical).
-                if email in formatted and canonical(base) != college and base.strip() != college:
-                    notes.append(f'{name}: college set from formatted file -> {college}')
+            # Order of trust: formatted (hand-corrected) > Teams tab > All Members.
+            base = colleges[i] if i < len(colleges) else ''
+            raw = formatted.get(email) or base or people.get(email, '')
+            college = canonical(raw)
+            if college is None:
+                raise SystemExit(f'unmapped college {raw!r} ({name}, {team})')
+            # Only report when the correction actually changes the college
+            # (not just its string form - the formatter writes canonical).
+            if email in formatted and canonical(base) != college and base.strip() != college:
+                notes.append(f'{name}: college set from formatted file -> {college}')
             members.append({'name': name, 'email': email, 'college': college})
 
         if team.lower() == SOLO_GROUP:
