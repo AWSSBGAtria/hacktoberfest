@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from 'react';
-import { Search, ChevronLeft, ChevronRight, Users } from 'lucide-react';
+import { Search, ChevronLeft, ChevronRight, Info, Users } from 'lucide-react';
 import { SHORTLISTED_TEAMS, SHORTLISTED_STATS } from '../data/shortlisted';
 import SectionHead from './SectionHead';
 
@@ -69,6 +69,33 @@ export default function Shortlisted() {
               {label}
             </span>
           ))}
+        </div>
+
+        {/* Attendance notices — for people scanning the list and not finding
+            their own (or a teammate's) name. */}
+        <div className="border-2 border-[#10201d] bg-white mb-8">
+          <p className="flex items-center gap-2 bg-[#f5b726] border-b-2 border-[#10201d] px-4 py-2 font-mono text-[11px] font-bold uppercase tracking-[0.18em]">
+            <Info className="w-4 h-4 shrink-0" aria-hidden="true" />
+            Name missing from the list?
+          </p>
+          <ol className="divide-y-2 divide-[#10201d]/15">
+            <li className="flex items-start gap-3 px-4 py-3 font-mono text-xs leading-relaxed">
+              <span className="font-display font-black text-sm shrink-0">01</span>
+              <span>
+                Registered on or after 18 October with a valid MLH registration?
+                You are allowed to attend the event even if your name is not
+                shown below.
+              </span>
+            </li>
+            <li className="flex items-start gap-3 px-4 py-3 font-mono text-xs leading-relaxed">
+              <span className="font-display font-black text-sm shrink-0">02</span>
+              <span>
+                If your team member’s name is not mentioned despite having a
+                valid MLH registration, they can still show up on event day
+                along with the rest of the team.
+              </span>
+            </li>
+          </ol>
         </div>
 
         {/* Search + roster */}
