@@ -19,6 +19,11 @@
       "source": "/challenges",
       "destination": "https://www.mlh.com/events/hacktoberfest-hack-day-bengaluru-x-aws-student-builder-group-at-atria-institute-of-technology/challenges",
       "permanent": false
+    },
+    {
+      "source": "/feedback",
+      "destination": "https://tally.so/r/J1Ka4z",
+      "permanent": false
     }
   ],
   "rewrites": [
