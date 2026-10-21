@@ -55,43 +55,12 @@ function getPool() {
   return pool;
 }
 
-// GET /api/scores - top 100 by score, time breaks ties. Rows deliberately
-// carry no email: the list is public, and the only consumer that must
-// identify a person (the done screen) fetches its own row via findScore.
-export async function listScores() {
-  try {
-    const [rows] = await getPool().query(
-      'SELECT name, institution, score, time, created_at AS `at` FROM scores ORDER BY score DESC, time ASC LIMIT 100',
-    );
-    return { status: 200, body: rows.map((r) => ({ ...r, time: Number(r.time) })) };
-  } catch (err) {
-    console.error('GET /api/scores:', err.message);
-    return { status: 500, body: { error: 'db' } };
-  }
-}
-
-// GET /api/scores?email= - one person's own row (full record, including
-// their email) so a returning player can restore their locked-in entry.
-// Knowing the email is the capability; unknown or malformed -> 404/400.
-export async function findScore(rawEmail) {
-  const email = String(rawEmail || '').trim().toLowerCase();
-  if (!EMAIL_RE.test(email)) {
-    return { status: 400, body: { error: 'invalid' } };
-  }
-  try {
-    const [rows] = await getPool().query(
-      'SELECT name, email, institution, score, time, created_at AS `at` FROM scores WHERE LOWER(email) = ? LIMIT 1',
-      [email],
-    );
-    if (rows.length === 0) {
-      return { status: 404, body: { error: 'not-found' } };
-    }
-    return { status: 200, body: { ...rows[0], time: Number(rows[0].time) } };
-  } catch (err) {
-    console.error('GET /api/scores?email=:', err.message);
-    return { status: 500, body: { error: 'db' } };
-  }
-}
+// GET /api/scores - REMOVED. The results screen deliberately shows a player
+// only their own score (design.md section 13: "Don't show other players'
+// scores anywhere"), so the frontend never reads a shared list. The list and
+// the email lookup both used to be served here; the list made every
+// participant's name, institution and score world-readable, and the lookup
+// turned a guessed email into a PII record. Neither has a consumer any more.
 
 // POST /api/scores - validates input, verifies the run via server-side
 // replay, and enforces one entry per person (same email, or same name plus
@@ -104,6 +73,15 @@ export async function findScore(rawEmail) {
 // / time that its own simulation produces. A forged score never matches the
 // replay, so it is refused rather than silently accepted.
 export async function createScore(raw) {
+  // Entry window closed: stop accepting writes while leaving reads of the
+  // code (and every other rule below) untouched. Checked before validation on
+  // purpose - a frozen board should answer 503 to everything, including the
+  // malformed bodies a fuzzer sends, rather than leaking which payloads are
+  // otherwise well formed. Read per call, not at import, so an operator can
+  // reopen the board with SUBMISSIONS_OPEN=1 without a redeploy of logic.
+  if (process.env.SUBMISSIONS_OPEN !== '1') {
+    return { status: 503, body: { error: 'closed' } };
+  }
   const name = String(raw?.name || '').trim().slice(0, 120);
   const email = String(raw?.email || '').trim().toLowerCase().slice(0, 160);
   const institution = String(raw?.institution || '').trim().slice(0, 160);
@@ -170,12 +148,15 @@ export async function createScore(raw) {
   }
 }
 
-// GET /api/health - cheap connectivity probe for the DB.
+// GET /api/health - cheap connectivity probe for the DB. The response is a
+// bare boolean on purpose: a driver error message routinely carries the host,
+// user and database name, so it is logged server-side and never echoed back.
 export async function healthCheck() {
   try {
     await getPool().query('SELECT 1');
     return { status: 200, body: { ok: true } };
   } catch (err) {
-    return { status: 500, body: { ok: false, error: err.message } };
+    console.error('GET /api/health:', err.message);
+    return { status: 500, body: { ok: false } };
   }
 }

@@ -251,7 +251,7 @@ export default function PacPlay() {
     const lock = getLock();
     if (lock) {
       try {
-        // Own row only: the public list no longer carries emails.
+        // Own row, from this browser's store - the API has no read path.
         const mine = await loadMine(lock.email);
         setEntry(mine || lock);
       } catch {
@@ -451,6 +451,11 @@ export default function PacPlay() {
         // Server-side replay could not reproduce the claimed score/time from
         // the input log - the run was tampered with (or the log was lost).
         setFormError('The server could not verify your run - please play through again and submit normally.');
+      } else if (err && err.message === 'closed') {
+        // Submissions are frozen at the API, so this run was not recorded
+        // anywhere. Say so plainly instead of the generic storage failure,
+        // which would send the player hunting for a browser problem.
+        setFormError('Submissions are closed - the entry window has ended, so this run was not recorded.');
       } else {
         setFormError('This browser refused to save - please try another one.');
       }

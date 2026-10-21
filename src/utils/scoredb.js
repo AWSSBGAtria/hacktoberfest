@@ -6,10 +6,16 @@
 // localStorage; the one-entry-per-person rule is enforced by the UNIQUE email
 // column (409 on duplicates).
 //
+// Write-only by design: the API has no read path at all. A player's result
+// comes back from this browser's own store, so the site never exposes one
+// participant's score to another (design.md section 13). That also means a
+// successful remote save is mirrored into localStorage below - otherwise a
+// first-time player, who has no local copy, would have nothing to restore.
+//
 // If the API is unreachable (static host without the functions deployed, DB
-// outage, offline), reads and writes degrade to the local store instead of
-// failing the player's screen - with a console warning so the degradation is
-// visible. Set REMOTE_URL to null to run fully offline on the local store.
+// outage, offline), writes degrade to the local store instead of failing the
+// player's screen - with a console warning so the degradation is visible.
+// Set REMOTE_URL to null to run fully offline on the local store.
 
 const ENTRIES_KEY = 'awssbg-pac-entries-v1';
 const DONE_KEY = 'awssbg-pac-done-v1';
@@ -33,38 +39,21 @@ function writeLocal(key, value) {
   localStorage.setItem(key, JSON.stringify(value));
 }
 
-export function loadEntries() {
-  if (REMOTE_URL) return loadEntriesRemote();
-  return loadEntriesLocal();
-}
-
 export function saveEntry(entry) {
   if (REMOTE_URL) return saveEntryRemote(entry);
   return saveEntryLocal(entry);
 }
 
-// Own-row lookup for the done screen: the public list carries no emails, so
-// a returning player fetches just their record (?email=) and we fall back to
-// this browser's store when the API is missing, down, or never saw the save.
+// Own-row lookup for the done screen, read from this browser's store only.
+// The API has no read path by design, so there is nothing to ask it; kept
+// async because the call site awaits it.
 export async function loadMine(email) {
   const key = String(email || '').trim().toLowerCase();
-  const fromLocal = () =>
+  return (
     loadEntriesLocal().find(
       (e) => e && e.email && String(e.email).toLowerCase() === key,
-    ) || null;
-  if (!REMOTE_URL) return fromLocal();
-  try {
-    const res = await fetch(
-      `${REMOTE_URL}/scores?email=${encodeURIComponent(email)}`,
-    );
-    if (res.ok) return await res.json();
-    if (res.status !== 404) throw new Error(`status ${res.status}`);
-  } catch (err) {
-    // API missing (static host without functions), DB down, or offline:
-    // degrade to this browser's store rather than failing the screen.
-    console.warn('[scoredb] scores API unreachable, reading local store:', err);
-  }
-  return fromLocal();
+    ) || null
+  );
 }
 
 // Local store: also the fallback when the remote API is unreachable, so a
@@ -89,6 +78,30 @@ function saveEntryLocal(entry) {
     throw new Error('storage');
   }
   return entry;
+}
+
+/**
+ * Remember a server-accepted entry in this browser. saveEntryRemote used to
+ * write only the lock marker, which was fine while the done screen could ask
+ * the server for the row - now that it cannot, a first-time player would have
+ * nothing to show. This is a mirror, not a duplicate check: the server has
+ * already ruled on uniqueness, so re-running findClash here would only be able
+ * to turn a successful save into a spurious error.
+ */
+function mirrorLocal(entry) {
+  const entries = readLocal(ENTRIES_KEY, []);
+  const list = Array.isArray(entries) ? entries : [];
+  const key = String(entry.email || '').trim().toLowerCase();
+  const next = list.filter(
+    (e) => !e || String(e.email || '').trim().toLowerCase() !== key,
+  );
+  next.push(entry);
+  try {
+    writeLocal(ENTRIES_KEY, next);
+    writeLocal(DONE_KEY, { email: entry.email });
+  } catch {
+    /* private mode / quota: the UNIQUE column is the real guard */
+  }
 }
 
 // One entry per person: same email, or same name plus institution
@@ -116,23 +129,6 @@ export function clearLock() {
   } catch {
     /* private mode - nothing to clear */
   }
-}
-
-async function loadEntriesRemote() {
-  let list;
-  try {
-    const res = await fetch(`${REMOTE_URL}/scores`);
-    // Reachable but unhappy (5xx etc.): still fall through to local below.
-    if (!res.ok) throw new Error(`status ${res.status}`);
-    list = await res.json();
-    if (!Array.isArray(list)) throw new Error('bad payload');
-  } catch (err) {
-    // API missing (static host without functions), DB down, or offline:
-    // degrade to this browser's store rather than failing the screen.
-    console.warn('[scoredb] scores API unreachable, using local store:', err);
-    return loadEntriesLocal();
-  }
-  return [...list].sort((a, b) => b.score - a.score || a.time - b.time);
 }
 
 async function saveEntryRemote(entry) {
@@ -174,16 +170,22 @@ async function saveEntryRemote(entry) {
     }
     throw new Error(reason);
   }
+  if (res.status === 503) {
+    // The board is frozen (store.createScore refuses writes while
+    // SUBMISSIONS_OPEN is unset). Deliberately NOT saved locally: falling
+    // through to the local store would tell the player they are on the board
+    // when the server has just told us they are not.
+    throw new Error('closed');
+  }
   if (!res.ok) {
-    // Server reachable but failing (404 on a static host, 5xx, ...):
-    // degrade to the local store so the player's run still counts here.
+    // Server reachable but refusing or failing (403 cross-origin, 429 rate
+    // limit, 404 on a static host, 5xx, ...): degrade to the local store so
+    // the player's run still counts here.
     console.warn(`[scoredb] scores API returned ${res.status}, saving locally.`);
     return saveEntryLocal(entry);
   }
-  try {
-    writeLocal(DONE_KEY, { email: entry.email });
-  } catch {
-    /* lock is best-effort; the UNIQUE column is the real guard */
-  }
+  // Accepted by the server. Mirror it locally so the done screen has
+  // something to restore - there is no read endpoint to ask any more.
+  mirrorLocal(entry);
   return entry;
 }
