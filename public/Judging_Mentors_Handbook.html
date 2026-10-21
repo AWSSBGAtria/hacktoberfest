@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Judges' Playbook — Hacktoberfest Hack Day Bengaluru 2026</title>
-  <meta name="description" content="Judge playbook for Hacktoberfest Hack Day Bengaluru 2026: what Hacktoberfest is and who hosts it, where to report at 4:30 PM and who to ask for, the three tracks and your sponsors' roles, and the six universal judging criteria.">
+  <meta name="description" content="Judge playbook for Hacktoberfest Hack Day Bengaluru 2026: what Hacktoberfest is and who hosts it, when to arrive at 4:30 PM and who to look for, the three tracks and your sponsors' roles, and the six universal judging criteria.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&family=Bricolage+Grotesque:opsz,wght@12..96,200..800&display=swap" rel="stylesheet">
@@ -418,6 +418,47 @@
     .arriveband .mono { color: var(--color-yellow); }
     .arriveband p { font-size: 7.4pt; line-height: 1.42; color: rgba(247, 247, 242, 0.84); margin-top: 1.5mm; }
     .arriveband strong { color: var(--color-cream); font-weight: 700; }
+
+    /* contact card — same .people/.person component as the participant
+       handbook and sponsorship prospectus */
+    .people { display: grid; grid-template-columns: 1fr 1fr; gap: 4.6mm; margin-top: 6.5mm; }
+    .people > .person:only-child { grid-column: 1 / -1; }
+    .person {
+      border: 1.4pt solid var(--color-ink);
+      background: var(--color-paper);
+      box-shadow: 2.4mm 2.4mm 0 var(--stamp-ink);
+      padding: 4.4mm 5mm 5mm;
+    }
+    .person__name {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 19pt;
+      line-height: 1;
+      letter-spacing: -0.028em;
+      margin-top: 2.2mm;
+    }
+    .person__role { font-size: 8pt; font-weight: 700; color: var(--red-ink); margin-top: 1.6mm; }
+    .person__org { font-size: 7.4pt; color: rgba(16, 32, 29, 0.68); margin-top: 0.8mm; }
+    .person__lines {
+      margin-top: 3.4mm;
+      padding-top: 3mm;
+      border-top: 1.4pt solid var(--color-ink);
+      display: flex;
+      flex-direction: column;
+      gap: 2mm;
+    }
+    .person__line { display: flex; align-items: baseline; gap: 2.4mm; }
+    .person__line .mono { color: var(--color-indigo); flex: none; width: 26mm; }
+    .person__line a,
+    .person__line span.val {
+      font-family: var(--font-mono);
+      font-size: 8.6pt;
+      font-weight: 500;
+      color: var(--color-ink);
+      text-decoration: none;
+      word-break: break-word;
+    }
+    .person__line a:hover { text-decoration: underline; }
 
     .strictnote {
       margin-top: 5mm;
@@ -1065,7 +1106,7 @@
       <div class="cover__fact">
         <span class="mono">When</span>
         <p>Friday, October 23, 2026</p>
-        <p>Judges report 4:30&nbsp;PM &middot; judging 5:30&ndash;6:30&nbsp;PM IST</p>
+        <p>Judges arrive 4:30&nbsp;PM &middot; judging 5:30&ndash;6:30&nbsp;PM IST</p>
       </div>
       <div class="cover__fact">
         <span class="mono">Where</span>
@@ -1121,47 +1162,29 @@
       <strong>Your host is the AWS Student Builder Group at Atria Institute of
       Technology</strong> — a student-led builder community that runs hands-on sessions
       on AWS, cloud architecture and generative AI. We organised the day, the teams and
-      the judging workbook. You are here to judge; everything else is on us.
+      the judging workbook. Settle in — whatever you need, we're right here.
     </p>
 
-    <div class="arriveband" style="margin-top: 6.5mm;">
-      <div>
-        <span class="mono">Report</span>
-        <p><strong>4:30 PM</strong> — reach the venue; we receive and seat you.</p>
-      </div>
-      <div>
-        <span class="mono">Briefing</span>
-        <p><strong>5:15 PM</strong> — criteria walk-through and workbook, before tables.</p>
-      </div>
-      <div>
-        <span class="mono">Judging</span>
-        <p><strong>5:30–6:30 PM</strong> — three-minute pitches, then scores in.</p>
-      </div>
-    </div>
-
-    <div class="arriveband" style="margin-top: 0; border-top: 0;">
-      <div>
-        <span class="mono">When you arrive</span>
-        <p><strong>Ask for Darshan B</strong> — we'll come receive you at the gate and
-        walk you to the judges' area.</p>
-      </div>
-      <div>
-        <span class="mono">Reach us</span>
-        <p><strong>leader@awsatria.tech</strong><br>Queries: hacktoberfest@awsatria.tech</p>
-      </div>
-      <div>
-        <span class="mono">Venue</span>
-        <p>Atria Institute of Technology, Hebbal, Bengaluru 560024 —
-        <a href="https://maps.app.goo.gl/v9oFjCVD5VbHUVC78" style="color: var(--color-yellow);">map</a>.</p>
+    <div class="people" style="margin-top: 6.5mm;">
+      <div class="person">
+        <span class="mono mono--red">Your point of contact</span>
+        <p class="person__name">Darshan B</p>
+        <p class="person__role">Event Host &amp; Lead Organizer</p>
+        <div class="person__lines">
+          <div class="person__line">
+            <span class="mono">Phone</span>
+            <a href="tel:+919964541002">+91 99645 41002</a>
+          </div>
+        </div>
       </div>
     </div>
 
     <div class="strictnote" style="margin-top: 6.5mm;">
-      <span class="mono">The only deadline that bites</span>
-      <p><strong>All six criteria must be filed by 6:30&nbsp;PM.</strong> A team's final
-      score is the average of every judge on it — an unfilled row counts against the
-      team, not against you. Everything before that is guided: briefing at 5:15, a
-      volunteer timing each pitch, and us on call all evening.</p>
+      <span class="mono">One note on timing</span>
+      <p><strong>All six criteria would need to be in by 6:30&nbsp;PM</strong> — a team's
+      final score is the average of every judge on it, so an empty row hurts the team
+      more than anyone. Everything else is easy: briefing at 5:15, a volunteer keeping
+      time at each pitch, and us around all evening if you need anything.</p>
     </div>
 
     <div style="display: flex; align-items: baseline; justify-content: space-between; margin-top: 7mm; padding-bottom: 2mm;">
@@ -1173,7 +1196,7 @@
       <div class="slot slot--key">
         <span class="slot__time">4:30 PM</span>
         <div>
-          <span class="slot__title">Judges report to venue</span>
+          <span class="slot__title">Judges arrive</span>
           <span class="slot__desc">We receive you at the gate and take you to the judges' area. Coffee is on.</span>
         </div>
       </div>
@@ -1188,7 +1211,7 @@
         <span class="slot__time">5:15 PM</span>
         <div>
           <span class="slot__title">Judge briefing</span>
-          <span class="slot__desc">Criteria, pitch format and a walk through the workbook. Ask questions here, not at the tables.</span>
+          <span class="slot__desc">Criteria, pitch format and a walk through the workbook — please bring any questions here; we'd love to settle them together.</span>
         </div>
       </div>
       <div class="slot slot--key">
@@ -1238,7 +1261,7 @@
       </div>
       <div class="focus__row">
         <span class="focus__k">01 · Best Open-Source AI Project<br><span class="mono mono--mute" style="font-size: 7.4pt;">Core Hacktoberfest challenge · DeepAgentLabs</span></span>
-        <span class="focus__v">A public GitHub repo under a real open-source license, where open-source or open-weight AI does important work — an agent skill, an LLM-powered application, or a model harness. The README names the model used and links its license. Check the repo first: public, licensed, runnable from the docs. <span class="mono mono--mute" style="font-size: 7.4pt;">/tracks/open-source-ai</span></span>
+        <span class="focus__v">A public GitHub repo under a real open-source license, where open-source or open-weight AI does important work — an agent skill, an LLM-powered application, or a model harness. The README names the model used and links its license. A good place to start is the repo itself: public, licensed, and runnable from the docs. <span class="mono mono--mute" style="font-size: 7.4pt;">/tracks/open-source-ai</span></span>
       </div>
       <div class="focus__row">
         <span class="focus__k">02 · Best Use of Gemma 4<br><span class="mono mono--mute" style="font-size: 7.4pt;">Google partner challenge, via MLH</span></span>
@@ -1291,8 +1314,8 @@
     <div class="strictnote" style="margin-top: 5.5mm;">
       <span class="mono">One project, one track</span>
       <p>A project may qualify for several tracks but is <strong>submitted and judged
-      in exactly one</strong>. Asked to switch mid-round? Note the team name and tell an
-      organizer — don't re-judge it on the spot.</p>
+      in exactly one</strong>. If a team asks to switch mid-round, just note the team
+      name and let one of us know — we'll take it from there.</p>
     </div>
   </div>
 
@@ -1314,9 +1337,9 @@
     <h2 class="title title--wide">Six criteria. Every track. Same sheet.</h2>
     <p class="deck" style="margin-top: 3.4mm;">
       Whichever track a team entered, you score six criteria from 0&ndash;10 each.
-      The weighted total calculates itself — your job is the six numbers and the
-      honesty behind them. Score the build as it stands today, not the idea it
-      might become.
+      The weighted total calculates itself — your part is simply those six numbers,
+      given honestly. Score the build as it stands today; the idea it might become
+      tomorrow is a lovely thing, just not what you're scoring.
     </p>
 
     <div class="rubric" style="margin-top: 6mm;">
@@ -1386,21 +1409,21 @@
     </div>
 
     <div style="display: flex; align-items: baseline; justify-content: space-between; margin-top: 5mm; padding-bottom: 2mm;">
-      <span class="eyebrow" style="margin: 0;">Rules of the sheet</span>
-      <span class="mono mono--mute">Non-negotiables</span>
+      <span class="eyebrow" style="margin: 0;">A few ground rules</span>
+      <span class="mono mono--mute">How we keep it fair</span>
     </div>
 
     <ul class="tick">
-      <li><strong>Score what is presented.</strong> Judge the build as it stands today — file all six scores before closing the row.</li>
-      <li><strong>Scores stay yours until filing.</strong> No score-talk with other judges beforehand; declare conflicts (teams you mentored, your organization, anyone you know) and hand that team over.</li>
-      <li><strong>Amend, don't argue.</strong> To correct a score, fix the scorecard cell — the standings recalculate themselves. Disputes go to the lead organizer, not the team.</li>
+      <li><strong>Score what's in front of you.</strong> Judge the build as it stands today, and try to file all six before you close the row.</li>
+      <li><strong>Hold your scores until you file them.</strong> It helps everyone if judges don't compare notes beforehand — and if you happen to know a team (you mentored them, they're from your organisation, or you simply know them), just say so and we'll hand that team to another judge.</li>
+      <li><strong>Changed your mind?</strong> Just edit the scorecard cell — the standings recalculate themselves. If anything about a score is ever in question, bring it to the lead organizer; that's what they're there for.</li>
     </ul>
 
     <div class="draftnote" style="margin-top: 5.5mm;">
-      <span class="mono">Stuck on something?</span>
-      <p>Find <strong>Darshan B</strong> (leader@awsatria.tech) or any volunteer in an
-      organiser badge — between pitches, not during one. Briefing at 5:15&nbsp;PM is the
-      right moment for anything about the workbook itself.</p>
+      <span class="mono">Need a hand at any point?</span>
+      <p>Call or WhatsApp <strong>Darshan B on +91 99645 41002</strong>, or ask any
+      volunteer in an organiser badge — whichever is closer. The 5:15&nbsp;PM briefing is
+      also a lovely moment to raise anything about the workbook.</p>
     </div>
   </div>
 
