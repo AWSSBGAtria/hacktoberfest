@@ -421,7 +421,8 @@ scripts/screenshot.mjs  Playwright review shots (SHOTS_DIR, preview on :4173)
 
 ## 18. MySQL scoreboard + async leaderboard fix
 
-- `hacktober2026.scores` in local MySQL (root/Darshan1122): id, name,
+- `hacktober2026.scores` in local MySQL (root, password via DB_PASSWORD — see
+  `.env.example`): id, name,
   email UNIQUE, institution, score, time, created_at. `server/index.js`
   (Express + mysql2) serves dist + GET/POST /api/scores (409 on duplicate)
   and /api/health; `npm run server`, `./vite.config` proxies /api in dev. Production uses one variable: `DATABASE_URL=mysql://USER:PASSWORD@HOST:PORT/hacktober2026` (discrete DB_HOST/DB_USER/DB_PASSWORD/DB_NAME remain as local fallback).
@@ -600,3 +601,68 @@ Follow-up corrections in the same spirit:
   the social preview describes the event, not one page of it.
   `public/robots.txt` and `public/sitemap.xml` (all seven indexable routes,
   priorities reflecting importance) ship with the build.
+
+---
+
+## 29. Judging panel page, API hardening, frozen entry window
+
+### Judging panel (`/panel`)
+
+- New route with a nav/footer entry ("Judges" in the nav, "Judging Panel" in
+  the footer) and six cards sourced from the organizers' judge sheet
+  (`src/data/judges.js`). Cards are structured fields only — name, role, and
+  whichever of `company`, `positions` and `credentials` the sheet actually
+  states. Optional fields render only when present, so a judge with one line
+  of metadata gets a one-line card rather than an empty block, and no
+  credential on the page is invented.
+- Order follows the organizers': Shefali Arora, Sudha Subramaniam, Bharath
+  Ganesh, Jayachandra Reddy, Sunil Kumar, Dhruv Verma. Portraits are
+  hand-cropped to a uniform 800x800 WebP in `public/judges/`.
+- The closing strip points at the published track briefs. It deliberately
+  says nothing about how many judges sit per panel — that is not settled, so
+  no page copy claims it.
+
+### API hardening
+
+- `GET /api/scores` is gone in both directions: no public top-100 list, no
+  lookup by email. Between them they returned every participant's name,
+  institution and score to anyone with curl, and turned a guessed email into
+  a full record — with no frontend consumer, since the results screen only
+  ever shows a player their own score (see sections 12 and 21). The route
+  answers `405 Allow: POST`, and the Express server 404s the rest of `/api`
+  instead of falling through to the SPA fallback, which would have answered
+  a dead endpoint with `index.html`.
+- New `server/guard.js`, shared by the Express server and the Vercel
+  functions the same way `server/store.js` is, so the two platforms cannot
+  drift: same-origin enforcement plus per-IP rate limiting. A same-origin
+  request always passes, so any deploy domain works with no configuration;
+  `ALLOWED_ORIGINS` only ever adds hosts. The guard runs before the JSON
+  parser — rate limiting a request only to discard it after it has been read
+  and parsed is rate limiting too late. Limits are per-IP and in-memory:
+  exact for the single-process event-day server, best-effort on Vercel, where
+  each function instance holds its own buckets.
+- `/api/health` returns a bare `ok` flag. The driver error used to be echoed
+  back, and it routinely carries the host, user and database name; it is
+  logged server-side now instead.
+
+### Frozen entry window
+
+- `createScore` answers `503 {"error":"closed"}` unless `SUBMISSIONS_OPEN=1`,
+  checked before validation on purpose — a frozen board should refuse
+  everything rather than reveal which payloads are otherwise well formed.
+  The board is therefore closed in production by default, and reopening it
+  is a variable, not a code change.
+- The client surfaces that honestly instead of degrading: an earlier version
+  fell back to a local save on any non-OK response, which would have told
+  the player they were on the board while the server had just refused them.
+- Accepted saves are mirrored into localStorage (`mirrorLocal`), replacing
+  the `?email=` round trip the done screen used to make. It is a mirror, not
+  a duplicate check — the server has already ruled on uniqueness, so
+  re-running the clash test there could only turn a successful save into a
+  spurious error.
+
+### Credential removed from the repo
+
+- `server/store.js` carried a baked-in local MySQL password and section 18
+  above printed it in plaintext. Both are scrubbed and `DB_PASSWORD` must now
+  be set locally. **The value is still in git history and needs rotating.**

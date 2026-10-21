@@ -47,7 +47,10 @@ function getPool() {
     : mysql.createPool({
         host: process.env.DB_HOST || 'localhost',
         user: process.env.DB_USER || 'root',
-        password: process.env.DB_PASSWORD || 'Darshan1122',
+        // No baked-in default: a real password used to live here, in git.
+        // Local dev must set DB_PASSWORD (see .env.example); production uses
+        // DATABASE_URL above and never reaches this branch.
+        password: process.env.DB_PASSWORD || '',
         database: process.env.DB_NAME || 'hacktober2026',
         waitForConnections: true,
         connectionLimit: 10,
