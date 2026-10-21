@@ -17,6 +17,7 @@ const DESTINATIONS = [
   { href: '/build', label: 'Tracks & themes', note: 'What you can build' },
   { href: '/day', label: 'Day plan', note: 'Timings, start to finish' },
   { href: '/venue', label: 'Venue', note: 'Address, map, what to bring' },
+  { href: '/panel', label: 'Judging panel', note: 'Who is scoring your work' },
   { href: '/faq', label: 'FAQ', note: 'Teams, food, Wi-Fi, submitting' },
 ];
 

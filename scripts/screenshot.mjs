@@ -12,6 +12,7 @@ const targets = [
   { path: '/build', name: 'build' },
   { path: '/day', name: 'day' },
   { path: '/venue', name: 'venue' },
+  { path: '/panel', name: 'panel' },
   { path: '/community', name: 'community' },
 ];
 

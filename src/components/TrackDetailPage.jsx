@@ -255,14 +255,14 @@ export default function TrackDetailPage({ track }) {
         </section>
       ))}
 
-      {/* Closing: the other two tracks, so a reader can hop without going home */}
+      {/* Closing: the other two tracks, so a reader can compare before choosing one */}
       <section className="theme-section bg-[#f2f2eb] text-[#10201d]">
         <div className="shell">
           <SectionHead
             eyebrow="The other tracks"
-            title="One project, three shots -"
-            accent="enter every challenge you qualify for."
-            deck="A single OrganizerHQ submission can land in multiple tracks. Pick your main one, tick the rest."
+            title="Three tracks -"
+            accent="one submission per team."
+            deck="Each team works on and submits to a single track. If your build could fit more than one, pick the track that suits it best - it is judged there and only there."
           />
           <div className="tb-next">
             {siblings.map((slug) => {

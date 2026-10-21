@@ -32,6 +32,7 @@ export default function Footer() {
               <li><a href="/build" className="hover:text-white hover:underline">Tracks & Themes</a></li>
               <li><a href="/day" className="hover:text-white hover:underline">Schedule</a></li>
               <li><a href="/venue" className="hover:text-white hover:underline">Venue & Checklist</a></li>
+              <li><a href="/panel" className="hover:text-white hover:underline">Judging Panel</a></li>
               <li><a href="/faq" className="hover:text-white hover:underline">FAQ</a></li>
             </ul>
           </div>

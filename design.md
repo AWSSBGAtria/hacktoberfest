@@ -254,11 +254,12 @@ intercepted anchor clicks, `popstate`, `TITLES` for `document.title`.
 | `/build` | `BuildPage` | Tracks — Hack Day Bengaluru |
 | `/day` | `DayPage` | Schedule — Hack Day Bengaluru |
 | `/venue` | `VenuePage` | Venue & Map — Hack Day Bengaluru |
+| `/panel` | `PanelPage` | Judging Panel — Hack Day Bengaluru |
 | `/faq`, `/community` | `FaqPage` | FAQ — Hack Day Bengaluru |
 | `/volunteer` | redirect | Volunteer — Hack Day Bengaluru → binary.so/EnumX2Q |
 | `/mentor` | redirect | Mentor — Hack Day Bengaluru → binary.so/eGuTA0x |
 
-Nav order: Build · Day plan · Venue · FAQ (About lives on the home page, so
+Nav order: Build · Day plan · Venue · Judges · FAQ (About lives on the home page, so
 there is no `/about` nav item; the path stays as an alias for old links).
 
 ---

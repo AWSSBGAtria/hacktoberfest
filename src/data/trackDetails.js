@@ -254,7 +254,7 @@ export const TRACK_PAGES = {
               { title: 'Finish and push', body: 'Your code lives in a public GitHub repository, with a license and a README that explains the build.' },
               { title: 'Run the self-check', body: 'Outside perspective, working demo, clear AI story. If any of the three is shaky, fix it before submitting.' },
               { title: 'One teammate submits', body: 'Through your event\'s OrganizerHQ Challenges page, before the host\'s deadline.' },
-              { title: 'Tick the right boxes', body: 'Add the repo link, project name, description, technologies used and a demo URL. Select Best Open-Source AI Project - plus any other challenge your project is eligible for.' },
+              { title: 'Tick the right boxes', body: 'Add the repo link, project name, description, technologies used and a demo URL. Select Best Open-Source AI Project - your team submits to one track only, so choose the single track that fits best.' },
               { title: 'Demo on the floor', body: 'Your host may ask you to demonstrate the working project and explain what your team built during the event.' },
             ],
           },
@@ -287,7 +287,7 @@ export const TRACK_PAGES = {
       { value: 'Open weights', label: 'Reached through the Gemini API' },
       { value: 'Text + images', label: 'Multimodal by default' },
       { value: 'Name the model', label: 'Required in your README' },
-      { value: 'Combine freely', label: 'Also enter any track you qualify for' },
+      { value: 'One track', label: 'Pick the single best fit' },
     ],
     sections: [
       {
@@ -339,7 +339,7 @@ export const TRACK_PAGES = {
               },
               {
                 title: 'Name the model in your README',
-                body: 'Which Gemma model, where it is called, and how to run the project. If you also enter Best Open-Source AI Project, the public-repo and license rules apply too.',
+                body: 'Which Gemma model, where it is called, and how to run the project. A public repo and a real license are expected across every track.',
               },
               {
                 title: 'Show the integration',
@@ -451,7 +451,7 @@ export const TRACK_PAGES = {
             items: [
               { title: 'Wire up Gemma 4', body: 'A real call to a Gemma model through the Gemini API, doing meaningful work in your project.' },
               { title: 'Write the README', body: 'What you built, how to run it, which Gemma model you used - name it explicitly.' },
-              { title: 'One teammate submits', body: 'Through the event\'s OrganizerHQ Challenges page before the deadline, selecting Best Use of Gemma 4 - plus any other challenge you are eligible for.' },
+              { title: 'One teammate submits', body: 'Through the event\'s OrganizerHQ Challenges page before the deadline, selecting Best Use of Gemma 4. Your team submits to one track only, so choose the single track that fits best.' },
               { title: 'Demo on the floor', body: 'Show the integration, not just the output. Judges will ask which model you called.' },
             ],
           },
@@ -492,7 +492,7 @@ export const TRACK_PAGES = {
         title: 'Real, on AWS,',
         accent: 'and ready to grow.',
         deck:
-          'This is the bonus challenge we run for our own Hack Day. The strongest AWS-powered entry takes the track - on top of any other challenge it also qualifies for.',
+          'This is the bonus challenge we run for our own Hack Day. The strongest AWS-powered entry takes the track. Every team submits to one track only, so choose the single track that fits your build best.',
         blocks: [
           {
             kind: 'prose',
@@ -516,8 +516,8 @@ export const TRACK_PAGES = {
                 body: 'CDK, CloudFormation or Terraform on AWS. Reproducible infrastructure signals a build that can be handed to someone else.',
               },
               {
-                title: 'Stack it with the other tracks',
-                body: 'An open-source AI project on Bedrock, or a Gemma prototype deployed behind API Gateway, can win two tracks in one afternoon.',
+                title: 'One track only',
+                body: 'Every team submits to a single track. If your build also touches AI or Gemma, pick the one track that fits best and put your strongest foot forward there.',
               },
             ],
           },
@@ -618,7 +618,7 @@ export const TRACK_PAGES = {
             kind: 'prose',
             paragraphs: [
               'All three tracks of this Hack Day are judged against one unified criteria sheet, so every entry is measured on the same standard - the track-specific expectations above are what make an entry stand out within it.',
-              'The host selects one winning team: the build that made deliberate AWS choices and can back them with numbers. Any AWS-powered entry also qualifies for the other challenges it meets - one submission, as many tracks as you earn.',
+              'The host selects one winning team: the build that made deliberate AWS choices and can back them with numbers. Every team is judged in one track only, so this entry is evaluated here and nowhere else.',
               'Prizes and recognition for this track are confirmed closer to the day and announced on stage at the awards ceremony.',
             ],
           },
@@ -661,7 +661,7 @@ export const TRACK_PAGES = {
             items: [
               { title: 'Deploy on AWS', body: 'At least one real AWS service, running or deployable from your repo, with secrets kept out of git.' },
               { title: 'Build the dashboard', body: 'CloudWatch metrics up before judging: latency, throughput, errors, and your scaling signal.' },
-              { title: 'One teammate submits', body: 'Through the event\'s OrganizerHQ Challenges page before the deadline, selecting Best Use of AWS - plus any other challenge you qualify for.' },
+              { title: 'One teammate submits', body: 'Through the event\'s OrganizerHQ Challenges page before the deadline, selecting Best Use of AWS. Your team submits to one track only, so choose the single track that fits best.' },
               { title: 'Pitch with numbers', body: 'Architecture, then evidence: what scales, what it costs, what it measured under load.' },
             ],
           },

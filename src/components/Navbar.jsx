@@ -14,6 +14,7 @@ export default function Navbar({ path = '/' }) {
     { name: 'Build', href: '/build' },
     { name: 'Day plan', href: '/day' },
     { name: 'Venue', href: '/venue' },
+    { name: 'Judges', href: '/panel' },
     { name: 'FAQ', href: '/faq' },
   ];
 

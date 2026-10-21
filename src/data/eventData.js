@@ -87,7 +87,7 @@ export const TRACKS = [
     href: "/tracks/aws",
     title: "Best Use of AWS",
     tag: "AWS Student Builder Group Special",
-    description: "Our own bonus track for this Hack Day. Use the AWS ecosystem to turn an idea into something real and scalable; any AWS service counts, and combining several is encouraged. The strongest AWS-powered entry takes the track, on top of any Hacktoberfest challenge it also qualifies for.",
+    description: "Our own bonus track for this Hack Day. Use the AWS ecosystem to turn an idea into something real and scalable; any AWS service counts, and combining several is encouraged. The strongest AWS-powered entry takes the track — and, like every team, it is judged in this one track only.",
     skills: ["Any AWS service", "Compute & storage", "Databases & serverless", "AI on AWS"],
     icon: "Cloud",
     accent: "#f5b726",

@@ -236,6 +236,10 @@
     .page--ink .tick li::before { background: var(--color-yellow); }
     .tick strong { font-weight: 800; }
 
+    /* two-column checklist used on the track pages */
+    .cols2 { display: grid; grid-template-columns: 1fr 1fr; gap: 3mm 6mm; margin-top: 5mm; }
+    .cols2 .tick li { margin-bottom: 0; }
+
     .icon { width: 5.4mm; height: 5.4mm; display: block; }
     .icon--lg { width: 7mm; height: 7mm; }
 
@@ -1248,8 +1252,8 @@
   </div>
 </section>
 
-<!-- ============================ P3 · THE TRACKS ============================ -->
-<section class="page" id="tracks">
+<!-- ============================ P3 · TRACKS INDEX ============================ -->
+<section class="page page--paper" id="tracks">
   <div class="run run--head">
     <span>AWS Student Builder Group &middot; Atria Institute of Technology</span>
     <span>Judges' Playbook</span>
@@ -1260,9 +1264,9 @@
     <h2 class="title title--wide">Three tracks, one scorecard.</h2>
     <p class="deck" style="margin-top: 3.4mm;">
       Teams submitted to <strong>exactly one track</strong> — but every track is scored
-      on the same six criteria (next page). The track only tells you what
-      &ldquo;strong&rdquo; looks like in that domain. Full briefs for each track live on
-      the event site: <a href="https://hacktober.awsatria.tech/tracks" style="font-family: var(--font-mono); font-size: 8.2pt; color: var(--color-indigo); text-decoration: none; border-bottom: 1pt solid currentColor;">hacktober.awsatria.tech/tracks</a>
+      on the same six criteria (last page). The next three pages give each track its own
+      space: what counts, what to verify, and what to listen for in the pitch. Full
+      briefs live on the event site: <a href="https://hacktober.awsatria.tech/tracks">hacktober.awsatria.tech/tracks</a>
     </p>
 
     <div class="focus" style="margin-top: 6mm;">
@@ -1272,21 +1276,21 @@
       </div>
       <div class="focus__row">
         <span class="focus__k">01 · Best Open-Source AI Project<br><span class="mono mono--mute" style="font-size: 7.4pt;">Core Hacktoberfest challenge · DeepAgentLabs</span></span>
-        <span class="focus__v">A public GitHub repo under a real open-source license, where open-source or open-weight AI does important work — an agent skill, an LLM-powered application, or a model harness. The README names the model used and links its license. A good place to start is the repo itself: public, licensed, and runnable from the docs. <a href="https://hacktober.awsatria.tech/tracks/open-source-ai">/tracks/open-source-ai</a></span>
+        <span class="focus__v">A public GitHub repo under a real open-source license, where open-source or open-weight AI does important work — an agent skill, an LLM-powered application, or a model harness. The README names the model used and links its license. <a href="https://hacktober.awsatria.tech/tracks/open-source-ai">/tracks/open-source-ai</a></span>
       </div>
       <div class="focus__row">
         <span class="focus__k">02 · Best Use of Gemma 4<br><span class="mono mono--mute" style="font-size: 7.4pt;">Google partner challenge, via MLH</span></span>
-        <span class="focus__v">The project genuinely calls a Gemma model through the Gemini API — visible in the code or live demo, not just claimed in the pitch. The README names which Gemma model. Multimodal (text + image) use is fair game, not required. <a href="https://hacktober.awsatria.tech/tracks/gemma-4">/tracks/gemma-4</a></span>
+        <span class="focus__v">The project genuinely calls a Gemma model through the Gemini API — visible in the code or live demo, not just claimed in the pitch. The README names which Gemma model. <a href="https://hacktober.awsatria.tech/tracks/gemma-4">/tracks/gemma-4</a></span>
       </div>
       <div class="focus__row">
         <span class="focus__k">03 · Best Use of AWS<br><span class="mono mono--mute" style="font-size: 7.4pt;">AWS Student Builder Group special</span></span>
-        <span class="focus__v">At least one real AWS service, live or deployable from the repo — localhost-only does not enter. Combining services is encouraged and the architecture should have a story. The differentiator: the pitch carries real metrics showing it scales. <a href="https://hacktober.awsatria.tech/tracks/aws">/tracks/aws</a></span>
+        <span class="focus__v">At least one real AWS service, live or deployable from the repo — localhost-only does not enter. The differentiator: the pitch carries real metrics showing it scales. <a href="https://hacktober.awsatria.tech/tracks/aws">/tracks/aws</a></span>
       </div>
     </div>
 
     <div style="display: flex; align-items: baseline; justify-content: space-between; margin-top: 6.5mm; padding-bottom: 2mm;">
-      <span class="eyebrow" style="margin: 0;">Your sponsors</span>
-      <span class="mono mono--mute">Present on the floor</span>
+      <span class="eyebrow" style="margin: 0;">Our sponsors</span>
+      <span class="mono mono--mute">Who backs each track</span>
     </div>
 
     <div class="spplate">
@@ -1324,19 +1328,338 @@
 
     <div class="strictnote" style="margin-top: 5.5mm;">
       <span class="mono">One project, one track</span>
-      <p>A project may qualify for several tracks but is <strong>submitted and judged
-      in exactly one</strong>. If a team asks to switch mid-round, just note the team
-      name and let one of us know — we'll take it from there.</p>
+      <p>Every team works on and submits to <strong>exactly one track</strong>, and is
+      judged only there — even if the project touches more than one track's themes. If
+      a team asks to switch mid-round, just note the team name and let one of us know —
+      we'll take it from there.</p>
     </div>
   </div>
 
   <div class="run run--foot">
-    <span><a href="https://hacktober.awsatria.tech/tracks">hacktober.awsatria.tech/tracks</a> &middot; full briefs per track</span>
+    <span>Next three pages · one track each</span>
     <span class="run__num">02</span>
   </div>
 </section>
 
-<!-- ============================ P4 · THE CRITERIA ============================ -->
+<!-- ============================ P4 · TRACK 01 ============================ -->
+<section class="page" id="track-01">
+  <div class="run run--head">
+    <span>Track 01 &middot; Best Open-Source AI Project</span>
+    <span>Judges' Playbook</span>
+  </div>
+
+  <div class="page__body" style="padding-top: 8mm;">
+    <span class="eyebrow">Track 01 · Core Hacktoberfest challenge</span>
+    <h2 class="title title--wide">Best Open-Source AI Project.</h2>
+    <p class="deck" style="margin-top: 3.4mm;">
+      The main Hacktoberfest challenge, run at every in-person Hack Day: build
+      something original where <strong>open-source or open-weight AI does the real
+      work</strong>, ship it to a public GitHub repo, and have it reviewed by the people
+      who build the tools. DeepAgentLabs governs the track. Same six criteria as every
+      other track.
+    </p>
+
+    <div style="display: flex; align-items: baseline; justify-content: space-between; margin-top: 6mm; padding-bottom: 2mm;">
+      <span class="eyebrow" style="margin: 0;">What a strong entry looks like</span>
+      <span class="mono mono--mute">Before you score</span>
+    </div>
+
+    <div class="pillars">
+      <div class="pillar">
+        <span class="mono">01</span>
+        <h4>Real AI work</h4>
+        <p>Open-source or open-weight AI does something that matters, and the demo shows the AI doing it — not just the UI around it.</p>
+      </div>
+      <div class="pillar">
+        <span class="mono">02</span>
+        <h4>Open repo</h4>
+        <p>Public on GitHub, with a real open-source license and a README that names the model and how to run it.</p>
+      </div>
+      <div class="pillar">
+        <span class="mono">03</span>
+        <h4>Original work</h4>
+        <p>An agent skill, an LLM app, or a harness — genuine effort, not a renamed copy of something existing.</p>
+      </div>
+      <div class="pillar">
+        <span class="mono">04</span>
+        <h4>Runs today</h4>
+        <p>Runnable from the docs, so a stranger could clone it and see the same result the team demoed.</p>
+      </div>
+    </div>
+
+    <div style="display: flex; align-items: baseline; justify-content: space-between; margin-top: 6mm; padding-bottom: 2mm;">
+      <span class="eyebrow" style="margin: 0;">What counts</span>
+      <span class="mono mono--mute">Three project shapes, one prize category</span>
+    </div>
+
+    <div class="cols2">
+      <ul class="tick">
+        <li><strong>Public repo, real license.</strong> A public GitHub repository with an open-source license. Public without a license does not meet the challenge.</li>
+        <li><strong>A README that carries it.</strong> What was built, how to run or try it, and which model and key dependencies were used.</li>
+      </ul>
+      <ul class="tick">
+        <li><strong>Standards where they matter.</strong> Agent skills follow the Agent Skills open standard; harnesses show original work, not a rebrand.</li>
+        <li><strong>One track only.</strong> Every team submits to a single track and is judged there — confirm which one before scoring.</li>
+      </ul>
+    </div>
+
+    <div style="display: flex; align-items: baseline; justify-content: space-between; margin-top: 6mm; padding-bottom: 2mm;">
+      <span class="eyebrow" style="margin: 0;">The three shapes</span>
+      <span class="mono mono--mute">Starting points, not boxes</span>
+    </div>
+
+    <div class="focus">
+      <div class="focus__row">
+        <span class="focus__k">Agent skill</span>
+        <span class="focus__v">A reusable capability for an AI agent. If built, it follows the Agent Skills open standard so any compatible harness can load it.</span>
+      </div>
+      <div class="focus__row">
+        <span class="focus__k">LLM-powered app</span>
+        <span class="focus__v">An application where a small or large open-weight language model does real work — understanding, generating, classifying, or deciding.</span>
+      </div>
+      <div class="focus__row">
+        <span class="focus__k">Model harness</span>
+        <span class="focus__v">An original implementation, or meaningful changes to an existing open-source harness. A renamed copy alone does not count.</span>
+      </div>
+    </div>
+
+    <div class="spplate" style="margin-top: 6mm;">
+      <div class="spplate__logo"><img src="sponsors/2026/DAL%20logo.png" alt="DeepAgentLabs"></div>
+      <div class="spplate__who">
+        <span class="mono">Sponsor &amp; governing partner</span>
+        <h3>DeepAgentLabs</h3>
+        <p>They shape the brief and review entries against the same rubric you use.
+        Using their packages is <strong>not a requirement</strong> to enter or to win —
+        but projects that do get showcased on deepagentlabs.io.</p>
+        <span class="spplate__links">
+          <a href="https://deepagentlabs.io">deepagentlabs.io</a>
+          <a href="https://github.com/DeepAgentLabs">github.com/DeepAgentLabs</a>
+        </span>
+      </div>
+    </div>
+
+    <div class="strictnote" style="margin-top: 3mm;">
+      <span class="mono">Listen for</span>
+      <p>Which model powers the project and what the AI actually decides or generates —
+      the demo should point at the AI doing the work, not just the interface around it.</p>
+    </div>
+  </div>
+
+  <div class="run run--foot">
+    <span><a href="https://hacktober.awsatria.tech/tracks/open-source-ai">hacktober.awsatria.tech/tracks/open-source-ai</a></span>
+    <span class="run__num">03</span>
+  </div>
+</section>
+
+<!-- ============================ P5 · TRACK 02 ============================ -->
+<section class="page page--paper" id="track-02">
+  <div class="run run--head">
+    <span>Track 02 &middot; Best Use of Gemma 4</span>
+    <span>Judges' Playbook</span>
+  </div>
+
+  <div class="page__body" style="padding-top: 8mm;">
+    <span class="eyebrow">Track 02 · Google partner challenge, via MLH</span>
+    <h2 class="title title--wide">Best Use of Gemma 4.</h2>
+    <p class="deck" style="margin-top: 3.4mm;">
+      Teams see how far they can get with a Gemma model through the <strong>Gemini
+      API</strong> in a single day. The bar is simple: the winning project genuinely
+      calls a Gemma model, names it in the README, and shows the integration in the
+      code or a live demo. Same six criteria as every other track.
+    </p>
+
+    <div style="display: flex; align-items: baseline; justify-content: space-between; margin-top: 6mm; padding-bottom: 2mm;">
+      <span class="eyebrow" style="margin: 0;">What a strong entry looks like</span>
+      <span class="mono mono--mute">Before you score</span>
+    </div>
+
+    <div class="pillars">
+      <div class="pillar">
+        <span class="mono">01</span>
+        <h4>Real call</h4>
+        <p>It genuinely calls a Gemma model through the Gemini API — confirm it in the code, not just the pitch.</p>
+      </div>
+      <div class="pillar">
+        <span class="mono">02</span>
+        <h4>Named model</h4>
+        <p>The README says which Gemma model, where it is called, and how to run the project.</p>
+      </div>
+      <div class="pillar">
+        <span class="mono">03</span>
+        <h4>Visible proof</h4>
+        <p>A judge can point at the integration in the code or the live demo and see the result.</p>
+      </div>
+      <div class="pillar">
+        <span class="mono">04</span>
+        <h4>Working demo</h4>
+        <p>Something the room can try, plus a clear account of the problem and what Gemma contributed.</p>
+      </div>
+    </div>
+
+    <div style="display: flex; align-items: baseline; justify-content: space-between; margin-top: 6mm; padding-bottom: 2mm;">
+      <span class="eyebrow" style="margin: 0;">What counts</span>
+      <span class="mono mono--mute">The bar, before you score</span>
+    </div>
+
+    <div class="cols2">
+      <ul class="tick">
+        <li><strong>Through the Gemini API.</strong> A mention in the pitch is not an integration — confirm the call is real in the code.</li>
+        <li><strong>Public repo, real license.</strong> Expected across every track; the README names the model and how to run it.</li>
+      </ul>
+      <ul class="tick">
+        <li><strong>Answer the model question.</strong> Judges will ask which Gemma model was called — the team should point at it.</li>
+        <li><strong>One track only.</strong> Every team submits to a single track and is judged there — confirm which one before scoring.</li>
+      </ul>
+    </div>
+
+    <div style="display: flex; align-items: baseline; justify-content: space-between; margin-top: 6mm; padding-bottom: 2mm;">
+      <span class="eyebrow" style="margin: 0;">Where teams head</span>
+      <span class="mono mono--mute">Common directions</span>
+    </div>
+
+    <div class="focus">
+      <div class="focus__row">
+        <span class="focus__k">Multimodal assistant</span>
+        <span class="focus__v">Working with text and images together — receipts, diagrams, screenshots, whiteboards, handwritten notes. Builds something that understands what users share.</span>
+      </div>
+      <div class="focus__row">
+        <span class="focus__k">A focused AI tool</span>
+        <span class="focus__v">One audience — learning, creativity, productivity, or a community — solved properly. Small and finished beats broad and demoed badly.</span>
+      </div>
+      <div class="focus__row">
+        <span class="focus__k">A fast experiment</span>
+        <span class="focus__v">Using the Gemini API to move from idea to working prototype in a day. The track rewards shipping something real, not a research paper.</span>
+      </div>
+    </div>
+
+    <div class="spplate" style="margin-top: 6mm;">
+      <div class="spplate__logo"><img src="sponsors/2026/GreatDataLabs.png" alt="Great Data Labs"></div>
+      <div class="spplate__who">
+        <span class="mono">Sponsor · Data, for any track</span>
+        <h3>Great Data Labs</h3>
+        <p>If a team had no real dataset, they may have used <strong>great-generator</strong>
+        for schema-driven synthetic data — training examples, eval sets, or demo fixtures.
+        That is what they mean if they mention synthetic data.</p>
+        <span class="spplate__links">
+          <a href="https://github.com/ravikiranpagidi/great-generator">github.com/ravikiranpagidi/great-generator</a>
+        </span>
+      </div>
+    </div>
+
+    <div class="strictnote" style="margin-top: 5.5mm;">
+      <span class="mono">Listen for</span>
+      <p>Which Gemma model was called and whether the multimodal parts genuinely
+      understand images — or just transcribe them. Integration you can point at beats
+      a claim you cannot.</p>
+    </div>
+  </div>
+
+  <div class="run run--foot">
+    <span><a href="https://hacktober.awsatria.tech/tracks/gemma-4">hacktober.awsatria.tech/tracks/gemma-4</a></span>
+    <span class="run__num">04</span>
+  </div>
+</section>
+
+<!-- ============================ P6 · TRACK 03 ============================ -->
+<section class="page" id="track-03">
+  <div class="run run--head">
+    <span>Track 03 &middot; Best Use of AWS</span>
+    <span>Judges' Playbook</span>
+  </div>
+
+  <div class="page__body" style="padding-top: 8mm;">
+    <span class="eyebrow">Track 03 · AWS Student Builder Group special</span>
+    <h2 class="title title--wide">Best Use of AWS.</h2>
+    <p class="deck" style="margin-top: 3.4mm;">
+      Our home track, run by the AWS Student Builder Group at Atria. Any AWS service
+      counts and combining several is encouraged — but the pitch has to prove the
+      service choices were right and show, <strong>with real metrics, that the thing
+      scales</strong>. Same six criteria as every other track.
+    </p>
+
+    <div style="display: flex; align-items: baseline; justify-content: space-between; margin-top: 6mm; padding-bottom: 2mm;">
+      <span class="eyebrow" style="margin: 0;">What a strong entry looks like</span>
+      <span class="mono mono--mute">Before you score</span>
+    </div>
+
+    <div class="pillars">
+      <div class="pillar">
+        <span class="mono">01</span>
+        <h4>Real service</h4>
+        <p>At least one real AWS service, live or deployable from the repo — not a localhost mock.</p>
+      </div>
+      <div class="pillar">
+        <span class="mono">02</span>
+        <h4>Right choices</h4>
+        <p>If several services combine, the architecture has a story: why each piece and how they talk.</p>
+      </div>
+      <div class="pillar">
+        <span class="mono">03</span>
+        <h4>Reproducible</h4>
+        <p>Infrastructure as code — CDK, CloudFormation or Terraform — so the build can be handed over.</p>
+      </div>
+      <div class="pillar">
+        <span class="mono">04</span>
+        <h4>Metrics in the pitch</h4>
+        <p>Real numbers showing it scales. Measurements, not adjectives.</p>
+      </div>
+    </div>
+
+    <div style="display: flex; align-items: baseline; justify-content: space-between; margin-top: 6mm; padding-bottom: 2mm;">
+      <span class="eyebrow" style="margin: 0;">What counts</span>
+      <span class="mono mono--mute">The bar, before you score</span>
+    </div>
+
+    <div class="cols2">
+      <ul class="tick">
+        <li><strong>At least one real AWS service.</strong> Live or deployable from the repo. Something running purely on localhost with no AWS behind it does not enter.</li>
+        <li><strong>More than one? Tell the story.</strong> Combining services is encouraged — then the architecture explains why each piece and how they talk.</li>
+      </ul>
+      <ul class="tick">
+        <li><strong>Infrastructure as code, welcome.</strong> CDK, CloudFormation or Terraform — reproducible infrastructure signals a build that can be handed over.</li>
+        <li><strong>One track only.</strong> Every team submits to a single track. If the build also touches open-source AI or Gemma, it is judged in the one track the team chose — confirm that choice, then score it there.</li>
+      </ul>
+    </div>
+
+    <div style="display: flex; align-items: baseline; justify-content: space-between; margin-top: 6mm; padding-bottom: 2mm;">
+      <span class="eyebrow" style="margin: 0;">What sets winners apart</span>
+      <span class="mono mono--mute">Scalability · the differentiator</span>
+    </div>
+
+    <div class="focus">
+      <div class="focus__row">
+        <span class="focus__k">Design for scale</span>
+        <span class="focus__v">Managed services over servers you babysit. Stateless compute where possible, state in managed stores, autoscaling over a fixed box, multi-AZ where it matters.</span>
+      </div>
+      <div class="focus__row">
+        <span class="focus__k">Instrument it</span>
+        <span class="focus__v">A CloudWatch dashboard before the demo — request count, latency (p50/p95), error rate, and saturation on whatever the real bottleneck is.</span>
+      </div>
+      <div class="focus__row">
+        <span class="focus__k">Load test it</span>
+        <span class="focus__v">k6 or Locust pointed at the endpoint before judges are. A before-and-after around an autoscaling event is worth more than a paragraph of description.</span>
+      </div>
+      <div class="focus__row">
+        <span class="focus__k">Prove it in the pitch</span>
+        <span class="focus__v">Sixty seconds of numbers: what scales automatically, what broke under load and how it was fixed, and cost per thousand requests. Measurements beat adjectives.</span>
+      </div>
+    </div>
+
+    <div class="strictnote" style="margin-top: 5.5mm;">
+      <span class="mono">Listen for</span>
+      <p>Real metrics, not adjectives — and basic hygiene. No access keys in the repo,
+      least-privilege IAM, and a cost story. Security and cost awareness are part of the
+      architecture, scored within the same six criteria.</p>
+    </div>
+  </div>
+
+  <div class="run run--foot">
+    <span><a href="https://hacktober.awsatria.tech/tracks/aws">hacktober.awsatria.tech/tracks/aws</a></span>
+    <span class="run__num">05</span>
+  </div>
+</section>
+
+<!-- ============================ P7 · THE CRITERIA ============================ -->
 <section class="page page--paper" id="criteria">
   <div class="run run--head">
     <span>AWS Student Builder Group &middot; Atria Institute of Technology</span>
@@ -1440,7 +1763,7 @@
 
   <div class="run run--foot">
     <span>Sheet access 5:00 &middot; briefing 5:15 &middot; judging 5:30–6:30</span>
-    <span class="run__num">03</span>
+    <span class="run__num">06</span>
   </div>
 </section>
 

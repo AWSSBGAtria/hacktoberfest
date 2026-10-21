@@ -13,6 +13,7 @@ import VenuePage from './pages/VenuePage';
 import FaqPage from './pages/FaqPage';
 import BadgePage from './pages/BadgePage';
 import ShortlistedPage from './pages/ShortlistedPage';
+import PanelPage from './pages/PanelPage';
 import NotFoundPage from './pages/NotFoundPage';
 import ServerErrorPage from './pages/ServerErrorPage';
 import PacPlay from './components/PacPlay';
@@ -55,6 +56,8 @@ function RouteView({ path }) {
       return <DayPage />;
     case '/venue':
       return <VenuePage />;
+    case '/panel':
+      return <PanelPage />;
     case '/community':
     case '/faq':
       return <FaqPage />;
@@ -89,6 +92,7 @@ const TITLES = {
   '/tracks/aws': 'AWS Track — Hack Day Bengaluru',
   '/day': 'Schedule — Hack Day Bengaluru',
   '/venue': 'Venue & Map — Hack Day Bengaluru',
+  '/panel': 'Judging Panel — Hack Day Bengaluru',
   '/community': 'FAQ — Hack Day Bengaluru',
   '/faq': 'FAQ — Hack Day Bengaluru',
   '/volunteer': 'Volunteer — Hack Day Bengaluru',

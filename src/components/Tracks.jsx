@@ -17,7 +17,7 @@ export default function Tracks() {
           title={<>Three ways to build</>}
           accent="and three ways to win."
           pacColor="#aebcff"
-          deck="Every project qualifies for the core Hacktoberfest challenge; anything using Gemma 4 or AWS can qualify for those too. Mentors are on site."
+          deck="Each team picks one track and builds for it — one submission, judged in that track alone. Mentors are on site to help you choose."
         />
 
         {/* Tracks Grid */}
