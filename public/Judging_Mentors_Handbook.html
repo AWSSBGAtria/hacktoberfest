@@ -1007,6 +1007,17 @@
     .spplate__links { display: flex; flex-wrap: wrap; gap: 2mm 6mm; margin-top: 2mm; }
     .spplate__links a { margin-top: 0; }
 
+    /* inline track link inside the focus table */
+    .focus__v a {
+      font-family: var(--font-mono);
+      font-size: 7.4pt;
+      color: var(--color-indigo);
+      text-decoration: none;
+      border-bottom: 1pt solid currentColor;
+      white-space: nowrap;
+    }
+    .focus__v a:hover { color: var(--red-ink); }
+
     /* track focus table */
     .focus { margin-top: 5.6mm; border: 1.4pt solid var(--color-ink); background: var(--color-paper); }
     .focus__row {
@@ -1251,7 +1262,7 @@
       Teams submitted to <strong>exactly one track</strong> — but every track is scored
       on the same six criteria (next page). The track only tells you what
       &ldquo;strong&rdquo; looks like in that domain. Full briefs for each track live on
-      the event site: <span class="mono" style="font-size: 8.2pt;">hacktober.awsatria.tech/tracks</span>
+      the event site: <a href="https://hacktober.awsatria.tech/tracks" style="font-family: var(--font-mono); font-size: 8.2pt; color: var(--color-indigo); text-decoration: none; border-bottom: 1pt solid currentColor;">hacktober.awsatria.tech/tracks</a>
     </p>
 
     <div class="focus" style="margin-top: 6mm;">
@@ -1261,15 +1272,15 @@
       </div>
       <div class="focus__row">
         <span class="focus__k">01 · Best Open-Source AI Project<br><span class="mono mono--mute" style="font-size: 7.4pt;">Core Hacktoberfest challenge · DeepAgentLabs</span></span>
-        <span class="focus__v">A public GitHub repo under a real open-source license, where open-source or open-weight AI does important work — an agent skill, an LLM-powered application, or a model harness. The README names the model used and links its license. A good place to start is the repo itself: public, licensed, and runnable from the docs. <span class="mono mono--mute" style="font-size: 7.4pt;">/tracks/open-source-ai</span></span>
+        <span class="focus__v">A public GitHub repo under a real open-source license, where open-source or open-weight AI does important work — an agent skill, an LLM-powered application, or a model harness. The README names the model used and links its license. A good place to start is the repo itself: public, licensed, and runnable from the docs. <a href="https://hacktober.awsatria.tech/tracks/open-source-ai">/tracks/open-source-ai</a></span>
       </div>
       <div class="focus__row">
         <span class="focus__k">02 · Best Use of Gemma 4<br><span class="mono mono--mute" style="font-size: 7.4pt;">Google partner challenge, via MLH</span></span>
-        <span class="focus__v">The project genuinely calls a Gemma model through the Gemini API — visible in the code or live demo, not just claimed in the pitch. The README names which Gemma model. Multimodal (text + image) use is fair game, not required. <span class="mono mono--mute" style="font-size: 7.4pt;">/tracks/gemma-4</span></span>
+        <span class="focus__v">The project genuinely calls a Gemma model through the Gemini API — visible in the code or live demo, not just claimed in the pitch. The README names which Gemma model. Multimodal (text + image) use is fair game, not required. <a href="https://hacktober.awsatria.tech/tracks/gemma-4">/tracks/gemma-4</a></span>
       </div>
       <div class="focus__row">
         <span class="focus__k">03 · Best Use of AWS<br><span class="mono mono--mute" style="font-size: 7.4pt;">AWS Student Builder Group special</span></span>
-        <span class="focus__v">At least one real AWS service, live or deployable from the repo — localhost-only does not enter. Combining services is encouraged and the architecture should have a story. The differentiator: the pitch carries real metrics showing it scales. <span class="mono mono--mute" style="font-size: 7.4pt;">/tracks/aws</span></span>
+        <span class="focus__v">At least one real AWS service, live or deployable from the repo — localhost-only does not enter. Combining services is encouraged and the architecture should have a story. The differentiator: the pitch carries real metrics showing it scales. <a href="https://hacktober.awsatria.tech/tracks/aws">/tracks/aws</a></span>
       </div>
     </div>
 
@@ -1320,7 +1331,7 @@
   </div>
 
   <div class="run run--foot">
-    <span>hacktober.awsatria.tech/tracks &middot; full briefs per track</span>
+    <span><a href="https://hacktober.awsatria.tech/tracks">hacktober.awsatria.tech/tracks</a> &middot; full briefs per track</span>
     <span class="run__num">02</span>
   </div>
 </section>
