@@ -164,13 +164,6 @@ export const SCHEDULE = [
     highlight: false,
   },
   {
-    time: "09:30 AM – 10:00 AM",
-    title: "Inauguration, Opening Ceremony & Hack Day Briefing",
-    type: "Opening",
-    description: "Welcome from the AWS Student Builder Group and Atria faculty, then the tracks, rules, and judging criteria.",
-    highlight: true,
-  },
-  {
     time: "10:00 AM – 10:30 AM",
     title: "Inauguration & Opening Ceremony",
     type: "Opening",
@@ -183,13 +176,6 @@ export const SCHEDULE = [
     type: "Hacking",
     description: "The main build window - pick a track, claim issues, and pair up with mentors on the floor. The trivia and meal breaks below fall inside it.",
     highlight: true,
-  },
-  {
-    time: "11:30 AM – 11:45 AM",
-    title: "Trivia 1",
-    type: "Trivia",
-    description: "A quick developer trivia break between commits - fifteen minutes, teams of up to four.",
-    highlight: false,
   },
   {
     time: "12:45 PM – 01:30 PM",
